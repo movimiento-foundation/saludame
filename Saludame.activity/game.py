@@ -82,9 +82,9 @@ def main(fromSugar):
             if frames % win.frame_rate == 0:
                 changes.extend(win.draw(screen))
           
-            if changes:
-                pygame.display.update(changes)
-                update = False
+        if changes:
+            pygame.display.update(changes)
+            update = False
 
         frames += 1
         
