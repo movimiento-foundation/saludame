@@ -9,6 +9,7 @@ import window
 import animation
 import menu
 import challenges
+import menucreator
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -52,7 +53,7 @@ def main(fromSugar):
     windows.append(window.StatusWindow(pygame.Rect((700, 300), (300, 140)), 2, pygame.Color("gray")))
     windows.append(window.MainWindow(pygame.Rect((0, 0), (600, 500)), 1))
     windows.append(animation.Apple(pygame.Rect((150, 500), (150, 172)), 10))
-    windows.append(menu.Menu(pygame.Rect((150, 500), (150, 172)), 1))
+    windows.append(menucreator.load_menu())
     windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, clock))
     
     #Challenges Module
