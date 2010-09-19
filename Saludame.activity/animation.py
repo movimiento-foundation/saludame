@@ -93,7 +93,6 @@ class Apple(Food):
     def __init__(self, rect, frame_rate):
         Food.__init__(self, APPLE_PATH, rect, frame_rate)
 
-
 class FPS:
   
     def __init__(self, rect, frame_rate, clock):
