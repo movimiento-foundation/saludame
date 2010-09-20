@@ -87,7 +87,7 @@ class Menu:
         """
             Calculate the position for each menu's item
         """
-        self.__calculate_items_position((170, 140), self.radius, self.item_list)
+        self.__calculate_items_position(self.center, self.radius, self.item_list)
         
     def __calculate_items_position(self, center, radius, item_list):
         if(len(item_list) > 0):
