@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import menu
 
 example = [
@@ -22,7 +24,7 @@ def load_menu():
     for item in example:
         an_item = create_item(item)
         item_list.append(an_item)
-    m = menu.Menu(1, item_list)
+    m = menu.Menu(1, item_list,(190,130),90)
     return m
     
 

@@ -9,19 +9,21 @@
 import pygame
 import os
 import math
-from ibus.lang import __load_lang
 
 class Menu:
     
-    def __init__(self, frame_rate, item_list):
-        #self.rect = rect
+    def __init__(self, frame_rate, item_list, center, radius):
+        
+        self.center = center # center of the menu's circle
+        
         self.frame_rate = frame_rate
         self.item_list = item_list # item's list that going to be displayed
-        self.path = None           # Path of items selected
         self.actual_selection = self.item_list #list of actual subitems selection
+        
         self.salir = Item(" ", "assets/icons/salir.png", " ", [])
-        self.salir.rect.center = (190, 140)
-        self.radious = 100
+        self.salir.rect.center = center
+        
+        self.radius = radius
         self.on_compression = True #para mostrar la animación al iniciar
         self.on_expansion = False
         
@@ -32,28 +34,34 @@ class Menu:
         """
     
     def draw(self, screen):
+        """
+        draw menu items
+        """
         font = pygame.font.Font(None, 35)
         if(self.on_compression):
-            if(self.radious > 0):
-                self.radious -= 8
-                self.__calculate_items_position((190, 140), self.radious, self.item_list)
+            if(self.radius > 0):
+                self.radius -= 5
+                self.__calculate_items_position(self.center, self.radius, self.item_list)
             else:
                 self.on_compression = False
                 self.on_expansion = True
         if(self.on_expansion):
-            if(self.radious < 100):
+            if(self.radius < 90):
                 item = self.item_list[2]
                 self.actual_selection = item.subitems_list
-                self.radious += 5
-                self.__calculate_items_position((190, 140), self.radious, self.actual_selection)
+                self.radius += 5
+                self.__calculate_items_position(self.center, self.radius, self.actual_selection)
             else:
                 self.on_expansion = False
-                
+        
+        changes = []
         for item in self.actual_selection:
             item.draw_item(screen, font)
+            changes.append(item.rect)
+            
         self.salir.draw_item(screen, font)
-        pygame.display.update()
-        return []
+        changes.append(self.salir.rect)
+        return changes
     
     def on_mouse_over(self, coord):
         for item in self.actual_selection:
@@ -79,7 +87,7 @@ class Menu:
         """
             Calculate the position for each menu's item
         """
-        self.__calculate_items_position((170, 140), self.radious, self.item_list)
+        self.__calculate_items_position((170, 140), self.radius, self.item_list)
         
     def __calculate_items_position(self, center, radius, item_list):
         if(len(item_list) > 0):
@@ -121,8 +129,9 @@ class Menu:
 class Item:
     
     def __init__(self, name, icon_path, tooltip, subitems_list):
+        path = os.path.normpath(icon_path)
         self.name = name
-        self.image = pygame.image.load(icon_path)
+        self.image = pygame.image.load(path)
         self.rect = self.image.get_rect()
         self.tooltip = tooltip
         self.subitems_list = subitems_list
@@ -134,6 +143,9 @@ class Item:
         self.subitems_list.append(item)
 
     def draw_item(self, screen, font):
+        """
+        draw the item in the screen
+        """
         img_font = font.render(self.name, True, (0, 0, 0))
         screen.blit(self.image, self.rect)
         screen.blit(img_font, self.rect.topright)
