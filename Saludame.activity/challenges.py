@@ -3,7 +3,6 @@
 # Modulo de desafios
 
 import pygame
-import window
 import os
 from utilities import *
 
@@ -12,12 +11,13 @@ S_OVER_PATH = os.path.normpath("assets/sound/over.ogg")
 S_INCORRECT_PATH = os.path.normpath("assets/sound/incorrect.ogg")
 I_FRANCIA_PATH = os.path.normpath("assets/challenges/francia.jpg")
 
+FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
+
 class MultipleChoice:
     
     def __init__(self, rect, frame_rate):
         self.rect = rect
-        self.frame_rate = frame_rate
-        
+        self.frame_rate = frame_rate        
         self.background = pygame.image.load(I_FRANCIA_PATH).convert()
         
         self.question = Text(self.rect.left + 10, self.rect.top + 5, "Cual es la capital de Francia?")
@@ -40,6 +40,29 @@ class MultipleChoice:
         for button in self.buttons:
             button.draw(screen)
         return [self.rect]
+    
+    def handle_mouse_down(self, (x, y)):
+        global FIN_MC
+        for button in self.buttons: # Hardcodeado para probar, despues lo dejo generico
+            if (button.contains_point(x, y) and not FIN_MC):
+                fin = button.on_mouse_click() # Fin representa el usuario ya contesto bien o se dio por vencido
+                if(fin): 
+                    FIN_MC = fin
+                    self.buttons = [self.buttons[3], self.buttons[5]]
+                    break # No tiene sentido seguir iterando sobre los botones si ya sabemos cual apreto
+                
+    def handle_mouse_over(self, (x, y)):
+        for button in self.buttons:
+            if (button.contains_point(x, y)):
+                if(not button.over):
+                    button.on_mouse_over()
+                    button.over = True   
+            else:
+                button.over = False
+                button.on_mouse_out()
+                
+    def get_windows(self):
+        return [self]
 
 class Choice(Button):
     def __init__(self, rect, x, y, w, h, text):

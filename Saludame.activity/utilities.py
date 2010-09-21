@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
+
 # Utilitarios
 
 import pygame
 
 class Text:
     def __init__(self, x, y, text):
-        self.font = pygame.font.SysFont("Verdana", 15)
+        self.font = pygame.font.SysFont(None, 16)
         self.ren = self.font.render(text, 1, (0, 0, 100))
         self.x = x
         self.y = y
@@ -22,7 +24,7 @@ class Button:
         self.rect = pygame.Rect(rect.left + x, rect.top + y, w, h)
         self.text = text
         
-        self.font = pygame.font.SysFont("Verdana", 15)
+        self.font = pygame.font.SysFont(None, 16)
         self.ren = self.font.render(text, 1, (0, 0, 100))
         
         self.background_color = (255, 0, 0)
@@ -33,7 +35,7 @@ class Button:
     
     def draw(self, screen):
         screen.fill(self.background_color, self.rect)
-        screen.blit(self.ren, (self.rect.left + 5, self.rect.top + 1))
+        screen.blit(self.ren, (self.rect.left + 5, self.rect.top + 5))
             
     def set_background_color(self, color):
         self.background_color = color    

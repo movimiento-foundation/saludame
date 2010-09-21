@@ -2,8 +2,11 @@
 
 import pygame
 import os
+import menucreator
+import animation
 
 BLACK = pygame.Color("black")
+BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
 
 class Window:
     
@@ -11,8 +14,7 @@ class Window:
         self.rect = rect
         self.frame_rate = frame_rate
         self.surface = pygame.Surface((rect.width, rect.height))
-        self.background_color = background_color
-        
+        self.background_color = background_color        
         self.surface.fill(self.background_color)
         
     def draw(self, screen):
@@ -51,9 +53,9 @@ class StatusWindow(Window):
         self.surface.fill(self.background_color)
         
         self.bars = []
-        self.bars.append(IdleStatusBar(pygame.Rect(20, 15, 260, 30), pygame.Color("green")))
-        self.bars.append(IdleStatusBar(pygame.Rect(20, 55, 260, 30), pygame.Color("blue"), 35))
-        self.bars.append(IdleStatusBar(pygame.Rect(20, 95, 260, 30), pygame.Color("yellow"), 65))
+        self.bars.append(IdleStatusBar(pygame.Rect(20, 15, 460, 30), pygame.Color("green")))
+        self.bars.append(IdleStatusBar(pygame.Rect(20, 55, 460, 30), pygame.Color("blue"), 35))
+        self.bars.append(IdleStatusBar(pygame.Rect(20, 95, 460, 30), pygame.Color("yellow"), 65))
         
     def draw(self, screen):
         self.surface.fill(self.background_color)
@@ -68,7 +70,7 @@ class StatusWindow(Window):
 
 class StatusBar:
     
-    def __init__(self, rect, color, value = 0):
+    def __init__(self, rect, color, value=0):
         self.rect = rect
         self.color = color
         self.surface = pygame.Surface(rect.size)
@@ -77,14 +79,14 @@ class StatusBar:
 
 class IdleStatusBar(StatusBar):
     
-    def __init__(self, rect, color, value = 0):
+    def __init__(self, rect, color, value=0):
         StatusBar.__init__(self, rect, color, value)
         
     def draw(self, screen):
         self.value = (self.value + 1) % 101
         factor = self.value / 100.0
         
-        rect = pygame.Rect((0,0), self.rect.size)
+        rect = pygame.Rect((0, 0), self.rect.size)
         rect.width *= factor
         
         self.surface.fill(BLACK)
@@ -93,11 +95,7 @@ class IdleStatusBar(StatusBar):
         
         return [self.rect]
 
-import animation
-
-BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
-
-class MainWindow(Window):
+class KidWindow(Window):
 
     def __init__(self, rect, frame_rate):
         Window.__init__(self, rect, frame_rate, BLACK)
@@ -106,7 +104,7 @@ class MainWindow(Window):
         
         self.background = pygame.image.load(BACKGROUND_PATH).convert()
         
-        kid_rect = pygame.Rect((100, 20),(350,480))
+        kid_rect = pygame.Rect((100, 20), (350, 480))
         kid_background = self.background.subsurface(kid_rect)
         
         self.windows = []
@@ -126,3 +124,32 @@ class MainWindow(Window):
                 changes.extend(win.draw(screen))
                 
             return changes #[rect.move(self.rect.left, self.rect.top) for rect in changes]
+
+class MainWindow():
+    
+    def __init__(self, clock):   
+        self.clock = clock
+        self.windows = []   # Lista de ventanas que 'componen' la ventana principal
+        self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
+        self.windows.append(BlinkWindow(pygame.Rect((700, 150), (500, 140)), 5, pygame.Color("blue")))
+        self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
+        self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1))
+        self.windows.append(animation.Apple(pygame.Rect((150, 500), (150, 172)), 10))
+        self.windows.append(menucreator.load_menu())
+        self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
+        
+    def draw(self):
+        changes = []
+        for win in self.windows:
+            changes += win.draw()
+        return changes
+    
+        
+    def handle_mouse_down(self, (x, y)):
+        None
+                
+    def handle_mouse_over(self, (x, y)):
+        None
+    
+    def get_windows(self):
+        return self.windows
