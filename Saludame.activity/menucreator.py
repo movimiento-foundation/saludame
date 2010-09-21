@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import menu
 
 example = [
@@ -18,18 +20,18 @@ example = [
 ]
 
 def load_menu():
-    item_list=[]
+    item_list = []
     for item in example:
         an_item = create_item(item)
         item_list.append(an_item)
-    m = menu.Menu(1,item_list)
+    m = menu.Menu(1, item_list,(190,130),90)
     return m
     
 
 def create_item(item_tuple):
     if(item_tuple[3] != None):
-        an_item = menu.Item(item_tuple[0],item_tuple[1],item_tuple[2],[create_item(sub_item) for sub_item in item_tuple[3]])
+        an_item = menu.Item(item_tuple[0], item_tuple[1], item_tuple[2], [create_item(sub_item) for sub_item in item_tuple[3]])
     else:
-        an_item = menu.Item(item_tuple[0],item_tuple[1],item_tuple[2],[])
+        an_item = menu.Item(item_tuple[0], item_tuple[1], item_tuple[2], [])
     return an_item
     
