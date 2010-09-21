@@ -111,7 +111,7 @@ class KidWindow(Window):
         self.windows.append(animation.Kid(kid_rect, kid_background, 1))
     
     def draw(self, screen):
-        
+        """    
         if self.first:
             # First time blits the entire background
             self.first = False
@@ -124,6 +124,14 @@ class KidWindow(Window):
                 changes.extend(win.draw(screen))
                 
             return changes #[rect.move(self.rect.left, self.rect.top) for rect in changes]
+        """   
+        
+        # Temporal para que se vea bien el menu principal
+        screen.blit(self.background, self.rect)
+        changes = [self.rect]
+        for win in self.windows:
+            changes.extend(win.draw(screen))
+        return changes     
 
 class MainWindow():
     
