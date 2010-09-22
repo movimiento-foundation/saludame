@@ -47,15 +47,16 @@ def main(fromSugar):
     # Stack de ventanas para el control de venta activa    
     windows_stack = []
     
-    # Challenges Window
-    windows_stack.append(challenges.MultipleChoice(pygame.Rect((200, 150), (800, 400)), 1))
     # Main Window
-    windows_stack.append(window.MainWindow(clock))    
+    windows_stack.append(window.MainWindow(clock))  
+    
+    # Challenges Window (comment to disable)
+    windows_stack.append(challenges.MultipleChoice(pygame.Rect((200, 150), (800, 400)), 1))  
     
     frames = 0
     
     # Main loop
-    update = True       # The first time the screen need to be updated
+    update = True       # The first time the screen needs to be updated
     running = True
     while running:
         
@@ -82,14 +83,23 @@ def main(fromSugar):
         windows_stack[-1].handle_mouse_over(pygame.mouse.get_pos()) # Solo le pasamos los eventos a la ventana activa
         
         changes = []
-        for win in windows_stack[-1].get_windows(): # Solo actualizamos la ventana activa
+        if update:
+            # Must repaint the screen, reloads all the stack of windows_stack
+            for main_win in windows_stack[0:-1]:
+                for win in main_win.get_windows():
+                    if frames % win.frame_rate == 0:
+                        changes.extend(win.draw(screen))
+            update = False
+        
+        # Only updates the active window
+        for win in windows_stack[-1].get_windows():
             if frames % win.frame_rate == 0:
                 changes.extend(win.draw(screen))
-          
+        
         if changes:
             pygame.display.update(changes)
             update = False
-
+        
         frames += 1
         
     # Una vez que sale del loop manda la senal de quit para que cierre la ventana
