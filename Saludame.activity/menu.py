@@ -78,7 +78,7 @@ class Menu:
     def on_mouse_click(self, coord):
         for item in self.actual_selection:
             if(item.rect.collidepoint(coord)):
-                item.on_mouse_clik()
+                item.on_mouse_click()
                 break
 
                 
