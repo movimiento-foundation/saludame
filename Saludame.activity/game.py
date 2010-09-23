@@ -16,6 +16,7 @@ Variables globales
 """
 MAX_FPS = 18            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
+pause = False
 
 class Main():
     def __init__(self):
@@ -77,24 +78,25 @@ class Main():
             
             events = pygame.event.get()        
             
-            if events:
-                for event in events:
-                    if event.type == pygame.QUIT:
-                        running = False
-                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                        running = False
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
-                        
-            self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
-            
-            self.windows_controller.update(frames, screen)
-    
-            frames += 1
-            
+            if not pause:
+                
+                if events:
+                    for event in events:
+                        if event.type == pygame.QUIT:
+                            running = False
+                        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                            running = False
+                        elif event.type == pygame.MOUSEBUTTONDOWN:
+                            self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
+                            
+                self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
+                
+                self.windows_controller.update(frames, screen)
+        
+                frames += 1
+        
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
-    
-main = Main()
+
 if __name__ == "__main__":
-    main.main(False)
+    Main().main(False)
