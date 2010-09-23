@@ -20,46 +20,55 @@ class MultipleChoice:
         self.frame_rate = frame_rate        
         self.background = pygame.image.load(I_FRANCIA_PATH).convert()
         
-        self.question = Text(self.rect.left + 10, self.rect.top + 5, "Cual es la capital de Francia?")
+        self.question = Text(self.rect.left + 10, self.rect.top + 5, "Cual es la capital de Francia?", 20)
         
-        self.buttons = []
-        self.buttons += [Choice(self.rect, 20, 40, 200, 20, "Buenos Aires")]
-        self.buttons += [Choice(self.rect, 20, 70, 200, 20, "Oslo")]
-        self.buttons += [Choice(self.rect, 20, 100, 200, 20, "Roma")]
-        self.buttons += [Choice(self.rect, 20, 130, 200, 20, "Paris")]
-        self.buttons += [Choice(self.rect, 20, 160, 200, 20, "Moscu")]   
+        # Boton cerrar
+        self.btn_close = CloseButton(self.rect, 770, 5, 30, 30, "X")
+                
+        self.choices = []
+        self.choices += [Choice(self.rect, 20, 40, 200, 20, "Buenos Aires")]
+        self.choices += [Choice(self.rect, 20, 70, 200, 20, "Oslo")]
+        self.choices += [Choice(self.rect, 20, 100, 200, 20, "Roma")]
+        self.choices += [Choice(self.rect, 20, 130, 200, 20, "Paris")]
+        self.choices += [Choice(self.rect, 20, 160, 200, 20, "Moscu")]   
         
-        self.btn_view_answer = ViewAnswer(self.rect, 20, 200, 200, 20, "Me doy por vencido! :(...", self.buttons[3])
-        self.buttons += [self.btn_view_answer]               
+        self.btn_view_answer = ViewAnswer(self.rect, 20, 200, 200, 20, "Me doy por vencido! :(...", self.choices[3])
+        self.choices += [self.btn_view_answer]               
  
     def draw(self, screen):
         screen.fill((150, 150, 255), self.rect)
         screen.blit(self.background, (self.rect.right - 230, self.rect.top + 30))
         self.question.draw(screen)
+        self.btn_close.draw(screen)
         self.btn_view_answer.draw(screen)
-        for button in self.buttons:
+        for button in self.choices:
             button.draw(screen)
         return [self.rect]
     
-    def handle_mouse_down(self, (x, y)):
+    def handle_mouse_down(self, (x, y), windows_controller):
         global FIN_MC
-        for button in self.buttons: # Hardcodeado para probar, despues lo dejo generico
-            if (button.contains_point(x, y) and not FIN_MC):
-                fin = button.on_mouse_click() # Fin representa el usuario ya contesto bien o se dio por vencido
-                if(fin): 
-                    FIN_MC = fin
-                    self.buttons = [self.buttons[3], self.buttons[5]]
-                    break # No tiene sentido seguir iterando sobre los botones si ya sabemos cual apreto
+        
+        if (self.btn_close.contains_point(x, y)):
+            self.btn_close.on_mouse_clik(windows_controller)
+        
+        else:        
+            for choice in self.choices:
+                if (choice.contains_point(x, y) and not FIN_MC):
+                    fin = choice.on_mouse_click() # Fin representa el usuario ya contesto bien o se dio por vencido
+                    if(fin): 
+                        FIN_MC = fin
+                        self.choices = [self.choices[3], self.choices[5]]
+                        break # No tiene sentido seguir iterando sobre los botones si ya sabemos cual apreto
                 
     def handle_mouse_over(self, (x, y)):
-        for button in self.buttons:
-            if (button.contains_point(x, y)):
-                if(not button.over):
-                    button.on_mouse_over()
-                    button.over = True   
+        for choice in self.choices:
+            if (choice.contains_point(x, y)):
+                if(not choice.over):
+                    choice.on_mouse_over()
+                    choice.over = True   
             else:
-                button.over = False
-                button.on_mouse_out()
+                choice.over = False
+                choice.on_mouse_out()
                 
     def get_windows(self):
         return [self]

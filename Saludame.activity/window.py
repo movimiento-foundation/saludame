@@ -135,7 +135,8 @@ class KidWindow(Window):
 
 class MainWindow():
     
-    def __init__(self, clock):   
+    def __init__(self, clock):
+        self.name = "main"   
         self.clock = clock
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
@@ -146,15 +147,9 @@ class MainWindow():
         self.windows.append(menucreator.load_menu())
         self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
         
-    def draw(self):
-        changes = []
-        for win in self.windows:
-            changes += win.draw()
-        return changes
-    
-        
-    def handle_mouse_down(self, (x, y)):
-        None
+    def handle_mouse_down(self, (x, y), windows_controller):
+        # Temporal para probar el manejo de ventanas entre 'challenges' y 'main'
+        windows_controller.set_active_window("challenges")
                 
     def handle_mouse_over(self, (x, y)):
         None
