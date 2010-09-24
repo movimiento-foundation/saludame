@@ -53,7 +53,7 @@ class BarSection:
         self.surface = pygame.Surface(self.rect.size)
         self.surface.fill((2, 45, 126))
         self.displays_list = self.__calculate(children_bar)
-        self.selected = True #Este flag se activa cuando se están mostrando las sub-barras
+        self.selected = False #Este flag se activa cuando se están mostrando las sub-barras
         
     def draw(self, screen):
         changes = []
