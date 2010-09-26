@@ -82,7 +82,7 @@ class ScoreSection:
         
         #write actual level:
         level_text = "Nivel: " + str(self.level)
-        print level_text
+        
         self.surface.blit(self.font.render(level_text, 1, (255, 0, 0)), (2, 5))
         
         screen.blit(self.surface, self.rect)
@@ -120,7 +120,6 @@ class BarSection:
         bar_height = int((self.rect.height / qty) - 2)
         bar_width = int(self.rect.width - 2)
         display_list = []
-        print bar_height
         
         y = int(self.rect.height / bar_height) # margen vertical
         for status_bar in children_bar:

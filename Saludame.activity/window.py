@@ -2,9 +2,9 @@
 
 import pygame
 import os
-import menuCreator
+import menu_creator
 import animation
-import statusBars
+import status_bars
 
 BLACK = pygame.Color("black")
 BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
@@ -145,9 +145,9 @@ class MainWindow():
         #self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
         self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1))
         self.windows.append(animation.Apple(pygame.Rect((150, 500), (150, 172)), 10))
-        self.windows.append(menuCreator.load_menu())
+        self.windows.append(menu_creator.load_menu())
         self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
-        self.windows.append(statusBars.BarsWindow((700, 90), 1, pygame.Color("gray")))
+        self.windows.append(status_bars.BarsWindow((700, 90), 1, pygame.Color("gray")))
         
     def handle_mouse_down(self, (x, y), windows_controller):
         # Temporal para probar el manejo de ventanas entre 'challenges' y 'main'
