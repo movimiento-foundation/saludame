@@ -1,30 +1,37 @@
 # -*- coding: utf-8 -*-
 
 import pygame
-import window
-from window import StatusBar
 
 """
  ****************** VISUALES ******************
 """
-class BarsWindow(window.Window):
+class BarsWindow():
     
-    def __init__(self, rect, frame_rate, background_color):
-        self.rect = pygame.Rect((0, 0), (400, 450))
+    def __init__(self, position, frame_rate, background_color):
+        
         self.frame_rate = frame_rate
+       
+        #rect and surface:
+        self.rect = pygame.Rect(position, (400, 501))
         self.surface = pygame.Surface(self.rect.size)
         self.background_color = background_color
         self.surface.fill(self.background_color)
         
+        #bars
         loader = BarsLoader()
-
         self.bars = loader.create_bars(Bar("main_bar", "overall", None, [], 100, 50))
         
-        self.physica_section = BarSection("physica", self.bars[0], self.bars[0].children_list, (398, 68), (1, 39))
-        self.fun_section = BarSection("fun", self.bars[3], self.bars[3].children_list, (398, 73), (1, 108))
-        self.hygiene_section = BarSection("hygiene", self.bars[1], self.bars[1].children_list, (398, 94), (1, 182))
-        self.nutrition_section = BarSection("nutrition", self.bars[2], self.bars[2].children_list, (398, 172), (1, 277))
-        self.main_section = BarSection("overall", self.bars[4], [] , (398, 37), (1, 1))
+        #sections:
+        self.physica_section = BarSection("physica", self.bars[0], self.bars[0].children_list, (398, 68), (1, 90))
+        self.fun_section = BarSection("fun", self.bars[3], self.bars[3].children_list, (398, 73), (1, 159))
+        self.hygiene_section = BarSection("hygiene", self.bars[1], self.bars[1].children_list, (398, 94), (1, 233))
+        self.nutrition_section = BarSection("nutrition", self.bars[2], self.bars[2].children_list, (398, 172), (1, 328))
+        self.overall_section = BarSection("Estado general", self.bars[4], [] , (398, 37), (1, 52))
+        self.score_section = ScoreSection(Bar("score_bar", "score", None, self.bars[4], 100, 15), (398, 50), (1, 1), 1)
+        
+        self.sections_list = [self.score_section, self.physica_section, self.fun_section, self.hygiene_section, self.nutrition_section, self.overall_section]
+        
+        
    
     def draw(self, screen):
         self.surface.fill(self.background_color)
@@ -35,12 +42,52 @@ class BarsWindow(window.Window):
         changes += self.hygiene_section.draw(self.surface)
         changes += self.fun_section.draw(self.surface)
         changes += self.nutrition_section.draw(self.surface)
-        changes += self.main_section.draw(self.surface)
+        changes += self.overall_section.draw(self.surface)
+        changes += self.score_section.draw(self.surface)
         changes += [self.rect]
         
         screen.blit(self.surface, self.rect)
         
         return changes
+    
+    def on_mouse_over(self):
+        return
+    
+    def on_mouse_out(self):
+        return
+    
+    def on_mouse_click(self, (x, y)):
+        for section in self.sections_list:
+            if(section.rect.collidepoint((x, y))):
+                section.on_mouse_click((x, y))
+
+class ScoreSection:
+    
+    def __init__(self, bar, size, position, level):
+        self.name = "score section"
+        self.score_bar = bar
+        self.score_bar_display = BarDisplay(26, (size[0] - 2), (1, (size[1] / 2) - 3), self.score_bar)
+        self.rect = pygame.Rect(position, size)
+        self.surface = pygame.Surface(self.rect.size)
+        self.surface.fill((2, 45, 126))
+        #level:
+        self.level = level
+        self.font = pygame.font.Font(None, 20)
+        
+        
+        
+    def draw(self, screen):
+        #draw bar:
+        self.score_bar_display.draw(self.surface)
+        
+        #write actual level:
+        level_text = "Nivel: " + str(self.level)
+        
+        self.surface.blit(self.font.render(level_text, 1, (255, 0, 0)), (2, 5))
+        
+        screen.blit(self.surface, self.rect)
+        return [self.rect]
+        
 
 class BarSection:
     
@@ -73,7 +120,6 @@ class BarSection:
         bar_height = int((self.rect.height / qty) - 2)
         bar_width = int(self.rect.width - 2)
         display_list = []
-        print bar_height
         
         y = int(self.rect.height / bar_height) # margen vertical
         for status_bar in children_bar:
@@ -82,6 +128,9 @@ class BarSection:
             y += (bar_height + 1)
         
         return display_list
+    
+    def on_mouse_click(self, (x, y)):
+        self.selected = not self.selected
     
 class BarDisplay:
     
@@ -121,7 +170,7 @@ class BarsController:
     a una barra especifica
     """
     def __init__(self):
-        self.main_bar = StatusBar("main_bar", None, [], 100, 50)
+        #self.main_bar = StatusBar("main_bar", None, [], 100, 50)
         self.second_level_bar = BarsLoader.create_bars()
         self.main_bar.children_list = self.second_level_bar
         third_level_bar = []
@@ -222,3 +271,4 @@ class BarsLoader:
         #displays_list = [BarDisplay(pygame.Rect((0 , 0), (200, 26)), pygame.Color(255, 0, 0, 1), bar) for bar in bars_list]
  
         return bars_list
+

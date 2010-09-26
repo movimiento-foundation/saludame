@@ -2,8 +2,9 @@
 
 import pygame
 import os
-import menucreator
+import menuCreator
 import animation
+import statusBars
 
 BLACK = pygame.Color("black")
 BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
@@ -139,20 +140,25 @@ class MainWindow():
         self.name = "main"   
         self.clock = clock
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
-        self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
-        self.windows.append(BlinkWindow(pygame.Rect((700, 150), (500, 140)), 5, pygame.Color("blue")))
-        self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
+        #self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
+        #self.windows.append(BlinkWindow(pygame.Rect((700, 150), (500, 140)), 5, pygame.Color("blue")))
+        #self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
         self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1))
         self.windows.append(animation.Apple(pygame.Rect((150, 500), (150, 172)), 10))
-        self.windows.append(menucreator.load_menu())
+        self.windows.append(menuCreator.load_menu())
         self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
+        self.windows.append(statusBars.BarsWindow((700, 90), 1, pygame.Color("gray")))
         
     def handle_mouse_down(self, (x, y), windows_controller):
         # Temporal para probar el manejo de ventanas entre 'challenges' y 'main'
-        windows_controller.set_active_window("challenges")
+        #windows_controller.set_active_window("challenges")
+        
+        # Temporal para probar BarsWindow
+        self.windows[-1].on_mouse_click((x,y))
                 
     def handle_mouse_over(self, (x, y)):
         None
     
     def get_windows(self):
         return self.windows
+
