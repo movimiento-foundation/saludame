@@ -38,8 +38,12 @@ class BarsWindow():
         screen.blit(self.surface, self.rect)
         
         changes = []
-        for section in self.sections_list:
-            changes += section.draw(self.surface)
+        changes += self.physica_section.draw(self.surface)
+        changes += self.hygiene_section.draw(self.surface)
+        changes += self.fun_section.draw(self.surface)
+        changes += self.nutrition_section.draw(self.surface)
+        changes += self.overall_section.draw(self.surface)
+        changes += self.score_section.draw(self.surface)
         changes += [self.rect]
         
         screen.blit(self.surface, self.rect)
@@ -78,7 +82,7 @@ class ScoreSection:
         
         #write actual level:
         level_text = "Nivel: " + str(self.level)
-        
+        print level_text
         self.surface.blit(self.font.render(level_text, 1, (255, 0, 0)), (2, 5))
         
         screen.blit(self.surface, self.rect)
@@ -116,6 +120,7 @@ class BarSection:
         bar_height = int((self.rect.height / qty) - 2)
         bar_width = int(self.rect.width - 2)
         display_list = []
+        print bar_height
         
         y = int(self.rect.height / bar_height) # margen vertical
         for status_bar in children_bar:
@@ -205,7 +210,7 @@ class Bar:
         for child in self.children_list:
             child.increase(value)
         if(self.parent != None):
-            self.parent.increase(value)
+            self.parent.child_increase(value)
             
     def decrease(self, value):
         """
@@ -222,6 +227,35 @@ class Bar:
             child.decrease(value)
         if(self.parent != None):
             self.parent.decrease(value)
+    
+    def child_decrease(self, value):
+        """
+        Decremento recibido de un hijo, no repercute en los hijos del nodo que lo recibe. Solo en el
+        actual y el padre.
+        """
+        assert(value > 0)
+        if(len(self.children_list) > 0):
+            value = value / len(self.children_list) #para que el decremento mantenga relación con el valor de las barras hijas
+        if(self.value - value > 0):
+            self.value -= value
+        else:
+            self.value -= value - self.value
+        if(self.parent != None):
+            self.parent.child_decrease(value)
+    
+    def child_increase(self, value):
+        """
+        Incremento recibido de un hijo. No repercute en los hijos, del nodo que recibió el incremento.
+        Solo en el actual y en el padre.
+        """
+        if(len(self.children_list) > 0):
+            value = value / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+        if(self.value + value <= self.max):
+            self.value += value
+        else:
+            self.value += self.max - self.value
+        if(self.parent != None):
+            self.parent.child_increase(value)
             
 """
 ****************** CREADORES ******************
