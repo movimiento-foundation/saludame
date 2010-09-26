@@ -38,12 +38,8 @@ class BarsWindow():
         screen.blit(self.surface, self.rect)
         
         changes = []
-        changes += self.physica_section.draw(self.surface)
-        changes += self.hygiene_section.draw(self.surface)
-        changes += self.fun_section.draw(self.surface)
-        changes += self.nutrition_section.draw(self.surface)
-        changes += self.overall_section.draw(self.surface)
-        changes += self.score_section.draw(self.surface)
+        for section in self.sections_list:
+            changes += section.draw(self.surface)
         changes += [self.rect]
         
         screen.blit(self.surface, self.rect)
