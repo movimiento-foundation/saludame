@@ -2,6 +2,7 @@
 
 import pygame
 import os
+import utilities
 
 KID_PATH = os.path.normpath("assets/kid")
 KID_PREFIX, KID_SUFIX = "kid", ".png"
@@ -53,8 +54,7 @@ class Kid:
         for old_color_text in old:
             old_color = pygame.Color(old_color_text)
             new_color = pygame.Color(new[index])
-            mapped_int = self.sprite.map_rgb(old_color)
-            self.sprite.set_palette_at(mapped_int, new_color[0:3])
+            utilities.change_color(self.sprite, old_color, new_color)
             
             index += 1
       

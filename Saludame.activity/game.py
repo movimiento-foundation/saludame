@@ -7,6 +7,7 @@ from gettext import gettext as _
 from windowsController import *
 import window
 import challenges
+import customization
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -53,6 +54,11 @@ class Main():
         # Challenges Window
         challenges_window = challenges.MultipleChoice(pygame.Rect((200, 150), (800, 400)), 1)
         self.windows_controller.add_new_window(challenges_window, "challenges")
+        
+        # Customization Window
+        customization_window = customization.CustomizationWindow(pygame.Rect((200, 100), (800, 500)), 1)
+        self.windows_controller.add_new_window(customization_window, "customization")
+        
         # Main Window
         main_window = (window.MainWindow(clock))
         self.windows_controller.add_new_window(main_window, "main")  

@@ -4,6 +4,7 @@ import pygame
 import os
 import menucreator
 import animation
+import utilities
 
 BLACK = pygame.Color("black")
 BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
@@ -135,22 +136,50 @@ class KidWindow(Window):
 
 class MainWindow():
     
+    class ChallengesButton(utilities.ImageButton):
+        
+        def __init__(self, rect, x, y):
+            utilities.ImageButton.__init__(self, rect, x, y, "challenges/trophy.png")
+            self.frame_rate = 1
+        
+        def on_mouse_click(self, windows_controller):
+            windows_controller.set_active_window("challenges")
+        
+    class CustomizationButton(utilities.ImageButton):
+        
+        def __init__(self, rect, x, y):
+            utilities.ImageButton.__init__(self, rect, x, y, "customization/palette.png")
+            self.frame_rate = 1
+        
+        def on_mouse_click(self, windows_controller):
+            windows_controller.set_active_window("customization")
+        
     def __init__(self, clock):
-        self.name = "main"   
+        self.name = "main"
         self.clock = clock
+        self.rect = pygame.Rect(0, 0, 1200, 780)
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
         self.windows.append(BlinkWindow(pygame.Rect((700, 150), (500, 140)), 5, pygame.Color("blue")))
         self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
         self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1))
-        self.windows.append(animation.Apple(pygame.Rect((150, 500), (150, 172)), 10))
+        self.windows.append(animation.Apple(pygame.Rect((150, 600), (150, 172)), 10))
         self.windows.append(menucreator.load_menu())
         self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
         
+        self.buttons = []
+        self.buttons.append(MainWindow.CustomizationButton(self.rect, 10, 650))
+        self.buttons.append(MainWindow.ChallengesButton(self.rect, 70, 650))
+        
+        self.windows.extend(self.buttons)       # Buttons are drawn too
+        
     def handle_mouse_down(self, (x, y), windows_controller):
         # Temporal para probar el manejo de ventanas entre 'challenges' y 'main'
-        windows_controller.set_active_window("challenges")
-                
+        #windows_controller.set_active_window("challenges")
+        for button in self.buttons:
+            if button.contains_point(x, y):
+                button.on_mouse_click(windows_controller)
+        
     def handle_mouse_over(self, (x, y)):
         None
     
