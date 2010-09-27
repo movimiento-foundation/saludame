@@ -49,7 +49,7 @@ class MultipleChoice:
         global FIN_MC
         
         if (self.btn_close.contains_point(x, y)):
-            self.btn_close.on_mouse_clik(windows_controller)
+            self.btn_close.on_mouse_click(windows_controller)
         
         else:        
             for choice in self.choices:

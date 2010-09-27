@@ -41,7 +41,7 @@ class Button:
     
     # Eventos sobre el boton... seran sobreescritos por los hijos
         
-    def on_mouse_clik(self):
+    def on_mouse_click(self):
         None
         
     def on_mouse_over(self):
@@ -93,7 +93,7 @@ class CloseButton(Button):
         self.font = pygame.font.SysFont(None, 30) # Modificamos atributo heredado
         self.background_color = (150, 150, 255) # Modificamos atributo heredado        
     
-    def on_mouse_clik(self, windows_controller):
+    def on_mouse_click(self, windows_controller):
         windows_controller.close_active_window()
 
 def change_color(surface, old_color, new_color):

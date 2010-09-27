@@ -2,9 +2,10 @@
 
 import pygame
 import os
-import menucreator
+import menu_creator
 import animation
 import utilities
+import status_bars
 
 BLACK = pygame.Color("black")
 BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
@@ -159,13 +160,16 @@ class MainWindow():
         self.clock = clock
         self.rect = pygame.Rect(0, 0, 1200, 780)
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
-        self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
-        self.windows.append(BlinkWindow(pygame.Rect((700, 150), (500, 140)), 5, pygame.Color("blue")))
-        self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
+        #self.windows.append(BlinkWindow(pygame.Rect((700, 0), (500, 140)), 5, pygame.Color("red")))
+        #self.windows.append(BlinkWindow(pygame.Rect((700, 150), (500, 140)), 5, pygame.Color("blue")))
+        #self.windows.append(StatusWindow(pygame.Rect((700, 300), (500, 140)), 2, pygame.Color("gray")))
         self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1))
         self.windows.append(animation.Apple(pygame.Rect((150, 600), (150, 172)), 10))
-        self.windows.append(menucreator.load_menu())
+        self.windows.append(menu_creator.load_menu())
         self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
+        
+        self.status_bars = status_bars.BarsWindow((700, 90), 1, pygame.Color("gray"))
+        self.windows.append(self.status_bars)
         
         self.buttons = []
         self.buttons.append(MainWindow.CustomizationButton(self.rect, 10, 650))
@@ -176,12 +180,17 @@ class MainWindow():
     def handle_mouse_down(self, (x, y), windows_controller):
         # Temporal para probar el manejo de ventanas entre 'challenges' y 'main'
         #windows_controller.set_active_window("challenges")
+
         for button in self.buttons:
             if button.contains_point(x, y):
                 button.on_mouse_click(windows_controller)
+        
+        # Temporal para probar BarsWindow
+        self.status_bars.on_mouse_click((x,y))
         
     def handle_mouse_over(self, (x, y)):
         None
     
     def get_windows(self):
         return self.windows
+
