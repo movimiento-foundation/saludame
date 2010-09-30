@@ -23,13 +23,13 @@ class Main():
     def __init__(self):
         self.windows_controller = WindowsController()
     
-    def main(self, fromSugar):
+    def main(self, from_sugar):
         """Main function of the game.
         
         This function initializes the game and enters the PyGame main loop.
         """
         
-        if fromSugar:
+        if from_sugar:
                 import gtk
     
         # Optimizes sound quality and buffer for quick loading
@@ -40,7 +40,7 @@ class Main():
         
         target_size = (1200, 780)
         
-        if not fromSugar:
+        if not from_sugar:
             screen = pygame.display.set_mode(target_size)
         
         screen = pygame.display.get_surface()
@@ -73,24 +73,23 @@ class Main():
         running = True
         while running:
             
-            if fromSugar:
+            if from_sugar:
                 # Pump GTK messages.
                 while gtk.events_pending():
                     gtk.main_iteration()
     
-            # Waits for events, if none the game pauses:
-            # http://wiki.laptop.org/go/Game_development_HOWTO#Reducing_CPU_Load
-            milliseconds = clock.tick(MAX_FPS) # waits if the game is running faster than MAX_FPS
-            
-            events = pygame.event.get()        
-            
             if not pause:
+                # Waits for events, if none the game pauses:
+                # http://wiki.laptop.org/go/Game_development_HOWTO#Reducing_CPU_Load
+                milliseconds = clock.tick(MAX_FPS) # waits if the game is running faster than MAX_FPS
+                
+                events = pygame.event.get()
                 
                 if events:
                     for event in events:
                         if event.type == pygame.QUIT:
                             running = False
-                        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and not from_sugar:
                             running = False
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())

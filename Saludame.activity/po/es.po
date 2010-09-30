@@ -1,0 +1,33 @@
+# Spanish translations for PACKAGE package.
+# Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Pablo Moleri <pmoleri@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-30 18:05-0300\n"
+"PO-Revision-Date: 2010-09-30 18:44-0300\n"
+"Last-Translator: Pablo Moleri <pmoleri@gmail.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: activity/activity.info:2
+msgid "Saludame"
+msgstr "Salúdame"
+
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:20
+msgid "Shoes"
+msgstr "Zapatos"
+
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:29
+msgid "Game"
+msgstr "Juego"
+
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:33
+msgid "Credits"
+msgstr "Créditos"
