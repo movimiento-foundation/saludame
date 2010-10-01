@@ -168,7 +168,7 @@ class MainWindow():
         self.windows.append(menu_creator.load_menu())
         self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
         
-        self.status_bars = status_bars.BarsWindow((700, 90), 1, pygame.Color("gray"))
+        self.status_bars = status_bars.BarsWindow((0, 0), 1, pygame.Color("gray"))
         self.windows.append(self.status_bars)
         
         self.buttons = []
