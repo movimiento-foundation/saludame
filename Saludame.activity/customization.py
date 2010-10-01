@@ -8,12 +8,13 @@ from gettext import gettext as _
 
 class CustomizationWindow(window.Window):
     
-    def __init__(self, rect, frame_rate):
-        window.Window.__init__(self, rect, frame_rate, pygame.Color("Gray"))
+    def __init__(self, rect, frame_rate, background, screen):
+        window.Window.__init__(self, rect, frame_rate, background, screen)
         
+        self.screen = screen
         self.windows = []
         kid_rect = self.rect.move(50, 40)
-        self.kid = CustomizatedKid(kid_rect, 1)
+        self.kid = CustomizatedKid(kid_rect, 1, pygame.Color("Black"), screen)
         self.windows.append(self.kid)
         
         self.btn_close = utilities.CloseButton(self.rect, 770, 5, 30, 30, "X")
@@ -57,11 +58,11 @@ class CustomizatedKid(window.Window):
         "skin": pygame.Color("#803300")
     }
     
-    def __init__(self, rect, frame_rate):
-         window.Window.__init__(self, rect, frame_rate, pygame.Color("Black"))
+    def __init__(self, rect, frame_rate, background, screen):
+        window.Window.__init__(self, rect, frame_rate, background, screen)
          
-         self.mappings = CustomizatedKid.COLOR_MAP.copy()
-         self.set_gender("male")
+        self.mappings = CustomizatedKid.COLOR_MAP.copy()
+        self.set_gender("male")
          
     def draw(self, screen):
         screen.blit(self.sprite, self.rect)

@@ -4,7 +4,9 @@ import pygame
 import logging
 from gettext import gettext as _
 
-from windowsController import *
+from utilities import *
+
+from windows_controller import *
 import window
 import challenges
 import customization
@@ -51,26 +53,30 @@ class Main():
         # This clock is used to keep the game at the desired FPS.
         clock = pygame.time.Clock()
         
+
         # Challenges Window
-        challenges_window = challenges.MultipleChoice(pygame.Rect((200, 150), (800, 400)), 1)
+        challenges_window = challenges.MultipleChoice(pygame.Rect((200, 150), (800, 400)), 1, (100,45,255), screen, self.windows_controller)
         self.windows_controller.add_new_window(challenges_window, "challenges")
-        
+
+        """
         # Customization Window
-        customization_window = customization.CustomizationWindow(pygame.Rect((200, 100), (800, 500)), 1)
+        customization_window = customization.CustomizationWindow(pygame.Rect((200, 100), (800, 500)), 1, pygame.Color("Gray"), screen)
         self.windows_controller.add_new_window(customization_window, "customization")
+        """
         
         # Main Window
-        main_window = (window.MainWindow(clock))
+        main_window = (window.MainWindow(screen.get_rect(), 1, clock, screen, self.windows_controller))
         self.windows_controller.add_new_window(main_window, "main")  
         
         # Activamos ventana principal
-        self.windows_controller.set_active_window("main")          
-        
+        self.windows_controller.set_active_window("main")    
+          
         frames = 0
         
         # Main loop
         update = True # The first time the screen need to be updated
         running = True
+        
         while running:
             
             if fromSugar:

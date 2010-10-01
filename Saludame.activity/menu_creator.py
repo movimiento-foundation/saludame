@@ -11,7 +11,7 @@ example = [
     ("sport", "assets/icons/icon.png", "Do sports...", [
         ("run", "assets/icons/icon.png", "Run", None),
         ("jump rope", "assets/icons/icon.png", "Jump the rope", None),
-        ("footbal", "assets/icons/icon.png", "Play footbal", None)
+        ("football", "assets/icons/icon.png", "Play footbal", None)
     ]),
     ("sleep", "assets/icons/icon.png", "Go to sleep", None),
     ("talk", "assets/icons/icon3.png", "talk with a friend", None),

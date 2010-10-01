@@ -1,106 +1,98 @@
 # -*- coding: utf-8 -*-
 
-# Utilitarios
+# Utilitarios: Text, Button (abstract), ImageButton, TextButton
 
-import pygame
+from widget import *
 
-class Text:
-    def __init__(self, x, y, text, size):
+class Text(Widget):
+    def __init__(self, container, x, y, frame_rate, text, size, color):
         self.font = pygame.font.SysFont(None, size)
-        self.ren = self.font.render(text, 1, (0, 0, 100))
-        self.x = x
-        self.y = y
-    
-    def draw(self, screen):
-        screen.blit(self.ren, (self.x, self.y))        
+        self.surface = self.font.render(text, True, color)
 
-class Button:
+        self.text = text
+        Widget.__init__(self, container, self.surface.get_rect(topleft=(x, y)), frame_rate, self.surface, None)
+        
+    def switch_color_text(self, color):
+        self.surface = self.font.render(self.text, True, color)
+        return (self)
+    
+class Image(Widget):
+    def __init__(self, container, rect, frame_rate, image):
+        
+        if not isinstance(image, pygame.Surface):
+            self.surface = pygame.image.load(image).convert_alpha()
+        else:
+            self.surface = image
+        Widget.__init__(self, container, rect, frame_rate, self.surface)        
+        
+
+class Button(Widget):
     
     # Clase abstracta que representa un boton
     
-    def __init__(self, rect, x, y, w, h, text):
-        # Agregamos los botones con coordenadas "relativas" a la ventana que los cotiene
-        self.rect = pygame.Rect(rect.left + x, rect.top + y, w, h)
-        self.text = text
+    def __init__(self, container, rect, frame_rate, surface, cb_click=None, cb_over=None, cb_out=None):
         
-        self.font = pygame.font.SysFont(None, 16)
+        Widget.__init__(self, container, rect, frame_rate, surface)
         
-        self.background_color = (255,0,0)
+        self.function_on_mouse_click = cb_click
+        self.function_on_mouse_over = cb_over
+        self.function_on_mouse_out = cb_out
+        
         self.over = False
-          
-    def contains_point(self, x, y):
-        return self.rect.collidepoint(x, y)
-    
-    def draw(self, surface):
-        ren = self.font.render(self.text, 1, (0, 0, 100))
-        surface.fill(self.background_color, self.rect)
-        surface.blit(ren, (self.rect.left + 5, self.rect.top + 5))
-            
-    def set_background_color(self, color):
-        self.background_color = color    
-    
-    # Eventos sobre el boton... seran sobreescritos por los hijos
         
+    def contains_point(self, x, y):
+        return self.rect_in_container.collidepoint(x, y)
+    
     def on_mouse_click(self):
-        None
+        if self.function_on_mouse_click: # if there's a callback setted makes the call
+            self.function_on_mouse_click(self)
         
     def on_mouse_over(self):
-        None
+        if self.function_on_mouse_over: # if there's a callback setted makes the call
+            self.function_on_mouse_over(self)
     
     def on_mouse_out(self):
-        None
+        if self.function_on_mouse_out: # if there's a callback setted makes the call
+            self.function_on_mouse_out(self)
+            
+    def set_on_mouse_click(self, fn):
+        self.function_on_mouse_click = fn
+   
+    def set_on_mouse_over(self, fn):
+        self.function_on_mouse_over = fn
 
-class ImageButton:
+    def set_on_mouse_out(self, fn):
+        self.function_on_mouse_out = fn   
     
-    # Clase abstracta que representa un boton con una imagen de fondo
+
+class ImageButton(Button):
     
-    def __init__(self, rect, x, y, image):
+    def __init__(self, container, rect, frame_rate, image, cb_click=None, cb_over=None, cb_out=None):
+        
+        self.image = image       
         
         if not isinstance(image, pygame.Surface):
+            self.image = pygame.image.load(image).convert_alpha()
+            
+        Button.__init__(self, container, rect, frame_rate, self.image, cb_click, cb_over, cb_out)
+    
+    def switch_image_background(self, image):
+        if not isinstance(image, pygame.Surface):
             image = pygame.image.load(image).convert_alpha()
+        self.surface = image
         
-        self.image = image
+class TextButton(ImageButton):     
+    def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
+        self.text = Text(rect, 5, 5, frame_rate, text, size, color)
+        ImageButton.__init__(self, container, rect, frame_rate, self.text.surface, cb_click, cb_over, cb_out)
         
-        # Agregamos los botones con coordenadas "relativas" a la ventana que los cotiene
-        self.rect = pygame.Rect(rect.left + x, rect.top + y, image.get_width(), image.get_height())
+    def switch_color_text(self, color):
+        self.surface = self.text.switch_color_text(color).surface        
         
-        self.background_color = (0, 0, 0)
-        self.over = False
-        
-    def contains_point(self, x, y):
-        return self.rect.collidepoint(x, y)
-    
-    def draw(self, surface):
-        surface.blit(self.image, self.rect.topleft)
-        return [self.rect]
-                
-    def set_background_color(self, color):
-        self.background_color = color
-        
-    # Eventos sobre el boton... seran sobreescritos por los hijos
-    def on_mouse_click(self):
-        None
-    
-    def on_mouse_over(self):
-        None
-    
-    def on_mouse_out(self):
-        None
-
-class CloseButton(Button):
-    def __init__(self, rect, x, y, w, h, text):
-        Button.__init__(self, rect, x, y, w, h, text)
-        self.font = pygame.font.SysFont(None, 30) # Modificamos atributo heredado
-        self.background_color = (150, 150, 255) # Modificamos atributo heredado        
-    
-    def on_mouse_click(self, windows_controller):
-        windows_controller.close_active_window()
-
 def change_color(surface, old_color, new_color):
     # No funciona en pygame 1.8.0
     #image_pixel_array = pygame.PixelArray(self.sprite)
     #image_pixel_array.replace(old_color, new_color)
     
     mapped_int = surface.map_rgb(old_color)
-    surface.set_palette_at(mapped_int, new_color[0:3])
-    
+    surface.set_palette_at(mapped_int, new_color[0:3])   
