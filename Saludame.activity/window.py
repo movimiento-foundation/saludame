@@ -71,6 +71,39 @@ class Window:
                 button.over = False
                 button.on_mouse_out()
 
+class ActionWindow(Window):
+    """
+    Ventana de acciones
+    """
+    def __init__(self, rect, frame_rate, background, screen, windows_controller, actions_dictionary):
+        self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando
+        Window.__init__(self, rect, frame_rate, background, screen, windows_controller)
+        self.actions_dictionary = actions_dictionary
+        self.background.fill(pygame.Color("blue"))
+        self.on_animation = False
+        self.actual_animation = None
+    
+    def play_animation(self, id):
+        self.actual_animation = (self.actions_dictionary[id][0], self.actions_dictionary[id][1])
+        self.on_animation = True
+        
+    def draw(self, screen):
+        self.background.fill((0, 0, 255))
+        
+        self.timing += 3
+        changes = []
+        if(self.on_animation and self.actual_animation != None):
+            if(self.timing > 12):
+                self.timing = 1
+            
+            font = pygame.font.Font(None, 20 + self.timing)
+            self.background.blit(font.render(self.actual_animation[1], 1, (255, 255, 255)), (5, 5 + self.timing))
+            changes += self.actual_animation[0].draw(self.background)
+        changes += [self.rect]
+        screen.blit(self.background, self.rect)
+        return changes
+        
+
 class KidWindow(Window):
 
     def __init__(self, rect, frame_rate, screen, windows_controller):
@@ -116,14 +149,19 @@ class MainWindow(Window):
         
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         
-        self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1, screen, windows_controller))
-        self.windows.append(animation.Apple(pygame.Rect((150, 550), (150, 172)), 10))        
-        self.windows.append(menu_creator.load_menu())
-        self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))        
-        self.windows.append(status_bars.BarsWindow((700, 90), 1, pygame.Color("gray")))
+        #temporal para probar ActionWindow (se cargará el diccionario en un módulo aparte).
+        self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((210, 20), (150, 172)), 10), "Eating an apple!") }
+        self.action_win = ActionWindow(pygame.Rect((0, 505), (600, 20)), 10, pygame.Surface((600, 200)), screen, windows_controller, self.animations_dic)
         
-        challengesButton = ImageButton(self.rect, pygame.Rect((40, 550), (80, 80)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
-        customizationButton = ImageButton(self.rect, pygame.Rect((100, 550), (80, 80)), 1, "customization/palette.png", self._cb_button_click_customization)
+        self.windows.append(KidWindow(pygame.Rect((0, 0), (600, 500)), 1, screen, windows_controller))
+        #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))        
+        self.windows.append(menu_creator.load_menu())
+        self.windows.append(animation.FPS(pygame.Rect((650, 80), (50, 20)), 15, self.clock))
+        self.windows.append(self.action_win)  
+        #self.windows.append(status_bars.BarsWindow((700, 90), 1, pygame.Color("gray")))
+        
+        challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (80, 80)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
+        customizationButton = ImageButton(self.rect, pygame.Rect((700, 400), (80, 80)), 1, "customization/palette.png", self._cb_button_click_customization)
         
         self.buttons.append(challengesButton)
         self.buttons.append(customizationButton)       
@@ -134,3 +172,4 @@ class MainWindow(Window):
     def _cb_button_click_customization(self, button):
         #self.windows_controller.set_active_window("customization")
         pass
+

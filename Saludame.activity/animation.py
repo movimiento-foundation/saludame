@@ -15,6 +15,7 @@ COLORS_EYES_NEW = [("#008000",), ("#2222FF",), ("#000000",)]
 
 GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")
+BLUE = pygame.Color("blue")
 
 class Kid:
     
@@ -81,7 +82,7 @@ class Food:
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file).convert_alpha()
         
-        screen.fill(BLACK, self.rect)
+        screen.fill(BLUE, self.rect)
         screen.blit(self.sprite, self.rect)
         
         self.index = (self.index + 1) % len(self.file_list)

@@ -66,10 +66,13 @@ class Main():
         
         # Main Window
         main_window = (window.MainWindow(screen.get_rect(), 1, clock, screen, self.windows_controller))
-        self.windows_controller.add_new_window(main_window, "main")  
+        self.windows_controller.add_new_window(main_window, "main")
+
+        #Probando ActionWindow
+        main_window.action_win.play_animation('eat_apple')
         
         # Activamos ventana principal
-        self.windows_controller.set_active_window("main")    
+        self.windows_controller.set_active_window("main")  
           
         frames = 0
         
