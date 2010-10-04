@@ -25,10 +25,10 @@ class BarsWindow():
         
         """ game bars """
         loader = BarsLoader()
-        self.bars = loader.create_bars(Bar("main_bar", "overall", None, [], 100, 50))
+        self.bars = loader.create_bars(StatusBar("main_bar", "overall", None, [], 100, 50))
         
         """ sections """
-        self.score_section = ScoreSection(Bar("score_bar", "score", None, self.bars[4], 100, 15), (398, 50), (1, 1), 1)
+        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, self.bars[4], 100, 15), (398, 50), (1, 1), 1)
         self.overall_section = BarSection("Estado general", self.bars[4], [] , (398, 37), (1, 52), self.px_expanded)
         
         self.physica_section = BarSection("physica", self.bars[0], self.bars[0].children_list, (398, self.px_per_section), (1, 90), self.px_expanded)
@@ -68,7 +68,7 @@ class BarsWindow():
 
 class Accordeon:
     """
-    Clase encargada de realizar los calculos para expgandir y 
+    Clase encargada de realizar los calculos para expandir y 
     contraer las secciones.
     """
     
@@ -321,7 +321,7 @@ class BarsController:
     def decrease_bar(self, id, value):
         return
         
-class Bar:
+class StatusBar:
     """
     Entity that represent the bar
     """
@@ -412,26 +412,26 @@ class BarsLoader:
         se carguen según un nivel de dificultad"""
         """ physica """
         physica_children_id = ["Energy", "Resistencia", "Fat"]
-        physica = Bar("physica", "Physica", main_bar, [], hard_level[0], hard_level[1])
-        physica_children_bar = [Bar(id, id, physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
+        physica = StatusBar("physica", "Physica", main_bar, [], hard_level[0], hard_level[1])
+        physica_children_bar = [StatusBar(id, id, physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
         physica.children_list = physica_children_bar
         
         """ hygiene """
         hygiene_children_id = [("shower", "Shower"), ("w_hands", "Washing hands"), ("b_teeth", "Brushing teeth"), ("toilet", "Toilet")]
-        hygiene = Bar("hygiene", "Hygiene", main_bar, [], hard_level[0], hard_level[1])
-        hygiene_children_bar = [Bar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
+        hygiene = StatusBar("hygiene", "Hygiene", main_bar, [], hard_level[0], hard_level[1])
+        hygiene_children_bar = [StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar
 
         """ nutrition """
         nutrition_children_id = [("c_leguminosas", "Cereales y leguminosas"), ("v_frutas", "Verduras y frutas"), ("C_huevos", "Carnes y huevos"), ("dulces", "Dulces"), ("g_aceites", "Grasas y aceites"), ("l_quesos", "Leches y quesos"), ("agua", "Agua")]
-        nutrition = Bar("nutrition", "Nutrition", main_bar, [], hard_level[0], hard_level[1])
-        nutrition_children_bar = [Bar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
+        nutrition = StatusBar("nutrition", "Nutrition", main_bar, [], hard_level[0], hard_level[1])
+        nutrition_children_bar = [StatusBar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
         nutrition.children_list = nutrition_children_bar
         
         """ fun """
         fun_children_id = ["Sports", "Playing", "Relaxing"]
-        fun = Bar("fun", "Fun", main_bar, [], hard_level[0], hard_level[1])
-        fun_children_bar = [Bar(id, id, fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
+        fun = StatusBar("fun", "Fun", main_bar, [], hard_level[0], hard_level[1])
+        fun_children_bar = [StatusBar(id, id, fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar
         
         bars_list = [physica, hygiene, nutrition, fun, main_bar]
