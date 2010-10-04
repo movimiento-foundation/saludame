@@ -1,0 +1,12 @@
+encoding: UTF-8
+
+activity.py
+game.py
+animation.py
+window.py
+activity.py
+menu.py
+customization.py
+utilities.py
+windowsController.py
+challenges.py
