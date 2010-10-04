@@ -10,7 +10,6 @@ class Action:
         self.time_span = time_span
         
         self.effect = effect
-        
         """ animations """
         self.icon = icon
         self.picture = picture
