@@ -3,7 +3,7 @@
 import pygame
 import logging
 from gettext import gettext as _
-
+import animation
 from utilities import *
 
 from windows_controller import *
@@ -55,7 +55,7 @@ class Main():
         
 
         # Challenges Window
-        challenges_window = challenges.MultipleChoice(pygame.Rect((200, 150), (800, 400)), 1, (100,45,255), screen, self.windows_controller)
+        challenges_window = challenges.MultipleChoice(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, (100,45,255), screen, self.windows_controller)
         self.windows_controller.add_new_window(challenges_window, "challenges")
 
         """
@@ -65,7 +65,7 @@ class Main():
         """
         
         # Main Window
-        main_window = (window.MainWindow(screen.get_rect(), 1, clock, screen, self.windows_controller))
+        main_window = (window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, screen, self.windows_controller))
         self.windows_controller.add_new_window(main_window, "main")
 
         #Probando ActionWindow

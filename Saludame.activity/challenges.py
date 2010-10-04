@@ -16,8 +16,8 @@ FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
 class MultipleChoice(Window):
     
-    def __init__(self, rect, frame_rate, background, screen, windows_controller):
-        Window.__init__(self, rect, frame_rate, background, screen, windows_controller)     
+    def __init__(self, container, rect, frame_rate, background, screen, windows_controller):
+        Window.__init__(self, container, rect, frame_rate, background, screen, windows_controller)     
         
         ###### Images ######    
         self.image = pygame.image.load(I_FRANCIA_PATH).convert()
@@ -31,7 +31,7 @@ class MultipleChoice(Window):
         
         # Question
         self.question = Text(self.rect, 5, 5, 1, "Cual es la capital de Francia?", 40, (0, 255, 0))
-        self.widgets.append(self.question)
+        self.add_child(self.question)
         
         # Close Button
         self.btn_close = TextButton(self.rect, pygame.Rect((770, 5), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
@@ -49,7 +49,13 @@ class MultipleChoice(Window):
         self.buttons += [self.btn_view_answer]        
 
         france_image = Image(self.rect, pygame.Rect(500, 40, 20, 20), 1, self.image)
-        self.widgets.append(france_image)    
+        self.add_child(france_image)
+        
+        for b in self.buttons:
+            self.add_child(b)    
+    
+    
+    ######## Callbacks buttons ########
     
     def _cb_button_click_choice(self, button):
         global FIN_MC
@@ -80,3 +86,5 @@ class MultipleChoice(Window):
     
     def _cb_button_click_close(self, button):
         self.windows_controller.close_active_window()
+        
+    ########################################

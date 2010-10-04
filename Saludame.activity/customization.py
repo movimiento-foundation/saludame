@@ -23,7 +23,7 @@ class CustomizationWindow(window.Window):
         self.color_list = [pygame.Color(color) for color in ["Brown", "Black", "Green", "Gray", "Skyblue", "Blue"]]
         self.eyes_color_index = 0
         
-    def draw(self, screen):
+    def draw(self, screen, frames):
         screen.fill(self.background_color)
         self.btn_close.draw(screen)
         self.btn_eyes.draw(screen)

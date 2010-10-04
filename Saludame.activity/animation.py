@@ -3,6 +3,7 @@
 import pygame
 import os
 import utilities
+from window import *
 
 KID_PATH = os.path.normpath("assets/kid")
 KID_PREFIX, KID_SUFIX = "kid", ".png"
@@ -17,16 +18,16 @@ GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")
 BLUE = pygame.Color("blue")
 
-class Kid:
+class Kid(Window):
     
-    def __init__(self, rect, background, frame_rate):
-        self.index = 1
-        self.rect = rect
-        self.frame_rate = frame_rate
-        self.color_index = 0
-        self.background = background
+    def __init__(self, container, rect, frame_rate, background, screen, windows_controller):
+        Window.__init__(self, container, rect, frame_rate, background, screen, windows_controller)
         
-    def draw(self, screen):
+        self.index = 1
+        self.color_index = 0
+        
+    def pre_draw(self, screen):
+        
         file_nro = str(self.index)
         if len(file_nro) == 1:
             file_nro = "0" + file_nro
@@ -41,10 +42,7 @@ class Kid:
         
         self.index = (self.index % 11) + 1
         if self.index == 1:
-            self.color_index = (self.color_index + 1) % 3
-        
-        return [self.rect]
-                
+            self.color_index = (self.color_index + 1) % 3               
                 
     def change_color(self, old, new):
         # No funciona en pygame 1.8.0
@@ -78,7 +76,7 @@ class Food:
         self.blip = pygame.mixer.Sound(BLIP_PATH)
         
         
-    def draw(self, screen):
+    def draw(self, screen, frames):
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file).convert_alpha()
         
@@ -96,16 +94,16 @@ class Apple(Food):
 
 class FPS:
   
-    def __init__(self, rect, frame_rate, clock):
+    def __init__(self, container, rect, frame_rate, clock):
         self.rect = rect
         self.frame_rate = frame_rate
         self.clock = clock
 
         self.font = pygame.font.Font(None, 16)
   
-    def draw(self, screen):
+    def draw(self, screen, frames):
         screen.fill(BLACK, self.rect)
         text = str(round(self.clock.get_fps()))
-        text_surf = self.font.render(text, False, (255,255,255))
+        text_surf = self.font.render(text, False, (255, 255, 255))
         screen.blit(text_surf, self.rect)
         return [self.rect]

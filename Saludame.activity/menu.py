@@ -33,7 +33,7 @@ class Menu:
         self.calculate()
         """
     
-    def draw(self, screen):
+    def draw(self, screen, frames):
         """
         draw menu items
         """

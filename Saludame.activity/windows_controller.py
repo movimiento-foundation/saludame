@@ -18,6 +18,8 @@ class WindowsController:
         self.windows_stack.pop()        
         if (self.windows_stack[-1].name == "main"):
             self.reload_main = True
+            for win in self.windows_stack[-1].windows:
+                win.repaint = True
     
     def set_active_window(self, window_key):
         self.windows_stack.append(self.windows[window_key])
