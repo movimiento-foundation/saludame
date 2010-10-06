@@ -20,8 +20,8 @@ BLUE = pygame.Color("blue")
 
 class Kid(Window):
     
-    def __init__(self, container, rect, frame_rate, background, screen, windows_controller):
-        Window.__init__(self, container, rect, frame_rate, background, screen, windows_controller)
+    def __init__(self, container, rect, frame_rate, windows_controller):
+        Window.__init__(self, container, rect, frame_rate, windows_controller)
         
         self.index = 1
         self.color_index = 0
@@ -42,7 +42,9 @@ class Kid(Window):
         
         self.index = (self.index % 11) + 1
         if self.index == 1:
-            self.color_index = (self.color_index + 1) % 3               
+            self.color_index = (self.color_index + 1) % 3  
+            
+        return [self.rect]   
                 
     def change_color(self, old, new):
         # No funciona en pygame 1.8.0

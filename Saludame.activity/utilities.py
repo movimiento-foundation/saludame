@@ -7,23 +7,23 @@ from widget import *
 class Text(Widget):
     def __init__(self, container, x, y, frame_rate, text, size, color):
         self.font = pygame.font.SysFont(None, size)
-        self.surface = self.font.render(text, True, color)
+        self.background = self.font.render(text, True, color)
 
         self.text = text
-        Widget.__init__(self, container, self.surface.get_rect(topleft=(x, y)), frame_rate, self.surface, None)
+        Widget.__init__(self, container, self.background.get_rect(topleft=(x, y)), frame_rate, self.background, None)
         
     def switch_color_text(self, color):
-        self.surface = self.font.render(self.text, True, color)
+        self.background = self.font.render(self.text, True, color)
         return (self)
     
 class Image(Widget):
     def __init__(self, container, rect, frame_rate, image):
         
         if not isinstance(image, pygame.Surface):
-            self.surface = pygame.image.load(image).convert_alpha()
+            self.background = pygame.image.load(image).convert_alpha()
         else:
-            self.surface = image
-        Widget.__init__(self, container, rect, frame_rate, self.surface)        
+            self.background = image
+        Widget.__init__(self, container, rect, frame_rate, self.background)        
         
 
 class Button(Widget):
@@ -79,15 +79,15 @@ class ImageButton(Button):
     def switch_image_background(self, image):
         if not isinstance(image, pygame.Surface):
             image = pygame.image.load(image).convert_alpha()
-        self.surface = image
+        self.background = image
         
 class TextButton(ImageButton):     
     def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
         self.text = Text(rect, 5, 5, frame_rate, text, size, color)
-        ImageButton.__init__(self, container, rect, frame_rate, self.text.surface, cb_click, cb_over, cb_out)
+        ImageButton.__init__(self, container, rect, frame_rate, self.text.background, cb_click, cb_over, cb_out)
         
     def switch_color_text(self, color):
-        self.surface = self.text.switch_color_text(color).surface        
+        self.background = self.text.switch_color_text(color).background        
         
 def change_color(surface, old_color, new_color):
     # No funciona en pygame 1.8.0

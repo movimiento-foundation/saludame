@@ -17,11 +17,11 @@ class BarsWindow():
         self.px_per_section = 50
         self.px_expanded = self.max_bar_qty * self.px_per_bar + 2
         self.qty_section = 50
-        """ rect and surface: """
+        """ rect and background: """
         self.rect = pygame.Rect(position, (400, 484))
-        self.surface = pygame.Surface(self.rect.size)
+        self.background = pygame.Surface(self.rect.size)
         self.background_color = background_color
-        self.surface.fill(self.background_color)
+        self.background.fill(self.background_color)
         
         """ game bars """
         loader = BarsLoader()
@@ -41,12 +41,12 @@ class BarsWindow():
         """  """
         
     def draw(self, screen):
-        self.surface.fill(self.background_color)
+        self.background.fill(self.background_color)
         changes = []
         for section in self.sections_list:
-            changes += section.draw(self.surface)
+            changes += section.draw(self.background)
        
-        screen.blit(self.surface, self.rect)
+        screen.blit(self.background, self.rect)
         
         return changes
     
@@ -123,10 +123,10 @@ class BarSection:
         self.rect = pygame.Rect(position, size)
         
         """ visuals """
-        self.surface = pygame.Surface(self.rect.size)
+        self.background = pygame.Surface(self.rect.size)
         self.root_bar_display = BarDisplay(26, (size[0] - 2), (1, (size[1] / 2) - 13), self.root_bar, pygame.Color("blue"))
         self.displays_list = self.__get_displays() #obtengo los displays para cada barra.
-        self.surface.fill((2, 45, 126)) #back ground color
+        self.background.fill((2, 45, 126)) #back ground color
         
         """ visuals constant """
         self.init_top = position[1]
@@ -174,12 +174,12 @@ class BarSection:
     def draw(self, screen):
         changes = []
         if (self.expanded and len(self.children_bar) > 0):
-            changes += self.root_bar_display.draw(self.surface)
+            changes += self.root_bar_display.draw(self.background)
             for bar_display in self.displays_list:
-                changes += bar_display.draw(self.surface)
+                changes += bar_display.draw(self.background)
         else:
-            changes += self.root_bar_display.draw(self.surface)
-        screen.blit(self.surface, self.rect)
+            changes += self.root_bar_display.draw(self.background)
+        screen.blit(self.background, self.rect)
         
         return changes
         
@@ -216,8 +216,8 @@ class BarSection:
         return display_list
     
     def __set_surface(self, size):
-        self.surface = pygame.Surface(size)
-        self.surface.fill((2, 45, 126))
+        self.background = pygame.Surface(size)
+        self.background.fill((2, 45, 126))
     
                    
     def __relative_pos(self, (x, y)):
@@ -237,7 +237,7 @@ class BarDisplay:
         self.rect = pygame.Rect(position, (width, height))
         self.position = position
         """ visuals """
-        self.surface = pygame.Surface(self.rect.size)
+        self.background = pygame.Surface(self.rect.size)
         self.font = pygame.font.Font(None, 20)
         """ """
         self.last_value = self.status_bar.value #valor inicial
@@ -251,12 +251,12 @@ class BarDisplay:
         charge_surface = pygame.Surface(self.charge.size)
         charge_surface.fill(self.color)
         
-        self.surface.fill(pygame.Color("black"))
-        self.surface.blit(charge_surface, self.charge)
+        self.background.fill(pygame.Color("black"))
+        self.background.blit(charge_surface, self.charge)
         
-        self.surface.blit(self.font.render(self.label, 1, (0, 0, 0)), (2, 5))
+        self.background.blit(self.font.render(self.label, 1, (0, 0, 0)), (2, 5))
         
-        screen.blit(self.surface, self.rect)
+        screen.blit(self.background, self.rect)
         
         return [self.rect]
     
@@ -277,22 +277,22 @@ class ScoreSection:
         self.rect = pygame.Rect(position, size)
         """ visuals """
         self.score_bar_display = BarDisplay(26, (size[0] - 2), (1, (size[1] / 2) - 3), self.score_bar, pygame.Color("blue"))
-        self.surface = pygame.Surface(self.rect.size)
-        self.surface.fill((2, 45, 126))
+        self.background = pygame.Surface(self.rect.size)
+        self.background.fill((2, 45, 126))
         self.font = pygame.font.Font(None, 20)
         
         
         
     def draw(self, screen):
         #draw bar:
-        self.score_bar_display.draw(self.surface)
+        self.score_bar_display.draw(self.background)
         
         #write actual level:
         level_text = "Nivel: " + str(self.level)
         
-        self.surface.blit(self.font.render(level_text, 1, (255, 255, 255)), (2, 5))
+        self.background.blit(self.font.render(level_text, 1, (255, 255, 255)), (2, 5))
         
-        screen.blit(self.surface, self.rect)
+        screen.blit(self.background, self.rect)
         return [self.rect]
     
     def __relative_pos(self, (x, y)):

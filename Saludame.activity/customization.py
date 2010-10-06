@@ -8,13 +8,13 @@ from gettext import gettext as _
 
 class CustomizationWindow(window.Window):
     
-    def __init__(self, rect, frame_rate, background, screen):
-        window.Window.__init__(self, rect, frame_rate, background, screen)
+    def __init__(self, rect, frame_rate, background):
+        window.Window.__init__(self, rect, frame_rate, background)
         
         self.screen = screen
         self.windows = []
         kid_rect = self.rect.move(50, 40)
-        self.kid = CustomizatedKid(kid_rect, 1, pygame.Color("Black"), screen)
+        self.kid = CustomizatedKid(kid_rect, 1, pygame.Color("Black"))
         self.windows.append(self.kid)
         
         self.btn_close = utilities.CloseButton(self.rect, 770, 5, 30, 30, "X")
@@ -58,8 +58,8 @@ class CustomizatedKid(window.Window):
         "skin": pygame.Color("#803300")
     }
     
-    def __init__(self, rect, frame_rate, background, screen):
-        window.Window.__init__(self, rect, frame_rate, background, screen)
+    def __init__(self, rect, frame_rate, background):
+        window.Window.__init__(self, rect, frame_rate, background)
          
         self.mappings = CustomizatedKid.COLOR_MAP.copy()
         self.set_gender("male")
@@ -73,7 +73,7 @@ class CustomizatedKid(window.Window):
         self.apply_mappings()
         
     def apply_mappings(self):
-        self.sprite = self.surface.copy()
+        self.sprite = self.background.copy()
         for key in CustomizatedKid.COLOR_MAP:
             utilities.change_color(self.sprite, CustomizatedKid.COLOR_MAP[key], self.mappings[key])
         
@@ -87,6 +87,6 @@ class CustomizatedKid(window.Window):
             path = FEMALE_PATH
         
         if path:
-            self.surface = pygame.image.load(path)
-            self.rect.size = self.surface.get_size()
+            self.background = pygame.image.load(path)
+            self.rect.size = self.background.get_size()
             self.apply_mappings()

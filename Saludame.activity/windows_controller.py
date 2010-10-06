@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+from window import Window
 
 """
 Clase encargada del control de ventanas
@@ -19,7 +20,8 @@ class WindowsController:
         if (self.windows_stack[-1].name == "main"):
             self.reload_main = True
             for win in self.windows_stack[-1].windows:
-                win.repaint = True
+                if isinstance(win, Window):
+                    win.enable_repaint()
     
     def set_active_window(self, window_key):
         self.windows_stack.append(self.windows[window_key])

@@ -16,8 +16,8 @@ FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
 class MultipleChoice(Window):
     
-    def __init__(self, container, rect, frame_rate, background, screen, windows_controller):
-        Window.__init__(self, container, rect, frame_rate, background, screen, windows_controller)     
+    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
+        Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)     
         
         ###### Images ######    
         self.image = pygame.image.load(I_FRANCIA_PATH).convert()
@@ -67,12 +67,12 @@ class MultipleChoice(Window):
         
     def _cb_button_over_choice(self, button):
         button.switch_color_text((255, 0, 0))
-        button.force_update(self.screen)
+        button.force_update()
         self.s_over.play()        
             
     def _cb_button_out_choice(self, button):
         button.switch_color_text((255, 255, 255))
-        button.force_update(self.screen)
+        button.force_update()
     
     def _cb_button_click_answer(self, button):
         global FIN_MC

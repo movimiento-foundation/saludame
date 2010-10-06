@@ -13,17 +13,18 @@ class Widget:
                                               self.container.top + self.rect.top),
                                               (self.rect.size)) # Rect del widget (absoluto al screen)
         self.frame_rate = frame_rate
-        self.surface = surface
+        self.background = surface
         
         # El widget puede (opcionalmente) tener un tooltip
         self.tooltip = tooltip
         
-    def draw(self, screen):            
-        screen.blit(self.surface, self.rect_in_container)        
+    def draw(self, screen):           
+        screen.blit(self.background, self.rect_in_container)        
         return self.rect_in_container  
     
-    def force_update(self, screen): # Forzamos la actualizacion del widget independientemente del frame_rate
-        screen.blit(self.surface, self.rect_in_container)
-        pygame.display.update(self.rect_in_container)
+    def force_update(self): # Forzamos la actualizacion del widget independientemente del frame_rate
+        #screen.blit(self.background, self.rect_in_container)
+        #pygame.display.update(self.rect_in_container)
+        pass
         
                   
