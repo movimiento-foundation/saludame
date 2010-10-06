@@ -176,8 +176,7 @@ class MainWindow(Window):
         self.windows_controller.set_active_window("challenges")
         
     def _cb_button_click_customization(self, button):
-        #self.windows_controller.set_active_window("customization")
-        pass
+        self.windows_controller.set_active_window("customization")
     
     ########################################
 

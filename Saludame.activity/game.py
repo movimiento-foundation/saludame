@@ -58,11 +58,9 @@ class Main():
         challenges_window = challenges.MultipleChoice(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, (100,45,255), screen, self.windows_controller)
         self.windows_controller.add_new_window(challenges_window, "challenges")
 
-        """
         # Customization Window
-        customization_window = customization.CustomizationWindow(pygame.Rect((200, 100), (800, 500)), 1, pygame.Color("Gray"), screen)
+        customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, pygame.Color("Gray"), screen, self.windows_controller)
         self.windows_controller.add_new_window(customization_window, "customization")
-        """
         
         # Main Window
         main_window = (window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, screen, self.windows_controller))
