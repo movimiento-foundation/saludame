@@ -9,12 +9,12 @@ from gettext import gettext as _
 
 class CustomizationWindow(window.Window):
     
-    def __init__(self, container, rect, frame_rate, background, screen, windows_controller):
-        window.Window.__init__(self, container, rect, frame_rate, background, screen, windows_controller)
+    def __init__(self, container, rect, frame_rate, windows_controller, bg_color):
+        window.Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
         
-        kid_rect = pygame.Rect((200, 100), (1,1))
-        self.kid = CustomizatedKid(self.rect, kid_rect, 1, pygame.Color("Black"), screen)
-        self.widgets.append(self.kid)
+        kid_rect = pygame.Rect((20, 20), (1,1))
+        self.kid = CustomizatedKid(self.rect, kid_rect, 1, pygame.Color("Black"))
+        self.add_child(self.kid)
         
         self.btn_close = utilities.TextButton(self.rect, pygame.Rect((770, 5), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
         self.btn_eyes = utilities.TextButton(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Shoes"), 30, (0, 0, 0), self._cb_button_shoes)
@@ -27,9 +27,8 @@ class CustomizationWindow(window.Window):
     def get_windows(self):
         return [self]
     
-    def handle_mouse_over(self, (x, y)):
-        pass
 
+    #### Callbacks buttons #####
     def _cb_button_shoes(self, button):
         self.eyes_color_index += 1
         self.eyes_color_index %= len(self.color_list)
@@ -37,6 +36,7 @@ class CustomizationWindow(window.Window):
     
     def _cb_button_click_close(self, button):
         self.windows_controller.close_active_window()
+    #############################
     
 MALE_PATH = os.path.normpath("customization/boy.png")
 FEMALE_PATH = os.path.normpath("customization/girl.png")
@@ -55,9 +55,7 @@ class CustomizatedKid(widget.Widget):
         self.mappings = CustomizatedKid.COLOR_MAP.copy()
         self.set_gender("male")
         
-    def draw(self, screen):
-        screen.blit(self.sprite, self.rect)
-        return [self.rect]
+        self.surface = self.sprite
     
     def set_mapping(self, key, color):
         self.mappings[key] = color
