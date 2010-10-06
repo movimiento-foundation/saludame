@@ -173,7 +173,7 @@ class MainWindow(Window):
         
         self.windows.append(KidWindow(container, pygame.Rect((0, 0), (600, 500)), 1, windows_controller))
         #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))        
-        self.windows.append(menu_creator.load_menu())
+        
         self.windows.append(animation.FPS(container, pygame.Rect((650, 80), (50, 20)), 15, self.clock))
         self.windows.append(self.action_win)  
         #self.windows.append(status_bars.BarsWindow((700, 90), 1, pygame.Color("gray")))

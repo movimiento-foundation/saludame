@@ -12,7 +12,7 @@ import math
 
 class Menu:
     
-    def __init__(self, frame_rate, item_list, center, radius):
+    def __init__(self, frame_rate, item_list, center, radius, character_manager):
         
         self.center = center # center of the menu's circle
         
@@ -20,18 +20,24 @@ class Menu:
         self.item_list = item_list # item's list that going to be displayed
         self.actual_selection = self.item_list #list of actual subitems selection
         
-        self.salir = Item(" ", "assets/icons/salir.png", " ", [])
+        self.salir = Item(" ", "assets/icons/salir.png", " ", [], "close_menu", self)
         self.salir.rect.center = center
         
         self.radius = radius
         self.on_compression = True #para mostrar la animación al iniciar
         self.on_expansion = False
         
+        """ character reference """
+        self.character_manager = character_manager
+        """                     """
+        
         self.__calculate()
-        """
-        self.path = ["sport"]
-        self.calculate()
-        """
+    
+    def add_item(self, item):
+        self.item_list.append(item)
+    
+    def set_items(self, items_list):
+        self.item_list = items_list
     
     def draw(self, screen, frames):
         """
@@ -63,6 +69,16 @@ class Menu:
         changes.append(self.salir.rect)
         return changes
     
+    def send_action(self, action_id):
+        """
+        Send an action to the character_manager. The action was selected
+        at menu's sub-item
+        """
+        self.character_manager.action_perform(action_id)
+    
+    
+    """ Event handlers """
+    
     def on_mouse_over(self, coord):
         for item in self.actual_selection:
             if(item.rect.collidepoint(coord)):
@@ -81,7 +97,7 @@ class Menu:
                 item.on_mouse_click()
                 break
 
-                
+    """ privates """
     
     def __calculate(self):
         """
@@ -128,13 +144,19 @@ class Menu:
 
 class Item:
     
-    def __init__(self, name, icon_path, tooltip, subitems_list):
-        path = os.path.normpath(icon_path)
+    def __init__(self, name, icon_path, tooltip, subitems_list, action_id, menu):
+        
         self.name = name
+        self.subitems_list = subitems_list
+        self.action_id = action_id
+        self.menu = menu
+        
+        """ visuals """
+        path = os.path.normpath(icon_path)
         self.image = pygame.image.load(path)
         self.rect = self.image.get_rect()
         self.tooltip = tooltip
-        self.subitems_list = subitems_list
+        """         """ 
         
     def add_subitem(self, item):
         """
@@ -157,5 +179,7 @@ class Item:
         return
     
     def on_mouse_click(self):
-        return
+        if(self.action_id != None):
+            self.menu.send_action(self.action_id)
         
+

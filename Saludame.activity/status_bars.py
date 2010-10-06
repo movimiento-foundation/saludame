@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+import status_bars_creator
 
 """
  ****************** VISUALES ******************
@@ -17,19 +18,19 @@ class BarsWindow():
         self.px_per_section = 50
         self.px_expanded = self.max_bar_qty * self.px_per_bar + 2
         self.qty_section = 50
-        """ rect and background: """
+        """ rect and surface: """
         self.rect = pygame.Rect(position, (400, 484))
-        self.background = pygame.Surface(self.rect.size)
+        self.surface = pygame.Surface(self.rect.size)
         self.background_color = background_color
-        self.background.fill(self.background_color)
+        self.surface.fill(self.background_color)
         
         """ game bars """
-        loader = BarsLoader()
-        self.bars = loader.create_bars(StatusBar("main_bar", "overall", None, [], 100, 50))
+        loader = status_bars_creator.BarsLoader()
+        self.bars = loader.get_second_level_bars()
         
         """ sections """
-        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, self.bars[4], 100, 15), (398, 50), (1, 1), 1)
-        self.overall_section = BarSection("Estado general", self.bars[4], [] , (398, 37), (1, 52), self.px_expanded)
+        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, loader.get_overall_bar(), 100, 15), (398, 50), (1, 1), 1)
+        self.overall_section = BarSection("Estado general", loader.get_overall_bar(), [] , (398, 37), (1, 52), self.px_expanded)
         
         self.physica_section = BarSection("physica", self.bars[0], self.bars[0].children_list, (398, self.px_per_section), (1, 90), self.px_expanded)
         self.fun_section = BarSection("fun", self.bars[3], self.bars[3].children_list, (398, self.px_per_section), (1, 142), self.px_expanded)
@@ -41,12 +42,12 @@ class BarsWindow():
         """  """
         
     def draw(self, screen):
-        self.background.fill(self.background_color)
+        self.surface.fill(self.background_color)
         changes = []
         for section in self.sections_list:
-            changes += section.draw(self.background)
+            changes += section.draw(self.surface)
        
-        screen.blit(self.background, self.rect)
+        screen.blit(self.surface, self.rect)
         
         return changes
     
@@ -123,10 +124,10 @@ class BarSection:
         self.rect = pygame.Rect(position, size)
         
         """ visuals """
-        self.background = pygame.Surface(self.rect.size)
+        self.surface = pygame.Surface(self.rect.size)
         self.root_bar_display = BarDisplay(26, (size[0] - 2), (1, (size[1] / 2) - 13), self.root_bar, pygame.Color("blue"))
         self.displays_list = self.__get_displays() #obtengo los displays para cada barra.
-        self.background.fill((2, 45, 126)) #back ground color
+        self.surface.fill((2, 45, 126)) #back ground color
         
         """ visuals constant """
         self.init_top = position[1]
@@ -174,12 +175,12 @@ class BarSection:
     def draw(self, screen):
         changes = []
         if (self.expanded and len(self.children_bar) > 0):
-            changes += self.root_bar_display.draw(self.background)
+            changes += self.root_bar_display.draw(self.surface)
             for bar_display in self.displays_list:
-                changes += bar_display.draw(self.background)
+                changes += bar_display.draw(self.surface)
         else:
-            changes += self.root_bar_display.draw(self.background)
-        screen.blit(self.background, self.rect)
+            changes += self.root_bar_display.draw(self.surface)
+        screen.blit(self.surface, self.rect)
         
         return changes
         
@@ -216,8 +217,8 @@ class BarSection:
         return display_list
     
     def __set_surface(self, size):
-        self.background = pygame.Surface(size)
-        self.background.fill((2, 45, 126))
+        self.surface = pygame.Surface(size)
+        self.surface.fill((2, 45, 126))
     
                    
     def __relative_pos(self, (x, y)):
@@ -237,7 +238,7 @@ class BarDisplay:
         self.rect = pygame.Rect(position, (width, height))
         self.position = position
         """ visuals """
-        self.background = pygame.Surface(self.rect.size)
+        self.surface = pygame.Surface(self.rect.size)
         self.font = pygame.font.Font(None, 20)
         """ """
         self.last_value = self.status_bar.value #valor inicial
@@ -251,12 +252,12 @@ class BarDisplay:
         charge_surface = pygame.Surface(self.charge.size)
         charge_surface.fill(self.color)
         
-        self.background.fill(pygame.Color("black"))
-        self.background.blit(charge_surface, self.charge)
+        self.surface.fill(pygame.Color("black"))
+        self.surface.blit(charge_surface, self.charge)
         
-        self.background.blit(self.font.render(self.label, 1, (0, 0, 0)), (2, 5))
+        self.surface.blit(self.font.render(self.label, 1, (0, 0, 0)), (2, 5))
         
-        screen.blit(self.background, self.rect)
+        screen.blit(self.surface, self.rect)
         
         return [self.rect]
     
@@ -277,22 +278,22 @@ class ScoreSection:
         self.rect = pygame.Rect(position, size)
         """ visuals """
         self.score_bar_display = BarDisplay(26, (size[0] - 2), (1, (size[1] / 2) - 3), self.score_bar, pygame.Color("blue"))
-        self.background = pygame.Surface(self.rect.size)
-        self.background.fill((2, 45, 126))
+        self.surface = pygame.Surface(self.rect.size)
+        self.surface.fill((2, 45, 126))
         self.font = pygame.font.Font(None, 20)
         
         
         
     def draw(self, screen):
         #draw bar:
-        self.score_bar_display.draw(self.background)
+        self.score_bar_display.draw(self.surface)
         
         #write actual level:
         level_text = "Nivel: " + str(self.level)
         
-        self.background.blit(self.font.render(level_text, 1, (255, 255, 255)), (2, 5))
+        self.surface.blit(self.font.render(level_text, 1, (255, 255, 255)), (2, 5))
         
-        screen.blit(self.background, self.rect)
+        screen.blit(self.surface, self.rect)
         return [self.rect]
     
     def __relative_pos(self, (x, y)):
@@ -309,17 +310,20 @@ class BarsController:
     a una barra especifica
     """
     def __init__(self):
-        self.second_level_bar = BarsLoader.create_bars()
-        self.main_bar.children_list = self.second_level_bar
-        third_level_bar = []
-        for bar in self.second_level_bar:
-            third_level_bar += [child_bar for child_bar in bar.children_list]
+        self.loader = status_bars_creator.BarsLoader()
+        """ bars """
+        self.overall_bar = self.loader.get_overall_bar()
+        self.second_level = self.loader.get_second_level_bars()
+        self.third_level = self.loader.get_third_level_bars()
+        self.bars = [self.overall_bar] + self.second_level + self.third_level
+        """      """
             
-    def increase_bar(self, id, value):
-        return
-
-    def decrease_bar(self, id, value):
-        return
+    def increase_bar(self, bar_id, increase_rate):
+        
+        for bar in self.bars:
+            if(bar.id == bar_id):
+                bar.increase(increase_rate)
+                break
         
 class StatusBar:
     """
@@ -335,37 +339,56 @@ class StatusBar:
         self.parent = parent_bar # Barra padre
         self.children_list = children_list # conjunto de barras hijas
         
-    def increase(self, value):
+    def increase(self, increase_rate):
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
         if(len(self.children_list) > 0):
-            value = value / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-        if(self.value + value <= self.max):
+            value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+            self.value += value
+            for child in self.children_list:
+                child.increase(value)
+        else:
+            self.value += increase_rate
+
+        if(self.parent != None):
+            self.parent.increase_from_child(value)
+    
+    def increase_from_child(self, increase_rate):
+        """
+        Incrementa el valor de la barra.
+        """
+        if(len(self.children_list) > 0):
+            value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
             self.value += value
         else:
-            self.value += self.max - self.value
-        for child in self.children_list:
-            child.increase(value)
+            self.value += increase_rate
+        
         if(self.parent != None):
-            self.parent.child_increase(value)
-            
-    def decrease(self, value):
+            self.parent.increase_from_child(value)
+        
+        if(self.value > self.max):
+            self.value = self.max
+        elif(self.value < 0):
+            self.value = 0
+        
+    def increase_from_parent(self, increase_rate):
         """
-        Decrementa el valor de la barra y repercute en los hijos y la barra padre
+        Incrementa el valor de la barra y repercute en los hijos.
         """
-        assert(value > 0)
         if(len(self.children_list) > 0):
-            value = value / len(self.children_list) #para que el decremento mantenga relación con el valor de las barras hijas
-        if(self.value - value > 0):
-            self.value -= value
+            value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+            self.value += value
+            for child in self.children_list:
+                child.increase(value)
         else:
-            self.value -= value - self.value
-        for child in self.children_list:
-            child.decrease(value)
-        if(self.parent != None):
-            self.parent.decrease(value)
-    
+            self.value += increase_rate
+        
+        if(self.value > self.max):
+            self.value = self.max
+        elif(self.value < 0):
+            self.value = 0
+        
     def child_decrease(self, value):
         """
         Decremento recibido de un hijo, no repercute en los hijos del nodo que lo recibe. Solo en el
@@ -394,50 +417,6 @@ class StatusBar:
             self.value += self.max - self.value
         if(self.parent != None):
             self.parent.child_increase(value)
-            
-"""
-****************** CREADORES ******************
-"""
 
-class BarsLoader:
-    """
-    This is just for create the bars, and not full
-    of this static code the others class.
-    """
-    
-    def create_bars(self, main_bar):
-        
-        hard_level = (100, 50) 
-        """'hard_level' para plasmar que la idea es que los valores por defecto de las barras
-        se carguen según un nivel de dificultad"""
-        """ physica """
-        physica_children_id = ["Energy", "Resistencia", "Fat"]
-        physica = StatusBar("physica", "Physica", main_bar, [], hard_level[0], hard_level[1])
-        physica_children_bar = [StatusBar(id, id, physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
-        physica.children_list = physica_children_bar
-        
-        """ hygiene """
-        hygiene_children_id = [("shower", "Shower"), ("w_hands", "Washing hands"), ("b_teeth", "Brushing teeth"), ("toilet", "Toilet")]
-        hygiene = StatusBar("hygiene", "Hygiene", main_bar, [], hard_level[0], hard_level[1])
-        hygiene_children_bar = [StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
-        hygiene.children_list = hygiene_children_bar
-
-        """ nutrition """
-        nutrition_children_id = [("c_leguminosas", "Cereales y leguminosas"), ("v_frutas", "Verduras y frutas"), ("C_huevos", "Carnes y huevos"), ("dulces", "Dulces"), ("g_aceites", "Grasas y aceites"), ("l_quesos", "Leches y quesos"), ("agua", "Agua")]
-        nutrition = StatusBar("nutrition", "Nutrition", main_bar, [], hard_level[0], hard_level[1])
-        nutrition_children_bar = [StatusBar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
-        nutrition.children_list = nutrition_children_bar
-        
-        """ fun """
-        fun_children_id = ["Sports", "Playing", "Relaxing"]
-        fun = StatusBar("fun", "Fun", main_bar, [], hard_level[0], hard_level[1])
-        fun_children_bar = [StatusBar(id, id, fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
-        fun.children_list = fun_children_bar
-        
-        bars_list = [physica, hygiene, nutrition, fun, main_bar]
-        
-        #displays_list = [BarDisplay(pygame.Rect((0 , 0), (200, 26)), pygame.Color(255, 0, 0, 1), bar) for bar in bars_list]
- 
-        return bars_list
 
 
