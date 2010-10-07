@@ -7,6 +7,7 @@ from window import Window
 Clase encargada del control de ventanas
 """
 class WindowsController:
+    
     def __init__(self):
         self.windows = {} # Diccionario de ventanas. Aca se encuentran todas las ventanas del programa
         self.windows_stack = [] # Stack de ventanas para el control de venta activa. Aca se enceuntra el stack de ventanas abiertas
@@ -48,6 +49,6 @@ class WindowsController:
         changes = []
         if frames % self.windows_stack[-1].frame_rate == 0:
             changes.extend(self.windows_stack[-1].draw(screen, frames))   
-          
+        
         if changes:
             pygame.display.update(changes)

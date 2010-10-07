@@ -31,7 +31,11 @@ class Window:
         self.repaint = True
     
     def set_bg_image(self, image):
-        self.bg_image = image
+        if (not isinstance(image, pygame.Surface)):
+            # Is a path, convert it to a surface
+            self.bg_image = pygame.image.load(image).convert_alpha()
+        else:
+            self.bg_image = image
         
     def set_bg_color(self, color):
         self.bg_color = color
@@ -50,20 +54,13 @@ class Window:
         if self.repaint:    # Solo actualizamos el fondo de la ventana cuando hagamos un 'repaint'
                             # De otra forma solo actualizamos los widgets y subventanas
                             
-            self.background.fill(self.bg_color)      
-                  
+            screen.fill(self.bg_color, self.rect)
+            
             if self.bg_image != None:
-                
-                if (not isinstance(self.background, pygame.Surface)):
-                    # Si entramos aca es porque es una imagen que tenemos que convertir
-                    self.background = pygame.image.load(self.bg_image).convert_alpha()
-                else:
-                    self.background = self.bg_image
-
-            screen.blit(self.background, self.rect) # Pintamos el "fondo" de la ventana
+                screen.blit(self.bg_image, self.rect) # Pintamos el "fondo" de la ventana
             
             changes.append(self.rect)
-                        
+            
             self.repaint = False
         
         for widget in self.widgets:

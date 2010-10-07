@@ -27,7 +27,6 @@ class Kid(Window):
         self.color_index = 0
         
     def pre_draw(self, screen):
-        
         file_nro = str(self.index)
         if len(file_nro) == 1:
             file_nro = "0" + file_nro
@@ -37,7 +36,7 @@ class Kid(Window):
         
         self.change_color(COLORS_HAIR + COLORS_EYES, COLORS_HAIR_NEW[self.color_index] + COLORS_EYES_NEW[self.color_index])
         
-        screen.blit(self.background, self.rect)
+        screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
         
         self.index = (self.index % 11) + 1
