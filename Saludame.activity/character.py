@@ -31,7 +31,6 @@ class Character:
         self.skin_color = skin_color
         self.shoes_color = shoes_color
         """ """
-        
         self.actual_place = None
         self.status_bar_list = status_bar_list #status bars
         self.active_events_list = []
@@ -61,18 +60,24 @@ class Place:
                 return True
         return False
 
-class Wheater:
+class Weather:
     
-    def __init__(self, wheater_id, background_path, background_sound):
-        self.weather_id = wheater_id
+    def __init__(self, weather_id, background_path, background_sound):
+        self.weather_id = weather_id
         self.background_path = background_path
         self.background_sound = background_sound
         
 
 class Clothes:
     
-    def __init__(self, clothes_id, texture_path):
+    def __init__(self, clothes_id, texture_path, weather_effects_list):
         self.clothes_id = clothes_id
         self.texture_path = texture_path
-
+        self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoiir
+        
+        
+        
+        
+        
+        
 
