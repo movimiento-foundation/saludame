@@ -23,7 +23,7 @@ pause = False
 
 class Main():
     def __init__(self):
-        self.windows_controller = WindowsController()
+        self.windows_controller = None
     
     def main(self, from_sugar):
         """Main function of the game.
@@ -53,6 +53,8 @@ class Main():
         # This clock is used to keep the game at the desired FPS.
         clock = pygame.time.Clock()
         
+        # windows_controller asociado al screen
+        self.windows_controller = WindowsController(screen)        
 
         # Challenges Window
         challenges_window = challenges.MultipleChoice(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, self.windows_controller, (100, 40, 200))
@@ -66,7 +68,7 @@ class Main():
         main_window = (window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller))
         self.windows_controller.add_new_window(main_window, "main")
 
-        #Probando ActionWindow
+        # Probando ActionWindow
         main_window.action_win.play_animation('eat_apple')
         
         # Activamos ventana principal
@@ -103,7 +105,7 @@ class Main():
                             
                 self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 
-                self.windows_controller.update(frames, screen)
+                self.windows_controller.update(frames)
         
                 frames += 1
         

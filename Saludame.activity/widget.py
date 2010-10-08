@@ -17,6 +17,7 @@ class Widget:
         
         # El widget puede (opcionalmente) tener un tooltip
         self.tooltip = tooltip
+        self.showing_tooltip = False
         
     def draw(self, screen):
         screen.blit(self.background, self.rect_in_container)        

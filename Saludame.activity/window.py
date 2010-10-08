@@ -87,17 +87,29 @@ class Window:
     def handle_mouse_down(self, (x, y)):
         for button in self.buttons:
             if button.contains_point(x, y):
+                # Tooltips
+                if button.showing_tooltip:
+                    self.windows_controller.hide_active_tooltip()
+                    button.showing_tooltip = False
                 button.on_mouse_click()
         
     def handle_mouse_over(self, (x, y)):
         for button in self.buttons:
             if button.contains_point(x, y):
                 if(not button.over):
+                    # Tooltips
+                    if button.tooltip: # Si el boton tiene tooltip entonces lo mostramos
+                        self.windows_controller.show_tooltip(button.tooltip)
+                        button.showing_tooltip = True
                     button.on_mouse_over()
                     button.over = True 
             else:
                 # Ineficiente! Por ahora lo dejo asi para PROBAR
                 # Esta todo el tiempo haciendo esto! Cambiar
+                if button.showing_tooltip:
+                    # Si estabamos mostrando el tooltip ahora debemos esconderlo
+                    self.windows_controller.hide_active_tooltip()
+                    button.showing_tooltip = False
                 button.over = False
                 button.on_mouse_out()
 
@@ -166,7 +178,6 @@ class MainWindow(Window):
         
         self.status_bars = status_bars.BarsWindow((0, 0), 1, pygame.Color("gray"))
         #self.add_window(self.status_bars)
-
         
         self.windows.append(KidWindow(container, pygame.Rect((0, 0), (600, 500)), 1, windows_controller))
         #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))        
@@ -175,8 +186,9 @@ class MainWindow(Window):
         self.windows.append(self.action_win)  
         #self.windows.append(status_bars.BarsWindow((700, 90), 1, pygame.Color("gray")))
         
-        challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (80, 80)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
-        customizationButton = ImageButton(self.rect, pygame.Rect((700, 400), (80, 80)), 1, "customization/palette.png", self._cb_button_click_customization)
+        challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
+        challengesButton.set_tooltip("Challenges module")
+        customizationButton = ImageButton(self.rect, pygame.Rect((700, 400), (50, 50)), 1, "customization/palette.png", self._cb_button_click_customization)
         
         self.buttons.append(challengesButton)
         self.buttons.append(customizationButton) 

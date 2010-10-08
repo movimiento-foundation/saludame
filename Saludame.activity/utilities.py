@@ -43,6 +43,9 @@ class Button(Widget):
     def contains_point(self, x, y):
         return self.rect_in_container.collidepoint(x, y)
     
+    def set_tooltip(self, text):
+        self.tooltip = text
+    
     def on_mouse_click(self):
         if self.function_on_mouse_click: # if there's a callback setted makes the call
             self.function_on_mouse_click(self)
