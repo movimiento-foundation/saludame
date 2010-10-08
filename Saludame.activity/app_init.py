@@ -13,22 +13,24 @@ class AppLoader:
         character_loader = character_creator.CharacterLoader()
         """          """
         """ actions """
-        self.actions_dictionary = actions_loader.get_actions_dictionary() #diccionaro {id_actions: Action}
+        self.actions_dictionary = actions_loader.get_actions_dictionary() #diccionario {id_actions: Action}
+        
         """ status bars """
         self.character_bars = bars_loader.get_third_level_bars() #the third level status bars
+        
         """ places """
         self.places_dictionary = character_loader.get_places_dictionary()
-        """ character """
-        self.character = character_loader.get_character()
         
-        self.character_manager = character_loader.get_character_manager()
+        """ character """
+        self.character = character_loader.get_character(self.actions_dictionary, self.character_bars)
+        
         """ menu """
         self.menu = menu_creator.load_menu(self.character_manager)
         """ visuals """
+    
         
-        
-    def get_character_manager(self):
-        return self.character_manager
+    def get_character(self):
+        return self.character
     
     def get_menu(self):
         return self.menu
@@ -40,3 +42,4 @@ class AppLoader:
     
     
     
+
