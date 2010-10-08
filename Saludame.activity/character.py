@@ -60,3 +60,19 @@ class Place:
             if(id == action_id):
                 return True
         return False
+
+class Wheater:
+    
+    def __init__(self, wheater_id, background_path, background_sound):
+        self.weather_id = wheater_id
+        self.background_path = background_path
+        self.background_sound = background_sound
+        
+
+class Clothes:
+    
+    def __init__(self, clothes_id, texture_path):
+        self.clothes_id = clothes_id
+        self.texture_path = texture_path
+
+
