@@ -8,7 +8,7 @@ class Text(Widget):
     def __init__(self, container, x, y, frame_rate, text, size, color):
         self.font = pygame.font.SysFont(None, size)
         self.background = self.font.render(text, True, color)
-
+        
         self.text = text
         Widget.__init__(self, container, self.background.get_rect(topleft=(x, y)), frame_rate, self.background, None)
         
@@ -41,7 +41,7 @@ class Button(Widget):
         self.over = False
         
     def contains_point(self, x, y):
-        return self.rect_in_container.collidepoint(x, y)
+        return self.rect_absolute.collidepoint(x, y)
     
     def set_tooltip(self, text):
         self.tooltip = text
