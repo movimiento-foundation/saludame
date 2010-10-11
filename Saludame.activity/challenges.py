@@ -59,7 +59,7 @@ class MultipleChoice(Window):
     
     def _cb_button_click_choice(self, button):
         global FIN_MC
-        if(button.rect.top == 130):
+        if(button.rect_in_container.top == 130):
             self.s_correct.play()
             FIN_MC = True # Damos por finalizada la pregunta
         else:
