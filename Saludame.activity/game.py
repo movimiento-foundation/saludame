@@ -10,6 +10,7 @@ from windows_controller import *
 import window
 import challenges
 import customization
+import app_init
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -34,6 +35,18 @@ class Main():
         if from_sugar:
                 import gtk
     
+        """
+        Initialize game character, actions and menu.
+        """
+        app_loader = app_init.AppLoader()
+        
+        character = app_loader.get_character()
+        
+        
+        
+        """
+        ***********
+        """
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.pre_init(22050, -16, 8, 256)
         
@@ -114,3 +127,4 @@ class Main():
 
 if __name__ == "__main__":
     Main().main(False)
+
