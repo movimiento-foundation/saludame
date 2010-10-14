@@ -8,9 +8,10 @@ from utilities import *
 
 from windows_controller import *
 import window
-import challenges
 import customization
 import app_init
+import challenges_loader
+import os
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -69,16 +70,19 @@ class Main():
         # windows_controller asociado al screen
         self.windows_controller = WindowsController(screen)        
 
-        # Challenges Window
-        challenges_window = challenges.MultipleChoice(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, self.windows_controller, (100, 40, 200))
-        self.windows_controller.add_new_window(challenges_window, "challenges")
+        # Challenges
+        cha_loader = challenges_loader.ChallengesLoader(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, self.windows_controller, (100, 40, 200))
+        cha_loader.load_challenge("Question 1", ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5"], 0, os.path.normpath("assets/challenges/francia.jpg"))
+        cha_loader.load_challenge("Question 2", ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5", "Answer 6", "Answer 7"], 0, os.path.normpath("assets/challenges/francia.jpg"))
+        cha_loader.load_challenge("Question 3", ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5"], 0, os.path.normpath("assets/challenges/francia.jpg"))
+        cha_loader.load_challenge("Question 4", ["Answer 1", "Answer 2", "Answer 3"], 0, os.path.normpath("assets/challenges/francia.jpg"))
 
         # Customization Window
         customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self.windows_controller, pygame.Color("Gray"))
         self.windows_controller.add_new_window(customization_window, "customization")
         
         # Main Window
-        main_window = (window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller))
+        main_window = window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha_loader)
         self.windows_controller.add_new_window(main_window, "main")
 
         # Probando ActionWindow

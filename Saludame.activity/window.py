@@ -164,11 +164,12 @@ class KidWindow(Window):
 
 class MainWindow(Window):
     
-    def __init__(self, container, rect, frame_rate, clock, windows_controller, bg_color=(0, 0, 0)):
+    def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bg_color=(0, 0, 0)):
         Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
         
         self.name = "main"
         self.clock = clock
+        self.cha_loader = cha_loader
         
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         
@@ -199,6 +200,8 @@ class MainWindow(Window):
     ######## Callbacks buttons  ########   
         
     def _cb_button_click_challenges(self, button):
+        challenges_window = self.cha_loader.get_challenge()
+        self.windows_controller.add_new_window(challenges_window, "challenges")
         self.windows_controller.set_active_window("challenges")
         
     def _cb_button_click_customization(self, button):
