@@ -43,7 +43,7 @@ class CharacterLoader:
         return self.places_dictionary
     
     def __load_clothes(self):
-        None
+        return ["a clothes"]
     
     def __load_character(self, name, level, score, actions_dictionary, places_dictionary, status_bar_list, clothes):
         eyes_color = pygame.Color(EYES_COLOR)
@@ -51,8 +51,8 @@ class CharacterLoader:
         hair_color = pygame.Color(HAIR_COLOR)
         skin_color = pygame.Color(SKIN_COLOR)
         
-        character = character.Character(name, level, score, hair_color, eyes_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary)
-        return character
+        char = character.Character(name, level, score, hair_color, eyes_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary)
+        return char
         
     def __load_places(self):
         """ school  """
