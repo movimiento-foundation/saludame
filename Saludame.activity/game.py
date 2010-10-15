@@ -8,6 +8,7 @@ from utilities import *
 
 from windows_controller import *
 import window
+import main_window
 import customization
 import app_init
 import challenges_loader
@@ -82,11 +83,11 @@ class Main():
         self.windows_controller.add_new_window(customization_window, "customization")
         
         # Main Window
-        main_window = window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha_loader)
-        self.windows_controller.add_new_window(main_window, "main")
+        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha_loader)
+        self.windows_controller.add_new_window(main_win, "main")
 
         # Probando ActionWindow
-        main_window.action_win.play_animation('eat_apple')
+        main_win.action_win.play_animation('eat_apple')
         
         # Activamos ventana principal
         self.windows_controller.set_active_window("main")  

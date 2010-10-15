@@ -4,7 +4,6 @@ import pygame
 import os
 import menu_creator
 import animation
-import status_bars
 
 from utilities import *
 
@@ -76,6 +75,10 @@ class Window:
     def add_child(self, widget):
         self.widgets.append(widget)
         
+    def add_button(self, button):
+        self.add_child(self, button)
+        self.buttons.append(button)
+    
     def add_window(self, window):
         self.windows.append(window)
         
@@ -93,6 +96,10 @@ class Window:
                     button.showing_tooltip = False
                 button.on_mouse_click()
         
+        for win in self.windows:
+            if win.rect.collidepoint(x, y):
+                win.handle_mouse_down((x, y))
+    
     def handle_mouse_over(self, (x, y)):
         for button in self.buttons:
             if button.contains_point(x, y):
@@ -113,6 +120,18 @@ class Window:
                 button.over = False
                 button.on_mouse_out()
 
+    def move(self, (x, y)):
+        """ Moves the window the given offset, notifying all its subitems """
+        self.rect.move_ip(x, y)
+        for win in self.windows:
+            win.move(x, y)
+        
+        # Buttons are usually in widget list, so they are not moved
+        for widget in self.widgets:
+            if not (self.rect == widget.container):
+                widget.container.move_ip(x,y)
+            widget.rect_absolute.move_ip(x,y)
+        
 class ActionWindow(Window):
     """
     Ventana de acciones
@@ -161,51 +180,3 @@ class KidWindow(Window):
         
         self.add_window(kid_window)
         kid_window.set_bg_image(self.bg_image.subsurface(kid_rect))          
-
-class MainWindow(Window):
-    
-    def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
-        
-        self.name = "main"
-        self.clock = clock
-        self.cha_loader = cha_loader
-        
-        self.windows = []   # Lista de ventanas que 'componen' la ventana principal
-        
-        #temporal para probar ActionWindow (se cargará el diccionario en un módulo aparte).
-        self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((210, 20), (150, 172)), 10), "Eating an apple!") }
-        self.action_win = ActionWindow(container, pygame.Rect((0, 505), (600, 200)), 10, windows_controller, self.animations_dic, pygame.Color("blue"))
-        
-        self.status_bars = status_bars.BarsWindow((0, 0), 1, pygame.Color("gray"))
-        #self.add_window(self.status_bars)
-        
-        self.windows.append(KidWindow(container, pygame.Rect((0, 0), (600, 500)), 1, windows_controller))
-        #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))        
-        
-        self.windows.append(animation.FPS(container, pygame.Rect((650, 80), (50, 20)), 15, self.clock))
-        self.windows.append(self.action_win)  
-        #self.windows.append(status_bars.BarsWindow((700, 90), 1, pygame.Color("gray")))
-        
-        challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
-        challengesButton.set_tooltip("Challenges module")
-        customizationButton = ImageButton(self.rect, pygame.Rect((700, 400), (50, 50)), 1, "customization/palette.png", self._cb_button_click_customization)
-        
-        self.buttons.append(challengesButton)
-        self.buttons.append(customizationButton) 
-        
-        for b in self.buttons:
-            self.add_child(b) 
-            
-    ######## Callbacks buttons  ########   
-        
-    def _cb_button_click_challenges(self, button):
-        challenges_window = self.cha_loader.get_challenge()
-        self.windows_controller.add_new_window(challenges_window, "challenges")
-        self.windows_controller.set_active_window("challenges")
-        
-    def _cb_button_click_customization(self, button):
-        self.windows_controller.set_active_window("customization")
-    
-    ########################################
-
