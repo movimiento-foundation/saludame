@@ -6,14 +6,14 @@ from widget import *
 
 class Text(Widget):
     def __init__(self, container, x, y, frame_rate, text, size, color):
-        self.font = pygame.font.SysFont(None, size)
-        self.background = self.font.render(text, True, color)
+        self.font = pygame.font.SysFont("Dejavu", size-2)
+        self.background = self.font.render(text, False, color)
         
         self.text = text
         Widget.__init__(self, container, self.background.get_rect(topleft=(x, y)), frame_rate, self.background, None)
         
     def switch_color_text(self, color):
-        self.background = self.font.render(self.text, True, color)
+        self.background = self.font.render(self.text, False, color)
         return (self)
     
 class Image(Widget):

@@ -19,14 +19,16 @@ class MainWindow(Window):
         
         #temporal para probar ActionWindow (se cargará el diccionario en un módulo aparte).
         self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((210, 20), (150, 172)), 10), "Eating an apple!") }
-        self.action_win = ActionWindow(container, pygame.Rect((200, 505), (600, 200)), 10, windows_controller, self.animations_dic, pygame.Color("blue"))
-                
+        self.action_win = ActionWindow(container, pygame.Rect((185, 609), (600, 200)), 10, windows_controller, self.animations_dic, pygame.Color("blue"))
+        
         self.windows.append(KidWindow(container, pygame.Rect((200, 0), (600, 500)), 1, windows_controller))
-        #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))        
+        #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))
         
         self.windows.append(animation.FPS(container, pygame.Rect((650, 80), (50, 20)), 15, self.clock))
-        self.windows.append(self.action_win)  
-        self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller))
+        self.windows.append(self.action_win)
+        self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 10, windows_controller))
+        
+        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1))
         
         challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
         challengesButton.set_tooltip("Challenges module")
@@ -45,4 +47,11 @@ class MainWindow(Window):
         
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization")
+
+class Clock(Widget):
+    
+    def __init__(self, container, rect_in_container, frame_rate):
+        surface = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
+        rect_in_container.size = surface.get_size()
+        Widget.__init__(self, container, rect_in_container, frame_rate, surface)
     

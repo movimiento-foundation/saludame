@@ -14,7 +14,7 @@ class Window:
     
     # Una ventana contiene 'n' widgets
     
-    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
+    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=None):
         self.container = container
         self.rect = pygame.Rect(container.left + rect.left, container.top + rect.top, rect.width, rect.height) # Relativo al container
         self.frame_rate = frame_rate
@@ -52,8 +52,8 @@ class Window:
         
         if self.repaint:    # Solo actualizamos el fondo de la ventana cuando hagamos un 'repaint'
                             # De otra forma solo actualizamos los widgets y subventanas
-                            
-            screen.fill(self.bg_color, self.rect)
+            if self.bg_color:
+                screen.fill(self.bg_color, self.rect)
             
             if self.bg_image != None:
                 screen.blit(self.bg_image, self.rect) # Pintamos el "fondo" de la ventana
@@ -62,14 +62,14 @@ class Window:
             
             self.repaint = False
         
-        for widget in self.widgets:
-            if (frames % widget.frame_rate == 0):
-                changes.append(widget.draw(screen)) # Pintamos los widgets que "contiene" la ventana
-            
         for win in self.windows:
             if (frames % win.frame_rate == 0):
                 changes.extend(win.draw(screen, frames)) # Le decimos a cada ventana que se pinte
-                      
+        
+        for widget in self.widgets:
+            if (frames % widget.frame_rate == 0):
+                changes.append(widget.draw(screen)) # Pintamos los widgets que "contiene" la ventana
+        
         return changes
     
     def add_child(self, widget):
