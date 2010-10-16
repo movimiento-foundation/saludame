@@ -12,7 +12,8 @@ import math
 
 class Menu:
     
-    def __init__(self, frame_rate, item_list, center, radius, character_manager):
+    def __init__(self, frame_rate, item_list, center, radius, character, rect):
+        self.rect = rect
         
         self.center = center # center of the menu's circle
         
@@ -20,16 +21,15 @@ class Menu:
         self.item_list = item_list # item's list that going to be displayed
         self.actual_selection = self.item_list #list of actual subitems selection
         
-        self.salir = Item(" ", "assets/icons/salir.png", " ", [], "close_menu", self)
+        self.salir = Item(" ", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
         self.salir.rect.center = center
         
         self.radius = radius
-        self.on_compression = True #para mostrar la animación al iniciar
+        self.on_compression = False #para mostrar la animación al iniciar
         self.on_expansion = False
         
-        """ character reference """
-        self.character_manager = character_manager
-        """                     """
+        # character reference
+        self.character = character
         
         self.__calculate()
     
@@ -71,13 +71,25 @@ class Menu:
     
     def send_action(self, action_id):
         """
-        Send an action to the character_manager. The action was selected
-        at menu's sub-item
+        Send an action to the character. The action was selected
+        in one of the sub-items
         """
-        self.character_manager.action_perform(action_id)
+        self.character.action_perform(action_id)
     
+    def set_actual_selection(self, actual_selection):
+        """
+        Set the actual items selection.
+        """
+        self.actual_selection = actual_selection
+        self.on_compression = True #if the selection changes, display the animation
+        
+    def close(self):
+        """
+        Close the Menu Window
+        """
+        None
     
-    """ Event handlers """
+    #Event handlers
     
     def on_mouse_over(self, coord):
         for item in self.actual_selection:
@@ -96,8 +108,11 @@ class Menu:
             if(item.rect.collidepoint(coord)):
                 item.on_mouse_click()
                 break
+            
+    def handle_mouse_down(self, (x, y)):
+        None
 
-    """ privates """
+    #privates
     
     def __calculate(self):
         """
@@ -120,7 +135,6 @@ class Menu:
         """
         Calculates the position in the display for each menu item.
         """
-        
         coord = int(center[0] + math.cos(angle) * radius), int(center[1] + math.sin(angle) * radius)    
         if(coord[0] < center[0]): 
             if(coord[1] > center[1]): #third quadrant
@@ -179,7 +193,10 @@ class Item:
         return
     
     def on_mouse_click(self):
-        if(self.action_id != None):
+        if(len(self.subitems_list) > 0):
+            self.menu.set_actual_selection(self.subitems_list)
+        elif(self.action_id != None):
             self.menu.send_action(self.action_id)
         
+
 

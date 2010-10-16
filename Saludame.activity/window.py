@@ -2,7 +2,6 @@
 
 import pygame
 import os
-import menu_creator
 import animation
 
 from utilities import *
@@ -129,8 +128,8 @@ class Window:
         # Buttons are usually in widget list, so they are not moved
         for widget in self.widgets:
             if not (self.rect == widget.container):
-                widget.container.move_ip(x,y)
-            widget.rect_absolute.move_ip(x,y)
+                widget.container.move_ip(x, y)
+            widget.rect_absolute.move_ip(x, y)
         
 class ActionWindow(Window):
     """
@@ -180,3 +179,4 @@ class KidWindow(Window):
         
         self.add_window(kid_window)
         kid_window.set_bg_image(self.bg_image.subsurface(kid_rect))          
+

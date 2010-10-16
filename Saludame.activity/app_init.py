@@ -43,7 +43,7 @@ class AppLoader:
         self.character = character_loader.get_character()
         
         """ menu """
-        self.menu = menu_creator.load_menu(self.character)
+        self.menu = menu_creator.load_menu(self.character, (100, 100))
         """ visuals """
     
         
@@ -55,36 +55,8 @@ class AppLoader:
     
     def get_actions(self):
         return self.actions_dictionary
-    
-
-    
-    
-    
 
 
-        """ status bars """
-        self.character_bars = bars_loader.get_third_level_bars() #the third level status bars
-        
-        """ places """
-        self.places_dictionary = character_loader.get_places_dictionary()
-        
-        """ character """
-        self.character = character_loader.get_character(self.actions_dictionary, self.character_bars)
-        
-        """ menu """
-        self.menu = menu_creator.load_menu(self.character_manager)
-        """ visuals """
-    
-        
-    def get_character(self):
-        return self.character
-    
-    def get_menu(self):
-        return self.menu
-    
-    def get_actions(self):
-        return self.actions_dictionary
-    
 
     
     

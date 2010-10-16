@@ -3,6 +3,8 @@
 import pygame
 from gettext import gettext as _
 
+import menu_creator
+
 from window import *
 import status_bars
 
@@ -28,6 +30,9 @@ class MainWindow(Window):
         self.windows.append(self.action_win)
         self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 10, windows_controller))
         
+        character = " "
+        self.windows.append(menu_creator.load_menu(character, (200, 200)))
+        
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1))
         
         challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
@@ -51,7 +56,8 @@ class MainWindow(Window):
 class Clock(Widget):
     
     def __init__(self, container, rect_in_container, frame_rate):
-        surface = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
+        surface = pygame.image.load("assets/layout/panel.png").convert_alpha()
         rect_in_container.size = surface.get_size()
         Widget.__init__(self, container, rect_in_container, frame_rate, surface)
     
+

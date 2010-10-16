@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import menu
+import pygame
 
 example = [
     ("name", "assets/icons/icon.png", "tooltip", None, "action_id"),
@@ -19,9 +20,9 @@ example = [
     ("clean", "assets/icons/icon3.png", "clean up the bedroom", None, "clean_clean")
 ]
 
-def load_menu(character_manager):
+def load_menu(character, (pos_x, pos_y)):
     
-    m = menu.Menu(1, [], (190, 130), 90, character_manager)
+    m = menu.Menu(1, [], (190, 130), 90, character, pygame.Rect(100, 100, pos_x, pos_y))
     for item in example:
         an_item = create_item(item, m)
         m.add_item(an_item)
@@ -36,5 +37,6 @@ def create_item(item_tuple, a_menu):
         an_item = menu.Item(item_tuple[0], item_tuple[1], item_tuple[2], [], item_tuple[4], a_menu)
     return an_item
     
+
 
 
