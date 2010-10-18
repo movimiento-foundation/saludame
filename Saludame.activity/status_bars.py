@@ -6,11 +6,13 @@ from gettext import gettext as _
 import status_bars_creator
 from window import *
 
-SECTION_OFFSET_X = 12
+SECTION_OFFSET_X = 0
 SECTION_WIDTH = 182
 SECTION_MIN_HEIGHT = 30
+BAR_OFFSET_X = 30
 BAR_WIDTH = 182
 BAR_HEIGHT = 26
+BAR_BACK_COLOR = pygame.Color("#106168")
 ROOT_BAR_COLOR = pygame.Color("blue")
 SUB_BAR_COLOR = pygame.Color("green")
 
@@ -33,12 +35,12 @@ class BarsWindow(Window):
         
         # sections
         self.score_section = ScoreSection(StatusBar("score_bar", "score", None, loader.get_overall_bar(), 100, 15), (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 0), 1)
-        self.overall_section = BarSection(windows_controller, _("Total"), loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 32))
+        self.overall_section = BarSection(windows_controller, _("Total"), loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 32), "assets/layout/icon_total.png")
         
-        self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60))
-        self.hygiene_section = BarSection(windows_controller, _("hygiene"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 80))
-        self.nutrition_section = BarSection(windows_controller, _("nutrition"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 100))
-        self.spare_time_section = BarSection(windows_controller, _("spare time"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 120))
+        self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60), "assets/layout/icon_physica.png")
+        self.hygiene_section = BarSection(windows_controller, _("hygiene"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 80), "assets/layout/icon_hygiene.png")
+        self.nutrition_section = BarSection(windows_controller, _("nutrition"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 100), "assets/layout/icon_nutrition.png")
+        self.spare_time_section = BarSection(windows_controller, _("spare time"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 120), "assets/layout/icon_spare_time.png")
         
         self.sections_list = [self.score_section, self.overall_section, self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section]
         self.accordeon = Accordeon([self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section])
@@ -110,7 +112,7 @@ class BarSection(Window):
     muestra por pantalla
     """
     
-    def __init__(self, windows_controller, name, root_bar, children_bar, size, position):
+    def __init__(self, windows_controller, name, root_bar, children_bar, size, position, icon_path):
         
         rect = pygame.Rect(position, size)
         Window.__init__(self, rect, rect, 1, windows_controller)
@@ -121,8 +123,18 @@ class BarSection(Window):
         self.children_bar = children_bar
         
         # visuals
-        self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (1, (size[1] / 2) - 13), self.root_bar, ROOT_BAR_COLOR)
+        self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, (size[1] / 2) - 13), self.root_bar, ROOT_BAR_COLOR)
         self.displays_list = self.__get_displays()      # obtengo los displays para cada barra.
+        
+        self.fixed_widgets = []
+        
+        if icon_path:
+            icon = pygame.image.load(icon_path).convert_alpha()
+            self.icon = Widget(self.rect, pygame.Rect((0,0), icon.get_size()), 1, icon)
+            self.fixed_widgets.append(self.icon)
+        else:
+            self.icon = None
+        
         
         # visuals constant
         self.init_top = self.rect[1]
@@ -175,7 +187,7 @@ class BarSection(Window):
         
         self.widgets = [self.root_bar_display]
         
-        if(self.expanded):
+        if self.expanded:
             y = 0
             for display in self.displays_list:
                 y += (BAR_HEIGHT + 1)
@@ -185,6 +197,7 @@ class BarSection(Window):
                 display.set_rect_in_container(display.rect_in_container)
                 
                 self.widgets.append(display)
+        self.widgets.extend(self.fixed_widgets)
         
     def __get_displays(self):
         """
@@ -193,7 +206,7 @@ class BarSection(Window):
         """
         display_list = []
         for status_bar in self.children_bar:
-            display = BarDisplay(BAR_HEIGHT, BAR_WIDTH, (1, 1), status_bar, SUB_BAR_COLOR)
+            display = BarDisplay(BAR_HEIGHT, BAR_WIDTH, (BAR_OFFSET_X, 1), status_bar, SUB_BAR_COLOR)
             display_list.append(display)
         return display_list
 
@@ -217,24 +230,21 @@ class BarDisplay(Widget):
         self.surface = surface.copy()
         
         # visuals
-        self.surface = pygame.Surface(self.rect_in_container.size)
         self.font = pygame.font.Font(None, 20)
         
         self.last_value = self.status_bar.value #valor inicial
-        self.charge = pygame.Rect((1, 2), (((self.rect_in_container.width - 2) * self.last_value / self.status_bar.max, self.rect_in_container.height - 4)))
         
     def draw(self, screen):
-        if(self.last_value != self.status_bar.value):
-            self.charge = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
-            self.charge.width = self.status_bar.value * self.rect.width / self.status_bar.max
-         
-        charge_surface = pygame.Surface(self.charge.size)
-        charge_surface.fill(self.color)
+        #if(self.last_value != self.status_bar.value):
+        rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
+        charged_rect = rect.copy()
+        charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
         
-        self.surface.blit(charge_surface, self.charge)
+        self.surface.fill(BAR_BACK_COLOR, rect)
+        self.surface.fill(self.color, charged_rect)
         self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
         
-        self.surface.blit(self.font.render(self.label, 1, (0, 0, 0)), (2, 5))
+        self.surface.blit(self.font.render(self.label, 1, (0, 0, 0)), (15, 5))
         
         screen.blit(self.surface, self.rect_absolute)
         
