@@ -6,7 +6,6 @@ import events
 class Action:
     
     def __init__(self, id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect):
-
         
         self.id = id
         self.appereance_probability = appereance_probability

@@ -28,7 +28,7 @@ class WindowsController:
         # hacer un pop del stack
         self.windows_stack.pop()        
         if (self.windows_stack[-1].name == "main"):
-            self.reload_main = True
+            self.reload_main = True 
             for win in self.windows_stack[-1].windows:
                 if isinstance(win, Window):
                     win.enable_repaint()
@@ -71,7 +71,8 @@ class WindowsController:
         repintar el fondo para que no queden rastros de la ventana anterior        
         """
         if (self.reload_main): 
-            self.screen.fill((0, 0, 0))
+            # self.screen.fill((0, 0, 0))
+            # Ya no es necesario repintar el fondo de negro
             pygame.display.flip() # Actualizamos el screen para hacer visibles los efectos
             self.reload_main = False       
         

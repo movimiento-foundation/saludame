@@ -8,6 +8,7 @@ from utilities import *
 
 BLACK = pygame.Color("black")
 BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
+PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 
 class Window:
     
@@ -50,12 +51,13 @@ class Window:
         changes += self.pre_draw(screen)
         
         if self.repaint:    # Solo actualizamos el fondo de la ventana cuando hagamos un 'repaint'
-                            # De otra forma solo actualizamos los widgets y subventanas
-            if self.bg_color:
-                screen.fill(self.bg_color, self.rect)
+                            # De otra forma solo actualizamos los widgets y subventanas                
             
             if self.bg_image != None:
                 screen.blit(self.bg_image, self.rect) # Pintamos el "fondo" de la ventana
+            else:
+                if self.bg_color:
+                    screen.fill(self.bg_color, self.rect)
             
             changes.append(self.rect)
             
@@ -145,13 +147,17 @@ class ActionWindow(Window):
         self.actions_dictionary = actions_dictionary
         self.on_animation = False
         self.actual_animation = None
+        self.set_bg_image(PANEL_BG_PATH)
+        
+        info = Info(rect, pygame.Rect(885, 0, 1, 1), 10)
+        self.add_child(info)
     
     def play_animation(self, id):
         self.actual_animation = (self.actions_dictionary[id][0], self.actions_dictionary[id][1])
         self.on_animation = True
         
     def pre_draw(self, screen):
-            
+        """   
         self.background.fill((0, 0, 255))      
           
         self.timing += 3
@@ -164,9 +170,16 @@ class ActionWindow(Window):
             self.background.blit(font.render(self.actual_animation[1], 1, (255, 255, 255)), (5, 5 + self.timing))
             changes += self.actual_animation[0].draw(self.background, self.timing)
         
-        screen.blit(self.background, self.rect)
-        
-        return [self.rect]        
+         screen.blit(self.background, self.rect)
+         """   
+        return [self.rect]     
+    
+class Info(Widget):    
+    
+    def __init__(self, container, rect_in_container, frame_rate):
+        surface = pygame.image.load("assets/layout/info.png").convert_alpha()
+        rect_in_container.size = surface.get_size()
+        Widget.__init__(self, container, rect_in_container, frame_rate, surface)   
 
 class KidWindow(Window):
 
@@ -178,6 +191,6 @@ class KidWindow(Window):
         kid_rect = pygame.Rect((80, 10), (350, 480))       
         kid_window = animation.Kid(rect, kid_rect, 1, windows_controller)
         
-        self.add_window(kid_window)
+        #self.add_window(kid_window)
         kid_window.set_bg_image(self.bg_image.subsurface(kid_rect))          
 

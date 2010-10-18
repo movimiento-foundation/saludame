@@ -9,7 +9,7 @@ class kid:
         self.name = name
         self.age = age
         self.sex = sex
-        #states   por poner un ejemplo.
+        #states por poner un ejemplo.
         self.energy = energy
         self.hunger = hunger
         self.hygiene = hygiene

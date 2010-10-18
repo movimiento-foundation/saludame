@@ -42,9 +42,7 @@ class Main():
         """
         app_loader = app_init.AppLoader()
         
-        character = app_loader.get_character()
-        
-        
+        character = app_loader.get_character() 
         
         """
         ***********
