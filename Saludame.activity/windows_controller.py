@@ -49,9 +49,7 @@ class WindowsController:
         self.active_tooltip = Text(self.screen.get_rect(), pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1, tooltip, 20, pygame.Color('red'))
         
         # Necesitamos guardar lo que esta atras del tooltip para cuando lo querramos esconder
-        active_tooltip_bg = pygame.PixelArray(self.screen.subsurface(self.active_tooltip.rect_in_container))
-        self.active_tooltip_bg = (active_tooltip_bg.make_surface(), self.active_tooltip.rect_in_container)
-        active_tooltip_bg = None # Necesario para liberar el lock sobre screen
+        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
         self.showing_tooltip = True
         
     def hide_active_tooltip(self):

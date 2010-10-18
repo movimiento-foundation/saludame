@@ -105,6 +105,7 @@ class Window:
                 if(not button.over):
                     # Tooltips
                     if button.tooltip: # Si el boton tiene tooltip entonces lo mostramos
+                        self.windows_controller.hide_active_tooltip()
                         self.windows_controller.show_tooltip(button.tooltip)
                         button.showing_tooltip = True
                     button.on_mouse_over()

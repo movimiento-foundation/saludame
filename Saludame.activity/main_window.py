@@ -38,6 +38,7 @@ class MainWindow(Window):
         challengesButton = ImageButton(self.rect, pygame.Rect((700, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
         challengesButton.set_tooltip("Challenges module")
         customizationButton = ImageButton(self.rect, pygame.Rect((700, 400), (50, 50)), 1, "customization/palette.png", self._cb_button_click_customization)
+        customizationButton.set_tooltip("Customization module")
         
         self.buttons.append(challengesButton)
         self.buttons.append(customizationButton) 
