@@ -159,6 +159,8 @@ class BarSection(Window):
         self.expanded = False
         self.rect.height = self.init_height #vuelve al tamaño inicial
         self.rect.top = self.init_top
+        self.icon.rect_absolute.top = self.init_top
+        
         self.__calculate()
     
     def move_up(self):
@@ -396,3 +398,4 @@ class StatusBar:
             self.value += self.max - self.value
         if(self.parent != None):
             self.parent.child_increase(value)
+
