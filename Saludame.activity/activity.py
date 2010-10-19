@@ -28,11 +28,11 @@ class SaludameActivity(Activity):
         self.game_toolbar = gtk.Toolbar()
         toolbox.add_toolbar(_("Game"), self.game_toolbar)
         self.game_toolbar.show()
-
+        
         self.credits_toolbar = gtk.Toolbar()
         toolbox.add_toolbar(_("Credits"), self.credits_toolbar)
         self.credits_toolbar.show()
-
+        
         self.set_toolbox(toolbox)
         toolbox.show()
         
@@ -63,11 +63,12 @@ class SaludameActivity(Activity):
     def change_mode(self, notebook, index):
         if index == 0:
             game.pause = True
-            #self.set_canvas(self.pygame_canvas)
             self.pygame_canvas.hide()
+            self.credits.hide()
         
         if index == 1:
             game.pause = False
+            self.credits.hide()
             self.pygame_canvas.show()
             
         if index == 2:

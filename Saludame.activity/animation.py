@@ -5,8 +5,8 @@ import os
 import utilities
 from window import *
 
-KID_PATH = os.path.normpath("assets/kid")
-KID_PREFIX, KID_SUFIX = "kid", ".png"
+KID_PATH = os.path.normpath("assets/kid/animation/")
+KID_PREFIX, KID_SUFIX = "character1_", ".png"
 
 COLORS_HAIR = ("#803300", "#552200")
 COLORS_HAIR_NEW = [("#000000", "#101010"), ("#FFFF00", "#DDDD00"), ("#803300", "#552200")]
@@ -28,9 +28,8 @@ class Kid(Window):
         
     def pre_draw(self, screen):
         file_nro = str(self.index)
-        if len(file_nro) == 1:
-            file_nro = "0" + file_nro
-            
+        file_nro = "0" * (4-len(file_nro)) + file_nro
+
         file = os.path.join(KID_PATH, KID_PREFIX + file_nro + KID_SUFIX)
         self.sprite = pygame.image.load(file)
         
@@ -39,12 +38,12 @@ class Kid(Window):
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
         
-        self.index = (self.index % 11) + 1
+        self.index = (self.index % 150) + 1
         if self.index == 1:
             self.color_index = (self.color_index + 1) % 3  
             
         return [self.rect]   
-                
+        
     def change_color(self, old, new):
         # No funciona en pygame 1.8.0
         #image_pixel_array = pygame.PixelArray(self.sprite)

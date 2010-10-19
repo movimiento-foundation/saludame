@@ -17,10 +17,8 @@ import os
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
 
-"""
-Variables globales
-"""
-MAX_FPS = 18            # Max frames per second
+# Variables globales
+MAX_FPS = 16            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
 pause = False
 
