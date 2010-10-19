@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Modulo de desafios
+"""
+Challenges module
+"""
 
 import pygame
 import os
@@ -24,6 +26,13 @@ class MultipleChoice(Window):
         self.s_incorrect = pygame.mixer.Sound(S_INCORRECT_PATH)
         ####################
         
+        # If a question is setted, we have to "erase" the old challenge
+        self.question = None
+        
+        # Control de preguntas largas (más de 1 línea)
+        # Problema para decidir "donde" cortar la pregunta
+        self.question_lines = 1;
+        
         # Close Button
         self.btn_close = TextButton(self.rect, pygame.Rect((770, 5), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
         self.buttons += [self.btn_close] 
@@ -37,24 +46,44 @@ class MultipleChoice(Window):
             
     ####### Set attributes #######
     def set_question(self, question):
+        if (self.question):
+            self.erase()
         self.question = Text(self.rect, 5, 5, 1, question, 40, (0, 255, 0))
+        
+        """
+        Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
+        en función de la cantidad de líenas de la pregunta.
+        Problema: "corta" la pregunta en un valor hardcodeado el
+        cual muchas veces "corta" a una palabra en cualquier lado.
+        """               
+        if (self.question.rect_in_container.width > self.rect.width):
+            q1 = Text(self.rect, 5, 5, 1, question[:43], 40, (0, 255, 0))
+            q2 = Text(self.rect, 5, 35, 1, question[43:], 40, (0, 255, 0))
+            self.add_child(q1)
+            self.add_child(q2)
+            self.question_lines = 2
+            return
+        
+        self.question_lines = 1
         self.add_child(self.question)
         
     def set_correct_answer(self, a):
         pass
         
     def set_answers(self, answers):
-        x = 20
-        y = 10        
-        width = 200 
-        height = 20
+        x = 20        
+        """
+        Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
+        en función de la cantidad de líenas de la pregunta.
+        Problema: "corta" la pregunta en un valor hardcodeado el
+        cual muchas veces "corta" a una palabra en cualquier lado.
+        """
+        y = 40 * self.question_lines        
         for ans in answers:
             y += 30
-            b = TextButton(self.rect, pygame.Rect((x, y), (width, height)), 1, ans, 30, (255, 255, 255), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, 30, (255, 255, 255), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.buttons.append(b)
-            self.add_child(b)
-            
-        
+            self.add_child(b)        
     
     def set_image(self, image):
         if (not isinstance(image, pygame.Surface)):
@@ -93,5 +122,12 @@ class MultipleChoice(Window):
     
     def _cb_button_click_close(self, button):
         self.windows_controller.close_active_window()
-        
-    ########################################
+    
+    ######## Others ########
+    
+    def erase(self):
+        """
+        Delete question and answers and repaint
+        """
+        self.widgets = [self.btn_close, self.btn_view_answer]
+        self.repaint = True

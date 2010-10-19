@@ -87,7 +87,7 @@ class ImageButton(Button):
 class TextButton(ImageButton):     
     def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
         self.text = Text(rect, 5, 5, frame_rate, text, size, color)
-        ImageButton.__init__(self, container, rect, frame_rate, self.text.background, cb_click, cb_over, cb_out)
+        ImageButton.__init__(self, container, self.text.rect_absolute, frame_rate, self.text.background, cb_click, cb_over, cb_out)
         
     def switch_color_text(self, color):
         self.background = self.text.switch_color_text(color).background        
