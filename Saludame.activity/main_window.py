@@ -23,7 +23,8 @@ class MainWindow(Window):
         self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((210, 20), (150, 172)), 10), "Eating an apple!") }
         self.action_win = ActionWindow(container, pygame.Rect((185, 609), (1015, 200)), 10, windows_controller, self.animations_dic, pygame.Color("blue"))
         
-        self.windows.append(KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller))
+        self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller)
+        self.windows.append(self.kidW)
         #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))
         
         self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
@@ -31,7 +32,7 @@ class MainWindow(Window):
         self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller))
         
         character = " "
-        #self.windows.append(menu_creator.load_menu(character, (200, 200)))
+        self.windows.append(menu_creator.load_menu(character, (200, 200), self.kidW.kid_rect, windows_controller))
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1))
         
@@ -61,4 +62,5 @@ class Clock(Widget):
         rect_in_container.size = surface.get_size()
         Widget.__init__(self, container, rect_in_container, frame_rate, surface)
     
+
 

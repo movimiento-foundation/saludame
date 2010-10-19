@@ -43,7 +43,7 @@ class AppLoader:
         self.character = character_loader.get_character()
         
         """ menu """
-        self.menu = menu_creator.load_menu(self.character, (100, 100))
+        #self.menu = menu_creator.load_menu(self.character, (100, 100))
         """ visuals """
     
         

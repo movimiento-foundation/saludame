@@ -188,9 +188,10 @@ class KidWindow(Window):
         Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
         self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())        
         
-        kid_rect = pygame.Rect((80, 10), (350, 480))       
-        kid_window = animation.Kid(rect, kid_rect, 1, windows_controller)
+        self.kid_rect = pygame.Rect((80, 10), (350, 480))       
+        kid_window = animation.Kid(rect, self.kid_rect, 1, windows_controller)
         
         #self.add_window(kid_window)
-        kid_window.set_bg_image(self.bg_image.subsurface(kid_rect))          
+        kid_window.set_bg_image(self.bg_image.subsurface(self.kid_rect))          
+
 

@@ -9,10 +9,14 @@
 import pygame
 import os
 import math
+from widget import Widget
+from window import Window
 
-class Menu:
+class Menu(Window):
     
-    def __init__(self, frame_rate, item_list, center, radius, character, rect):
+    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, character, rect):
+        Window.__init__(self, container, rect, frame_rate, windows_controller)
+        
         self.rect = rect
         
         self.center = center # center of the menu's circle
@@ -21,12 +25,15 @@ class Menu:
         self.item_list = item_list # item's list that going to be displayed
         self.actual_selection = self.item_list #list of actual subitems selection
         
-        self.salir = Item(" ", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
-        self.salir.rect.center = center
+        self.salir = Item(container, frame_rate, " ", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
+        self.salir.rect_in_container.center = center
         
         self.radius = radius
-        self.on_compression = False #para mostrar la animación al iniciar
+        self.on_compression = True #para mostrar la animación al iniciar
         self.on_expansion = False
+        
+        for item in self.item_list:
+            Window.add_child(item)
         
         # character reference
         self.character = character
@@ -39,10 +46,9 @@ class Menu:
     def set_items(self, items_list):
         self.item_list = items_list
     
-    def draw(self, screen, frames):
-        """
-        draw menu items
-        """
+    
+    def pre_draw(self, screen):
+        
         font = pygame.font.Font(None, 35)
         if(self.on_compression):
             if(self.radius > 0):
@@ -67,7 +73,9 @@ class Menu:
             
         self.salir.draw_item(screen, font)
         changes.append(self.salir.rect)
+        
         return changes
+    
     
     def send_action(self, action_id):
         """
@@ -156,35 +164,38 @@ class Menu:
             else:
                 item.rect.midtop = coord
 
-class Item:
+class Item(Widget):
     
-    def __init__(self, name, icon_path, tooltip, subitems_list, action_id, menu):
+    def __init__(self, container, frame_rate, name, icon_path, tooltip, subitems_list, action_id, menu):
         
         self.name = name
         self.subitems_list = subitems_list
         self.action_id = action_id
         self.menu = menu
         
-        """ visuals """
+        # visuals
         path = os.path.normpath(icon_path)
-        self.image = pygame.image.load(path)
-        self.rect = self.image.get_rect()
+        self.surface = pygame.image.load(path).convert_alpha()
+        self.rect = self.surface.get_rect()
         self.tooltip = tooltip
-        """         """ 
+        ###
+        Widget.__init__(self, container, self.rect, frame_rate, self.surface)
         
     def add_subitem(self, item):
         """
         Append a subitem to the item list
         """
         self.subitems_list.append(item)
-
+    
+    
     def draw_item(self, screen, font):
-        """
-        draw the item in the screen
-        """
+        
+        #draw the item in the screen
+        
         img_font = font.render(self.name, True, (0, 0, 0))
-        screen.blit(self.image, self.rect)
+        screen.blit(self.surface, self.rect)
         screen.blit(img_font, self.rect.topright)
+    
     
     def on_mouse_over(self):
         return
@@ -198,5 +209,6 @@ class Item:
         elif(self.action_id != None):
             self.menu.send_action(self.action_id)
         
+
 
 

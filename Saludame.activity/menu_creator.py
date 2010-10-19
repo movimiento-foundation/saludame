@@ -20,23 +20,26 @@ example = [
     ("clean", "assets/icons/icon3.png", "clean up the bedroom", None, "clean_clean")
 ]
 
-def load_menu(character, (pos_x, pos_y)):
+MENU_FRAME_RATE=1
+
+def load_menu(character, (pos_x, pos_y), container, windows_controller):
     
-    m = menu.Menu(1, [], (190, 130), 90, character, pygame.Rect(100, 100, pos_x, pos_y))
+    m = menu.Menu(1, container, windows_controller, [], (190, 130), 90, character, pygame.Rect(100, 100, pos_x, pos_y))
     for item in example:
-        an_item = create_item(item, m)
+        an_item = create_item(item, m, container)
         m.add_item(an_item)
     
     return m
     
 
-def create_item(item_tuple, a_menu):
+def create_item(item_tuple, a_menu, container):
     if(item_tuple[3] != None):
-        an_item = menu.Item(item_tuple[0], item_tuple[1], item_tuple[2], [create_item(sub_item, a_menu) for sub_item in item_tuple[3]], item_tuple[4], a_menu)
+        an_item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], [create_item(sub_item, a_menu, container) for sub_item in item_tuple[3]], item_tuple[4], a_menu)
     else:
-        an_item = menu.Item(item_tuple[0], item_tuple[1], item_tuple[2], [], item_tuple[4], a_menu)
+        an_item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], [], item_tuple[4], a_menu)
     return an_item
     
+
 
 
 
