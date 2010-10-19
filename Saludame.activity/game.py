@@ -11,7 +11,7 @@ import window
 import main_window
 import customization
 import app_init
-import challenges_loader
+import challenges_creator
 import os
 
 log = logging.getLogger('saludame')
@@ -37,18 +37,10 @@ class Main():
         if from_sugar:
                 import gtk
     
-        """
-        Initialize game character, actions and menu.
-        """
-        app_loader = app_init.AppLoader()
-        
+        # Initialize game character, actions and menu.
+        app_loader = app_init.AppLoader()        
         character = app_loader.get_character()
-        
-        
-        
-        """
-        ***********
-        """
+
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.pre_init(22050, -16, 8, 256)
         
@@ -71,18 +63,15 @@ class Main():
         self.windows_controller = WindowsController(screen)        
 
         # Challenges
-        cha_loader = challenges_loader.ChallengesLoader(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, self.windows_controller, (100, 40, 200))
-        cha_loader.load_challenge("Question 1", ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5"], 0, os.path.normpath("assets/challenges/francia.jpg"))
-        cha_loader.load_challenge("Question 2", ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5", "Answer 6", "Answer 7"], 0, os.path.normpath("assets/challenges/francia.jpg"))
-        cha_loader.load_challenge("Question 3", ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5"], 0, os.path.normpath("assets/challenges/francia.jpg"))
-        cha_loader.load_challenge("Question 4", ["Answer 1", "Answer 2", "Answer 3"], 0, os.path.normpath("assets/challenges/francia.jpg"))
-
+        cha = challenges_creator.ChallengesCreator(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, self.windows_controller, (40, 40, 200))
+        cha.create_challenges()
+        
         # Customization Window
         customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self.windows_controller, pygame.Color("Gray"))
         self.windows_controller.add_new_window(customization_window, "customization")
         
         # Main Window
-        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha_loader)
+        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha)
         self.windows_controller.add_new_window(main_win, "main")
 
         # Probando ActionWindow
