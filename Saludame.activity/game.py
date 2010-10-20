@@ -42,12 +42,8 @@ class Main():
         #Initialize game_manager, character, actions and menu.
         
         app_loader = app_init.AppLoader()
-        
-        character = app_loader.get_character() 
-        
-        bars_controller = app_loader.get_status_bars_controller()
-        
-        game_man = GameManager(character, bars_controller)
+        bars_loader = app_loader.get_status_bars_loader()
+        game_man = app_loader.get_game_manager()
 
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.pre_init(22050, -16, 8, 256)
@@ -79,7 +75,7 @@ class Main():
         self.windows_controller.add_new_window(customization_window, "customization")
         
         # Main Window
-        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha)
+        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha, bars_loader)
         self.windows_controller.add_new_window(main_win, "main")
 
         # Probando ActionWindow
@@ -129,3 +125,4 @@ class Main():
 
 if __name__ == "__main__":
     Main().main(False)
+

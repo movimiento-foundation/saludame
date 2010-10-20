@@ -12,8 +12,14 @@ class Effect:
         self.effect_status_list.append(effect_status)
         
     def activate(self):
-        for effect in self.effect_status_list:
-            effect.activate()
+        for effect_status in self.effect_status_list:
+            effect_status.activate()
+            
+    def set_bar_controller(self, bar_controller):
+        for effect_status in self.effect_status_list:
+            effect_status.set_bar_controller(bar_controller)
+        
+        
 
 class EffectStatus:
     """
@@ -24,10 +30,13 @@ class EffectStatus:
         self.increase_rate = increase_rate
         self.bar_controller = bar_controller
         
-    def activate(self, status_bar):
-        self.bar_controller.increase(self.bar_id, self.increase_rate) 
+    def activate(self):
+        self.bar_controller.increase_bar(self.bar_id, self.increase_rate) 
+        
+    def set_bar_controller(self, bar_controller):
+        self.bar_controller = bar_controller
         
         
         
-        
+
 

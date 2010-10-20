@@ -10,7 +10,7 @@ import status_bars
 
 class MainWindow(Window):
     
-    def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bg_color=(0, 0, 0)):
+    def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bars_loader, bg_color=(0, 0, 0)):
         Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
         
         self.name = "main"
@@ -29,10 +29,10 @@ class MainWindow(Window):
         
         self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
         self.windows.append(self.action_win)
-        self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller))
+        self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller, bars_loader))
         
-        character = " "
-        self.windows.append(menu_creator.load_menu(character, (200, 200), self.kidW.kid_rect, windows_controller))
+        #character = " "
+        #self.windows.append(menu_creator.load_menu(character, (200, 200), self.kidW.kid_rect, windows_controller))
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 40))
         
@@ -75,10 +75,11 @@ class Clock(Widget):
         change = Widget.draw(self, screen)
         
         image = pygame.image.load(self.frame_paths[self.frame_index]).convert_alpha()
-        rect = pygame.Rect((0,0), image.get_size())
+        rect = pygame.Rect((0, 0), image.get_size())
         rect.center = self.rect_absolute.center
         screen.blit(image, rect)
         self.frame_index += 1
         self.frame_index %= 4
         return change
         
+

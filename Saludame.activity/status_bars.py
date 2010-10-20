@@ -23,19 +23,18 @@ class BarsWindow(Window):
     """
     Clase que representa la ventana de las barras de estado del juego.
     """
-    def __init__(self, container, rect, frame_rate, windows_controller):
+    def __init__(self, container, rect, frame_rate, windows_controller, bars_loader):
         Window.__init__(self, container, rect, frame_rate, windows_controller)
         
         # rect and surface:
         self.rect.size = (227, 590)
        
         # game bars
-        loader = status_bars_creator.BarsLoader()
-        self.bars = loader.get_second_level_bars()
+        self.bars = bars_loader.get_second_level_bars()
         
         # sections
-        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, loader.get_overall_bar(), 100, 15), (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 0), 1)
-        self.overall_section = BarSection(windows_controller, _("Total"), loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 32), "assets/layout/icon_total.png")
+        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, bars_loader.get_overall_bar(), 100, 15), (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 0), 1)
+        self.overall_section = BarSection(windows_controller, _("Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 32), "assets/layout/icon_total.png")
         
         self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60), "assets/layout/icon_physica.png")
         self.hygiene_section = BarSection(windows_controller, _("hygiene"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 80), "assets/layout/icon_hygiene.png")
@@ -130,7 +129,7 @@ class BarSection(Window):
         
         if icon_path:
             icon = pygame.image.load(icon_path).convert_alpha()
-            self.icon = Widget(self.rect, pygame.Rect((0,0), icon.get_size()), 1, icon)
+            self.icon = Widget(self.rect, pygame.Rect((0, 0), icon.get_size()), 1, icon)
             self.fixed_widgets.append(self.icon)
         else:
             self.icon = None
@@ -291,16 +290,11 @@ class BarsController:
     Controlador general de las barras, encargado de enviar la señal de decremento o incremento
     a una barra especifica
     """
-    def __init__(self):
-        self.loader = status_bars_creator.BarsLoader()
+    def __init__(self, bars):
         # bars
-        self.overall_bar = self.loader.get_overall_bar()
-        self.second_level = self.loader.get_second_level_bars()
-        self.third_level = self.loader.get_third_level_bars()
-        self.bars = [self.overall_bar] + self.second_level + self.third_level
+        self.bars = bars
             
     def increase_bar(self, bar_id, increase_rate):
-        
         for bar in self.bars:
             if(bar.id == bar_id):
                 bar.increase(increase_rate)
@@ -325,15 +319,15 @@ class StatusBar:
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
         if(len(self.children_list) > 0):
-            value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-            self.value += value
+            increase_rate = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+            self.value += increase_rate
             for child in self.children_list:
-                child.increase(value)
+                child.increase(increase_rate)
         else:
             self.value += increase_rate
 
         if(self.parent != None):
-            self.parent.increase_from_child(value)
+            self.parent.increase_from_child(increase_rate)
     
     def increase_from_child(self, increase_rate):
         """
@@ -398,4 +392,5 @@ class StatusBar:
             self.value += self.max - self.value
         if(self.parent != None):
             self.parent.child_increase(value)
+
 
