@@ -23,32 +23,36 @@ import character_creator
 class AppLoader:
 
     def __init__(self):
-        """ loaders """
-        actions_loader = actions_creator.ActionsLoader()
+        ### loaders
         bars_loader = status_bars_creator.BarsLoader()
+        
+        actions_loader = actions_creator.ActionsLoader(bars_loader.get_bar_controller())
 
-        """          """
-        """ actions """
+        ### actions 
         self.actions_dictionary = actions_loader.get_actions_dictionary() #diccionario {id_actions: Action}
         
-        """ status bars """
+        ### status bars 
         self.character_bars = bars_loader.get_third_level_bars() #the third level status bars
-
         
-        """ places """
+        
+        
+        ### places
         character_loader = character_creator.CharacterLoader(self.actions_dictionary, self.character_bars)
         self.places_dictionary = character_loader.get_places_dictionary()
         
-        """ character """
+        ### character
         self.character = character_loader.get_character()
         
-        """ menu """
+        ### menu
         #self.menu = menu_creator.load_menu(self.character, (100, 100))
-        """ visuals """
+        ### visuals
     
         
     def get_character(self):
         return self.character
+    
+    def get_status_bars_controller(self):
+        return 
     
     def get_menu(self):
         return self.menu
@@ -61,5 +65,6 @@ class AppLoader:
     
     
     
+
 
 

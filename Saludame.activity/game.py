@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from game_manager import GameManager
 import pygame
 import logging
 from gettext import gettext as _
@@ -37,9 +38,16 @@ class Main():
         if from_sugar:
                 import gtk
     
-        # Initialize game character, actions and menu.
-        app_loader = app_init.AppLoader()        
-        character = app_loader.get_character()
+         
+        #Initialize game_manager, character, actions and menu.
+        
+        app_loader = app_init.AppLoader()
+        
+        character = app_loader.get_character() 
+        
+        bars_controller = app_loader.get_status_bars_controller()
+        
+        game_man = GameManager(character, bars_controller)
 
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.pre_init(22050, -16, 8, 256)
@@ -113,6 +121,8 @@ class Main():
                 self.windows_controller.update(frames)
         
                 frames += 1
+
+		game_man.signal()
         
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
