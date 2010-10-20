@@ -7,7 +7,7 @@ import animation
 from utilities import *
 
 BLACK = pygame.Color("black")
-BACKGROUND_PATH = os.path.normpath("assets/background/background.png")
+BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_sunny.png")
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 
 class Window:

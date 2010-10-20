@@ -97,5 +97,17 @@ def change_color(surface, old_color, new_color):
     #image_pixel_array = pygame.PixelArray(self.sprite)
     #image_pixel_array.replace(old_color, new_color)
     
-    mapped_int = surface.map_rgb(old_color)
-    surface.set_palette_at(mapped_int, new_color[0:3])   
+    #mapped_int = surface.map_rgb(old_color)
+    #surface.set_palette_at(mapped_int, new_color[0:3])   
+    
+    i = 0
+    indexes = []
+    palette = surface.get_palette()
+    for color in palette:
+        if color[0:3] == old_color[0:3]:
+            indexes += [i]
+        i += 1
+    
+    for i in indexes:
+        surface.set_palette_at(i, new_color[0:3])
+    
