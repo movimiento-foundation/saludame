@@ -34,7 +34,7 @@ class MainWindow(Window):
         character = " "
         self.windows.append(menu_creator.load_menu(character, (200, 200), self.kidW.kid_rect, windows_controller))
         
-        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1))
+        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 40))
         
         challengesButton = ImageButton(self.rect, pygame.Rect((1000, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
         challengesButton.set_tooltip("Challenges module")
@@ -55,6 +55,7 @@ class MainWindow(Window):
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization")
 
+
 class Clock(Widget):
     
     def __init__(self, container, rect_in_container, frame_rate):
@@ -62,5 +63,22 @@ class Clock(Widget):
         rect_in_container.size = surface.get_size()
         Widget.__init__(self, container, rect_in_container, frame_rate, surface)
     
-
-
+        self.frame_index = 0
+        self.frame_paths = [
+            "assets/layout/clock_A.png",
+            "assets/layout/clock_B.png",
+            "assets/layout/clock_C.png",
+            "assets/layout/clock_D.png"
+        ]
+        
+    def draw(self, screen):
+        change = Widget.draw(self, screen)
+        
+        image = pygame.image.load(self.frame_paths[self.frame_index]).convert_alpha()
+        rect = pygame.Rect((0,0), image.get_size())
+        rect.center = self.rect_absolute.center
+        screen.blit(image, rect)
+        self.frame_index += 1
+        self.frame_index %= 4
+        return change
+        

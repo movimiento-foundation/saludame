@@ -76,3 +76,7 @@ class SaludameActivity(Activity):
             self.pygame_canvas.hide()
             self.credits.show()
     
+    #Override activity.Activity's can_close method
+    def can_close(self):
+        game.running = False
+        return True

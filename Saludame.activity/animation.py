@@ -8,11 +8,17 @@ from window import *
 KID_PATH = os.path.normpath("assets/kid/animation/")
 KID_PREFIX, KID_SUFIX = "character1_", ".png"
 
-COLORS_HAIR = ("#803300", "#552200")
-COLORS_HAIR_NEW = [("#000000", "#101010"), ("#FFFF00", "#DDDD00"), ("#803300", "#552200")]
+COLORS_HAIR = ("#000000", "#191919")
+COLORS_HAIR_NEW = [("#000000", "#191919"), ("#FFFF10", "#DDDD10"), ("#803310", "#552210")]
 
-COLORS_EYES = ("#078002",)
-COLORS_EYES_NEW = [("#008000",), ("#2222FF",), ("#000000",)]
+COLORS_SKIN = ("#ffccc7", "#f3b9b6")
+COLORS_SKIN_NEW = [("#ffccc7", "#f3b9b6"), ("#694321", "#5b3a1c"), ("#f6d04e", "#eeca4c")]
+
+COLORS_SOCKS = ("#fd8255", "#db601f")
+COLORS_SOCKS_NEW = [("#fd8255", "#db601f"), ("#FFFF00", "#DDDD00" ), ("#803300", "#552200")]
+
+COLORS_SHOES = ("#eeea00", "#938200")
+COLORS_SHOES_NEW = [("#00B000", "#006000"), ("#2222FF", "#5522FF"), ("#AA00AA", "#AA44AA")]
 
 GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")
@@ -33,7 +39,7 @@ class Kid(Window):
         file = os.path.join(KID_PATH, KID_PREFIX + file_nro + KID_SUFIX)
         self.sprite = pygame.image.load(file)
         
-        self.change_color(COLORS_HAIR + COLORS_EYES, COLORS_HAIR_NEW[self.color_index] + COLORS_EYES_NEW[self.color_index])
+        self.change_color(COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES, COLORS_HAIR_NEW[self.color_index] + COLORS_SKIN_NEW[self.color_index] + COLORS_SOCKS_NEW[self.color_index] + COLORS_SHOES_NEW[self.color_index])
         
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)

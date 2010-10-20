@@ -239,7 +239,7 @@ class BarDisplay(Widget):
     def draw(self, screen):
         #if(self.last_value != self.status_bar.value):
         rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
-        charged_rect = rect.copy()
+        charged_rect = pygame.Rect(rect)  # create a copy
         charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
         
         self.surface.fill(BAR_BACK_COLOR, rect)

@@ -21,6 +21,7 @@ log.setLevel(logging.DEBUG)
 MAX_FPS = 16            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
 pause = False
+running = True
 
 class Main():
     def __init__(self):
@@ -31,6 +32,7 @@ class Main():
         
         This function initializes the game and enters the PyGame main loop.
         """
+        global running, pauses
         
         if from_sugar:
                 import gtk
@@ -82,7 +84,6 @@ class Main():
         
         # Main loop
         update = True # The first time the screen need to be updated
-        running = True
         
         while running:
             
