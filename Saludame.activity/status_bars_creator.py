@@ -42,6 +42,9 @@ class BarsLoader:
         self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list
         
         self.main_bar.children_list = self.second_level
+        
+    def get_bar_controller(self):
+        return
     
     def get_second_level_bars(self):
         return self.second_level
