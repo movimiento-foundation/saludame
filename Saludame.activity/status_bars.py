@@ -17,9 +17,9 @@ BAR_BACK_COLOR = pygame.Color("#106168")
 ROOT_BAR_COLOR = pygame.Color("blue")
 SUB_BAR_COLOR = pygame.Color("green")
 
-"""
- ****************** VISUALES ******************
-"""
+
+# ****************** VISUALES ******************
+
 class BarsWindow(Window):
     """
     Clase que representa la ventana de las barras de estado del juego.
@@ -282,9 +282,8 @@ class ScoreSection:
         screen.blit(self.surface, self.rect)
         return [self.rect]
     
-"""
-****************** MODELOS ******************
-"""    
+
+#****************** MODELOS ******************
 
 class BarsController:
     """
@@ -319,26 +318,24 @@ class StatusBar:
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
-        if(len(self.children_list) > 0):
-            increase_rate = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-            self.value += increase_rate
-            for child in self.children_list:
-                child.increase(increase_rate)
-        else:
-            self.value += increase_rate
-
-        if(self.parent != None):
-            self.parent.increase_from_child(increase_rate)
+        if(self.value < self.max and self.value > 0):
+            if(len(self.children_list) > 0):
+                value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+                self.value += value
+                for child in self.children_list:
+                    child.increase_from_parent(value)
+            else:
+                self.value += increase_rate
+    
+            if(self.parent != None):
+                self.parent.increase_from_child(increase_rate)
     
     def increase_from_child(self, increase_rate):
         """
         Incrementa el valor de la barra.
         """
-        if(len(self.children_list) > 0):
-            value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-            self.value += value
-        else:
-            self.value += increase_rate
+        value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+        self.value += value
         
         if(self.parent != None):
             self.parent.increase_from_child(value)
@@ -352,46 +349,21 @@ class StatusBar:
         """
         Incrementa el valor de la barra y repercute en los hijos.
         """
-        if(len(self.children_list) > 0):
-            value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-            self.value += value
-            for child in self.children_list:
-                child.increase(value)
-        else:
-            self.value += increase_rate
         
-        if(self.value > self.max):
-            self.value = self.max
-        elif(self.value < 0):
-            self.value = 0
-        
-    def child_decrease(self, value):
-        """
-        Decremento recibido de un hijo, no repercute en los hijos del nodo que lo recibe. Solo en el
-        actual y el padre.
-        """
-        assert(value > 0)
-        if(len(self.children_list) > 0):
-            value = value / len(self.children_list) #para que el decremento mantenga relación con el valor de las barras hijas
-        if(self.value - value > 0):
-            self.value -= value
-        else:
-            self.value -= value - self.value
-        if(self.parent != None):
-            self.parent.child_decrease(value)
-    
-    def child_increase(self, value):
-        """
-        Incremento recibido de un hijo. No repercute en los hijos, del nodo que recibió el incremento.
-        Solo en el actual y en el padre.
-        """
-        if(len(self.children_list) > 0):
-            value = value / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-        if(self.value + value <= self.max):
-            self.value += value
-        else:
-            self.value += self.max - self.value
-        if(self.parent != None):
-            self.parent.child_increase(value)
+        if(self.value < max and self.value > 0):
+            if(len(self.children_list) > 0):
+                value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+                self.value += increase_rate
+                for child in self.children_list:
+                    child.increase_from_parent(increase_rate)
+            else:
+                self.value += increase_rate
+            
+            if(self.value > self.max):
+                self.value = self.max
+            elif(self.value < 0):
+                self.value = 0
+
+
 
 

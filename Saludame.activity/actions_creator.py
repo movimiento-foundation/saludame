@@ -10,17 +10,23 @@ import actions
 ### nutrition ones ###
 
 ### fun ones ###
-eff_st_fun_Sport_inc = effects.EffectStatus(3, "Sports", None)
+eff_st_fun_Sport_inc = effects.EffectStatus(6.0, "Sports", None)
+eff_st_fun_pla_inc = effects.EffectStatus(5.0, "Playing", None)
 ### hygiene ones ###
+eff_st_hyg_shw_dec = effects.EffectStatus(-1.0, "shower", None)
 
 ### physica ones ###
-eff_st_phy_energy_dec = effects.EffectStatus(-2, "Energy", None)
+eff_st_phy_energy_dec = effects.EffectStatus(-3.0, "Energy", None)
 
 ### EFFECTS ###
 
 sport_effect = effects.Effect()
-sport_effect.add_effect(eff_st_fun_Sport_inc)
 sport_effect.add_effect(eff_st_phy_energy_dec)
+
+sport_effect.add_effect(eff_st_fun_Sport_inc)
+
+sport_effect.add_effect(eff_st_hyg_shw_dec)
+sport_effect.add_effect(eff_st_fun_pla_inc)
 
 
 
@@ -62,6 +68,7 @@ class ActionsLoader:
     def __set_bar_controller(self, effect_status):
         effect_status.set_bar_controller(self.bar_controller)
         return effect_status
+
 
 
 
