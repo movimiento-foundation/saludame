@@ -12,28 +12,34 @@ import math
 from widget import Widget
 from window import Window
 
+SIZE = 200, 200
+
 class Menu(Window):
     
-    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, character, rect):
+    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, character):
+        rect = pygame.Rect((0,0), SIZE)
+        rect.center = center
         Window.__init__(self, container, rect, frame_rate, windows_controller)
-        
-        self.rect = rect
         
         self.center = center # center of the menu's circle
         
         self.frame_rate = frame_rate
         self.item_list = item_list # item's list that going to be displayed
-        self.actual_selection = self.item_list #list of actual subitems selection
         
-        self.salir = Item(container, frame_rate, " ", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
-        self.salir.rect_in_container.center = center
+        self.exit = Item(container, frame_rate, " ", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
+        self.exit.rect_in_container.center = center
+        self.exit.set_rect_in_container(self.exit.rect_in_container)
+        
+        self.actual_selection = self.item_list  #list of actual subitems selection
         
         self.radius = radius
         self.on_compression = True #para mostrar la animación al iniciar
         self.on_expansion = False
         
         for item in self.item_list:
-            Window.add_child(item)
+            self.add_child(item)
+            
+        self.add_child(self.exit)
         
         # character reference
         self.character = character
@@ -69,13 +75,12 @@ class Menu(Window):
         changes = []
         for item in self.actual_selection:
             item.draw_item(screen, font)
-            changes.append(item.rect)
+            changes.append(item.rect_absolute)
             
-        self.salir.draw_item(screen, font)
-        changes.append(self.salir.rect)
+        self.exit.draw_item(screen, font)
+        changes.append(self.exit.rect_absolute)
         
         return changes
-    
     
     def send_action(self, action_id):
         """
@@ -88,7 +93,7 @@ class Menu(Window):
         """
         Set the actual items selection.
         """
-        self.actual_selection = actual_selection
+        self.actual_selection = actual_selection + [self.exit]
         self.on_compression = True #if the selection changes, display the animation
         
     def close(self):
@@ -110,15 +115,14 @@ class Menu(Window):
             if(item.rect.collidepoint(coord)):
                 item.on_mouse_out()
                 break
-    
-    def on_mouse_click(self, coord):
+     
+    def handle_mouse_down(self, coord):
         for item in self.actual_selection:
-            if(item.rect.collidepoint(coord)):
+            print item.name
+            if item.rect_absolute.collidepoint(coord):
+                print "AAA"
                 item.on_mouse_click()
                 break
-            
-    def handle_mouse_down(self, (x, y)):
-        None
 
     #privates
     
@@ -163,6 +167,7 @@ class Menu(Window):
                 item.rect.midbottom = coord
             else:
                 item.rect.midtop = coord
+        item.set_rect_in_container(item.rect)   # Recalculates the absolute coordinates
 
 class Item(Widget):
     
@@ -189,12 +194,11 @@ class Item(Widget):
     
     
     def draw_item(self, screen, font):
-        
         #draw the item in the screen
         
         img_font = font.render(self.name, True, (0, 0, 0))
-        screen.blit(self.surface, self.rect)
-        screen.blit(img_font, self.rect.topright)
+        screen.blit(self.surface, self.rect_absolute)
+        screen.blit(img_font, self.rect_absolute.topright)
     
     
     def on_mouse_over(self):
@@ -209,6 +213,3 @@ class Item(Widget):
         elif(self.action_id != None):
             self.menu.send_action(self.action_id)
         
-
-
-

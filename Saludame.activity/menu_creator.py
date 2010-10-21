@@ -24,7 +24,9 @@ MENU_FRAME_RATE=1
 
 def load_menu(character, (pos_x, pos_y), container, windows_controller):
     
-    m = menu.Menu(1, container, windows_controller, [], (190, 130), 90, character, pygame.Rect(100, 100, pos_x, pos_y))
+    center = 260, 200
+    
+    m = menu.Menu(1, container, windows_controller, [], center, 90, character)
     for item in example:
         an_item = create_item(item, m, container)
         m.add_item(an_item)

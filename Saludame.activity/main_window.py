@@ -31,9 +31,6 @@ class MainWindow(Window):
         self.windows.append(self.action_win)
         self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller, bars_loader))
         
-        #character = " "
-        #self.windows.append(menu_creator.load_menu(character, (200, 200), self.kidW.kid_rect, windows_controller))
-        
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 40))
         
         challengesButton = ImageButton(self.rect, pygame.Rect((1000, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)

@@ -181,6 +181,8 @@ class Info(Widget):
         rect_in_container.size = surface.get_size()
         Widget.__init__(self, container, rect_in_container, frame_rate, surface)   
 
+import menu_creator
+
 class KidWindow(Window):
 
     def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
@@ -194,4 +196,6 @@ class KidWindow(Window):
         self.add_window(kid_window)
         kid_window.set_bg_image(self.bg_image.subsurface(self.kid_rect))          
 
-
+        character = " "
+        self.windows.append(menu_creator.load_menu(character, (200, 200), self.rect, windows_controller))
+    
