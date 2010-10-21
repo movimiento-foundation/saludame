@@ -149,7 +149,7 @@ class ActionWindow(Window):
         self.actual_animation = None
         self.set_bg_image(PANEL_BG_PATH)
         
-        info = Info(rect, pygame.Rect(885, 0, 1, 1), 10)
+        info = Info(rect, pygame.Rect(885, 0, 1, 1), 1)
         self.add_child(info)
     
     def play_animation(self, id):

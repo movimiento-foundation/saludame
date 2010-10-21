@@ -26,6 +26,9 @@ class MultipleChoice(Window):
         self.s_incorrect = pygame.mixer.Sound(S_INCORRECT_PATH)
         ####################
         
+        self.choices = []
+        self.correct = 0
+        
         # If a question is setted, we have to "erase" the old challenge
         self.question = None
         
@@ -34,11 +37,11 @@ class MultipleChoice(Window):
         self.question_lines = 1;
         
         # Close Button
-        self.btn_close = TextButton(self.rect, pygame.Rect((770, 5), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
+        self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 38, (0, 0, 0), self._cb_button_click_close)
         self.buttons += [self.btn_close] 
         
         # Answer Button
-        self.btn_view_answer = TextButton(self.rect, pygame.Rect(20, 350, 20, 20), 1, "Me doy por vencido! :(...", 30, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
+        self.btn_view_answer = TextButton(self.rect, pygame.Rect(30, 350, 20, 20), 1, "Me doy por vencido! :(...", 30, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
         self.buttons += [self.btn_view_answer]        
         
         for b in self.buttons:
@@ -48,7 +51,7 @@ class MultipleChoice(Window):
     def set_question(self, question):
         if (self.question):
             self.erase()
-        self.question = Text(self.rect, 5, 5, 1, question, 40, (0, 255, 0))
+        self.question = Text(self.rect, 30, 30, 1, question, 40, (0, 0, 0))
         
         """
         Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
@@ -56,9 +59,9 @@ class MultipleChoice(Window):
         Problema: "corta" la pregunta en un valor hardcodeado el
         cual muchas veces "corta" a una palabra en cualquier lado.
         """               
-        if (self.question.rect_in_container.width > self.rect.width):
-            q1 = Text(self.rect, 5, 5, 1, question[:43], 40, (0, 255, 0))
-            q2 = Text(self.rect, 5, 35, 1, question[43:], 40, (0, 255, 0))
+        if (self.question.rect_in_container.width > self.rect.width -20):
+            q1 = Text(self.rect, 30, 30, 1, question[:43], 40, (0, 255, 0))
+            q2 = Text(self.rect, 30, 65, 1, question[43:], 40, (0, 255, 0))
             self.add_child(q1)
             self.add_child(q2)
             self.question_lines = 2
@@ -68,20 +71,22 @@ class MultipleChoice(Window):
         self.add_child(self.question)
         
     def set_correct_answer(self, a):
-        pass
+        self.correct = a
         
     def set_answers(self, answers):
-        x = 20        
+        x = 35 
+        y = 20       
         """
         Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
         en función de la cantidad de líenas de la pregunta.
         Problema: "corta" la pregunta en un valor hardcodeado el
         cual muchas veces "corta" a una palabra en cualquier lado.
         """
-        y = 40 * self.question_lines        
+        y += 40 * self.question_lines        
         for ans in answers:
             y += 30
-            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, 30, (255, 255, 255), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, 30, pygame.Color("blue"), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            self.choices.append(b)
             self.buttons.append(b)
             self.add_child(b)        
     
@@ -95,27 +100,34 @@ class MultipleChoice(Window):
     
     def _cb_button_click_choice(self, button):
         global FIN_MC
-        if(button.rect_in_container.top == 130):
-            self.s_correct.play()
-            FIN_MC = True # Damos por finalizada la pregunta
-        else:
-            self.s_incorrect.play()
+        if not FIN_MC:
+            if(button == self.choices[self.correct]):
+                self.s_correct.play()
+                FIN_MC = True # Damos por finalizada la pregunta
+            else:
+                self.s_incorrect.play()
         
     def _cb_button_over_choice(self, button):
-        button.switch_color_text((255, 0, 0))
-        button.force_update()
-        self.s_over.play()        
+        if not FIN_MC:
+            button.switch_color_text(pygame.Color("green"))
+            button.force_update()
+            self.s_over.play()        
             
     def _cb_button_out_choice(self, button):
-        button.switch_color_text((255, 255, 255))
-        button.force_update()
+        if not FIN_MC:
+            button.switch_color_text(pygame.Color("blue"))
+            button.force_update()
     
     def _cb_button_click_answer(self, button):
         global FIN_MC
         FIN_MC = True
+        for c in self.choices:
+            c.switch_color_text((10, 10, 10)) 
+        (self.choices[self.correct]).switch_color_text((255, 0, 0))       
         
-    def _cb_button_over_answer(self, button):        
-        self.s_over.play()
+    def _cb_button_over_answer(self, button):
+        if not FIN_MC:        
+            self.s_over.play()
             
     def _cb_button_out_answer(self, button):
         pass
@@ -127,7 +139,11 @@ class MultipleChoice(Window):
     
     def erase(self):
         """
-        Delete question and answers and repaint
+        Delete question and answers and repaint. Set FIN_MC false
         """
+        self.choices = []
         self.widgets = [self.btn_close, self.btn_view_answer]
+        self.buttons = [self.btn_close, self.btn_view_answer]
         self.repaint = True
+        global FIN_MC
+        FIN_MC = False

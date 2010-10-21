@@ -21,7 +21,7 @@ class MainWindow(Window):
         
         #temporal para probar ActionWindow (se cargará el diccionario en un módulo aparte).
         self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((210, 20), (150, 172)), 10), "Eating an apple!") }
-        self.action_win = ActionWindow(container, pygame.Rect((185, 609), (1015, 200)), 10, windows_controller, self.animations_dic, pygame.Color("blue"))
+        self.action_win = ActionWindow(container, pygame.Rect((185, 609), (1015, 200)), 1, windows_controller, self.animations_dic, pygame.Color("blue"))
         
         self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller)
         self.windows.append(self.kidW)

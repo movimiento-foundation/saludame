@@ -67,7 +67,7 @@ class Main():
         self.windows_controller = WindowsController(screen)        
 
         # Challenges
-        cha = challenges_creator.ChallengesCreator(screen.get_rect(), pygame.Rect((200, 150), (800, 400)), 1, self.windows_controller, (40, 40, 200))
+        cha = challenges_creator.ChallengesCreator(screen.get_rect(), pygame.Rect((200, 150), (934, 567)), 1, self.windows_controller, (40, 40, 200))
         cha.create_challenges()
         
         # Customization Window

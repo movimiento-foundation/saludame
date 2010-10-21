@@ -16,6 +16,7 @@ class ChallengesCreator:
         
         # Multiple Choice window
         self.challenge = challenges.MultipleChoice(self.container, self.rect, self.frame_rate, self.windows_controller, self.bg_color)
+        self.challenge.set_bg_image("assets/windows/window_1.png")
         
         # Tuples of challenges   
         self.challenges = []
@@ -27,8 +28,8 @@ class ChallengesCreator:
         """        
         self._create_challenge("Which foods do we need to eat every day?", ["Some food from each group every day", "Some fruits and vegetables only", "Some food from all the groups but not fats and sugar"], 0)
         self._create_challenge("What is the most important meal of the day?", ["Breakfast", "Lunch", "Merienda", "Diner"], 0)
-        self._create_challenge("How regularly should children exercise?", ["Once a month", "Once a week", "Once a day"], 0)
-        self._create_challenge("Potatoes, cereals, bread and pasta contain high amounts of this nutrient:", ["Minerals", "Protein", "Carbohydrates"], 0)        
+        self._create_challenge("How regularly should children exercise?", ["Once a month", "Once a week", "Once a day"], 2)
+        self._create_challenge("What percentage of the body is made up of water?", ["30%", "70%", "90%"], 1)        
 
     def _create_challenge(self, question, answers, correct_answer, image=None):     
         """
