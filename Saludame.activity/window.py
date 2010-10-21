@@ -185,13 +185,13 @@ import menu_creator
 
 class KidWindow(Window):
 
-    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
+    def __init__(self, container, rect, frame_rate, windows_controller, game_man):
         
-        Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
+        Window.__init__(self, container, rect, frame_rate, windows_controller)
         self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())        
         
         self.kid_rect = pygame.Rect((80, 10), (350, 480))       
-        kid_window = animation.Kid(rect, self.kid_rect, 1, windows_controller)
+        kid_window = animation.Kid(rect, self.kid_rect, 1, windows_controller, game_man)
         
         self.add_window(kid_window)
         kid_window.set_bg_image(self.bg_image.subsurface(self.kid_rect))          

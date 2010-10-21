@@ -10,8 +10,8 @@ import status_bars
 
 class MainWindow(Window):
     
-    def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bars_loader, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
+    def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bars_loader, game_man):
+        Window.__init__(self, container, rect, frame_rate, windows_controller)
         
         self.name = "main"
         self.clock = clock
@@ -23,7 +23,7 @@ class MainWindow(Window):
         self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((210, 20), (150, 172)), 10), "Eating an apple!") }
         self.action_win = ActionWindow(container, pygame.Rect((185, 609), (1015, 200)), 1, windows_controller, self.animations_dic, pygame.Color("blue"))
         
-        self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller)
+        self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, game_man)
         self.windows.append(self.kidW)
         #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))
         

@@ -26,39 +26,33 @@ BLUE = pygame.Color("blue")
 
 class Kid(Window):
     
-    def __init__(self, container, rect, frame_rate, windows_controller):
+    def __init__(self, container, rect, frame_rate, windows_controller, game_man):
         Window.__init__(self, container, rect, frame_rate, windows_controller)
         
         self.index = 1
-        self.color_index = 0
+        
+        self.character = game_man.character
         
     def pre_draw(self, screen):
         file_nro = str(self.index)
         file_nro = "0" * (4-len(file_nro)) + file_nro
-
+        
         file = os.path.join(KID_PATH, KID_PREFIX + file_nro + KID_SUFIX)
         self.sprite = pygame.image.load(file)
         
-        self.change_color(COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES, COLORS_HAIR_NEW[self.color_index] + COLORS_SKIN_NEW[self.color_index] + COLORS_SOCKS_NEW[self.color_index] + COLORS_SHOES_NEW[self.color_index])
+        maps = self.character.mappings
+        self.change_color(COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
         
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
-        
-        self.index = (self.index % 150) + 1
-        if self.index == 1:
-            self.color_index = (self.color_index + 1) % 3  
             
-        return [self.rect]   
+        return [self.rect]
         
     def change_color(self, old, new):
-        # No funciona en pygame 1.8.0
-        #image_pixel_array = pygame.PixelArray(self.sprite)
-        #image_pixel_array.replace(old_color, new_color)
-        
         index = 0
         for old_color_text in old:
             old_color = pygame.Color(old_color_text)
-            new_color = pygame.Color(new[index])
+            new_color = pygame.Color(*new[index])
             utilities.change_color(self.sprite, old_color, new_color)
             
             index += 1

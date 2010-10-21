@@ -6,22 +6,21 @@ import pygame
         
 class Character:
     
-    def __init__(self, name, level, score, hair_color, eyes_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary):
+    def __init__(self, name, level, score, hair_color, socks_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary):
         self.name = name
         self.level = level
         self.score = score
         
         self.actions_dictionary = actions_dictionary
         self.places_dictionary = places_dictionary
-        """         """
         
-        """ visuals """
+        # visuals
         self.hair_color = hair_color
-        self.eyes_color = eyes_color
+        self.socks_color = socks_color
         self.skin_color = skin_color
         self.shoes_color = shoes_color
         self.clothes = clothes
-        """ """
+
         self.actual_place = None
         self.status_bar_list = status_bar_list #status bars
         self.active_events_list = []

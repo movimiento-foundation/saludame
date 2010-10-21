@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 
-""" PATH """
+# PATH
 
-""" PLACES """
+# PLACES
 SCHOOL_WINDY_BACKGROUND_PATH = " "
 SCHOOL_BACKGROUND_MUSIC = " "
 
-""" CLOTHES """
+# CLOTHES
 SWEATER_TEXTURE = "  "
 
-""" CHARACTER """
-""" estas constantes las definirná el usuario, y se cargaran en otro lado """
+# CHARACTER
+# estas constantes las definirná el usuario, y se cargaran en otro lado """
 NAME = "José"
 SCORE = 0
 LEVEL = 1
 
-"""  CHACTER APPEARENCE   """
-EYES_COLOR = "blue"
-HAIR_COLOR = "black"
-SKIN_COLOR = "white" 
-SHOES_COLOR = "green"
-"""      """
+# CHACTER APPEARENCE
+HAIR_COLOR = ("#000000", "#191919")
+SKIN_COLOR = ("#ffccc7", "#f3b9b6")
+SOCKS_COLOR = ("#fd8255", "#db601f")
+SHOES_COLOR = ("#eeea00", "#938200")
 
 import character
 import pygame
@@ -46,21 +45,17 @@ class CharacterLoader:
         return ["a clothes"]
     
     def __load_character(self, name, level, score, actions_dictionary, places_dictionary, status_bar_list, clothes):
-        eyes_color = pygame.Color(EYES_COLOR)
-        shoes_color = pygame.Color(SHOES_COLOR)
-        hair_color = pygame.Color(HAIR_COLOR)
-        skin_color = pygame.Color(SKIN_COLOR)
+        hair_color = [pygame.Color(color) for color in HAIR_COLOR]
+        skin_color = [pygame.Color(color) for color in SKIN_COLOR]
+        socks_color = [pygame.Color(color) for color in SOCKS_COLOR]
+        shoes_color = [pygame.Color(color) for color in SHOES_COLOR]
         
-        char = character.Character(name, level, score, hair_color, eyes_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary)
+        char = character.Character(name, level, score, hair_color, socks_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary)
         return char
         
     def __load_places(self):
-        """ school  """
+        # school
         
-        """ home """
+        # home
         None
         
-        
-        
-
-

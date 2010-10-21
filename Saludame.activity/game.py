@@ -71,11 +71,11 @@ class Main():
         cha.create_challenges()
         
         # Customization Window
-        customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self.windows_controller, pygame.Color("Gray"))
+        customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self.windows_controller, app_loader.get_character())
         self.windows_controller.add_new_window(customization_window, "customization")
         
         # Main Window
-        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha, bars_loader)
+        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha, bars_loader, game_man)
         self.windows_controller.add_new_window(main_win, "main")
 
         # Probando ActionWindow
