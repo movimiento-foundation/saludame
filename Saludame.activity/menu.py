@@ -118,9 +118,7 @@ class Menu(Window):
      
     def handle_mouse_down(self, coord):
         for item in self.actual_selection:
-            print item.name
             if item.rect_absolute.collidepoint(coord):
-                print "AAA"
                 item.on_mouse_click()
                 break
 

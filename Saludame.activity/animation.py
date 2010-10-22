@@ -45,14 +45,17 @@ class Kid(Window):
         
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
-            
+        
+        self.index += 1
+        self.index %= 151
+        
         return [self.rect]
         
     def change_color(self, old, new):
         index = 0
         for old_color_text in old:
             old_color = pygame.Color(old_color_text)
-            new_color = pygame.Color(*new[index])
+            new_color = new[index]
             utilities.change_color(self.sprite, old_color, new_color)
             
             index += 1

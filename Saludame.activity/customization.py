@@ -63,7 +63,6 @@ class CustomizationWindow(window.Window):
         self.hair_color_index %= len(COLORS_HAIR)
         new_colors = [pygame.Color(color) for color in COLORS_HAIR[self.hair_color_index]]
         self.kid.set_mapping("hair", new_colors)
-        print new_colors
         
     def _cb_button_skin(self, button):
         self.skin_color_index += 1
