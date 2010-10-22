@@ -196,6 +196,6 @@ class KidWindow(Window):
         self.add_window(kid_window)
         kid_window.set_bg_image(self.bg_image.subsurface(self.kid_rect))          
 
-        character = " "
-        self.windows.append(menu_creator.load_menu(character, (200, 200), self.rect, windows_controller))
+        self.windows.append(menu_creator.load_menu(game_man, (200, 200), self.rect, windows_controller))
     
+

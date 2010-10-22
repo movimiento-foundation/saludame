@@ -20,7 +20,7 @@ example = [
     ("clean", "assets/icons/icon3.png", "clean up the bedroom", None, "clean_clean")
 ]
 
-MENU_FRAME_RATE=1
+MENU_FRAME_RATE = 1
 
 def load_menu(character, (pos_x, pos_y), container, windows_controller):
     
@@ -41,6 +41,7 @@ def create_item(item_tuple, a_menu, container):
         an_item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], [], item_tuple[4], a_menu)
     return an_item
     
+
 
 
 

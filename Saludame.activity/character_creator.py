@@ -50,7 +50,7 @@ class CharacterLoader:
         socks_color = [pygame.Color(color) for color in SOCKS_COLOR]
         shoes_color = [pygame.Color(color) for color in SHOES_COLOR]
         
-        char = character.Character(name, level, score, hair_color, socks_color, skin_color, shoes_color, status_bar_list, clothes, places_dictionary, actions_dictionary)
+        char = character.Character(name, level, score, hair_color, socks_color, skin_color, shoes_color, status_bar_list, clothes)
         return char
         
     def __load_places(self):
@@ -59,3 +59,4 @@ class CharacterLoader:
         # home
         None
         
+

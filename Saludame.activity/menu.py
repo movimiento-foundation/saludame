@@ -16,8 +16,8 @@ SIZE = 200, 200
 
 class Menu(Window):
     
-    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, character):
-        rect = pygame.Rect((0,0), SIZE)
+    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager):
+        rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
         Window.__init__(self, container, rect, frame_rate, windows_controller)
         
@@ -35,16 +35,16 @@ class Menu(Window):
         self.radius = radius
         self.on_compression = True #para mostrar la animación al iniciar
         self.on_expansion = False
+        self.__calculate()
         
         for item in self.item_list:
             self.add_child(item)
             
         self.add_child(self.exit)
         
-        # character reference
-        self.character = character
+        # game_manager reference
+        self.game_manager = game_manager
         
-        self.__calculate()
     
     def add_item(self, item):
         self.item_list.append(item)
@@ -84,10 +84,10 @@ class Menu(Window):
     
     def send_action(self, action_id):
         """
-        Send an action to the character. The action was selected
+        Send an action to the game_manager. The action was selected
         in one of the sub-items
         """
-        self.character.action_perform(action_id)
+        self.game_manager.add_active_action(action_id)
     
     def set_actual_selection(self, actual_selection):
         """
@@ -211,3 +211,4 @@ class Item(Widget):
         elif(self.action_id != None):
             self.menu.send_action(self.action_id)
         
+

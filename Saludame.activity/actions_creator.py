@@ -45,7 +45,7 @@ action_effect = "an_effect"
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
 
 
-actions_list = [("sport_jump", "icon_path", "picture_path", 0.3, 2, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect)]
+actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect)]
 
 
 
@@ -68,6 +68,7 @@ class ActionsLoader:
     def __set_bar_controller(self, effect_status):
         effect_status.set_bar_controller(self.bar_controller)
         return effect_status
+
 
 
 

@@ -39,7 +39,7 @@ class BarsLoader:
         fun_children_bar = [status_bars.StatusBar(id, id, fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar
         
-        self.second_level= [physica, hygiene, nutrition, fun]
+        self.second_level = [physica, hygiene, nutrition, fun]
         self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list
         
         self.main_bar.children_list = self.second_level
@@ -65,5 +65,6 @@ class BarsLoader:
     
     
     
+
 
 

@@ -29,9 +29,8 @@ class AppLoader:
         self.character = character_loader.get_character()
         
         ### game manager
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, self.actions_list, None)
         
-        self.game_man.add_active_action(self.actions_list[0])
         ### menu
         #self.menu = menu_creator.load_menu(self.character, (100, 100))
         ### visuals
@@ -60,6 +59,7 @@ class AppLoader:
     
     
     
+
 
 
 
