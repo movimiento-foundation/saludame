@@ -8,6 +8,7 @@ import actions
 ### EFFECT STATUS ### SE CREA EL EFECTO PERO NO SE CARGA CON EL BAR_CONTROLLER
 
 ### nutrition ones ###
+eff_st_nut_v_fruit_inc = effects.EffectStatus(8.0, "v_frutas", None)
 
 ### fun ones ###
 eff_st_fun_Sport_inc = effects.EffectStatus(6.0, "Sports", None)
@@ -16,10 +17,11 @@ eff_st_fun_pla_inc = effects.EffectStatus(5.0, "Playing", None)
 eff_st_hyg_shw_dec = effects.EffectStatus(-1.0, "shower", None)
 
 ### physica ones ###
+eff_st_phy_inc = effects.EffectStatus(3.0, "Energy", None)
 eff_st_phy_energy_dec = effects.EffectStatus(-3.0, "Energy", None)
 
 ### EFFECTS ###
-
+#SPORT
 sport_effect = effects.Effect()
 sport_effect.add_effect(eff_st_phy_energy_dec)
 
@@ -27,10 +29,12 @@ sport_effect.add_effect(eff_st_fun_Sport_inc)
 
 sport_effect.add_effect(eff_st_hyg_shw_dec)
 sport_effect.add_effect(eff_st_fun_pla_inc)
+#EAT APPLE
+eat_effect = effects.Effect()
 
+eat_effect.add_effect(eff_st_phy_inc)
+eat_effect.add_effect(eff_st_nut_v_fruit_inc)
 
-
-action_effect = "an_effect"
 
 ### ANIMATIONS ###
 
@@ -45,7 +49,8 @@ action_effect = "an_effect"
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
 
 
-actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect)]
+actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect),
+                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", eat_effect)]
 
 
 

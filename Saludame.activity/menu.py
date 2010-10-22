@@ -17,8 +17,11 @@ SIZE = 200, 200
 class Menu(Window):
     
     def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager):
+        self.count = 2  #temporal para mostrar
+        
         rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
+        self.windows_controller = windows_controller
         Window.__init__(self, container, rect, frame_rate, windows_controller)
         
         self.center = center # center of the menu's circle
@@ -26,7 +29,7 @@ class Menu(Window):
         self.frame_rate = frame_rate
         self.item_list = item_list # item's list that going to be displayed
         
-        self.exit = Item(container, frame_rate, " ", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
+        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
         
@@ -65,7 +68,8 @@ class Menu(Window):
                 self.on_expansion = True
         if(self.on_expansion):
             if(self.radius < 90):
-                item = self.item_list[2]
+                
+                item = self.item_list[self.count]
                 self.actual_selection = item.subitems_list
                 self.radius += 5
                 self.__calculate_items_position(self.center, self.radius, self.actual_selection)
@@ -93,14 +97,23 @@ class Menu(Window):
         """
         Set the actual items selection.
         """
-        self.actual_selection = actual_selection + [self.exit]
-        self.on_compression = True #if the selection changes, display the animation
+        if(not self.on_compression and not self.on_expansion):
+            self.actual_selection = actual_selection + [self.exit]
+            self.on_compression = True #if the selection changes, display the animation
         
     def close(self):
         """
         Close the Menu Window
         """
-        None
+        #self.windows_controller.close_active_window()
+        #temporalmente para mostrar:
+        if(not self.on_compression and not self.on_expansion):
+            self.set_actual_selection(self.item_list[self.count].subitems_list)
+            if(self.count == 2):
+                self.count = 1
+            else:
+                self.count = 2
+        
     
     #Event handlers
     
@@ -117,10 +130,13 @@ class Menu(Window):
                 break
      
     def handle_mouse_down(self, coord):
-        for item in self.actual_selection:
-            if item.rect_absolute.collidepoint(coord):
-                item.on_mouse_click()
-                break
+        if(not self.exit.rect_absolute.collidepoint(coord)):
+            for item in self.actual_selection:
+                if item.rect_absolute.collidepoint(coord):
+                    item.on_mouse_click()
+                    break
+        else:
+            self.close()
 
     #privates
     
@@ -206,6 +222,7 @@ class Item(Widget):
         return
     
     def on_mouse_click(self):
+        print self.name
         if(len(self.subitems_list) > 0):
             self.menu.set_actual_selection(self.subitems_list)
         elif(self.action_id != None):
