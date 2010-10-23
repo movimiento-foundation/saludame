@@ -46,8 +46,8 @@ class Kid(Window):
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
         
+        self.index %= 150
         self.index += 1
-        self.index %= 151
         
         return [self.rect]
         

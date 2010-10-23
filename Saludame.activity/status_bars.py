@@ -34,22 +34,22 @@ class BarsWindow(Window):
         self.bars = bars_loader.get_second_level_bars()
         
         # sections
-        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, bars_loader.get_overall_bar(), 100, 15), (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 0), 1)
-        self.overall_section = BarSection(windows_controller, _("Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 20), "assets/layout/icon_total.png")
+        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, bars_loader.get_overall_bar(), 100, 15), self.rect, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X + 25, 4), 1)
+        self.overall_section = BarSection(windows_controller, _("Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 27), "assets/layout/icon_total.png")
         
-        self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 50), "assets/layout/icon_physica.png")
-        self.hygiene_section = BarSection(windows_controller, _("hygiene"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 80), "assets/layout/icon_hygiene.png")
-        self.nutrition_section = BarSection(windows_controller, _("nutrition"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 110), "assets/layout/icon_nutrition.png")
-        self.spare_time_section = BarSection(windows_controller, _("spare time"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 140), "assets/layout/icon_spare_time.png")
+        self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60), "assets/layout/icon_physica.png")
+        self.hygiene_section = BarSection(windows_controller, _("hygiene"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 90), "assets/layout/icon_hygiene.png")
+        self.nutrition_section = BarSection(windows_controller, _("nutrition"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 120), "assets/layout/icon_nutrition.png")
+        self.spare_time_section = BarSection(windows_controller, _("spare time"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 150), "assets/layout/icon_spare_time.png")
         
         self.sections_list = [self.score_section, self.overall_section, self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section]
         self.accordeon = Accordeon([self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section])
         
         self.set_bg_image("assets/layout/status.png")
         
-        #self.score_section,
         self.windows += [section for section in self.sections_list if section != self.score_section]    # Score section no va porque no está convertida a window
-        
+        self.add_child(self.score_section)
+    
     def on_mouse_over(self):
         return
     
@@ -253,20 +253,22 @@ class BarDisplay(Widget):
         return self.rect_absolute
     
 
-class ScoreSection:
+class ScoreSection(Widget):
     """
     Sección que muestra la barra de puntaje principal.
     """
-    def __init__(self, bar, size, position, level):
+    def __init__(self, bar, container, size, position, level):
+        rect = pygame.Rect(position, size)
+        Widget.__init__(self, container, rect, 1, pygame.Color("black"))
+        
         # attributes
         self.name = "score section"
         self.score_bar = bar
         self.level = level
-        self.rect = pygame.Rect(position, size)
         
         # visuals
         self.score_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (1, (size[1] / 2) - 3), self.score_bar, pygame.Color("blue"))
-        self.surface = pygame.Surface(self.rect.size)
+        self.surface = pygame.Surface(self.rect_in_container.size)
         self.surface.fill((2, 45, 126))
         self.font = pygame.font.Font(None, 20)
         
@@ -275,13 +277,12 @@ class ScoreSection:
         self.score_bar_display.draw(self.surface)
         
         #write actual level:
-        level_text = "Nivel: " + str(self.level)
+        level_text = _("Level") + ": " + str(self.level)
         
         self.surface.blit(self.font.render(level_text, 1, (255, 255, 255)), (2, 5))
         
-        screen.blit(self.surface, self.rect)
-        return [self.rect]
-    
+        screen.blit(self.surface, self.rect_absolute)
+        return self.rect_absolute
 
 #****************** MODELOS ******************
 
