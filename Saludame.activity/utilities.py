@@ -6,7 +6,7 @@ from widget import *
 
 class Text(Widget):
     def __init__(self, container, x, y, frame_rate, text, size, color):
-        self.font = pygame.font.SysFont("Dejavu", size-2)
+        self.font = pygame.font.SysFont("Dejavu", size - 2)
         self.background = self.font.render(text, False, color)
         
         self.text = text
@@ -110,4 +110,28 @@ def change_color(surface, old_color, new_color):
     
     for i in indexes:
         surface.set_palette_at(i, new_color[0:3])
-    
+
+class TextBlock(Widget):
+    def __init__(self, container, x, y, frame_rate, text, size, color):        
+        Widget.__init__(self, container, pygame.Rect(x,y,0,0), frame_rate, None, None)
+        
+        self.lines = []
+        self.font = pygame.font.SysFont("Dejavu", size - 2)
+        self.color = color
+        self.parse_lines(text)
+        self.size = size
+        
+    def parse_lines(self, text):
+        (b, _, a) = text.partition("\n")
+        self.lines.append(b)
+        while(a != ''):
+            (b, _, a) = a.partition("\n")
+            self.lines.append(b)
+        
+    def draw(self, screen):
+        number_of_lines = 0
+        for l in self.lines:
+            number_of_lines += 1           
+            r = self.font.render(l, False, self.color)
+            screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines)) 
+            
