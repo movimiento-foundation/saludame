@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las acciones.
 
 class GameManager:
     """
@@ -18,31 +19,43 @@ class GameManager:
         self.actions_list = actions_list 
         self.places_list = places_list
         
-        self.active_actions = []
+        self.background_actions = []
+        self.active_char_action = None #Active character action, Action instance
 
-    def add_active_action(self, id_action):
+    def set_active_action(self, id_action):
         #place = get_place(self.character.actual_place) 
         #if(place.allowed_action(action_id)): #continúa con la acción, solo si es permitida en el lugar
         if(True): #dont check char's place yet
             action = self.get_action(id_action)
             if(action):
                 action.perform()  
-                self.active_actions.append(action)
+                self.active_char_action = action
+
+    def add_background_action(self, id_action):
+        """
+        Add a background action.
+        """
+        action = self.get_action(id_action)
+        if(action):
+            self.background_actions.append(action)
 
     def signal(self):
         """
-        Señal de incremento, indica que se completó una iteración
-        en el sistema.
+        Increment signal, it means that an iteration has been completed 
         """
         self.count += 1
-        self.__control_active_actions()
+        if(self.count >= CONTROL_INTERVAL):
+            self.__control_active_actions()
+            self.count = 0
         
     def __control_active_actions(self):
-        if (self.count == 15):
             
-            for action in self.active_actions:
-                action.perform()
-            self.count = 0
+        for action in self.background_actions:
+            action.perform()
+            action.time_span = 1 #that means background actions never stop
+            
+        if(self.active_char_action): #if the character is performing an action
+            self.active_char_action.perform()
     
     def __control_active_events(self):
         None
@@ -63,5 +76,6 @@ class GameManager:
             if(action.id == id_action):
                 return action
         
+
 
 

@@ -36,7 +36,7 @@ COLORS_SHOES = [
 class CustomizationWindow(window.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, character):
-        window.Window.__init__(self, container, rect, frame_rate, windows_controller, pygame.Color("Gray"))
+        window.Window.__init__(self, container, rect, frame_rate, windows_controller, pygame.Color("gray"))
         
         kid_rect = pygame.Rect((20, 20), (1,1))
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
@@ -98,7 +98,7 @@ class CustomizatedKid(widget.Widget):
     }
     
     def __init__(self, container, rect, frame_rate, character):
-        widget.Widget.__init__(self, container, rect, frame_rate, pygame.Color("Black"))
+        widget.Widget.__init__(self, container, rect, frame_rate, pygame.Color("black"))
         
         self.character = character
         
