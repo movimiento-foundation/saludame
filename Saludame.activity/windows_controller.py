@@ -73,13 +73,10 @@ class WindowsController:
         self.next_update_list.append(rect)
         
     def update(self, frames):
-        """
-        Cada vez que "volvamos" a la ventana principal es necesario
-        repintar el fondo para que no queden rastros de la ventana anterior        
-        """
+        
+        # Cada vez que "volvamos" a la ventana principal es necesario
+        # repintar el fondo para que no queden rastros de la ventana anterior  
         if (self.reload_main): 
-            # self.screen.fill((0, 0, 0))
-            # Ya no es necesario repintar el fondo de negro
             pygame.display.flip() # Actualizamos el screen para hacer visibles los efectos
             self.reload_main = False       
         
@@ -98,8 +95,7 @@ class WindowsController:
             # Le decimos al tooltip (widget) que se dibuje
             self.active_tooltip.draw(self.screen)
             changes.append(self.active_tooltip_bg[1])
-            
-        #pygame.display.update(changes)
+        
         self.scaled_game.update_screen(changes)
 
 

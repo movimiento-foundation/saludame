@@ -24,9 +24,13 @@ SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
 pause = False
 running = True
 
+main_class = None
+
 class Main():
     def __init__(self):
         self.windows_controller = None
+        global main_class
+        main_class = self
     
     def main(self, from_sugar):
         """Main function of the game.
@@ -125,5 +129,3 @@ class Main():
 
 if __name__ == "__main__":
     Main().main(False)
-
-

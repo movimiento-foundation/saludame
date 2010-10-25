@@ -69,6 +69,7 @@ class SaludameActivity(Activity):
         if index == 1:
             game.pause = False
             self.credits.hide()
+            game.main_class.windows_controller.reload_main = True       # Repaints the whole screen
             self.pygame_canvas.show()
             
         if index == 2:

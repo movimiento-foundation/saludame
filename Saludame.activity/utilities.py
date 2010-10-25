@@ -104,13 +104,22 @@ def change_color(surface, old_color, new_color):
     indexes = []
     palette = surface.get_palette()
     for color in palette:
-        if color[0:3] == old_color[0:3]:
+        if get_color_tuple(color) == get_color_tuple(old_color):
             indexes += [i]
         i += 1
     
     for i in indexes:
-        surface.set_palette_at(i, new_color[0:3])
+        surface.set_palette_at(i, get_color_tuple(new_color))
 
+def get_color_tuple(color):
+    if isinstance(color, pygame.Color):
+        return (color.r, color.g, color.b, color.a)
+    elif isinstance(color, tuple):
+        return color
+    else:
+        color = pygame.Color(color)
+        return get_color_tuple(color)
+    
 class TextBlock(Widget):
     def __init__(self, container, x, y, frame_rate, text, size, color):        
         Widget.__init__(self, container, pygame.Rect(x,y,0,0), frame_rate, None, None)
