@@ -23,6 +23,7 @@ COLORS_SHOES_NEW = [("#00B000", "#006000"), ("#2222FF", "#5522FF"), ("#AA00AA", 
 GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")
 BLUE = pygame.Color("blue")
+WHITE = pygame.Color("white")
 
 class Kid(Window):
     
@@ -83,15 +84,14 @@ class Food:
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file).convert_alpha()
         
-        screen.fill(BLUE, self.rect)
+        screen.fill(WHITE, self.rect)
         screen.blit(self.sprite, self.rect)
         
         self.index = (self.index + 1) % len(self.file_list)
         self.blip.play()
         return [self.rect]
 
-class Apple(Food):
-  
+class Apple(Food):  
     def __init__(self, rect, frame_rate):
         Food.__init__(self, APPLE_PATH, rect, frame_rate)
 

@@ -140,15 +140,24 @@ class PanelWindow(Window):
     """
     def __init__(self, container, rect, frame_rate, windows_controller, actions_dictionary, bg_color=(0, 0, 0)):
         
-        self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando
-        
+        self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando        
         Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
         
+        # Actions
+        self.surf_action = pygame.Surface((260, 110))
+        self.surf_action.fill((255, 255, 255))
         self.actions_dictionary = actions_dictionary
         self.on_animation = False
         self.actual_animation = None
         self.set_bg_image(PANEL_BG_PATH)
         
+        # Personal
+        
+        # Environment 
+        
+        # Social
+        
+        # Info
         info = Info(rect, pygame.Rect(885, 0, 1, 1), 1)
         self.add_child(info)
     
@@ -156,23 +165,30 @@ class PanelWindow(Window):
         self.actual_animation = (self.actions_dictionary[id][0], self.actions_dictionary[id][1])
         self.on_animation = True
         
-    def pre_draw(self, screen):
-        """   
-        self.background.fill((0, 0, 255))      
+    def pre_draw(self, screen):    
           
-        self.timing += 3
+        # Actions  
+        self.timing += 1
         changes = []
-        if(self.on_animation and self.actual_animation != None):
+        if(self.on_animation and self.actual_animation != None and self.timing % self.actual_animation[0].frame_rate == 0):
             if(self.timing > 12):
-                self.timing = 1
+                self.timing = 0
             
-            font = pygame.font.Font(None, 20 + self.timing)
-            self.background.blit(font.render(self.actual_animation[1], 1, (255, 255, 255)), (5, 5 + self.timing))
-            changes += self.actual_animation[0].draw(self.background, self.timing)
+            font = pygame.font.SysFont("Dejavu", 25)
+            self.surf_action.blit(font.render(self.actual_animation[1], 1, (0, 0, 255)), (120, 20))
+            changes += self.actual_animation[0].draw(self.surf_action, self.timing)
         
-         screen.blit(self.background, self.rect)
-         """   
-        return [self.rect]     
+        screen.blit(self.surf_action, (780, 652))
+        
+        # Personal
+        
+        # Environment 
+        
+        # Social
+        
+        # Info
+        
+        return [self.rect]   
     
 class Info(Widget):    
     
