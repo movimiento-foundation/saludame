@@ -134,7 +134,7 @@ class Window:
                 widget.container.move_ip(x, y)
             widget.rect_absolute.move_ip(x, y)
         
-class ActionWindow(Window):
+class PanelWindow(Window):
     """
     Ventana de acciones
     """

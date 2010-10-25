@@ -91,7 +91,7 @@ class Menu(Window):
         Send an action to the game_manager. The action was selected
         in one of the sub-items
         """
-        self.game_manager.add_active_action(action_id)
+        self.game_manager.set_active_action(action_id)
     
     def set_actual_selection(self, actual_selection):
         """
@@ -228,4 +228,5 @@ class Item(Widget):
         elif(self.action_id != None):
             self.menu.send_action(self.action_id)
         
+
 

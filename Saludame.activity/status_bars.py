@@ -361,7 +361,6 @@ class StatusBar:
         
         if(self.value < max and self.value > 0):
             if(len(self.children_list) > 0):
-                value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
                 self.value += increase_rate
                 for child in self.children_list:
                     child.increase_from_parent(increase_rate)
@@ -372,4 +371,3 @@ class StatusBar:
                 self.value = self.max
             elif(self.value < 0):
                 self.value = 0
-

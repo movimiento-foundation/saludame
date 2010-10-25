@@ -79,7 +79,7 @@ class Main():
         self.windows_controller.add_new_window(main_win, "main")
 
         # Probando ActionWindow
-        main_win.action_win.play_animation('eat_apple')
+        main_win.panel_win.play_animation('eat_apple')
         
         # Activamos ventana principal
         self.windows_controller.set_active_window("main")  

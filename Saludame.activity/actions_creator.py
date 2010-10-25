@@ -3,9 +3,19 @@
 import effects
 import actions
 
+BARS_DECREASE_RATE = -0.4
 
 
 ### EFFECT STATUS ### SE CREA EL EFECTO PERO NO SE CARGA CON EL BAR_CONTROLLER
+
+#BACKGROUND EFFECTS - bars decrease
+eff_bar_nut_dec = effects.EffectStatus(BARS_DECREASE_RATE, "nutrition", None)
+
+eff_bar_fun_dec = effects.EffectStatus(BARS_DECREASE_RATE, "fun", None)
+
+eff_bar_phy_dec = effects.EffectStatus(BARS_DECREASE_RATE, "physica", None)
+
+eff_bar_hyg_dec = effects.EffectStatus(BARS_DECREASE_RATE, "hygiene", None)
 
 ### nutrition ones ###
 eff_st_nut_v_fruit_inc = effects.EffectStatus(8.0, "v_frutas", None)
@@ -21,6 +31,14 @@ eff_st_phy_inc = effects.EffectStatus(3.0, "Energy", None)
 eff_st_phy_energy_dec = effects.EffectStatus(-3.0, "Energy", None)
 
 ### EFFECTS ###
+##BACKGROUND EFFECTS
+#BAR DECREASE
+bar_dec_effect = effects.Effect()
+bar_dec_effect.add_effect(eff_bar_nut_dec)
+bar_dec_effect.add_effect(eff_bar_fun_dec)
+bar_dec_effect.add_effect(eff_bar_phy_dec)
+bar_dec_effect.add_effect(eff_bar_hyg_dec)
+
 #SPORT
 sport_effect = effects.Effect()
 sport_effect.add_effect(eff_st_phy_energy_dec)
@@ -34,7 +52,6 @@ eat_effect = effects.Effect()
 
 eat_effect.add_effect(eff_st_phy_inc)
 eat_effect.add_effect(eff_st_nut_v_fruit_inc)
-
 
 ### ANIMATIONS ###
 
@@ -50,7 +67,8 @@ eat_effect.add_effect(eff_st_nut_v_fruit_inc)
 
 
 actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect),
-                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", eat_effect)]
+                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", eat_effect),
+                ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)]
 
 
 
@@ -73,6 +91,7 @@ class ActionsLoader:
     def __set_bar_controller(self, effect_status):
         effect_status.set_bar_controller(self.bar_controller)
         return effect_status
+
 
 
 

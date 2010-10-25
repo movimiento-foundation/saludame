@@ -30,6 +30,7 @@ class AppLoader:
         
         ### game manager
         self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, self.actions_list, None)
+        self.game_man.add_background_action("BARS_DEC") #acción de decrementar las barras
         
         ### menu
         #self.menu = menu_creator.load_menu(self.character, (100, 100))
@@ -59,6 +60,7 @@ class AppLoader:
     
     
     
+
 
 
 
