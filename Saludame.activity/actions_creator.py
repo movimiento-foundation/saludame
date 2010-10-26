@@ -18,7 +18,7 @@ eff_bar_phy_dec = effects.EffectStatus(BARS_DECREASE_RATE, "physica", None)
 eff_bar_hyg_dec = effects.EffectStatus(BARS_DECREASE_RATE, "hygiene", None)
 
 ### nutrition ones ###
-eff_st_nut_v_fruit_inc = effects.EffectStatus(8.0, "v_frutas", None)
+eff_st_nut_v_fruit_inc = effects.EffectStatus(10.0, "v_frutas", None)
 
 ### fun ones ###
 eff_st_fun_Sport_inc = effects.EffectStatus(6.0, "Sports", None)
@@ -27,7 +27,7 @@ eff_st_fun_pla_inc = effects.EffectStatus(5.0, "Playing", None)
 eff_st_hyg_shw_dec = effects.EffectStatus(-1.0, "shower", None)
 
 ### physica ones ###
-eff_st_phy_inc = effects.EffectStatus(3.0, "Energy", None)
+eff_st_phy_inc = effects.EffectStatus(5.0, "Energy", None)
 eff_st_phy_energy_dec = effects.EffectStatus(-3.0, "Energy", None)
 
 ### EFFECTS ###

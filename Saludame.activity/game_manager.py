@@ -46,7 +46,13 @@ class GameManager:
         self.count += 1
         if(self.count >= CONTROL_INTERVAL):
             self.__control_active_actions()
+            self.bars_controller.calculate_score()
             self.count = 0
+    
+    def __control_score(self):
+        """
+        """
+        None
         
     def __control_active_actions(self):
             

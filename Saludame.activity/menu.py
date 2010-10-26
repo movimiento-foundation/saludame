@@ -222,7 +222,7 @@ class Item(Widget):
         return
     
     def on_mouse_click(self):
-        print self.name
+
         if(len(self.subitems_list) > 0):
             self.menu.set_actual_selection(self.subitems_list)
         elif(self.action_id != None):
