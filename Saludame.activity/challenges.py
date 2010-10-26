@@ -18,7 +18,7 @@ FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 class MultipleChoice(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)     
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "challenges_window", bg_color)     
         
         ###### Sounds ######
         self.s_correct = pygame.mixer.Sound(S_CORRECT_PATH)

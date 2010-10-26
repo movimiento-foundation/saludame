@@ -6,14 +6,15 @@ from gettext import gettext as _
 import menu_creator
 
 from window import *
+from panel_window import PanelWindow
+from kid_window import KidWindow
 import status_bars
 
 class MainWindow(Window):
     
     def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bars_loader, game_man):
-        Window.__init__(self, container, rect, frame_rate, windows_controller)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "main_window")
         
-        self.name = "main"
         self.clock = clock
         self.cha_loader = cha_loader
         
@@ -27,7 +28,7 @@ class MainWindow(Window):
         self.windows.append(self.kidW)
         #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))
         
-        self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
+        #self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
         self.windows.append(self.panel_win)
         self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller, bars_loader))
         
@@ -46,11 +47,10 @@ class MainWindow(Window):
         
     def _cb_button_click_challenges(self, button):
         challenges_window = self.cha_loader.get_challenge()
-        self.windows_controller.add_new_window(challenges_window, "challenges")
-        self.windows_controller.set_active_window("challenges")
+        self.windows_controller.set_active_window("challenges_window")
         
     def _cb_button_click_customization(self, button):
-        self.windows_controller.set_active_window("customization")
+        self.windows_controller.set_active_window("customization_window")
 
 
 class Clock(Widget):

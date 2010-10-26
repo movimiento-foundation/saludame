@@ -28,7 +28,7 @@ WHITE = pygame.Color("white")
 class Kid(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, game_man):
-        Window.__init__(self, container, rect, frame_rate, windows_controller)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
         
         self.index = 1
         

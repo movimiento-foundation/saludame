@@ -22,7 +22,7 @@ class Menu(Window):
         rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
         self.windows_controller = windows_controller
-        Window.__init__(self, container, rect, frame_rate, windows_controller)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
         
         self.center = center # center of the menu's circle
         

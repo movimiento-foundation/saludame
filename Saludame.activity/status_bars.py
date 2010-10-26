@@ -25,7 +25,7 @@ class BarsWindow(Window):
     Clase que representa la ventana de las barras de estado del juego.
     """
     def __init__(self, container, rect, frame_rate, windows_controller, bars_loader):
-        Window.__init__(self, container, rect, frame_rate, windows_controller)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "bars_window")
         
         # rect and surface:
         self.rect.size = (227, 590)
@@ -115,7 +115,7 @@ class BarSection(Window):
     def __init__(self, windows_controller, name, root_bar, children_bar, size, position, icon_path):
         
         rect = pygame.Rect(position, size)
-        Window.__init__(self, rect, rect, 1, windows_controller)
+        Window.__init__(self, rect, rect, 1, windows_controller, "bar_section_window")
         
         # section attributes
         self.name = name

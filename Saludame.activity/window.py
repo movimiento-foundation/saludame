@@ -7,14 +7,12 @@ import animation
 from utilities import *
 
 BLACK = pygame.Color("black")
-BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_sunny.png")
-PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 
 class Window:
     
     # Una ventana contiene 'n' widgets
     
-    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=None):
+    def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=None):
         self.container = container
         self.rect = pygame.Rect(container.left + rect.left, container.top + rect.top, rect.width, rect.height) # Relativo al container
         self.frame_rate = frame_rate
@@ -23,11 +21,18 @@ class Window:
         self.bg_image = None
         self.windows_controller = windows_controller
         
+        # Register
+        self.register_id = register_id
+        self.windows_controller.register_new_window(register_id, self)
+        
         self.widgets = [] # Lista de widgets que contiene la ventana
         self.windows = [] # Lista de ventanas que contiene la ventana
         self.buttons = [] # Lista de botones que contiene la ventana
         
         self.repaint = True
+        
+    def get_register_id(self):
+        return self.register_id
     
     def set_bg_image(self, image):
         if (not isinstance(image, pygame.Surface)):
@@ -133,85 +138,3 @@ class Window:
             if not (self.rect == widget.container):
                 widget.container.move_ip(x, y)
             widget.rect_absolute.move_ip(x, y)
-        
-class PanelWindow(Window):
-    """
-    Ventana de acciones
-    """
-    def __init__(self, container, rect, frame_rate, windows_controller, actions_dictionary, bg_color=(0, 0, 0)):
-        
-        self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando        
-        Window.__init__(self, container, rect, frame_rate, windows_controller, bg_color)
-        
-        # Actions
-        self.surf_action = pygame.Surface((260, 110))
-        self.surf_action.fill((255, 255, 255))
-        self.actions_dictionary = actions_dictionary
-        self.on_animation = False
-        self.actual_animation = None
-        self.set_bg_image(PANEL_BG_PATH)
-        
-        # Personal
-        
-        # Environment 
-        
-        # Social
-        
-        # Info
-        info = Info(rect, pygame.Rect(885, 0, 1, 1), 1)
-        self.add_child(info)
-    
-    def play_animation(self, id):
-        self.actual_animation = (self.actions_dictionary[id][0], self.actions_dictionary[id][1])
-        self.on_animation = True
-        
-    def pre_draw(self, screen):    
-          
-        # Actions  
-        self.timing += 1
-        changes = []
-        if(self.on_animation and self.actual_animation != None and self.timing % self.actual_animation[0].frame_rate == 0):
-            if(self.timing > 12):
-                self.timing = 0
-            
-            font = pygame.font.SysFont("Dejavu", 25)
-            self.surf_action.blit(font.render(self.actual_animation[1], 1, (0, 0, 255)), (120, 20))
-            changes += self.actual_animation[0].draw(self.surf_action, self.timing)
-        
-        screen.blit(self.surf_action, (780, 652))
-        
-        # Personal
-        
-        # Environment 
-        
-        # Social
-        
-        # Info
-        
-        return [self.rect]   
-    
-class Info(Widget):    
-    
-    def __init__(self, container, rect_in_container, frame_rate):
-        surface = pygame.image.load("assets/layout/info.png").convert_alpha()
-        rect_in_container.size = surface.get_size()
-        Widget.__init__(self, container, rect_in_container, frame_rate, surface)   
-
-import menu_creator
-
-class KidWindow(Window):
-
-    def __init__(self, container, rect, frame_rate, windows_controller, game_man):
-        
-        Window.__init__(self, container, rect, frame_rate, windows_controller)
-        self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())        
-        
-        self.kid_rect = pygame.Rect((80, 10), (350, 480))       
-        kid_window = animation.Kid(rect, self.kid_rect, 1, windows_controller, game_man)
-        
-        self.add_window(kid_window)
-        kid_window.set_bg_image(self.bg_image.subsurface(self.kid_rect))          
-
-        self.windows.append(menu_creator.load_menu(game_man, (200, 200), self.rect, windows_controller))
-    
-
