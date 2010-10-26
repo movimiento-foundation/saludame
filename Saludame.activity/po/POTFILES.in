@@ -1,12 +1,24 @@
 encoding: UTF-8
 
+actions_creator.py
+actions.py
 activity.py
-game.py
 animation.py
-window.py
-activity.py
-menu.py
-customization.py
-utilities.py
-windowsController.py
+app_init.py
+challenges_creator.py
 challenges.py
+credits.py
+customization.py
+effects.py
+events.py
+game_manager.py
+game.py
+main_window.py
+menu_creator.py
+menu.py
+status_bars_creator.py
+status_bars.py
+utilities.py
+widget.py
+window.py
+windows_controller.py
