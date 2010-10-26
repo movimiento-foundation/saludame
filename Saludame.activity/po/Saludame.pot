@@ -1,125 +1,125 @@
-# Spanish translations for PACKAGE package.
-# Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Pablo Moleri <pmoleri@gmail.com>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-25 18:45-0200\n"
-"PO-Revision-Date: 2010-09-30 18:44-0300\n"
-"Last-Translator: Pablo Moleri <pmoleri@gmail.com>\n"
-"Language-Team: Spanish\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: activity/activity.info:2
 msgid "Saludame"
-msgstr "Salúdame"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:26
 msgid "Which foods do we need to eat every day?"
-msgstr "¿Qué comidas precisamos comer todos los días?"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:26
 msgid "Some food from each group every day"
-msgstr "Comida de cada grupo cada día"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:26
 msgid "Some fruits and vegetables only"
-msgstr "Solo algunas frutas y vegetales"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:26
 msgid "Some food from all the groups but not fats and sugar"
-msgstr "Comida de todos los grupos, excepto grasas y azucar."
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:27
 msgid "What is the most important meal of the day?"
-msgstr "¿Cuál es la comida más importante del día?"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:27
 msgid "Breakfast"
-msgstr "Desayuno"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:27
 msgid "Lunch"
-msgstr "Almuerzo"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:27
 msgid "Tea"
-msgstr "Merienda"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:27
 msgid "Diner"
-msgstr "Cena"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:28
 msgid "How regularly should children exercise?"
-msgstr "¿Cuán a menudo deben ejercitarse los niños?"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:28
 msgid "Once a month"
-msgstr "Una vez al mes"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:28
 msgid "Once a week"
-msgstr "Una vez a la semana"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:28
 msgid "Once a day"
-msgstr "Una vez por día"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:29
 msgid "What percentage of the body is made up of water?"
-msgstr "¿Qué porcentaje del cuerpo está hecho de agua?"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/customization.py:46
 msgid "Hair"
-msgstr "Pelo"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/customization.py:47
 msgid "Skin"
-msgstr "Piel"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/customization.py:48
 msgid "Socks"
-msgstr "Medias"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/customization.py:49
 msgid "Shoes"
-msgstr "Zapatos"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/activity.py:29
 msgid "Game"
-msgstr "Juego"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/activity.py:33
 msgid "Credits"
-msgstr "Créditos"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:38
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:40
 msgid "physica"
-msgstr "Actividad Física"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:41
 msgid "hygiene"
-msgstr "Higiene"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:42
 msgid "nutrition"
-msgstr "Nutrición"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:43
 msgid "spare time"
-msgstr "Tiempo Libre"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:288
 msgid "Level"
-msgstr "Nivel"
+msgstr ""
