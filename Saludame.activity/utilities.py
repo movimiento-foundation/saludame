@@ -112,10 +112,10 @@ def change_color(surface, old_color, new_color):
         surface.set_palette_at(i, get_color_tuple(new_color))
 
 def get_color_tuple(color):
-    if isinstance(color, pygame.Color):
-        return (color.r, color.g, color.b, color.a)
-    elif isinstance(color, tuple):
+    if isinstance(color, tuple):
         return color
+    elif isinstance(color, pygame.Color):
+        return (color.r, color.g, color.b, color.a)
     else:
         color = pygame.Color(color)
         return get_color_tuple(color)
