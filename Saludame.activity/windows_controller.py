@@ -3,6 +3,7 @@
 import pygame
 from window import Window
 from utilities import *
+import sys
 
 """
 Clase encargada del control de ventanas
@@ -30,18 +31,32 @@ class WindowsController:
         self.windows_stack[-1].repaint = True
         # Solo puede ser llamado por la ventana activa e implica
         # hacer un pop del stack
-        self.windows_stack.pop()        
-        if (self.windows_stack[-1].name == "main"):
+        self.windows_stack.pop()  
+        
+        self.show_window_hierarchy(self.windows_stack[-1])
+               
+        if (self.windows_stack[-1].get_register_id() == "main_window"):
             self.reload_main = True 
             for win in self.windows_stack[-1].windows:
                 if isinstance(win, Window):
                     win.enable_repaint()
     
     def set_active_window(self, window_key):
-        self.windows_stack.append(self.windows[window_key])
+        self.windows_stack.append(self.windows[window_key]) 
         
-    def add_new_window(self, window, window_key):
-        self.windows[window_key] = window
+        self.show_window_hierarchy(self.windows_stack[-1])     
+        
+    def register_new_window(self, id, window):
+        self.windows[id] = window
+        
+    def show_window_hierarchy(self, window):
+        sys.stdout.write(window.get_register_id())
+        W = []
+        for win in window.windows:
+            W.append(win.register_id)
+        print(" (%s)" %(W))
+        
+                    
         
     def handle_mouse_down(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))

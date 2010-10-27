@@ -22,7 +22,7 @@ class Menu(Window):
         rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
         self.windows_controller = windows_controller
-        Window.__init__(self, container, rect, frame_rate, windows_controller)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
         
         self.center = center # center of the menu's circle
         
@@ -222,7 +222,7 @@ class Item(Widget):
         return
     
     def on_mouse_click(self):
-        print self.name
+
         if(len(self.subitems_list) > 0):
             self.menu.set_actual_selection(self.subitems_list)
         elif(self.action_id != None):

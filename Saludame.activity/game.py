@@ -76,17 +76,15 @@ class Main():
         
         # Customization Window
         customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self.windows_controller, app_loader.get_character())
-        self.windows_controller.add_new_window(customization_window, "customization")
         
         # Main Window
         main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha, bars_loader, game_man)
-        self.windows_controller.add_new_window(main_win, "main")
 
         # Probando ActionWindow
         main_win.panel_win.play_animation('eat_apple')
         
         # Activamos ventana principal
-        self.windows_controller.set_active_window("main")  
+        self.windows_controller.set_active_window("main_window")  
           
         frames = 0
         
