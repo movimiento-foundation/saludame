@@ -60,7 +60,7 @@ class GameManager:
         """
         Add a background action.
         """
-        action = self.get_action(id_action)
+        action = self.get_action(action_id)
         if(action):
             self.background_actions.append(action)
 
@@ -105,8 +105,8 @@ class GameManager:
     
     def get_action(self, action_id):
         """
-        Returns the action asociated to the id_action
+        Returns the action asociated to the action_id
         """
         for action in self.actions_list:
-            if(action.id == id_action):
+            if(action.id == action_id):
                 return action
