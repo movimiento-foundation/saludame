@@ -22,16 +22,37 @@ class GameManager:
         self.background_actions = []
         self.active_char_action = None #Active character action, Action instance
 
-    def set_active_action(self, id_action):
+    def set_active_action(self, action_id):
         #place = get_place(self.character.actual_place) 
         #if(place.allowed_action(action_id)): #continúa con la acción, solo si es permitida en el lugar
-        if(True): #dont check char's place yet
-            action = self.get_action(id_action)
+        if(not self.active_char_action): #Si existe una accion activa no la interrumpe
+            if(True): #dont check char's place yet
+                action = self.get_action(action_id)
+                if(action):
+                    action.perform()  
+                    self.active_char_action = action
+    
+    def get_active_action(self):
+        """
+        Return the character active action
+        """
+        return self.active_char_action
+    
+    def interrupt_active_action(self, action_id):
+        """
+        Stops the active action if exist, and set as active the
+        action with the 'action_id'. If the action_id is 'None', just
+        stops the active action.
+        """
+        self.active_char_action.time_left = time_span
+        self.active_char_action = None
+        
+        if(action_id):
+            action = self.get_action(action_id)
             if(action):
-                action.perform()  
                 self.active_char_action = action
 
-    def add_background_action(self, id_action):
+    def add_background_action(self, action_id):
         """
         Add a background action.
         """
@@ -60,8 +81,12 @@ class GameManager:
             action.perform()
             action.time_span = 1 #that means background actions never stop
             
-        if(self.active_char_action): #if the character is performing an action
-            self.active_char_action.perform()
+        if(self.active_char_action): #if the character is performing an action: 
+            if(self.active_char_action.time_left):
+                self.active_char_action.perform()
+            else: #if the action was completed: 
+                self.active_char_action.time_left = self.active_char_action.time_span
+                self.active_char_action = None
     
     def __control_active_events(self):
         None
@@ -74,7 +99,7 @@ class GameManager:
             if(place.id == id_place):
                 return place
     
-    def get_action(self, id_action):
+    def get_action(self, action_id):
         """
         Returns the action asociated to the id_action
         """
@@ -82,6 +107,7 @@ class GameManager:
             if(action.id == id_action):
                 return action
         
+
 
 
 

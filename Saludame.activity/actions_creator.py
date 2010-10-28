@@ -5,11 +5,16 @@ import actions
 
 BARS_DECREASE_RATE = -0.4
 
-### EFFECTS ###
+#ANIMATIONS
+BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
+APPLE_PATH = os.path.normpath("assets/food/apple")
+
+#EFFECTS
 ##BACKGROUND EFFECTS
 #BAR DECREASE
 bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("fun", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
 
+##ACTION EFFECTS
 #SPORT
 sport_effect = effects.Effect(None, [("energy", -3.0), ("sports", 6.0), ("shower", -1.0), ("playing", 5.0)])
 
@@ -27,7 +32,7 @@ eat_effect = effects.Effect(None, [("energy", 5.0), ("v_frutas", 10.0)])
 
 
 actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect),
-                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", eat_effect),
+                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH, eat_effect),
                 ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)]
 
 

@@ -2,6 +2,7 @@
 
 import status_bars
 import events
+import animation
 
 class Action:
     
@@ -10,6 +11,7 @@ class Action:
         self.id = id
         self.appereance_probability = appereance_probability
         self.time_span = time_span
+        self.time_left = time_span
         self.effect = effect
         
         """ animations """
@@ -28,9 +30,9 @@ class Action:
         self.sound_loop_times = sound_loop_times
         
     def perform(self):
-        if(self.time_span):
+        if(self.time_left):
             self.effect.activate()
-            self.time_span -= 1
+            self.time_left -= 1
         
 class Mood:
     
@@ -38,6 +40,7 @@ class Mood:
         self.kid_animation_path = kid_animation.path
         self.kid_frame_rate = kid_animation.frame_rate
     
+
 
 
 
