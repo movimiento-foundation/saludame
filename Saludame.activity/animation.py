@@ -15,7 +15,7 @@ COLORS_SKIN = ("#ffccc7", "#f3b9b6")
 COLORS_SKIN_NEW = [("#ffccc7", "#f3b9b6"), ("#694321", "#5b3a1c"), ("#f6d04e", "#eeca4c")]
 
 COLORS_SOCKS = ("#fd8255", "#db601f")
-COLORS_SOCKS_NEW = [("#fd8255", "#db601f"), ("#FFFF00", "#DDDD00" ), ("#803300", "#552200")]
+COLORS_SOCKS_NEW = [("#fd8255", "#db601f"), ("#FFFF00", "#DDDD00"), ("#803300", "#552200")]
 
 COLORS_SHOES = ("#eeea00", "#938200")
 COLORS_SHOES_NEW = [("#00B000", "#006000"), ("#2222FF", "#5522FF"), ("#AA00AA", "#AA44AA")]
@@ -36,7 +36,7 @@ class Kid(Window):
         
     def pre_draw(self, screen):
         file_nro = str(self.index)
-        file_nro = "0" * (4-len(file_nro)) + file_nro
+        file_nro = "0" * (4 - len(file_nro)) + file_nro
         
         file = os.path.join(KID_PATH, KID_PREFIX + file_nro + KID_SUFIX)
         self.sprite = pygame.image.load(file)
@@ -60,27 +60,26 @@ class Kid(Window):
             utilities.change_color(self.sprite, old_color, new_color)
             
             index += 1
-      
-BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
-APPLE_PATH = os.path.normpath("assets/food/apple")
-
-class Food:
-    
-    def __init__(self, path, rect, frame_rate):
-        self.path = path
-        self.frame_rate = frame_rate
-        self.rect = rect
+            
+class ActionAnimation():
+    """
+    An action animation to show at panel
+    """
+    def __init__(self, rect, frame_rate, animation_path, sound_path):
         
-        dirList = os.listdir(path)
+        self.path = animation_path
+        self.rect = rect
+        self.frame_rate = frame_rate
+        
+        dirList = os.listdir(animation_path)
         dirList.sort()
-        self.file_list = [os.path.join(APPLE_PATH, fname) for fname in dirList if '.png' in fname]
+        self.file_list = [os.path.join(animation_path, fname) for fname in dirList if '.png' in fname]
         
         self.index = 0
         
-        self.blip = pygame.mixer.Sound(BLIP_PATH)
+        self.blip = pygame.mixer.Sound(sound_path)
         
-        
-    def draw(self, screen, frames):
+    def draw(self, screen):
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file).convert_alpha()
         
@@ -89,14 +88,10 @@ class Food:
         
         self.index = (self.index + 1) % len(self.file_list)
         self.blip.play()
+        
         return [self.rect]
 
-class Apple(Food):  
-    def __init__(self, rect, frame_rate):
-        Food.__init__(self, APPLE_PATH, rect, frame_rate)
-
-class FPS:
-  
+class FPS:  
     def __init__(self, container, rect, frame_rate, clock):
         self.rect = rect
         self.frame_rate = frame_rate

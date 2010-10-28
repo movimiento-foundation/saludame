@@ -20,9 +20,10 @@ class MainWindow(Window):
         
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         
-        #temporal para probar PanelWindow (se cargará el diccionario en un módulo aparte).
-        self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((0, 0), (120, 172)), 10), "Eating an apple!") }
-        self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller, self.animations_dic, pygame.Color("blue"))
+        # temporal para probar PanelWindow (se cargará el diccionario en un módulo aparte).
+        # self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((0, 0), (120, 172)), 10), "Eating an apple!") }
+        
+        self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller, pygame.Color("blue"))
         
         self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, game_man)
         self.windows.append(self.kidW)

@@ -8,7 +8,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, places_list):
+    def __init__(self, character, bars_controller, actions_list, places_list, windows_controller):
         """
         Constructor de la clase
         """
@@ -21,6 +21,8 @@ class GameManager:
         
         self.background_actions = []
         self.active_char_action = None #Active character action, Action instance
+        
+        self.windows_controller = windows_controller
 
     def set_active_action(self, id_action):
         #place = get_place(self.character.actual_place) 
@@ -28,7 +30,8 @@ class GameManager:
         if(True): #dont check char's place yet
             action = self.get_action(id_action)
             if(action):
-                action.perform()  
+                action.perform() 
+                self.windows_controller.show_action_animation(action) 
                 self.active_char_action = action
 
     def add_background_action(self, id_action):

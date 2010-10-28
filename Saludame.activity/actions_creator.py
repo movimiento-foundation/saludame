@@ -5,7 +5,6 @@ import actions
 
 BARS_DECREASE_RATE = -0.4
 
-
 ### EFFECT STATUS ### SE CREA EL EFECTO PERO NO SE CARGA CON EL BAR_CONTROLLER
 
 #BACKGROUND EFFECTS - bars decrease
@@ -67,10 +66,8 @@ eat_effect.add_effect(eff_st_nut_v_fruit_inc)
 
 
 actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect),
-                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", eat_effect),
+                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "assets/food/apple", 4, "assets/sound/blip.ogg", eat_effect),
                 ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)]
-
-
 
 class ActionsLoader:
     """
@@ -91,13 +88,3 @@ class ActionsLoader:
     def __set_bar_controller(self, effect_status):
         effect_status.set_bar_controller(self.bar_controller)
         return effect_status
-
-
-
-
-
-
-
-
-
-

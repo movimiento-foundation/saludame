@@ -41,13 +41,6 @@ class Main():
         
         if from_sugar:
                 import gtk
-    
-         
-        #Initialize game_manager, character, actions and menu.
-        
-        app_loader = app_init.AppLoader()
-        bars_loader = app_loader.get_status_bars_loader()
-        game_man = app_loader.get_game_manager()
 
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.pre_init(22050, -16, 8, 256)
@@ -68,23 +61,14 @@ class Main():
         clock = pygame.time.Clock()
         
         # windows_controller asociado al screen
-        self.windows_controller = WindowsController(screen)        
-
-        # Challenges
-        cha = challenges_creator.ChallengesCreator(screen.get_rect(), pygame.Rect((200, 150), (934, 567)), 1, self.windows_controller, (40, 40, 200))
-        cha.create_challenges()
+        self.windows_controller = WindowsController(screen)   
         
-        # Customization Window
-        customization_window = customization.CustomizationWindow(screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self.windows_controller, app_loader.get_character())
+        # Initialize game_manager, character, actions and menu.        
+        app_loader = app_init.AppLoader(self.windows_controller)
+        bars_loader = app_loader.get_status_bars_loader()
+        game_man = app_loader.get_game_manager()
         
-        # Main Window
-        main_win = main_window.MainWindow(screen.get_rect(), screen.get_rect(), 1, clock, self.windows_controller, cha, bars_loader, game_man)
-
-        # Probando ActionWindow
-        main_win.panel_win.play_animation('eat_apple')
-        
-        # Activamos ventana principal
-        self.windows_controller.set_active_window("main_window")  
+        self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader, game_man)
           
         frames = 0
         

@@ -8,7 +8,7 @@ import game_manager
 
 class AppLoader:
 
-    def __init__(self):
+    def __init__(self, windows_controller):
         ### loaders
         self.bars_loader = status_bars_creator.BarsLoader()
         
@@ -29,7 +29,7 @@ class AppLoader:
         self.character = character_loader.get_character()
         
         ### game manager
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, self.actions_list, None)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, self.actions_list, None, windows_controller)
         self.game_man.add_background_action("BARS_DEC") #acción de decrementar las barras
         
         ### menu
