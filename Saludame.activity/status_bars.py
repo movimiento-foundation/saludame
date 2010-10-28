@@ -34,7 +34,7 @@ class BarsWindow(Window):
         self.bars = bars_loader.get_second_level_bars()
         
         # sections
-        self.score_section = ScoreSection(StatusBar("score_bar", "score", None, bars_loader.get_overall_bar(), 100, 15), self.rect, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X + 25, 4), 1)
+        self.score_section = ScoreSection(bars_loader.get_score_bar(), self.rect, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X + 25, 4), 1)
         self.overall_section = BarSection(windows_controller, _("Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 27), "assets/layout/icon_total.png")
         
         self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60), "assets/layout/icon_physica.png")
@@ -176,11 +176,7 @@ class BarSection(Window):
         más el desplazamiento que provocó la sección expandida.
         """
         self.move((0, offset))
-    
-    def draw(self, screen, frames):
-        changes = Window.draw(self, screen, frames)
-        return [self.rect]      # Drops individual changes and returns the whole section
-    
+        
     def __calculate(self):
         """
         Calcula la posición de cada barra
@@ -238,9 +234,10 @@ class BarDisplay(Widget):
         # visuals
         self.font = pygame.font.Font(None, 20)
         
-        self._prepare_surface()
-
-    def _prepare_surface(self):
+        self.last_value = self.status_bar.value #valor inicial
+        
+    def draw(self, screen):
+        #if(self.last_value != self.status_bar.value):
         rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
         charged_rect = pygame.Rect(rect)  # create a copy
         charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
@@ -250,11 +247,6 @@ class BarDisplay(Widget):
         self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
         
         self.surface.blit(self.font.render(self.label, 1, (0, 0, 0)), (15, 5))
-        self.last_value = self.status_bar.value
-        
-    def draw(self, screen):
-        if self.last_value != self.status_bar.value:
-            self._prepare_surface()
         
         screen.blit(self.surface, self.rect_absolute)
         
@@ -299,8 +291,11 @@ class BarsController:
     Controlador general de las barras, encargado de enviar la señal de decremento o incremento
     a una barra especifica
     """
-    def __init__(self, bars):
+    def __init__(self, bars, score_bar, overall_bar):
         # bars
+        self.score_bar = score_bar
+        self.overall_bar = overall_bar
+        
         self.bars = bars
             
     def increase_bar(self, bar_id, increase_rate):
@@ -308,6 +303,19 @@ class BarsController:
             if(bar.id == bar_id):
                 bar.increase(increase_rate)
                 break
+    
+    def calculate_score(self):
+        if(self.overall_bar.value > self.overall_bar.max / 2):
+            if(self.overall_bar.value > (self.overall_bar.max / 2) + (self.overall_bar.max / 4)): #more than 3/4
+                self.score_bar.increase(5)
+            else: #more than a half.
+                self.score_bar.increase(2)
+        else: 
+            if(self.overall_bar.value < (self.overall_bar.max / 2) - (self.overall_bar.max / 4)): #less than 1/4
+                self.score_bar.increase(-5)
+            else: # less than 1/2
+                self.score_bar.increase(-1)
+                
         
 class StatusBar:
     """
@@ -371,3 +379,8 @@ class StatusBar:
                 self.value = self.max
             elif(self.value < 0):
                 self.value = 0
+
+
+
+
+
