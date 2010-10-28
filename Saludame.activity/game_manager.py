@@ -31,7 +31,8 @@ class GameManager:
             if(True): #dont check char's place yet
                 action = self.get_action(action_id)
                 if(action):
-                    action.perform()  
+                    action.perform() 
+                    self.windows_controller.show_action_animation(action)
                     self.active_char_action = action
     
     def get_active_action(self):
@@ -52,8 +53,6 @@ class GameManager:
         if(action_id):
             action = self.get_action(action_id)
             if(action):
-                action.perform() 
-                self.windows_controller.show_action_animation(action) 
                 self.active_char_action = action
 
     def add_background_action(self, action_id):
@@ -105,7 +104,7 @@ class GameManager:
     
     def get_action(self, action_id):
         """
-        Returns the action asociated to the action_id
+        Returns the action asociated to the id_action
         """
         for action in self.actions_list:
             if(action.id == action_id):
