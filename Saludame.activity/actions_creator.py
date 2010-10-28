@@ -5,62 +5,22 @@ import actions
 
 BARS_DECREASE_RATE = -0.4
 
-
-### EFFECT STATUS ### SE CREA EL EFECTO PERO NO SE CARGA CON EL BAR_CONTROLLER
-
-#BACKGROUND EFFECTS - bars decrease
-eff_bar_nut_dec = effects.EffectStatus(BARS_DECREASE_RATE, "nutrition", None)
-
-eff_bar_fun_dec = effects.EffectStatus(BARS_DECREASE_RATE, "fun", None)
-
-eff_bar_phy_dec = effects.EffectStatus(BARS_DECREASE_RATE, "physica", None)
-
-eff_bar_hyg_dec = effects.EffectStatus(BARS_DECREASE_RATE, "hygiene", None)
-
-### nutrition ones ###
-eff_st_nut_v_fruit_inc = effects.EffectStatus(10.0, "v_frutas", None)
-
-### fun ones ###
-eff_st_fun_Sport_inc = effects.EffectStatus(6.0, "Sports", None)
-eff_st_fun_pla_inc = effects.EffectStatus(5.0, "Playing", None)
-### hygiene ones ###
-eff_st_hyg_shw_dec = effects.EffectStatus(-1.0, "shower", None)
-
-### physica ones ###
-eff_st_phy_inc = effects.EffectStatus(5.0, "Energy", None)
-eff_st_phy_energy_dec = effects.EffectStatus(-3.0, "Energy", None)
-
 ### EFFECTS ###
 ##BACKGROUND EFFECTS
 #BAR DECREASE
-bar_dec_effect = effects.Effect()
-bar_dec_effect.add_effect(eff_bar_nut_dec)
-bar_dec_effect.add_effect(eff_bar_fun_dec)
-bar_dec_effect.add_effect(eff_bar_phy_dec)
-bar_dec_effect.add_effect(eff_bar_hyg_dec)
+bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("fun", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
 
 #SPORT
-sport_effect = effects.Effect()
-sport_effect.add_effect(eff_st_phy_energy_dec)
+sport_effect = effects.Effect(None, [("energy", -3.0), ("sports", 6.0), ("shower", -1.0), ("playing", 5.0)])
 
-sport_effect.add_effect(eff_st_fun_Sport_inc)
-
-sport_effect.add_effect(eff_st_hyg_shw_dec)
-sport_effect.add_effect(eff_st_fun_pla_inc)
 #EAT APPLE
-eat_effect = effects.Effect()
-
-eat_effect.add_effect(eff_st_phy_inc)
-eat_effect.add_effect(eff_st_nut_v_fruit_inc)
+eat_effect = effects.Effect(None, [("energy", 5.0), ("v_frutas", 10.0)])
 
 ### ANIMATIONS ###
-
-### PATH ###
 
 
 
 #actions list tuple format:
-
 #[("action's id","icon_path","picture_path", appereance_probability, time_span, 
 #    kid_animation_frame_rate,kid_animation_loop_times, kid_animation_path, window_animation_frame_rate,
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
@@ -91,6 +51,7 @@ class ActionsLoader:
     def __set_bar_controller(self, effect_status):
         effect_status.set_bar_controller(self.bar_controller)
         return effect_status
+
 
 
 

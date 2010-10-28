@@ -17,9 +17,9 @@ class BarsLoader:
         #'hard_level' para plasmar que la idea es que los valores por defecto de las barras
         #se carguen segun un nivel de dificultad
         # physica
-        physica_children_id = ["Energy", "Resistencia", "Fat"]
+        physica_children_id = [("energy", "Energy"), ("resistencia", "Resistencia"), ("fat", "Fat")]
         physica = status_bars.StatusBar("physica", "Physica", self.overall_bar, [], hard_level[0], hard_level[1])
-        physica_children_bar = [status_bars.StatusBar(id, id, physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
+        physica_children_bar = [status_bars.StatusBar(id[0], id[1], physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
         physica.children_list = physica_children_bar
         
         ### hygiene
@@ -35,9 +35,9 @@ class BarsLoader:
         nutrition.children_list = nutrition_children_bar
         
         ### fun 
-        fun_children_id = ["Sports", "Playing", "Relaxing"]
+        fun_children_id = [("sports", "Sports"), ("playing", "Playing"), ("relaxing", "Relaxing")]
         fun = status_bars.StatusBar("fun", "Fun", self.overall_bar, [], hard_level[0], hard_level[1])
-        fun_children_bar = [status_bars.StatusBar(id, id, fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
+        fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar
         
         self.second_level = [physica, hygiene, nutrition, fun]
@@ -66,6 +66,7 @@ class BarsLoader:
     
     
     
+
 
 
 
