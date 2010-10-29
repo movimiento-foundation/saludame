@@ -131,10 +131,10 @@ class Window:
         """ Moves the window the given offset, notifying all its subitems """
         self.rect.move_ip(x, y)
         for win in self.windows:
-            win.move(x, y)
+            win.move(x, y, self.rect)
         
         # Buttons are usually in widget list, so they are not moved
         for widget in self.widgets:
-            if not (self.rect == widget.container):
+            if not (self.rect is widget.container):
                 widget.container.move_ip(x, y)
             widget.rect_absolute.move_ip(x, y)
