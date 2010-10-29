@@ -47,7 +47,7 @@ class GameManager:
         action with the 'action_id'. If the action_id is 'None', just
         stops the active action.
         """
-        self.active_char_action.time_left = time_span
+        self.active_char_action.time_left = self.active_char_action.time_span
         self.active_char_action = None
         
         if(action_id):
