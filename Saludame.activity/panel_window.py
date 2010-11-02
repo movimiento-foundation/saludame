@@ -34,7 +34,7 @@ class PanelWindow(Window):
         # Personal
         self.surf_personal = pygame.Surface((130, 110))
         self.rect_personal = pygame.Rect((410, 652), self.surf_personal.get_rect().size)
-        self.active_personal_events = ["caries", "ill"]
+        self.active_personal_events = []
         self.index_personal_event = 0       
         
         personal_next = ImageButton(self.rect_personal, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
@@ -51,7 +51,8 @@ class PanelWindow(Window):
         # Info
         info = Info(rect, pygame.Rect(885, 0, 1, 1), 1)        
         self.add_child(info)
-        
+    
+    ########## Actions ##########    
     def set_active_action(self, action):
         self.actual_action = action
         self.actual_animation = animation.ActionAnimation(pygame.Rect(20, 5, 100, 100), 10, action.window_animation_path, action.sound_path)
@@ -62,6 +63,14 @@ class PanelWindow(Window):
         
     def stop_animation(self):
         self.on_animation = False
+    
+    ########## Events ##########    
+    def add_personal_event(self, event):
+        if (not event in self.active_personal_events):
+            self.active_personal_events.append(event)
+        
+    def remove_personal_event(self, event):
+        self.active_personal_events.remove(event)
         
     def pre_draw(self, screen):
                     
@@ -86,10 +95,10 @@ class PanelWindow(Window):
         screen.blit(self.surf_action, (760, 652))
         
         #### Personal ####
-        event = pygame.image.load("assets/events/%s.jpg" % (self.active_personal_events[self.index_personal_event])).convert_alpha()
         self.surf_personal.fill(WHITE)
-        
-        self.surf_personal.blit(event, (23, 0))
+        if (self.active_personal_events):
+            event = pygame.image.load("assets/events/%s" % (self.active_personal_events[self.index_personal_event].picture)).convert_alpha()
+            self.surf_personal.blit(event, (23, 0))       
         
         # Blit the personal surface with screen
         screen.blit(self.surf_personal, (410, 652))

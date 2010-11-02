@@ -75,18 +75,9 @@ class AppLoader:
         
         event_dec = events.Event("picture_path", "decremento", 4, 5, "kind", None, ef1)
         event_inc = events.Event("picture_path", "incremento", 6, 5, "kind", None, ef2)
-        event_fat = events.Event("picture_path", "engordar", 5, 5, "kind", None, ef3)
-        event_happy = events.Event("picture_path", "diversion", 8, 5, "kind", None, ef4)
+        event_ill = events.Event("ill.jpg", "ill", 5, 5, "kind", None, ef3)
+        event_caries = events.Event("caries.jpg", "caries", 8, 5, "kind", None, ef4)
         
-        return [event_dec, event_inc, event_fat, event_happy]
-
+        return [event_ill, event_caries]
     
     
-    
-
-
-
-
-
-
-

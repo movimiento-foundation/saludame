@@ -124,9 +124,11 @@ class GameManager:
         Active event handler
         """
         if(self.active_event):
+            self.windows_controller.add_personal_event(self.active_event)
             if(self.active_event.time_left):
                 self.active_event.perform()
             else:
+                self.windows_controller.remove_personal_event(self.active_event)
                 self.active_event.reset()
                 self.active_event = self.__get_new_event()
                 print "se disparó el evento: ", self.active_event.name
