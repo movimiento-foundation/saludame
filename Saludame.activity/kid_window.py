@@ -22,5 +22,6 @@ class KidWindow(Window):
         kid_window.set_bg_image(self.bg_image.subsurface(self.kid_rect))          
 
         self.windows.append(menu_creator.load_menu(game_man, (200, 200), self.rect, windows_controller))
-    
-
+        
+        
+        

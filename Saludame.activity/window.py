@@ -82,7 +82,7 @@ class Window:
         self.widgets.append(widget)
         
     def add_button(self, button):
-        self.add_child(self, button)
+        self.add_child(button)
         self.buttons.append(button)
     
     def add_window(self, window):

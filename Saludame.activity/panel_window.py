@@ -6,8 +6,10 @@ import animation
 import os
 from widget import Widget
 import window
+from utilities import *
 
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
+WHITE = pygame.Color("white")
 
 class PanelWindow(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
@@ -18,8 +20,8 @@ class PanelWindow(Window):
         self.set_bg_image(PANEL_BG_PATH)
         
         # Actions
-        self.surf_action = pygame.Surface((260, 110))
-        self.surf_action.fill((255, 255, 255))
+        self.surf_action = pygame.Surface((280, 110))
+        self.surf_action.fill(WHITE)
         
         self.on_animation = False
         self.actual_action = None
@@ -30,10 +32,21 @@ class PanelWindow(Window):
         self.add_child(action_progress_bar)
         
         # Personal
+        self.surf_personal = pygame.Surface((130, 110))
+        self.rect_personal = pygame.Rect((410, 652), self.surf_personal.get_rect().size)
+        self.active_personal_events = ["caries", "ill"]
+        self.index_personal_event = 0       
         
-        # Environment 
+        personal_next = ImageButton(self.rect_personal, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
+        personal_back = ImageButton(self.rect_personal, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_personal_back)
+        
+        self.add_button(personal_next)
+        self.add_button(personal_back)
         
         # Social
+        self.surf_social = pygame.Surface((70, 110))
+        
+        # Environment 
         
         # Info
         info = Info(rect, pygame.Rect(885, 0, 1, 1), 1)        
@@ -47,7 +60,7 @@ class PanelWindow(Window):
         self.set_active_action(action)
         self.on_animation = True
         
-    def stop_animation(self, id):
+    def stop_animation(self):
         self.on_animation = False
         
     def pre_draw(self, screen):
@@ -55,7 +68,7 @@ class PanelWindow(Window):
         self.timing += 1
         changes = []
         
-        # Actions
+        #### Actions ####
         if(self.on_animation and self.actual_animation != None and self.timing % self.actual_animation.frame_rate == 0):
             if(self.timing > 12):
                 self.timing = 0
@@ -65,19 +78,39 @@ class PanelWindow(Window):
             
             # Draw the animation on action surface
             changes += self.actual_animation.draw(self.surf_action)
+            
+        elif (not self.on_animation):
+            self.surf_action.fill(WHITE)
         
         # Blit the action surface with screen
-        screen.blit(self.surf_action, (780, 652))
+        screen.blit(self.surf_action, (760, 652))
         
-        # Personal
+        #### Personal ####
+        event = pygame.image.load("assets/events/%s.jpg" % (self.active_personal_events[self.index_personal_event])).convert_alpha()
+        self.surf_personal.fill(WHITE)
         
-        # Environment 
+        self.surf_personal.blit(event, (23, 0))
         
-        # Social
+        # Blit the personal surface with screen
+        screen.blit(self.surf_personal, (410, 652))
+        
+        #### Environment #### 
+        
+        #### Social ####
         
         # Info
         
         return [self.rect]
+    
+    ########### Buttons Callbacks ###########
+    
+    def _cb_button_click_personal_next(self, button):
+        if self.index_personal_event < len (self.active_personal_events) - 1:
+            self.index_personal_event += 1  
+            
+    def _cb_button_click_personal_back(self, button):
+        if self.index_personal_event > 0:
+            self.index_personal_event -= 1           
     
 class Info(Widget):    
     
