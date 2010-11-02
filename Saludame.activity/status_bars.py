@@ -7,16 +7,25 @@ import status_bars_creator
 from window import *
 
 SECTION_OFFSET_X = 0
-SECTION_WIDTH = 182
+SECTION_WIDTH = 220
 SECTION_MIN_HEIGHT = 40
-SECTION_TOP_PADDING = 12
+SECTION_TOP_PADDING = 16
+
 BAR_OFFSET_X = 30
 BAR_WIDTH = 182
 BAR_HEIGHT = 26
-BAR_BACK_COLOR = pygame.Color("#106168")
-ROOT_BAR_COLOR = pygame.Color("blue")
-SUB_BAR_COLOR = pygame.Color("green")
 
+SCORE_BAR_HEIGHT = 36
+SCORE_BAR_WIDTH = 118
+SCORE_BAR_X_OFFSET = 82
+
+BAR_BACK_COLOR = pygame.Color("#106168")
+ROOT_BAR_COLOR = pygame.Color("#7ee113")
+SUB_BAR_COLOR = pygame.Color("#cb37eb")
+
+TEXT_COLOR_TUPLE = (255, 255, 255)
+TEXT_COLOR = "#0f5e65"
+SUB_BAR_TEXT_COLOR = "#ffffff"
 
 # ****************** VISUALES ******************
 
@@ -29,18 +38,19 @@ class BarsWindow(Window):
         
         # rect and surface:
         self.rect.size = (227, 590)
-       
+        
         # game bars
         self.bars = bars_loader.get_second_level_bars()
         
         # sections
-        self.score_section = ScoreSection(bars_loader.get_score_bar(), self.rect, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X + 25, 4), 1)
-        self.overall_section = BarSection(windows_controller, _("Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 27), "assets/layout/icon_total.png")
+        score_section_width = SECTION_WIDTH - 20
+        self.score_section = ScoreSection(bars_loader.get_score_bar(), self.rect, (score_section_width, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X + 25, 4), 1)
+        self.overall_section = BarSection(windows_controller, _(u"Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 27), "assets/layout/icon_total.png")
         
-        self.physica_section = BarSection(windows_controller, _("physica"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60), "assets/layout/icon_physica.png")
-        self.hygiene_section = BarSection(windows_controller, _("hygiene"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 90), "assets/layout/icon_hygiene.png")
-        self.nutrition_section = BarSection(windows_controller, _("nutrition"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 120), "assets/layout/icon_nutrition.png")
-        self.spare_time_section = BarSection(windows_controller, _("spare time"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 150), "assets/layout/icon_spare_time.png")
+        self.physica_section = BarSection(windows_controller, _(u"ESTADO FÍSICO"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 60), "assets/layout/icon_physica.png")
+        self.hygiene_section = BarSection(windows_controller, _(u"HIGIENE"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 90), "assets/layout/icon_hygiene.png")
+        self.nutrition_section = BarSection(windows_controller, _(u"NUTRICIÓN"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 120), "assets/layout/icon_nutrition.png")
+        self.spare_time_section = BarSection(windows_controller, _(u"TIEMPO LIBRE"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, 150), "assets/layout/icon_spare_time.png")
         
         self.sections_list = [self.score_section, self.overall_section, self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section]
         self.accordeon = Accordeon([self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section])
@@ -103,8 +113,8 @@ class Accordeon:
         Comprime todas las secciones y las localiza en su posición inicial.
         """
         for section in self.sections_list: # move up the sections
-            section.compress()
             section.move_up()
+            section.compress()
 
 class BarSection(Window):
     """
@@ -122,11 +132,22 @@ class BarSection(Window):
         self.root_bar = root_bar
         self.children_bar = children_bar
         
+        font = pygame.font.SysFont("DejaVu Sans", 16)
+        font.set_bold(True)
+        font.set_italic(True)
+        
+        label_render = font.render(self.name, 1, pygame.Color(TEXT_COLOR))
+        label_rect = pygame.Rect((0,0), label_render.get_size())
+        label_rect.right = self.rect.right - 8
+        label_widget = Widget(self.rect, label_rect, 1, label_render)
+        
         # visuals
         self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_COLOR)
+        self.root_bar_display.show_name = False
+        
         self.displays_list = self.__get_displays()      # obtengo los displays para cada barra.
         
-        self.fixed_widgets = []
+        self.fixed_widgets = [label_widget, self.root_bar_display]
         
         if icon_path:
             icon = pygame.image.load(icon_path).convert_alpha()
@@ -158,17 +179,17 @@ class BarSection(Window):
         """
         self.expanded = False
         self.rect.height = self.init_height #vuelve al tamaño inicial
-        self.rect.top = self.init_top
-        self.icon.rect_absolute.top = self.init_top
-        
+
         self.__calculate()
     
     def move_up(self):
         """
         Desplaza la sección a su posición original.
         """
-        self.rect.top = self.init_top
-        self.__calculate()
+        offset = self.init_top - self.rect.top
+        if offset <> 0:
+            self.move((0, offset))
+            self.__calculate()
     
     def move_down(self, offset):
         """
@@ -187,7 +208,8 @@ class BarSection(Window):
         self.root_bar_display.container = self.rect
         self.root_bar_display.set_rect_in_container(self.root_bar_display.rect_in_container)
         
-        self.widgets = [self.root_bar_display]
+        self.widgets = []
+        self.widgets.extend(self.fixed_widgets)
         
         if self.expanded:
             y = SECTION_TOP_PADDING
@@ -199,7 +221,6 @@ class BarSection(Window):
                 display.set_rect_in_container(display.rect_in_container)
                 
                 self.widgets.append(display)
-        self.widgets.extend(self.fixed_widgets)
         
     def __get_displays(self):
         """
@@ -222,7 +243,7 @@ class BarDisplay(Widget):
         
         rect = pygame.Rect(position, (width, height))
         surface = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
-        Widget.__init__(self, pygame.Rect(0, 0, height, width), rect, 1, surface)
+        Widget.__init__(self, pygame.Rect(0, 0, width, height), rect, 1, surface)
         
         # attributes
         self.status_bar = status_bar
@@ -232,9 +253,12 @@ class BarDisplay(Widget):
         self.surface = surface.copy()
         
         # visuals
-        self.font = pygame.font.Font(None, 20)
+        self.font = pygame.font.SysFont("DejaVu Sans", 12)
+        self.font.set_bold(True)
         
         self.last_value = self.status_bar.value #valor inicial
+        
+        self.show_name = True
         
     def draw(self, screen):
         #if(self.last_value != self.status_bar.value):
@@ -246,12 +270,12 @@ class BarDisplay(Widget):
         self.surface.fill(self.color, charged_rect)
         self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
         
-        self.surface.blit(self.font.render(self.label, 1, (0, 0, 0)), (15, 5))
+        if self.show_name:
+            self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (15, 5))
         
         screen.blit(self.surface, self.rect_absolute)
         
         return self.rect_absolute
-    
 
 class ScoreSection(Widget):
     """
@@ -267,19 +291,35 @@ class ScoreSection(Widget):
         self.level = level
         
         # visuals
-        self.score_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (1, (size[1] / 2) - 3), self.score_bar, pygame.Color("blue"))
-        self.surface = pygame.Surface(self.rect_in_container.size)
-        self.surface.fill((2, 45, 126))
-        self.font = pygame.font.Font(None, 20)
+        score_background = pygame.image.load("assets/layout/score_bar_back.png").convert_alpha()
+        self.score_bar_display = BarDisplay(score_background.get_height(), score_background.get_width(), (SCORE_BAR_X_OFFSET, 12), self.score_bar, pygame.Color("blue"))
+        self.score_bar_display.background = score_background
+        
+        self.surface = pygame.Surface(self.rect_in_container.size, pygame.SRCALPHA)
+        
+        self.font = pygame.font.SysFont("DejaVu Sans", 16)
+        self.font.set_bold(True)
+        self.font.set_italic(True)
+        
+        self.number_font = pygame.font.SysFont("DejaVu Sans", 32)
+        self.number_font.set_bold(True)
+        self.number_font.set_italic(True)
+        
+        self.text_color = pygame.Color(TEXT_COLOR)
         
     def draw(self, screen):
-        #draw bar:
+        # draw bar:
         self.score_bar_display.draw(self.surface)
         
-        #write actual level:
-        level_text = _("Level") + ": " + str(self.level)
+        # write level:
+        level_text = _("NIVEL")
+        level_text_surface = self.font.render(level_text, 1, self.text_color)
         
-        self.surface.blit(self.font.render(level_text, 1, (255, 255, 255)), (2, 5))
+        level_number = str(self.level)
+        level_number_surface = self.number_font.render(level_number, 1, self.text_color)
+        
+        self.surface.blit(level_text_surface, (0, 34 - level_text_surface.get_height()))
+        self.surface.blit(level_number_surface, (level_text_surface.get_width(), 40 - level_number_surface.get_height()))
         
         screen.blit(self.surface, self.rect_absolute)
         return self.rect_absolute
@@ -379,8 +419,4 @@ class StatusBar:
                 self.value = self.max
             elif(self.value < 0):
                 self.value = 0
-
-
-
-
 

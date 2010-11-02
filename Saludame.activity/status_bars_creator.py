@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import status_bars
+from gettext import gettext as _
 
 class BarsLoader:
     """
@@ -9,34 +10,34 @@ class BarsLoader:
     """
     
     def __init__(self):
-        self.score_bar = status_bars.StatusBar("score_bar", "Score", None, [], 100, 50)
-        self.overall_bar = status_bars.StatusBar("overall_bar", "overall", None, [], 100, 50)
+        self.score_bar = status_bars.StatusBar("score_bar", _("Score"), None, [], 100, 50)
+        self.overall_bar = status_bars.StatusBar("overall_bar", _("Overall"), None, [], 100, 50)
         
         hard_level = (100, 50) 
         
         #'hard_level' para plasmar que la idea es que los valores por defecto de las barras
         #se carguen segun un nivel de dificultad
         # physica
-        physica_children_id = [("energy", "Energy"), ("resistencia", "Resistencia"), ("fat", "Fat")]
+        physica_children_id = [("energy", _(u"Energía")), ("resistencia", _("Resistencia")), ("fat", _("Peso"))]
         physica = status_bars.StatusBar("physica", "Physica", self.overall_bar, [], hard_level[0], hard_level[1])
         physica_children_bar = [status_bars.StatusBar(id[0], id[1], physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
         physica.children_list = physica_children_bar
         
         ### hygiene
-        hygiene_children_id = [("shower", "Shower"), ("w_hands", "Washing hands"), ("b_teeth", "Brushing teeth"), ("toilet", "Toilet")]
+        hygiene_children_id = [("shower", _("Ducha")), ("w_hands", _("Manos")), ("b_teeth", _("Dientes")), ("toilet", _(u"Baño"))]
         hygiene = status_bars.StatusBar("hygiene", "Hygiene", self.overall_bar, [], hard_level[0], hard_level[1])
         hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar
 
         ### nutrition 
-        nutrition_children_id = [("c_leguminosas", "Cereales y leguminosas"), ("v_frutas", "Verduras y frutas"), ("C_huevos", "Carnes y huevos"), ("dulces", "Dulces"), ("g_aceites", "Grasas y aceites"), ("l_quesos", "Leches y quesos"), ("agua", "Agua")]
-        nutrition = status_bars.StatusBar("nutrition", "Nutrition", self.overall_bar, [], hard_level[0], hard_level[1])
+        nutrition_children_id = [("c_leguminosas", _("Cereales y leguminosas")), ("v_frutas", _("Verduras y frutas")), ("C_huevos", _("Carnes y huevos")), ("dulces", _("Dulces")), ("g_aceites", _("Grasas y aceites")), ("l_quesos", _("Leches y quesos")), ("agua", _("Agua"))]
+        nutrition = status_bars.StatusBar("nutrition", _("Nutrition"), self.overall_bar, [], hard_level[0], hard_level[1])
         nutrition_children_bar = [status_bars.StatusBar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
         nutrition.children_list = nutrition_children_bar
         
         ### fun 
-        fun_children_id = [("sports", "Sports"), ("playing", "Playing"), ("relaxing", "Relaxing")]
-        fun = status_bars.StatusBar("fun", "Fun", self.overall_bar, [], hard_level[0], hard_level[1])
+        fun_children_id = [("sports", _("Deportes")), ("fun", _(u"Diversión")), ("relaxing", _("Descanzo")), ("responsability", _("Responsabilidad"))]
+        fun = status_bars.StatusBar("spare_time", _("Tiempo Libre"), self.overall_bar, [], hard_level[0], hard_level[1])
         fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar
         
@@ -63,11 +64,4 @@ class BarsLoader:
     
     def get_score_bar(self):
         return self.score_bar
-    
-    
-    
-
-
-
-
 
