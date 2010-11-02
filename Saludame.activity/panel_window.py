@@ -21,15 +21,12 @@ class PanelWindow(Window):
         
         # Actions
         self.surf_action = pygame.Surface((280, 110))
+        self.rect_action = pygame.Rect((760, 652), self.surf_action.get_rect().size)
         self.surf_action.fill(WHITE)
         
         self.on_animation = False
         self.actual_action = None
-        self.actual_animation = None
-        
-        # Por ahora la barra de progreso se muestra al inicio y una vez que se "consume" no se vuelve a pintar
-        action_progress_bar = ActionProgressBar(rect, pygame.Rect((630, 60), (182, 26)), 1, None)
-        self.add_child(action_progress_bar)
+        self.actual_animation = None        
         
         # Personal
         self.surf_personal = pygame.Surface((130, 110))
@@ -55,7 +52,11 @@ class PanelWindow(Window):
     ########## Actions ##########    
     def set_active_action(self, action):
         self.actual_action = action
-        self.actual_animation = animation.ActionAnimation(pygame.Rect(20, 5, 100, 100), 10, action.window_animation_path, action.sound_path)
+        if (action.window_animation_path != None):
+            self.actual_animation = animation.ActionAnimation(pygame.Rect(20, 5, 100, 100), 10, action.window_animation_path, action.sound_path)
+        else:
+            action_progress_bar = ActionProgressBar(self.rect_action, pygame.Rect((45, 15), (182, 26)), 1, action)
+            self.add_child(action_progress_bar)            
     
     def play_animation(self, action):
         self.set_active_action(action)
@@ -92,7 +93,7 @@ class PanelWindow(Window):
             self.surf_action.fill(WHITE)
         
         # Blit the action surface with screen
-        screen.blit(self.surf_action, (760, 652))
+        screen.blit(self.surf_action, self.rect_action)
         
         #### Personal ####
         self.surf_personal.fill(WHITE)
@@ -101,7 +102,7 @@ class PanelWindow(Window):
             self.surf_personal.blit(event, (23, 0))       
         
         # Blit the personal surface with screen
-        screen.blit(self.surf_personal, (410, 652))
+        screen.blit(self.surf_personal, self.rect_personal)
         
         #### Environment #### 
         
@@ -140,20 +141,20 @@ class ActionProgressBar(Widget):
         Widget.__init__(self, container, rect_in_container, frame_rate, surface)
         
         self.surface = surface.copy()
-        self.decrease = 1 # Porcentaje de tiempo restante de la acción (1 = 100%)
+        self.decrease = action.time_span
         self._prepare_surface()
         
     def _prepare_surface(self):
         rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
         charged_rect = pygame.Rect(rect)  # create a copy
         
-        charged_rect.width = self.decrease * rect.width
+        charged_rect.width = ((float)(self.decrease) / self.action.time_span) * rect.width
         
         self.surface.fill(pygame.Color("red"), rect)
         self.surface.fill(pygame.Color("blue"), charged_rect)
         self.surface.blit(self.background, (0, 0)) # Background blits over the charge, because it has the propper alpha
         
-        self.decrease -= 0.01 # This value should be obtained from the action
+        self.decrease = self.action.time_left
         
     def draw(self, screen):
         """

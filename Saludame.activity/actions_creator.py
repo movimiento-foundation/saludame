@@ -31,7 +31,7 @@ eat_effect = effects.Effect(None, [("energy", 5.0), ("v_frutas", 10.0)])
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
 
 
-actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, "windows_animation_path", 4, "sound_path", sport_effect),
+actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, None, 4, "sound_path", sport_effect),
                 ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH, eat_effect),
                 ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)]
 
