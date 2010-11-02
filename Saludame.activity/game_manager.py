@@ -56,7 +56,7 @@ class GameManager:
         action with the 'action_id'. If the action_id is 'None', just
         stops the active action.
         """
-        self.active_char_action.time_left = self.active_char_action.time_span
+        self.active_char_action.reset()
         self.active_char_action = None
         
         if(action_id):
@@ -98,7 +98,7 @@ class GameManager:
             if(self.active_char_action.time_left):
                 self.active_char_action.perform()
             else: #if the action was completed: 
-                self.active_char_action.time_left = self.active_char_action.time_span
+                self.active_char_action.reset()
                 self.active_char_action = None
     
     def get_place(self, id_place):

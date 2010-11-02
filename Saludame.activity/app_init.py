@@ -70,13 +70,13 @@ class AppLoader:
         inc = 1.0
         ef1 = effects.Effect(bars_controller, [("nutrition", dec), ("physica", dec), ("hygiene", dec), ("fun", dec)])
         ef2 = effects.Effect(bars_controller, [("nutrition", inc), ("physica", inc), ("hygiene", inc), ("fun", inc)])
-        ef3 = effects.Effect(bars_controller, [("fun", 5.0)])
-        ef4 = effects.Effect(bars_controller, [("nutrition", 5.0)])
+        ef3 = effects.Effect(bars_controller, [("b_teeth", -1.5)])
+        ef4 = effects.Effect(bars_controller, [("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
         
         event_dec = events.Event("picture_path", "decremento", 4, 5, "kind", None, ef1)
         event_inc = events.Event("picture_path", "incremento", 6, 5, "kind", None, ef2)
-        event_ill = events.Event("ill.jpg", "ill", 5, 5, "kind", None, ef3)
-        event_caries = events.Event("caries.jpg", "caries", 8, 5, "kind", None, ef4)
+        event_ill = events.Event("ill.jpg", "ill", 5, 15, "kind", None, ef4)
+        event_caries = events.Event("caries.jpg", "caries", 5, 15, "kind", None, ef3)
         
         return [event_ill, event_caries]
     
