@@ -44,7 +44,7 @@ class MainWindow(Window):
         
         self.buttons.append(challengesButton)
         self.buttons.append(customizationButton) 
-        self.buttons.append(stop_animation_button) 
+        #self.buttons.append(stop_animation_button) 
         
         for b in self.buttons:
             self.add_child(b) 

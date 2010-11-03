@@ -5,10 +5,10 @@ import os
 import utilities
 from window import *
 
-KID_PATH = os.path.normpath("assets/kid/animation/")
+KID_PATH = os.path.normpath("assets/kid/moods/normal/")
 KID_PREFIX, KID_SUFIX = "character1_", ".png"
 
-COLORS_HAIR = ("#000000", "#191919")
+COLORS_HAIR = ("#00ffff", "#009f9f")
 COLORS_HAIR_NEW = [("#000000", "#191919"), ("#FFFF10", "#DDDD10"), ("#803310", "#552210")]
 
 COLORS_SKIN = ("#ffccc7", "#f3b9b6")
@@ -47,7 +47,7 @@ class Kid(Window):
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
         
-        self.index %= 150
+        self.index %= 24
         self.index += 1
         
         return [self.rect]

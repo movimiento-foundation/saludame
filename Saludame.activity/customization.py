@@ -99,7 +99,7 @@ FEMALE_PATH = os.path.normpath("customization/girl.png")
 class CustomizatedKid(widget.Widget):
     
     COLOR_MAP = {
-        "hair": (pygame.Color("#000000"), pygame.Color("#191919")),
+        "hair": (pygame.Color("#00ffff"), pygame.Color("#009f9f")),
         "skin": (pygame.Color("#ffccc7"), pygame.Color("#f3b9b6")),
         "socks": (pygame.Color("#fd8255"), pygame.Color("#db601f")),
         "shoes": (pygame.Color("#eeea00"), pygame.Color("#938200"))

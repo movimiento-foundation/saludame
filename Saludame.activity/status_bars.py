@@ -310,7 +310,8 @@ class ScoreSection(Widget):
         self.score_bar_display.background = score_background
         
         #self.surface = self.get_background().subsurface(self.rect_in_container)
-        self.surface = pygame.Surface(self.rect_in_container.size, pygame.SRCALPHA)
+        self.surface = pygame.Surface(self.rect_in_container.size)
+        self.surface.set_alpha(255)
         
         self.font = utilities.get_font(16, True, True)
         
