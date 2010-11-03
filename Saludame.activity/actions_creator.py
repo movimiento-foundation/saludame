@@ -14,7 +14,7 @@ APPLE_PATH = os.path.normpath("assets/food/apple")
 ##BACKGROUND EFFECTS
 #BAR DECREASE
 
-bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("fun", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
+bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spare_time", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
 
 ##ACTION EFFECTS
 #SPORT
