@@ -84,7 +84,7 @@ class Window:
         widget.parent = self
         
     def add_button(self, button):
-        self.add_child(self, button)
+        self.add_child(button)
         self.buttons.append(button)
         button.parent = self
     

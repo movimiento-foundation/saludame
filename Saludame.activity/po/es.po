@@ -100,6 +100,10 @@ msgstr "Juego"
 msgid "Credits"
 msgstr "Créditos"
 
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:37
+msgid "Health Library"
+msgstr "Biblioteca"
+
 #: /home/pmoleri/saludame/Saludame.activity/status_bars.py:38
 msgid "Total"
 msgstr "Total"

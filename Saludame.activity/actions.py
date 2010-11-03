@@ -33,6 +33,9 @@ class Action:
         if(self.time_left):
             self.effect.activate()
             self.time_left -= 1
+
+    def reset(self):
+        self.time_left = self.time_span    
         
 class Mood:
     

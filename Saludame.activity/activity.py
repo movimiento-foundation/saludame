@@ -6,6 +6,12 @@ from sugargame.canvas import PygameCanvas
 import gtk
 import gobject
 
+import gettext
+gettextold = gettext.gettext
+def _(string):
+    return unicode(gettextold(string)).upper()
+gettext.gettext = _
+
 from gettext import gettext as _
 
 import game
