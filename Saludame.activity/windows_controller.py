@@ -40,7 +40,7 @@ class WindowsController:
         cha.create_challenges()
         
         # Customization Window
-        customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((200, 100), (800, 500)), 1, self, app_loader.get_character())
+        customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((200, 100), (934, 567)), 1, self, app_loader.get_character())
         
         # Main Window
         main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha, bars_loader, game_man)
@@ -96,7 +96,7 @@ class WindowsController:
     #### Tooltips #####    
     def show_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
-        self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 20, pygame.Color('red'))
+        self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 16, pygame.Color('red'))
         
         # Necesitamos guardar lo que esta atras del tooltip para cuando lo querramos esconder
         self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 

@@ -57,10 +57,11 @@ class MainWindow(Window):
 class Clock(Widget):
     
     def __init__(self, container, rect_in_container, frame_rate):
-        surface = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
-        rect_in_container.size = surface.get_size()
-        Widget.__init__(self, container, rect_in_container, frame_rate, surface)
-    
+        background = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
+        rect_in_container.size = background.get_size()
+        Widget.__init__(self, container, rect_in_container, frame_rate)
+        
+        self.background = background
         self.frame_index = 0
         self.frame_paths = [
             "assets/layout/clock_A.png",
@@ -80,4 +81,3 @@ class Clock(Widget):
         self.frame_index %= 4
         return change
         
-

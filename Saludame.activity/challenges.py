@@ -37,7 +37,7 @@ class MultipleChoice(Window):
         self.question_lines = 1;
         
         # Close Button
-        self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 38, (0, 0, 0), self._cb_button_click_close)
+        self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
         self.buttons += [self.btn_close] 
         
         # Answer Button

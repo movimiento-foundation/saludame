@@ -6,19 +6,21 @@ class Widget:
     
     # Un widget representa cualquier cosa "pintable"
     
-    def __init__(self, container, rect_in_container, frame_rate, surface, tooltip=None):
+    def __init__(self, container, rect_in_container, frame_rate, surface=None, tooltip=None):
         self.container = container # Ventana (Rect) que "contiene" al widget
         self.set_rect_in_container(rect_in_container)
         self.frame_rate = frame_rate
         self.background = surface
+        self.parent = None
         
         # El widget puede (opcionalmente) tener un tooltip
         self.tooltip = tooltip
         self.showing_tooltip = False
     
     def draw(self, screen):
-        screen.blit(self.background, self.rect_absolute)
-        return self.rect_absolute
+        if self.background:
+            screen.blit(self.background, self.rect_absolute)
+            return self.rect_absolute
     
     def force_update(self): # Forzamos la actualizacion del widget independientemente del frame_rate
         #screen.blit(self.background, self.rect_in_container)
@@ -38,4 +40,26 @@ class Widget:
         
         # Rect del widget (absoluto al screen)
         self.rect_absolute.size = size
-      
+           
+    def get_background_and_owner(self):
+        if self.background:
+            return (self.background, self)
+        elif self.parent:
+            return self.parent.get_background_and_owner()
+        else:
+            return (None, None)
+
+    def get_background(self):
+        return self.get_background_and_owner()[0]
+    
+    def get_background_rect(self):
+        background, owner = self.get_background_and_owner()
+        if background:
+            if self is owner:
+                return background.copy()
+            else:
+                parents_relative_pos = self.rect_absolute.x - owner.rect.x, self.rect_absolute.y - owner.rect.y
+                rect = pygame.Rect(parents_relative_pos, self.rect_absolute.size)
+                return background.subsurface(rect)
+        return pygame.Surface(self.rect_absolute.size)
+    

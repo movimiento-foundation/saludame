@@ -20,6 +20,7 @@ class Window:
         self.bg_color = bg_color
         self.bg_image = None
         self.windows_controller = windows_controller
+        self.parent = None
         
         # Register
         self.register_id = register_id
@@ -80,13 +81,16 @@ class Window:
     
     def add_child(self, widget):
         self.widgets.append(widget)
+        widget.parent = self
         
     def add_button(self, button):
         self.add_child(self, button)
         self.buttons.append(button)
+        button.parent = self
     
     def add_window(self, window):
         self.windows.append(window)
+        window.parent = self
         
     def enable_repaint(self):
         self.repaint = True
@@ -138,3 +142,16 @@ class Window:
             if not (self.rect is widget.container):
                 widget.container.move_ip(x, y)
             widget.rect_absolute.move_ip(x, y)
+       
+    def get_background_and_owner(self):
+        if self.bg_image:
+            return (self.bg_image, self)
+        elif self.bg_color:
+            return (self.bg_color, self)
+        elif self.parent:
+            return self.parent.get_background_and_owner()
+        else:
+            return (None, None)
+    
+    def get_background(self):
+        return self.get_background_and_owner()[0]

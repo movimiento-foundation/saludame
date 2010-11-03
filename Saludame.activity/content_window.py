@@ -3,6 +3,13 @@
 import gtk, os
 from gettext import gettext as _
 
+from sugar.activity import activity
+
+#import hulahop
+#hulahop.startup( os.path.join(activity.get_activity_root(), 'data/gecko') )
+
+#from hulahop.webview import WebView
+
 import content_parser
 
 ROOT_PATH = "content"
@@ -10,14 +17,16 @@ ROOT_PATH = "content"
 class ContentWindow(gtk.HBox):
     
     def __init__(self):
-        gtk.HBox.__init__(self)
+        gtk.HBox.__init__(self, False)
 
         self._create_treeview()
         self.add(self.treeview)
         
         health_stuff = gtk.Button("Pretty Health stuff goes here")
         self.add(health_stuff)
-        
+        #self.web_view = WebView()
+        #self.add(self.web_view)
+
         self.connect("expose-event", self._exposed)
         self.show_all()
  
@@ -49,6 +58,8 @@ class ContentWindow(gtk.HBox):
         if not self.treeview_loaded:
             self.treeview_loaded = True
             self._load_treeview()
+
+            #self.web_view.load_uri("content/instrucciones.html")
     
     def _load_treeview(self):
         # we'll add some data now - 4 rows with 3 child rows each

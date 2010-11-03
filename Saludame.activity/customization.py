@@ -5,6 +5,7 @@ import pygame
 import window
 import widget
 import utilities
+
 from gettext import gettext as _
 
 COLORS_HAIR = [
@@ -16,9 +17,15 @@ COLORS_HAIR = [
 
 COLORS_SKIN = [
     ("#ffccc7", "#f3b9b6"),
-    ("#f6d04e", "#eeca4c"),
-    ("#694321", "#5b3a1c"),
-    ("#805030", "#784828"),
+    ("#ffca90", "#eab484"),
+    ("#eab484", "#d89f6c"),
+    ("#d89f6c", "#c78c56"),
+    ("#c78c56", "#b8773d"),
+    ("#b8773d", "#8f5f33"),
+    ("#8f5f33", "#784b23"),
+    ("#784b23", "#593d24"),
+    ("#593d24", "#593d24"),
+    ("#4a311b", "#3b2614"),
 ]
 
 COLORS_SOCKS = [
@@ -36,13 +43,14 @@ COLORS_SHOES = [
 class CustomizationWindow(window.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, character):
-        window.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window", pygame.Color("gray"))
+        window.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window")
+        self.set_bg_image("assets/windows/window_1.png")
         
         kid_rect = pygame.Rect((20, 20), (1,1))
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
-        self.btn_close = utilities.TextButton(self.rect, pygame.Rect((770, 5), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
+        self.btn_close = utilities.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
         self.btn_hair = utilities.TextButton(self.rect, pygame.Rect((500, 150), (70, 30)), 1, _("Hair"), 30, (0, 0, 0), self._cb_button_hair)
         self.btn_skin = utilities.TextButton(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (0, 0, 0), self._cb_button_skin)
         self.btn_socks = utilities.TextButton(self.rect, pygame.Rect((500, 250), (70, 30)), 1, _("Socks"), 30, (0, 0, 0), self._cb_button_socks)
@@ -98,7 +106,7 @@ class CustomizatedKid(widget.Widget):
     }
     
     def __init__(self, container, rect, frame_rate, character):
-        widget.Widget.__init__(self, container, rect, frame_rate, pygame.Color("black"))
+        widget.Widget.__init__(self, container, rect, frame_rate)
         
         self.character = character
         

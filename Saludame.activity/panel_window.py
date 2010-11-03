@@ -13,7 +13,7 @@ class PanelWindow(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
         
         self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando        
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window", bg_color)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window")
         
         self.set_bg_image(PANEL_BG_PATH)
         
@@ -95,9 +95,11 @@ class ActionProgressBar(Widget):
         self.action = action
         surface = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         
-        Widget.__init__(self, container, rect_in_container, frame_rate, surface)
+        Widget.__init__(self, container, rect_in_container, frame_rate)
         
-        self.surface = surface.copy()
+        self.background = surface       # Borders of the bar
+        self.surface = surface.copy()   # Actual surface to blit in the screen, _prepare_surface
+        
         self.decrease = 1 # Porcentaje de tiempo restante de la acción (1 = 100%)
         self._prepare_surface()
         
