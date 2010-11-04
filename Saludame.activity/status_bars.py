@@ -389,48 +389,45 @@ class StatusBar:
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
-        if(self.value < self.max and self.value > 0):
-            if(len(self.children_list) > 0):
-                value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-                self.value += value
+        if self.value < self.max and self.value > 0:
+            # Increments this bar
+            self.value += increase_rate
+            
+            # Increments childrens
+            if len(self.children_list) > 0:
                 for child in self.children_list:
-                    child.increase_from_parent(value)
-            else:
-                self.value += increase_rate
-    
-            if(self.parent != None):
+                    child.increase_from_parent(increase_rate)
+                    
+            # Increments parent
+            if self.parent != None:
                 self.parent.increase_from_child(increase_rate)
     
     def increase_from_child(self, increase_rate):
         """
         Incrementa el valor de la barra.
         """
-        value = increase_rate / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+        value = float(increase_rate) / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
         self.value += value
         
-        if(self.parent != None):
+        if self.parent != None:
             self.parent.increase_from_child(value)
         
-        if(self.value > self.max):
+        if self.value > self.max:
             self.value = self.max
-        elif(self.value < 0):
+        elif self.value < 0:
             self.value = 0
         
     def increase_from_parent(self, increase_rate):
         """
         Incrementa el valor de la barra y repercute en los hijos.
         """
-        
-        if(self.value < max and self.value > 0):
-            if(len(self.children_list) > 0):
-                self.value += increase_rate
+        if self.value < max and self.value > 0:
+            self.value += increase_rate
+            if len(self.children_list) > 0:
                 for child in self.children_list:
                     child.increase_from_parent(increase_rate)
-            else:
-                self.value += increase_rate
             
-            if(self.value > self.max):
+            if self.value > self.max:
                 self.value = self.max
-            elif(self.value < 0):
+            elif self.value < 0:
                 self.value = 0
-

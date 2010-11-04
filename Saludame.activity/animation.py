@@ -11,7 +11,7 @@ KID_PREFIX, KID_SUFIX = "character1_", ".png"
 COLORS_HAIR = ("#00ffff", "#009f9f")
 COLORS_HAIR_NEW = [("#000000", "#191919"), ("#FFFF10", "#DDDD10"), ("#803310", "#552210")]
 
-COLORS_SKIN = ("#ffccc7", "#f3b9b6")
+COLORS_SKIN = ("#ffccc7", "#cba5a0")
 COLORS_SKIN_NEW = [("#ffccc7", "#f3b9b6"), ("#694321", "#5b3a1c"), ("#f6d04e", "#eeca4c")]
 
 COLORS_SOCKS = ("#fd8255", "#db601f")

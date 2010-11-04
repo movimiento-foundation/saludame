@@ -16,7 +16,7 @@ COLORS_HAIR = [
 ]
 
 COLORS_SKIN = [
-    ("#ffccc7", "#f3b9b6"),
+    ("#ffccc7", "#cba5a0"),
     ("#ffca90", "#eab484"),
     ("#eab484", "#d89f6c"),
     ("#d89f6c", "#c78c56"),
@@ -100,7 +100,7 @@ class CustomizatedKid(widget.Widget):
     
     COLOR_MAP = {
         "hair": (pygame.Color("#00ffff"), pygame.Color("#009f9f")),
-        "skin": (pygame.Color("#ffccc7"), pygame.Color("#f3b9b6")),
+        "skin": (pygame.Color("#ffccc7"), pygame.Color("#cba5a0")),
         "socks": (pygame.Color("#fd8255"), pygame.Color("#db601f")),
         "shoes": (pygame.Color("#eeea00"), pygame.Color("#938200"))
     }
