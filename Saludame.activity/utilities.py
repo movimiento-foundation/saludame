@@ -97,10 +97,10 @@ class ImageButton(Button):
     def __init__(self, container, rect, frame_rate, image, cb_click=None, cb_over=None, cb_out=None):
         
         self.image = image       
-        
         if not isinstance(image, pygame.Surface):
             self.image = pygame.image.load(image).convert_alpha()
-            
+        
+        rect.size = self.image.get_rect().size
         Button.__init__(self, container, rect, frame_rate, self.image, cb_click, cb_over, cb_out)
     
     def switch_image_background(self, image):

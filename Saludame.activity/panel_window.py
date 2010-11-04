@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import pygame
-from window import Window
-import animation
 import os
+
+from gettext import gettext as _
+
+from window import Window
 from widget import Widget
-import window
 from utilities import *
+
+import animation
+import customization
 
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 WHITE = pygame.Color("white")
 
 class PanelWindow(Window):
-    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
+    
+    def __init__(self, container, rect, frame_rate, windows_controller):
         
         self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando        
         Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window")
@@ -43,11 +48,17 @@ class PanelWindow(Window):
         # Social
         self.surf_social = pygame.Surface((70, 110))
         
-        # Environment 
+        # Customization
+        customization_button = ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
+        customization_button.set_tooltip(_("Customization module"))
+        self.add_button(customization_button)
         
         # Info
-        info = Info(rect, pygame.Rect(885, 0, 1, 1), 1)        
-        self.add_child(info)
+        info_button = ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png") 
+        self.add_button(info_button)
+
+        # Environment 
+        #...
     
     ########## Actions ##########    
     def set_active_action(self, action):
@@ -121,13 +132,9 @@ class PanelWindow(Window):
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
             self.index_personal_event -= 1           
-    
-class Info(Widget):    
-    
-    def __init__(self, container, rect_in_container, frame_rate):
-        surface = pygame.image.load("assets/layout/info.png").convert_alpha()
-        rect_in_container.size = surface.get_size()
-        Widget.__init__(self, container, rect_in_container, frame_rate, surface)
+
+    def _cb_button_click_customization(self, button):
+        self.windows_controller.set_active_window("customization_window")
         
 class ActionProgressBar(Widget):
     """

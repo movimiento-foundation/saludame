@@ -23,7 +23,7 @@ class MainWindow(Window):
         # temporal para probar PanelWindow (se cargará el diccionario en un módulo aparte).
         # self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((0, 0), (120, 172)), 10), "Eating an apple!") }
         
-        self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller, pygame.Color("blue"))
+        self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller)
         self.windows.append(self.panel_win)
         
         self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, game_man)
@@ -35,16 +35,13 @@ class MainWindow(Window):
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 40))
         
-        challengesButton = ImageButton(self.rect, pygame.Rect((1000, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
-        challengesButton.set_tooltip("Challenges module")
-        customizationButton = ImageButton(self.rect, pygame.Rect((1000, 530), (50, 50)), 1, "customization/palette.png", self._cb_button_click_customization)
-        customizationButton.set_tooltip("Customization module")
+        # Challenges
+        challenges_button = ImageButton(self.rect, pygame.Rect((1000, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
+        challenges_button.set_tooltip(_("Challenges module"))
+        self.add_button(challenges_button)
         
-        stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
-        
-        self.buttons.append(challengesButton)
-        self.buttons.append(customizationButton) 
-        #self.buttons.append(stop_animation_button) 
+        #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
+        #self.add_button(stop_animation_button)
         
         for b in self.buttons:
             self.add_child(b) 
@@ -54,12 +51,8 @@ class MainWindow(Window):
         self.cha_loader.get_challenge()
         self.windows_controller.set_active_window("challenges_window")
         
-    def _cb_button_click_customization(self, button):
-        self.windows_controller.set_active_window("customization_window")
-        
     def _cb_button_click_stop_animation(self, button):
         self.panel_win.stop_animation()
-
 
 class Clock(Widget):
     
