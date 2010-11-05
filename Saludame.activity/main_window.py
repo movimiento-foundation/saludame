@@ -43,8 +43,8 @@ class MainWindow(Window):
         #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
         #self.add_button(stop_animation_button)
         
-        for b in self.buttons:
-            self.add_child(b) 
+        btn_change_mood = ImageButton(self.rect, pygame.Rect((700, 200), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
+        self.add_button(btn_change_mood)
     
     #### Callbacks ####    
     def _cb_button_click_challenges(self, button):
@@ -53,6 +53,9 @@ class MainWindow(Window):
         
     def _cb_button_click_stop_animation(self, button):
         self.panel_win.stop_animation()
+        
+    def _cb_button_click_change_mood(self, button):
+        self.kidW.change_mood()
 
 class Clock(Widget):
     
