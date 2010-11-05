@@ -1,32 +1,42 @@
 # -*- coding: utf-8 -*-
 
-import gtk, os
+import gtk, gobject
+import os
 from gettext import gettext as _
 
 from sugar.activity import activity
 
-#import hulahop
-#hulahop.startup( os.path.join(activity.get_activity_root(), 'data/gecko') )
-
-#from hulahop.webview import WebView
+hulahop_ok = True
+try:
+    import hulahop
+    hulahop.startup( os.path.join(activity.get_activity_root(), 'data/gecko') )
+    from hulahop.webview import WebView
+except:
+    hulahop_ok = False
 
 import content_parser
 
-ROOT_PATH = "content"
+gobject.threads_init()
+
+ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
+HOME_PAGE = os.path.join(activity.get_bundle_path(), 'content/instrucciones.html')
 
 class ContentWindow(gtk.HBox):
     
     def __init__(self):
         gtk.HBox.__init__(self, False)
-
-        self._create_treeview()
-        self.add(self.treeview)
         
-        health_stuff = gtk.Button("Pretty Health stuff goes here")
-        self.add(health_stuff)
-        #self.web_view = WebView()
-        #self.add(self.web_view)
-
+        self._create_treeview()
+        self.pack_start(self.treeview, False)
+        
+        if hulahop_ok:
+            self.web_view = WebView()
+            self.pack_start(self.web_view, True, True)
+            self.web_view.load_uri(HOME_PAGE)
+        else:
+            health_stuff = gtk.Button("Pretty Health stuff goes here")
+            self.add(health_stuff)
+        
         self.connect("expose-event", self._exposed)
         self.show_all()
  
@@ -51,15 +61,28 @@ class ContentWindow(gtk.HBox):
         self.treeview.set_search_column(0)
         # Allow sorting on the column
         #tvcolumn.set_sort_column_id(0) # Makes the app crash on sugar
-
-        self.treeview_loaded = False
         
+        self.treeview_loaded = False
+        self.treeview.connect("row-activated", self.selection)
+    
+    def selection(self, treeview, tree_path, view_column):
+        it = self.treestore.get_iter(tree_path)
+        path_values = []
+        while it:
+            value = self.treestore.get(it, 0)[0]# get value
+            path_values.insert(0, value)        # Prepend
+            it = self.treestore.iter_parent(it) # get parent
+            
+        path_values.pop(0) # Removes the root node (Library)
+        
+        path = [ROOT_PATH] + path_values
+        real_path = os.sep.join(path)
+        self.web_view.load_uri( unicode(real_path) )
+    
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
             self.treeview_loaded = True
             self._load_treeview()
-
-            #self.web_view.load_uri("content/instrucciones.html")
     
     def _load_treeview(self):
         # we'll add some data now - 4 rows with 3 child rows each

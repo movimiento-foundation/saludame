@@ -39,10 +39,14 @@ class Action:
         
 class Mood:
     
-    def _init__(self, name, kid_animation):
-        self.kid_animation_path = kid_animation.path
-        self.kid_frame_rate = kid_animation.frame_rate
+    def __init__(self, name, rank, kid_animation_path, frame_rate=11):
+        self.name = name
+        self.rank = rank #hierarchy of moods
+        
+        self.kid_animation_path = kid_animation_path
+        self.kid_frame_rate = frame_rate
     
+
 
 
 
