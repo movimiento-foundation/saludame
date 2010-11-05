@@ -10,7 +10,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_list, windows_controller):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_list, moods_list, windows_controller):
         """
         Constructor de la clase
         """
@@ -18,20 +18,29 @@ class GameManager:
         self.bars_controller = bars_controller
         self.count = 0 #sirve como 'clock' interno, para mantener un orden de tiempo dentro de la clase.
         
+        #evenst, actions, moods
         self.events_list = events_list
         self.actions_list = actions_list
-        self.places_list = places_list
+        self.moods_list = moods_list
         
+
         self.background_actions = []
-        self.active_char_action = None #Active character action, Action instance
         
+        #character states
+        self.active_char_action = None #Active character action, Action instance
         self.active_event = None 
+        self.active_mood = None
+        self.__check_active_mood() # sets active_mood
+        
         
         self.windows_controller = windows_controller
+        
+        self.places_list = places_list
         
         #for events handling:
         self.max_rand = self.__calculate_max_rand(self.events_list)
         self.probability_ranges = self.__calculate_ranges(self.events_list)
+        
 
     def set_active_action(self, action_id):
         #place = get_place(self.character.actual_place) 
@@ -78,28 +87,14 @@ class GameManager:
         """
         self.count += 1
         if(self.count >= CONTROL_INTERVAL):
-            self.__control_active_actions()
-            self.bars_controller.calculate_score()
-            self.__control_active_events()
+            self.__control_active_actions() #handle active character actions
+            self.bars_controller.calculate_score()  #calculates the score of the score_bar
+            self.__control_active_events() #handle active events
+            self.__check_active_mood() # check if the active character mood
+            
             self.count = 0
+            
     
-    def __control_score(self):
-        """
-        """
-        None
-        
-    def __control_active_actions(self):
-            
-        for action in self.background_actions:
-            action.perform()
-            action.time_span = 1 #that means background actions never stop
-            
-        if(self.active_char_action): #if the character is performing an action: 
-            if(self.active_char_action.time_left):
-                self.active_char_action.perform()
-            else: #if the action was completed: 
-                self.active_char_action.reset()
-                self.active_char_action = None
     
     def get_place(self, id_place):
         """
@@ -116,7 +111,49 @@ class GameManager:
         for action in self.actions_list:
             if(action.id == action_id):
                 return action
+        
+    def __control_active_actions(self):
             
+        for action in self.background_actions:
+            action.perform()
+            action.time_span = 1 #that means background actions never stop
+            
+        if(self.active_char_action): #if the character is performing an action: 
+            if(self.active_char_action.time_left):
+                self.active_char_action.perform()
+            else: #if the action was completed: 
+                self.active_char_action.reset()
+                self.active_char_action = None
+                
+                
+## Moods handling
+
+    def __check_active_mood(self):
+        """
+        Check the active mood, and set it according to the character state.
+        """
+        mood = None
+        event_preferred_mood = 12 # set in highest mood rank (happy 1)
+        overall_bar_percent = self.bars_controller.get_overall_percent()
+        overall_bar_mood = 9 # set in normal mood
+        
+        if(overall_bar_percent < 0.33): 
+            overall_bar_mood = 5 #set mood in sad grade 1
+        elif(overall_bar_percent > 0.66):
+            overall_bar_mood = 10 #set mood in happy 3
+        
+        if(self.active_event):
+            event_preferred_mood = self.active_event.preferred_mood
+        
+        if(event_preferred_mood <= overall_bar_mood): # choose the lowest value
+            mood = self.moods_list[event_preferred_mood]
+        else:
+            mood = self.moods_list[overall_bar_mood]
+        
+        if(mood <> self.active_mood):
+            self.active_mood = mood
+            print "cambio estado de animo a: ", self.active_mood.name
+        
 ## Events handling
 
     def __control_active_events(self):

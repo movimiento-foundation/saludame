@@ -369,7 +369,11 @@ class BarsController:
                 self.score_bar.increase(-5)
             else: # less than 1/2
                 self.score_bar.increase(-1)
-                
+    
+    def get_overall_percent(self):
+        percent = self.overall_bar.value / self.overall_bar.max
+        
+        return percent
         
 class StatusBar:
     """
