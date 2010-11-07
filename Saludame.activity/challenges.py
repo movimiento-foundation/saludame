@@ -15,6 +15,9 @@ S_INCORRECT_PATH = os.path.normpath("assets/sound/incorrect.ogg")
 
 FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
+TITLE_FONT_SIZE = 24
+TEXT_FONT_SIZE = 18
+
 class MultipleChoice(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
@@ -41,7 +44,7 @@ class MultipleChoice(Window):
         self.buttons += [self.btn_close] 
         
         # Answer Button
-        self.btn_view_answer = TextButton(self.rect, pygame.Rect(30, 350, 20, 20), 1, "Me doy por vencido! :(...", 30, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
+        self.btn_view_answer = TextButton(self.rect, pygame.Rect(30, 350, 20, 20), 1, "Me doy por vencido! :(...", TEXT_FONT_SIZE, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
         self.buttons += [self.btn_view_answer]        
         
         for b in self.buttons:
@@ -51,7 +54,7 @@ class MultipleChoice(Window):
     def set_question(self, question):
         if (self.question):
             self.erase()
-        self.question = Text(self.rect, 30, 30, 1, question, 40, (0, 0, 0))
+        self.question = Text(self.rect, 30, 30, 1, question, TITLE_FONT_SIZE, (0, 0, 0))
         
         """
         Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
@@ -60,8 +63,8 @@ class MultipleChoice(Window):
         cual muchas veces "corta" a una palabra en cualquier lado.
         """               
         if (self.question.rect_in_container.width > self.rect.width -20):
-            q1 = Text(self.rect, 30, 30, 1, question[:43], 40, (0, 255, 0))
-            q2 = Text(self.rect, 30, 65, 1, question[43:], 40, (0, 255, 0))
+            q1 = Text(self.rect, 30, 30, 1, question[:43], TITLE_FONT_SIZE, (0, 255, 0))
+            q2 = Text(self.rect, 30, 65, 1, question[43:], TITLE_FONT_SIZE, (0, 255, 0))
             self.add_child(q1)
             self.add_child(q2)
             self.question_lines = 2
@@ -82,10 +85,10 @@ class MultipleChoice(Window):
         Problema: "corta" la pregunta en un valor hardcodeado el
         cual muchas veces "corta" a una palabra en cualquier lado.
         """
-        y += 40 * self.question_lines        
+        y += 40 * self.question_lines
         for ans in answers:
             y += 30
-            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, 30, pygame.Color("blue"), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, pygame.Color("blue"), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.buttons.append(b)
             self.add_child(b)        

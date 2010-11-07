@@ -25,7 +25,7 @@ class ChallengesCreator:
         
     def create_challenges(self):
         self._create_challenge(_("Which foods do we need to eat every day?"), [_("Some food from each group every day"), _("Some fruits and vegetables only"), _("Some food from all the groups but not fats and sugar")], 0)
-        self._create_challenge(_("What is the most important meal of the day?"), [_("Breakfast"), _("Lunch"), _("Tea"), _("Diner")], 0)
+        self._create_challenge(_("What is the most important meal of the day?"), [_("Breakfast"), _("Lunch"), _("Tea"), _("Dinner")], 0)
         self._create_challenge(_("How regularly should children exercise?"), [_("Once a month"), _("Once a week"), _("Once a day")], 2)
         self._create_challenge(_("What percentage of the body is made up of water?"), ["30%", "70%", "90%"], 1)        
 

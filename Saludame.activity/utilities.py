@@ -155,10 +155,10 @@ class TextBlock(Widget):
         self.size = size
         
     def parse_lines(self, text):
-        (b, _, a) = text.partition("\n")
+        (b, _, a) = text.partition(u"\n")
         self.lines.append(b)
         while(a != ''):
-            (b, _, a) = a.partition("\n")
+            (b, _, a) = a.partition(u"\n")
             self.lines.append(b)
         
     def draw(self, screen):

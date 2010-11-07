@@ -3,8 +3,6 @@
 import pygame
 from gettext import gettext as _
 
-import menu_creator
-
 from window import *
 from panel_window import PanelWindow
 from kid_window import KidWindow
@@ -43,7 +41,7 @@ class MainWindow(Window):
         #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
         #self.add_button(stop_animation_button)
         
-        btn_change_mood = ImageButton(self.rect, pygame.Rect((700, 200), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
+        btn_change_mood = ImageButton(self.rect, pygame.Rect((1000, 500), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
         self.add_button(btn_change_mood)
     
     #### Callbacks ####    

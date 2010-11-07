@@ -4,24 +4,18 @@ import effects
 import actions
 import os
 
-BARS_DECREASE_RATE = -0.4
+BARS_DECREASE_RATE = -0.2
 
 #ANIMATIONS
 BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
 APPLE_PATH = os.path.normpath("assets/food/apple")
+STEW_PATH = os.path.normpath("assets/food/stew")
 
 #EFFECTS
 ##BACKGROUND EFFECTS
 #BAR DECREASE
 
 bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spare_time", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
-
-##ACTION EFFECTS
-#SPORT
-sport_effect = effects.Effect(None, [("energy", -3.0), ("sports", 6.0), ("shower", -1.0), ("playing", 5.0)])
-
-#EAT APPLE
-eat_effect = effects.Effect(None, [("energy", 5.0), ("v_frutas", 10.0)])
 
 ### ANIMATIONS ###
 
@@ -31,9 +25,104 @@ eat_effect = effects.Effect(None, [("energy", 5.0), ("v_frutas", 10.0)])
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
 
 
-actions_list = [("sport_football", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, None, 4, "sound_path", sport_effect),
-                ("eat_apple", "icon_path", "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH, eat_effect),
-                ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)]
+actions_list = [
+    #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
+    
+    # Sports
+    ("sport_football",  "icon_path",    "picture_path", 0.3, 12, 0, 0, "kid_animation_path", 3, 1, None, 4, "sound_path", 
+        effects.Effect(None, [("energy", -0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+
+    ("sport_run",  "icon_path",    "picture_path", 0.3, 12, 0, 0, "kid_animation_path", 3, 1, None, 4, "sound_path", 
+        effects.Effect(None, [("energy", -0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+    
+    ("sport_hide_seek",  "icon_path",    "picture_path", 0.3, 12, 0, 0, "kid_animation_path", 3, 1, None, 4, "sound_path", 
+        effects.Effect(None, [("energy", -0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+    
+    # Fruit
+    ("eat_apple",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)])
+    ),
+    
+    ("eat_orange",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)])
+    ),
+
+    ("eat_banana",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)])
+    ),
+
+    ("eat_kiwi",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, APPLE_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)])
+    ),
+
+    # Meals
+    ("eat_stew",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 1.0), ("c_huevos", 0.5), ("g_aceites", 1.0), ("agua", 1.0), ("weight", 1.0)])
+    ),
+    ("eat_churrasco",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 1.0), ("c_huevos", 0.5), ("g_aceites", 1.0), ("agua", 1.0), ("weight", 1.0)])
+    ),
+    ("eat_beaver",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_huevos", 3.0), ("g_aceites", 2.0), ("weight", 1.0)])
+    ),
+    ("eat_milanesa",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_huevos", 3.0), ("g_aceites", 2.0), ("weight", 2.0)])
+    ),
+    ("eat_torta_frita",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_huevos", 3.0), ("weight", 1.0)])
+    ),
+    ("salad",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 2.0), ("weight", 0.5)])
+    ),
+    ("pascualina",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("v_frutas", 2.0), ("c_leguminosas", 1.0), ("weight", 1.0)])
+    ),
+    ("tortilla_verdura",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("v_frutas", 2.0), ("g_aceites", 1.0), ("weight", 1.0)])
+    ),
+    
+    # Breakfast
+    ("tostadas_membrillo",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("c_leguminosas", 1.5), ("dulces", 1.5), ("weight", 1.0)])
+    ),
+    
+    ("tostadas_queso",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("c_leguminosas", 1.5), ("l_quesos", 1.5), ("weight", 1.0)])
+    ),
+    
+    ("galletitas_saladas",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("weight", 1.0)])
+    ),
+    
+    ("galletitas_dulces",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("weight", 1.0)])
+    ),
+    
+    ("galletitas_dulce_leche",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("dulces", 2.0), ("weight", 1.0)])
+    ),
+    
+    ("leche_chocolatada",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("l_quesos", 2.0), ("dulces", 2.0), ("agua", 1.0), ("weight", 2.0)])
+    ),
+    
+    ("leche_cafe",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("l_quesos", 2.0), ("agua", 1.0), ("weight", 2.0)])
+    ),
+    
+    ("leche",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("l_quesos", 2.0), ("agua", 1.0), ("weight", 2.0)])
+    ),
+    
+    ("leche_cereales",       "icon_path",    "picture_path", 0.3, 12, 3, 3, "kid_animation_path", 3, 1, STEW_PATH, 4, None,
+        effects.Effect(None, [("l_quesos", 2.0), ("c_leguminosas", 1.0), ("agua", 1.0), ("weight", 2.0)])
+    ),
+    
+    ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)
+]
 
 class ActionsLoader:
     """

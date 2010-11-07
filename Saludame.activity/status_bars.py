@@ -49,7 +49,7 @@ class BarsWindow(Window):
         self.score_section = ScoreSection(bars_loader.get_score_bar(), self.rect, (score_section_width, 40), (SECTION_OFFSET_X + 25, 4), 1)
         
         y = 50
-        self.overall_section = BarSection(windows_controller, self.rect, _(u"Total"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_total.png")
+        self.overall_section = BarSection(windows_controller, self.rect, _(u"TOTAL"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_total.png")
         
         y = 120
         self.physica_section = BarSection(windows_controller, self.rect, _(u"ESTADO FÍSICO"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_physica.png")
@@ -393,18 +393,21 @@ class StatusBar:
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
-        if self.value < self.max and self.value > 0:
-            # Increments this bar
-            self.value += increase_rate
-            
-            # Increments childrens
-            if len(self.children_list) > 0:
-                for child in self.children_list:
-                    child.increase_from_parent(increase_rate)
-                    
-            # Increments parent
-            if self.parent != None:
-                self.parent.increase_from_child(increase_rate)
+        # Increments/decrements this bar
+        self.value += increase_rate
+        
+        # Keep the value between self.max and 0
+        self.value = min([self.value, self.max])
+        self.value = max([self.value, 0])
+        
+        # Increments childrens
+        if len(self.children_list) > 0:
+            for child in self.children_list:
+                child.increase_from_parent(increase_rate)
+                
+        # Increments parent
+        if self.parent != None:
+            self.parent.increase_from_child(increase_rate)
     
     def increase_from_child(self, increase_rate):
         """

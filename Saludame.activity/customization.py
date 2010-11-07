@@ -111,15 +111,17 @@ class CustomizatedKid(widget.Widget):
         self.character = character
         
         self.mappings = CustomizatedKid.COLOR_MAP.copy()
-        self.character.mappings = self.mappings
+        self.character.mappings = self.mappings # Shares the same dict with the logic
         
         self.set_gender("male")
         
         self.background = self.kid
+        
+        # hair needs to be mapped apart, because its default color is different to its base color
+        self.set_mapping("hair", (pygame.Color("#000000"), pygame.Color("#191919")))
     
     def set_mapping(self, key, colors):
         self.mappings[key] = tuple(colors)
-        self.character.mappings = self.mappings
         self.apply_mappings()
         
     def apply_mappings(self):

@@ -11,8 +11,9 @@ import os
 import math
 from widget import Widget
 from window import Window
+import utilities
 
-SIZE = 200, 200
+SIZE = 280, 280
 EXP_SPEED = 10 #expansion speed, in pixels per frame
 
 class Menu(Window):
@@ -29,7 +30,7 @@ class Menu(Window):
         self.frame_rate = frame_rate
         self.item_list = item_list # item's list that going to be displayed
         
-        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", " ", [], "close_menu", self)
+        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", "close_menu", [], self)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
         
@@ -54,7 +55,7 @@ class Menu(Window):
     def pre_draw(self, screen):
         changes = []
         if(self.show):
-            font = pygame.font.Font(None, 35)
+            font = utilities.get_font(24)
             if(self.on_expansion):
                 if(self.radius < 90):
                     self.radius += EXP_SPEED
@@ -170,7 +171,7 @@ class Item(Widget):
     """
     Entity that represent an item
     """
-    def __init__(self, container, frame_rate, name, icon_path, tooltip, subitems_list, action_id, menu):
+    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu):
         
         self.name = name
         self.subitems_list = subitems_list
@@ -181,8 +182,7 @@ class Item(Widget):
         path = os.path.normpath(icon_path)
         self.surface = pygame.image.load(path).convert_alpha()
         self.rect = self.surface.get_rect()
-        self.tooltip = tooltip
-        ###
+        
         Widget.__init__(self, container, self.rect, frame_rate, self.surface)
         
     def add_subitem(self, item):
