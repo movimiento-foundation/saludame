@@ -16,6 +16,7 @@ class GameManager:
         """
         self.character = character
         self.bars_controller = bars_controller
+        self.windows_controller = windows_controller
         self.count = 0 #sirve como 'clock' interno, para mantener un orden de tiempo dentro de la clase.
         
         #evenst, actions, moods
@@ -31,9 +32,6 @@ class GameManager:
         self.active_event = None 
         self.active_mood = None
         self.__check_active_mood() # sets active_mood
-        
-        
-        self.windows_controller = windows_controller
         
         self.places_list = places_list
         
@@ -152,6 +150,7 @@ class GameManager:
         
         if(mood <> self.active_mood):
             self.active_mood = mood
+            self.windows_controller.set_mood(mood)
             print "cambio estado de animo a: ", self.active_mood.name
         
 ## Events handling

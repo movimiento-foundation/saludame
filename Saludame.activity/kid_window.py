@@ -25,9 +25,13 @@ class KidWindow(Window):
 
         # Menu
         self.windows.append(menu_creator.load_menu(game_man, (200, 200), self.rect, windows_controller))
-        
+    
+    ##### Moods #####    
     def change_mood(self):
         self.kid.change_mood()
+        
+    def set_mood(self, mood):
+        self.kid.set_mood(mood)
         
         
         

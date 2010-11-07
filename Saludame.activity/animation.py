@@ -29,14 +29,18 @@ class Kid(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, game_man, mood):
         Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
         
-        self.mood = mood
+        self.moods = game_man.moods_list
+        
+        self.mood = self.moods[9]
+        
         self.character = game_man.character
         
-        self.moods = ["angry1", "angry2", "angry3", "happy1", "happy2", "happy3", "normal", "sad1", "sad2", "sad3", "sick1", "sick2", "sick3"]
-        self.mood_index = 6     
+        self.moods = game_man.moods_list
+        self.mood_index = 9     
         
-        self.index = 0          
-        
+        self.index = 0      
+            
+    ##### Moods #####    
     def change_mood(self):
         self.mood_index += 1
         if self.mood_index == len(self.moods):
@@ -44,11 +48,16 @@ class Kid(Window):
         self.mood = self.moods[self.mood_index]
         self.index = 0
         
+    def set_mood(self, mood):
+        self.mood_index = self.moods.index(mood) 
+        self.mood = self.moods[self.mood_index]
+    
+    ##### Draw #####
     def pre_draw(self, screen):
         
-        dirList = os.listdir("assets/kid/moods/%s/" % (self.mood))
+        dirList = os.listdir(self.mood.kid_animation_path)
         dirList.sort()
-        self.file_list = [os.path.join("assets/kid/moods/%s/" % (self.mood), fname) for fname in dirList if '.png' in fname]
+        self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
         
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file)
@@ -62,7 +71,8 @@ class Kid(Window):
         self.index = (self.index + 1) % len(self.file_list)
         
         return [self.rect]
-        
+    
+    ##### Colors #####    
     def change_color(self, old, new):
         index = 0
         for old_color_text in old:
