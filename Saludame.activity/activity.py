@@ -8,9 +8,13 @@ import gobject
 import gettext
 gettextold = gettext.gettext
 def _(string):
-    return unicode(gettextold(string)).upper()
+    string = gettextold(string)
+    if isinstance(string, unicode):
+        return string.upper()
+    else:
+        return unicode(string.decode("utf-8")).upper()
 gettext.gettext = _
-
+    
 from gettext import gettext as _
 
 import game

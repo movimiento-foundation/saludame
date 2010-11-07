@@ -4,17 +4,19 @@ from game_manager import GameManager
 import pygame
 import logging
 
-
-import gettext
-gettextold = gettext.gettext
-def _(string):
-    string = gettextold(string)
-    if isinstance(string, unicode):
-        return string.upper()
-    else:
-        return unicode(string.decode("utf-8")).upper()
-gettext.gettext = _
-
+if __name__ == "__main__":
+    import gettext
+    gettext.textdomain("org.ceibaljam.Saludame")
+    gettext.bindtextdomain("org.ceibaljam.Saludame", "locale/")
+    
+    gettextold = gettext.gettext
+    def _(string):
+        string = gettextold(string)
+        if isinstance(string, unicode):
+            return string.upper()
+        else:
+            return unicode(string.decode("utf-8")).upper()
+    gettext.gettext = _
 
 from gettext import gettext as _
 import animation
@@ -123,7 +125,4 @@ class Main():
         pygame.quit()
 
 if __name__ == "__main__":
-    import gettext
-    gettext.textdomain("org.ceibaljam.Saludame")
-    gettext.bindtextdomain("org.ceibaljam.Saludame", "locale/")
     Main().main(False)

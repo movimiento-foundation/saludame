@@ -31,7 +31,7 @@ class MainWindow(Window):
         #self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
         self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller, bars_loader))
         
-        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 40))
+        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 4))
         
         # Challenges
         challenges_button = ImageButton(self.rect, pygame.Rect((1000, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
@@ -63,6 +63,7 @@ class Clock(Widget):
         Widget.__init__(self, container, rect_in_container, frame_rate)
         
         self.background = background
+        self.frames = 0
         self.frame_index = 0
         self.frame_paths = [
             "assets/layout/clock_A.png",
@@ -78,7 +79,11 @@ class Clock(Widget):
         rect = pygame.Rect((0, 0), image.get_size())
         rect.center = self.rect_absolute.center
         screen.blit(image, rect)
-        self.frame_index += 1
-        self.frame_index %= 4
+        
+        self.frames += 1
+        if self.frames % 20 == 0:
+            self.frame_index += 1
+            self.frame_index %= 4
+        
         return change
         

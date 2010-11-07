@@ -19,11 +19,11 @@ gobject.threads_init()
 
 try:
     ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
-    HOME_PAGE = os.path.join(activity.get_bundle_path(), 'content/instrucciones.html')
+    HOME_PAGE = os.path.join(activity.get_bundle_path(), u'content/Introducción.html')
 except:
     ROOT_PATH = os.path.join('content/')
-    HOME_PAGE = os.path.join('content/instrucciones.html')
-    
+    HOME_PAGE = os.path.join(u'content/Introducción.html')
+
 class ContentWindow(gtk.HBox):
     
     def __init__(self):

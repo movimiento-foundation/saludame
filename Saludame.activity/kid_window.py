@@ -35,6 +35,7 @@ class KidWindow(Window):
         
         self.last_repaint = False
         
+    ##### Moods #####    
     def change_mood(self):
         self.kid.change_mood()
     
@@ -55,6 +56,9 @@ class KidWindow(Window):
             self.repaint = True
         
         return Window.draw(self, screen, frames)
+
+    def set_mood(self, mood):
+        self.kid.set_mood(mood)
         
 class KidBalloon(Window):
     
@@ -66,7 +70,7 @@ class KidBalloon(Window):
         self.text = None
         
     def set_text(self, text):
-        self.text = utilities.TextBlock(self.rect, 140, 20, 1, text, 18, pygame.Color(0,0,0))
+        self.text = utilities.TextBlock(self.rect, 140, 20, 1, text, 18, pygame.Color("black"))
         self.add_child(self.text)
     
     def draw(self, screen, frames):

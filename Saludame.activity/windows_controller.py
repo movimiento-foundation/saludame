@@ -47,7 +47,8 @@ class WindowsController:
         
         # Activate Main window
         self.set_active_window("main_window")  
-        
+    
+    ##### Windows #####    
     def close_active_window(self):
         self.windows_stack[-1].repaint = True
         # Solo puede ser llamado por la ventana activa e implica
@@ -74,20 +75,29 @@ class WindowsController:
         W = []
         for win in window.windows:
             W.append(win.register_id)
-        print(" (%s)" % (W))
-        
+        print(" (%s)" % (W))        
     
+    ##### Actions #####
     def show_action_animation(self, action):
         """
         Display an action animation at panel
         """
-        self.windows["panel_window"].play_animation(action)  
-          
+        self.windows["panel_window"].play_animation(action)
+        
+    def stop_actual_action_animation(self):
+        self.windows["panel_window"].stop_animation() 
+    
+    ##### Events #####      
     def add_personal_event(self, event):
         self.windows["panel_window"].add_personal_event(event)
         
     def remove_personal_event(self, event):
-        self.windows["panel_window"].remove_personal_event(event)                 
+        self.windows["panel_window"].remove_personal_event(event) 
+    
+    ##### Moods #####    
+    def set_mood(self, mood):
+        if self.windows:
+            self.windows["kid"].set_mood(mood)               
     
     #### Events handlers ####    
     def handle_mouse_down(self, (x, y)):
