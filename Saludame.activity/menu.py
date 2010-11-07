@@ -13,12 +13,12 @@ from widget import Widget
 from window import Window
 import utilities
 
-SIZE = 280, 280
+SIZE = 600, 280
 EXP_SPEED = 10 #expansion speed, in pixels per frame
 
 class Menu(Window):
     
-    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager):
+    def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager, font):
         
         rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
@@ -30,7 +30,7 @@ class Menu(Window):
         self.frame_rate = frame_rate
         self.item_list = item_list # item's list that going to be displayed
         
-        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", "close_menu", [], self)
+        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", "close_menu", [], self, font)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
         
@@ -54,20 +54,19 @@ class Menu(Window):
     
     def pre_draw(self, screen):
         changes = []
-        if(self.show):
-            font = utilities.get_font(24)
-            if(self.on_expansion):
-                if(self.radius < 90):
+        if self.show:
+            if self.on_expansion:
+                if self.radius < 90:
                     self.radius += EXP_SPEED
                     self.__calculate_items_position(self.actual_selection)
                 else:
                     self.on_expansion = False
     
             for item in self.actual_selection:
-                item.draw_item(screen, font)
+                item.draw_item(screen)
                 changes.append(item.rect_absolute)
                 
-            self.exit.draw_item(screen, font)
+            self.exit.draw_item(screen)
             changes.append(self.exit.rect_absolute)
         
         return changes
@@ -93,26 +92,11 @@ class Menu(Window):
         Close the Menu Window
         """
         self.show = False
-        self.set_actual_selection(self.item_list)
-        
+        self.set_actual_selection(self.item_list)    
     
-    #Event handlers
-    
-    def on_mouse_over(self, coord):
-        for item in self.actual_selection:
-            if(item.rect.collidepoint(coord)):
-                item.on_mouse_over()
-                break
-    
-    def on_mouse_out(self, coord):
-        for item in self.actual_selection:
-            if(item.rect.collidepoint(coord)):
-                item.on_mouse_out()
-                break
-     
     def handle_mouse_down(self, coord):
-        if(self.show):
-            if(not self.exit.rect_absolute.collidepoint(coord)):
+        if self.show:
+            if not self.exit.rect_absolute.collidepoint(coord):
                 for item in self.actual_selection:
                     if item.rect_absolute.collidepoint(coord):
                         item.on_mouse_click()
@@ -145,33 +129,34 @@ class Menu(Window):
         """
         Calculates the position in the display for each menu item.
         """
-        coord = int(self.center[0] + math.cos(angle) * self.radius), int(self.center[1] + math.sin(angle) * self.radius)    
-        if(coord[0] < self.center[0]): 
-            if(coord[1] > self.center[1]): #third quadrant
-                item.rect.topright = coord
-            elif(coord[1] < self.center[1]): #second quadrant
-                item.rect.bottomright = coord
+        coord = int(self.center[0] + math.cos(angle) * self.radius), int(self.center[1] + math.sin(angle) * self.radius)
+        rect = item.rect_in_container
+        if coord[0] < self.center[0]: 
+            if coord[1] > self.center[1]: #third quadrant
+                rect.topright = coord
+            elif coord[1] < self.center[1]: #second quadrant
+                rect.bottomright = coord
             else:
-                item.rect.midright = coord
-        elif(coord[0] > self.center[0]):
-            if(coord[1] > self.center[1]): #fourth quadrant
-                item.rect.topleft = coord
-            elif(coord[1] < self.center[1]): #first quadrant
-                item.rect.bottomleft = coord
+                rect.midright = coord
+        elif coord[0] > self.center[0]:
+            if coord[1] > self.center[1]: #fourth quadrant
+                rect.topleft = coord
+            elif coord[1] < self.center[1]: #first quadrant
+                rect.bottomleft = coord
             else:
-                item.rect.midleft = coord
+                rect.midleft = coord
         else:
-            if(coord[1] > self.center[1]):
-                item.rect.midbottom = coord
+            if coord[1] > self.center[1]:
+                rect.midbottom = coord
             else:
-                item.rect.midtop = coord
-        item.set_rect_in_container(item.rect)   # Recalculates the absolute coordinates
+                rect.midtop = coord
+        item.set_rect_in_container(rect)   # Recalculates the absolute coordinates
 
 class Item(Widget):
     """
     Entity that represent an item
     """
-    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu):
+    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu, font):
         
         self.name = name
         self.subitems_list = subitems_list
@@ -180,10 +165,18 @@ class Item(Widget):
         
         # visuals
         path = os.path.normpath(icon_path)
-        self.surface = pygame.image.load(path).convert_alpha()
-        self.rect = self.surface.get_rect()
+        icon = pygame.image.load(path).convert_alpha()
+        text = font.render(self.name, True, (255, 255, 255))
         
-        Widget.__init__(self, container, self.rect, frame_rate, self.surface)
+        x_size = icon.get_size()[0] + text.get_size()[0] + 2
+        y_size = max([icon.get_size()[1], text.get_size()[1]])
+        
+        surface = pygame.Surface((x_size, y_size))
+        surface.blit(icon, (0,0))
+        surface.blit(text, (icon.get_size()[0] + 2,0))
+        rect = surface.get_rect()
+        
+        Widget.__init__(self, container, rect, frame_rate, surface)
         
     def add_subitem(self, item):
         """
@@ -192,13 +185,9 @@ class Item(Widget):
         self.subitems_list.append(item)
     
     
-    def draw_item(self, screen, font):
+    def draw_item(self, screen):
         #draw the item in the screen
-        
-        img_font = font.render(self.name, True, (0, 0, 0))
-        screen.blit(self.surface, self.rect_absolute)
-        screen.blit(img_font, self.rect_absolute.topright)
-    
+        screen.blit(self.background, self.rect_absolute)
     
     def on_mouse_over(self):
         return
@@ -216,8 +205,3 @@ class Item(Widget):
             self.menu.close()
             if(self.action_id != None):
                 self.menu.send_action(self.action_id)
-            
-        
-
-
-
