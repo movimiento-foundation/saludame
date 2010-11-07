@@ -58,7 +58,7 @@ class PanelWindow(Window):
         self.add_button(info_button)
 
         # Environment 
-        #...
+        # ...
     
     ########## Actions ##########    
     def set_active_action(self, action):
@@ -75,6 +75,8 @@ class PanelWindow(Window):
         
     def stop_animation(self):
         self.on_animation = False
+        self.actual_animation = None
+        self.actual_action = None
     
     ########## Events ##########    
     def add_personal_event(self, event):

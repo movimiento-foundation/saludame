@@ -82,7 +82,10 @@ class WindowsController:
         """
         Display an action animation at panel
         """
-        self.windows["panel_window"].play_animation(action)  
+        self.windows["panel_window"].play_animation(action)
+        
+    def stop_actual_action_animation(self):
+        self.windows["panel_window"].stop_animation() 
     
     ##### Events #####      
     def add_personal_event(self, event):

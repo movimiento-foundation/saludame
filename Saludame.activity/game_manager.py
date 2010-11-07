@@ -122,6 +122,7 @@ class GameManager:
             else: #if the action was completed: 
                 self.active_char_action.reset()
                 self.active_char_action = None
+                self.windows_controller.stop_actual_action_animation()
                 
                 
 ## Moods handling
