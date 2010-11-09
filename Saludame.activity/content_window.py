@@ -4,11 +4,20 @@ import gtk, gobject
 import os
 from gettext import gettext as _
 
+if __name__ == "__main__":
+    ROOT_PATH = os.path.realpath('content/')
+    STARTUP_DIR = os.path.realpath('gecko')
+else:
+    from sugar.activity import activity
+    ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
+    STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
+
+HOME_PAGE = os.path.join(ROOT_PATH, u'Introducción.html')
+
 hulahop_ok = True
 try:
-    from sugar.activity import activity
     import hulahop
-    hulahop.startup( os.path.join(activity.get_activity_root(), 'data/gecko') )
+    hulahop.startup( STARTUP_DIR )
     from hulahop.webview import WebView
 except:
     hulahop_ok = False
@@ -16,13 +25,6 @@ except:
 import content_parser
 
 gobject.threads_init()
-
-try:
-    ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
-    HOME_PAGE = os.path.join(activity.get_bundle_path(), u'content/Introducción.html')
-except:
-    ROOT_PATH = os.path.join('content/')
-    HOME_PAGE = os.path.join(u'content/Introducción.html')
 
 class ContentWindow(gtk.HBox):
     
@@ -32,17 +34,24 @@ class ContentWindow(gtk.HBox):
         self._create_treeview()
         self.pack_start(self.treeview, False)
         
-        if hulahop_ok:
-            self.web_view = WebView()
-            self.pack_start(self.web_view, True, True)
-            self.web_view.load_uri(HOME_PAGE)
-        else:
-            health_stuff = gtk.Button("Pretty Health stuff goes here")
-            self.add(health_stuff)
+        self.web_view = None
         
         self.connect("expose-event", self._exposed)
         self.show_all()
- 
+
+    def _create_browser(self):
+        if hulahop_ok:
+            self.web_view = WebView()
+            self.pack_start(self.web_view, True, True)
+            
+            print HOME_PAGE
+            self.web_view.load_uri(HOME_PAGE)
+            self.web_view.show()
+        else:
+            self.web_view = gtk.Button("Pretty Health stuff goes here")
+            self.add(self.web_view)
+            self.web_view.show()
+
     def _create_treeview(self):
         # Provided by Poteland:
         # create a TreeStore with one string column to use as the model
@@ -69,7 +78,7 @@ class ContentWindow(gtk.HBox):
     def selection(self, treeview, tree_path, view_column):
         it = self.treestore.get_iter(tree_path)
         path = self.treestore.get_value(it, 1)
-        
+
         real_path = os.path.join(ROOT_PATH, path)
         print real_path
         
@@ -79,9 +88,20 @@ class ContentWindow(gtk.HBox):
         if not self.treeview_loaded:
             self.treeview_loaded = True
             self._load_treeview()
-    
+            self.treeview.expand_row((0), False)        # Expand the root path
+        
+        if not self.web_view:
+            self._create_browser()
+            
+    def ditch(self):
+        """ Called when we need to ditch the browsing window and hide the whole window """
+        if self.web_view:
+            self.remove(self.web_view)
+            self.web_view = None
+        self.hide()
+        
     def _load_treeview(self):
-        root_iter = self.treestore.append(None, (_("Library"), "/"))
+        root_iter = self.treestore.append(None, (_("Library"), "ROOT"))
         iters = {ROOT_PATH: root_iter}
         
         for root, dirs, files in os.walk(ROOT_PATH):
@@ -94,8 +114,6 @@ class ContentWindow(gtk.HBox):
             for _dir in dirs:
                 _iter = self.treestore.append(iters[root], (_dir, root))
                 iters[os.path.join(root, _dir)] = _iter
-        
-        self.treeview.expand_row((0), False)        # Expand the root path
         
     def get_display_name(self, file_name):
         display_name = file_name.replace(".html", "")

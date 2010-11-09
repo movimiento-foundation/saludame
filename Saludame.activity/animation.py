@@ -103,8 +103,10 @@ class ActionAnimation():
     def draw(self, screen):
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file).convert_alpha()
+        rect = self.sprite.get_rect()
+        rect.center = self.rect.center
         
-        screen.fill(WHITE, self.rect)
+        screen.fill(WHITE, rect)
         screen.blit(self.sprite, self.rect)
         
         self.index = (self.index + 1) % len(self.file_list)

@@ -82,13 +82,13 @@ class SaludameActivity(Activity):
         if index == 0:
             game.pause = True
             self.pygame_canvas.hide()
+            self.health_library.ditch()
             self.credits.hide()
-            self.health_library.hide()
         
         if index == 1:
             game.pause = False
             self.credits.hide()
-            self.health_library.hide()
+            self.health_library.ditch()
             if game.main_class:
                 game.main_class.windows_controller.reload_main = True       # Repaints the whole screen
             self.pygame_canvas.show()
@@ -102,7 +102,7 @@ class SaludameActivity(Activity):
         if index == 3:
             game.pause = True
             self.pygame_canvas.hide()
-            self.health_library.hide()
+            self.health_library.ditch()
             self.credits.show()
     
     #Override activity.Activity's can_close method
