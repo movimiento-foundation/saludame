@@ -6,7 +6,7 @@ Updates messages:
 4. Move to the po folder
 5. msgmerge es.po Saludame.pot
    Don't close it, here you can see the sintax highlited
-6. msgmerge es.po Saludame.pot > es_merge.po
+6. msgmerge es.po Saludame.pot -o es.po
    Now the files are merged, use the terminal output to fix the file if neccesary.
 7. mkdir -p ../locale/es/LC_MESSAGES/
 8. Compile:

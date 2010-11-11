@@ -17,6 +17,7 @@ gettext.gettext = _
     
 from gettext import gettext as _
 
+import startup_window
 import game
 import credits
 import content_window
@@ -47,7 +48,10 @@ class SaludameActivity(Activity):
         
         self.set_toolbox(toolbox)
         toolbox.show()
-                
+        
+        # Create startup windows
+        self.startup_window = startup_window.StartupWindow(self._start_cb)
+        
         # Create the canvas to embbed pygame
         self.pygame_canvas = PygameCanvas(self, False)
         
@@ -58,54 +62,65 @@ class SaludameActivity(Activity):
         self.credits = credits.Credits()
         
         self.items = gtk.HBox()
+        self.items.add(self.startup_window)
         self.items.add(self.pygame_canvas)
         self.items.add(self.credits)
         self.items.add(self.health_library)
         
         self.set_canvas(self.items)
         
+        self.running = False
+        
         # start on the game toolbar, might change this
         # to the create toolbar later
         self.toolbox.connect('current-toolbar-changed', self.change_mode)
-        self.toolbox.set_current_toolbar(1)
+        self.toolbox.set_current_toolbar(0)     # Start in activity tab
+        self.change_mode(None, 0)
         
         self.items.show()
         self.show()
-
-        # Start pygame
-        self.pygame_canvas.run_pygame(lambda:game.Main().main(True))	# Indico que llame a la función local para iniciar el juego pygame
-
+        
+        #self.pygame_canvas.run_pygame(lambda:game.Main().main(True))    # Indico que llame a la función local para iniciar el juego pygame
+        
     def canvas_resize_cb(self):
         pass
   
     def change_mode(self, notebook, index):
+        game.pause = True
+        self.startup_window.hide()
+        self.pygame_canvas.hide()
+        self.health_library.ditch()
+        self.credits.hide()
+        
         if index == 0:
-            game.pause = True
-            self.pygame_canvas.hide()
-            self.health_library.ditch()
-            self.credits.hide()
+            self.startup_window.show()
         
         if index == 1:
             game.pause = False
-            self.credits.hide()
-            self.health_library.ditch()
-            if game.main_class:
-                game.main_class.windows_controller.reload_main = True       # Repaints the whole screen
-            self.pygame_canvas.show()
+            #self.pygame_canvas.show()
+            self.show_game()
             
         if index == 2:
-            game.pause = True
-            self.pygame_canvas.hide()
             self.health_library.show()
-            self.credits.hide()
             
         if index == 3:
-            game.pause = True
-            self.pygame_canvas.hide()
-            self.health_library.ditch()
             self.credits.show()
     
     #Override activity.Activity's can_close method
     def can_close(self):
         game.running = False
         return True
+    
+    def _start_cb(self):
+        self.toolbox.set_current_toolbar(1)     # Move to game tab
+    
+    def show_game(self):
+        if game.main_class:
+            game.main_class.windows_controller.reload_main = True       # Repaints the whole screen
+        
+        self.pygame_canvas.show()
+        
+        if not self.running:
+            self.running = True
+            # Start pygame
+            self.pygame_canvas.run_pygame(lambda:game.Main().main(True))    # Indico que llame a la función local para iniciar el juego pygame

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-07 20:37-0200\n"
+"POT-Creation-Date: 2010-11-09 23:49-0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,6 +208,38 @@ msgstr ""
 msgid "What percentage of the body is made up of water?"
 msgstr ""
 
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:13
+msgid "New game"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:17
+msgid "Load last game"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:21
+msgid "Load game from journal"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:54
+msgid "Name"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:62
+msgid "Boy"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:66
+msgid "Girl"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:91
+msgid "< Back"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:94
+msgid "Next >"
+msgstr ""
+
 #: /home/pmoleri/saludame/Saludame.activity/panel_window.py:53
 msgid "Customization module"
 msgstr ""
@@ -228,19 +260,19 @@ msgstr ""
 msgid "Shoes"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:37
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:38
 msgid "Game"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:41
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:42
 msgid "Health Library"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:45
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:46
 msgid "Credits"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/content_window.py:84
+#: /home/pmoleri/saludame/Saludame.activity/content_window.py:104
 msgid "Library"
 msgstr ""
 
@@ -345,7 +377,7 @@ msgid "Diversión"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:39
-msgid "Descanzo"
+msgid "Descanso"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:39
