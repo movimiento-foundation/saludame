@@ -96,6 +96,10 @@ class WindowsController:
     def remove_personal_event(self, event):
         self.windows["panel_window"].remove_personal_event(event) 
     
+    def show_kid_message(self, message, message_time_span):
+        print "mostrar mensaje: ", message, " durante: ", message_time_span
+
+    
     ##### Moods #####    
     def set_mood(self, mood):
         if self.windows:
@@ -214,3 +218,4 @@ class ScaledGame:
             y = int(display_coordinates[1] / self.scale_factor[0])
             return x, y
         
+

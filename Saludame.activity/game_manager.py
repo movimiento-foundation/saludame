@@ -158,16 +158,23 @@ class GameManager:
         Active event handler
         """
         if(self.active_event):
-            self.windows_controller.add_personal_event(self.active_event)
             if(self.active_event.time_left):
                 self.active_event.perform()
             else:
                 self.windows_controller.remove_personal_event(self.active_event)
                 self.active_event.reset()
                 self.active_event = self.__get_new_event()
+                self.windows_controller.add_personal_event(self.active_event)
                 print "se disparó el evento: ", self.active_event.name
+                if(self.active_event.kid_message):
+                    self.windows_controller.show_kid_message(self.active_event.kid_message, self.active_event.message_time_span)
+ 
         else:
             self.active_event = self.__get_new_event()
+            self.windows_controller.add_personal_event(self.active_event)
+            print "se disparó el evento: ", self.active_event.name
+            if(self.active_event.kid_message):
+                self.windows_controller.show_kid_message(self.active_event.kid_message, self.active_event.message_time_span)
             print "se disparó el evento: ", self.active_event.name
     
     def __get_new_event(self):
@@ -205,4 +212,5 @@ class GameManager:
     
     
     
+
 

@@ -67,19 +67,18 @@ class AppLoader:
 
     
     def __load_events(self, bars_controller):
-        #(self, picture, name, appereance_probability, time_span, kind, event_status, effect)
+        #Events constructor params:
+        #picture, name, appereance_probability, time_span, kind, event_status, effect, kid_message, 
+        #preferred_mood=9, message_time_span = time_span)
         #temporal para testear eventos
         dec = -1.0
         inc = 1.0
-        #ef1 = effects.Effect(bars_controller, [("nutrition", dec), ("physica", dec), ("hygiene", dec), ("fun", dec)])
-        #ef2 = effects.Effect(bars_controller, [("nutrition", inc), ("physica", inc), ("hygiene", inc), ("fun", inc)])
+        
         ef3 = effects.Effect(bars_controller, [("b_teeth", -1.5)])
         ef4 = effects.Effect(bars_controller, [("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
         
-        #event_dec = events.Event("picture_path", "decremento", 4, 5, "kind", None, ef1)
-        #event_inc = events.Event("picture_path", "incremento", 6, 5, "kind", None, ef2)
-        event_ill = events.Event("ill.jpg", "ill", 5, 15, "kind", None, ef4, 2) #preferred mood sick 1
-        event_caries = events.Event("caries.jpg", "caries", 5, 15, "kind", None, ef3)
+        event_ill = events.Event("ill.jpg", "ill", 5, 15, "kind", None, ef4, "me siento mal!", 2, 5) #preferred mood sick 1
+        event_caries = events.Event("caries.jpg", "caries", 5, 15, "kind", None, ef3, "me duele una muela...", 5, 5)
         
         return [event_ill, event_caries]
     
@@ -113,4 +112,5 @@ class AppLoader:
         
         
         
+
 
