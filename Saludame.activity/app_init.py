@@ -76,11 +76,13 @@ class AppLoader:
         
         ef3 = effects.Effect(bars_controller, [("b_teeth", -1.5)])
         ef4 = effects.Effect(bars_controller, [("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
+        ef5 = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
         
-        event_ill = events.Event("ill.jpg", "ill", 5, 15, "kind", None, ef4, "me siento mal!", 2, 5) #preferred mood sick 1
-        event_caries = events.Event("caries.jpg", "caries", 5, 15, "kind", None, ef3, "me duele una muela...", 5, 5)
+        event_ill = events.Event("ill.jpg", None, "ill", 5, 15, "kind", None, ef4, "me siento mal!", 2, 5) #preferred mood sick 1
+        event_caries = events.Event("caries.jpg", None, "caries", 5, 15, "kind", None, ef3, "me duele una muela...", 5, 5)
+        event_stomach_ache = events.Event("ill.jpg", "assets/events/stomach_ache", "stomach_ache", 5, 15, "kind", None, ef5, "me duele la panza! :(", 2, 5) #preferred mood sick 1
         
-        return [event_ill, event_caries]
+        return [event_ill, event_caries, event_stomach_ache]
     
     def __load_moods(self):
         

@@ -4,10 +4,12 @@ import actions
 
 class Event:
     
-    def __init__(self, picture, name, appereance_probability, time_span, kind, event_status, effect, kid_message, preferred_mood=9, message_time_span=5):
+    def __init__(self, picture, kid_animation_path, name, appereance_probability, time_span, kind, event_status, effect, kid_message, preferred_mood=9, message_time_span=5):
         self.appereance_probability = appereance_probability
         self.time_span = time_span
         self.time_left = time_span
+        
+        self.kid_animation_path = kid_animation_path
     
         self.kid_message = kid_message
         self.message_time_span = message_time_span

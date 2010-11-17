@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las acciones.
+EVENTS_OCCURRENCE_INTERVAL = 5 #per control interval after an event
 
 import random
 
@@ -37,6 +38,7 @@ class GameManager:
         #for events handling:
         self.max_rand = self.__calculate_max_rand(self.events_list)
         self.probability_ranges = self.__calculate_ranges(self.events_list)
+        self.events_interval = EVENTS_OCCURRENCE_INTERVAL
         
 
     def set_active_action(self, action_id):
@@ -158,24 +160,28 @@ class GameManager:
         Active event handler
         """
         if(self.active_event):
+            
             if(self.active_event.time_left):
                 self.active_event.perform()
             else:
+                
                 self.windows_controller.remove_personal_event(self.active_event)
                 self.active_event.reset()
-                self.active_event = self.__get_new_event()
-                self.windows_controller.add_personal_event(self.active_event)
+                self.active_event = None
+        else:
+            if(not self.events_interval): 
+                self.active_event = self.__get_new_event() #get a new random event
+
+                self.windows_controller.add_personal_event(self.active_event) #notify windows controller
+                
                 print "se disparó el evento: ", self.active_event.name
+
                 if(self.active_event.kid_message):
                     self.windows_controller.show_kid_message(self.active_event.kid_message, self.active_event.message_time_span)
- 
-        else:
-            self.active_event = self.__get_new_event()
-            self.windows_controller.add_personal_event(self.active_event)
-            print "se disparó el evento: ", self.active_event.name
-            if(self.active_event.kid_message):
-                self.windows_controller.show_kid_message(self.active_event.kid_message, self.active_event.message_time_span)
-            print "se disparó el evento: ", self.active_event.name
+                
+                self.events_interval = EVENTS_OCCURRENCE_INTERVAL
+            else:
+                self.events_interval -= 1
     
     def __get_new_event(self):
         """
