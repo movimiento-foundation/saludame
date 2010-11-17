@@ -22,8 +22,7 @@ class GameManager:
         #evenst, actions, moods
         self.events_list = events_list
         self.actions_list = actions_list
-        self.moods_list = moods_list
-        
+        self.moods_list = moods_list        
 
         self.background_actions = []
         
@@ -90,9 +89,7 @@ class GameManager:
             self.__control_active_events() #handle active events
             self.__check_active_mood() # check if the active character mood
             
-            self.count = 0
-            
-    
+            self.count = 0    
     
     def get_place(self, id_place):
         """

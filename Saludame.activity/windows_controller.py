@@ -80,12 +80,14 @@ class WindowsController:
     ##### Actions #####
     def show_action_animation(self, action):
         """
-        Display an action animation at panel
+        Display an action animation at panel and kid window
         """
-        self.windows["panel_window"].play_animation(action)
+        self.windows["panel_window"].play_action_animation(action)
+        self.windows["kid"].play_action_animation(action)
         
     def stop_actual_action_animation(self):
-        self.windows["panel_window"].stop_animation() 
+        self.windows["panel_window"].stop_action_animation() 
+        self.windows["kid"].stop_action_animation()
     
     ##### Events #####      
     def add_personal_event(self, event):

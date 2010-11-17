@@ -38,7 +38,18 @@ class KidWindow(Window):
     ##### Moods #####    
     def change_mood(self):
         self.kid.change_mood()
+        
+    def set_mood(self, mood):
+        self.kid.set_mood(mood)
+        
+    ##### Actions #####
+    def play_action_animation(self, action):
+        self.kid.play_action_animation(action)
     
+    def stop_action_animation(self):
+        self.kid.stop_action_animation()
+    
+    ##### Kid ballon #####
     def show_kid_balloon(self, text):
         self.balloon = KidBalloon(self.rect, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller)
         self.balloon.set_text(text)
@@ -56,9 +67,6 @@ class KidWindow(Window):
             self.repaint = True
         
         return Window.draw(self, screen, frames)
-
-    def set_mood(self, mood):
-        self.kid.set_mood(mood)
         
 class KidBalloon(Window):
     

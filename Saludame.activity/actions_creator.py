@@ -10,7 +10,7 @@ BARS_DECREASE_RATE = -0.2
 BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
 APPLE_PATH = os.path.normpath("assets/food/apple")
 STEW_PATH = os.path.normpath("assets/food/stew")
-CHEW_PATH = "kid_animation_path"
+CHEW_PATH = os.path.normpath("assets/kid/food/guiso")
 
 #EFFECTS
 ##BACKGROUND EFFECTS
@@ -30,15 +30,15 @@ actions_list = [
     #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
     
     # Sports
-    ("sport_football", "icon_path", "picture_path", 0.3, 8, 0, 0, "kid_animation_path", 3, 1, None, 4, "sound_path",
+    ("sport_football", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
     ),
 
-    ("sport_run", "icon_path", "picture_path", 0.3, 8, 0, 0, "kid_animation_path", 3, 1, None, 4, "sound_path",
+    ("sport_run", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
     ),
     
-    ("sport_hide_seek", "icon_path", "picture_path", 0.3, 8, 0, 0, "kid_animation_path", 3, 1, None, 4, "sound_path",
+    ("sport_hide_seek", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
     ),
     

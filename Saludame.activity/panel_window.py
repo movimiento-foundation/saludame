@@ -69,11 +69,11 @@ class PanelWindow(Window):
             action_progress_bar = ActionProgressBar(self.rect_action, pygame.Rect((45, 15), (182, 26)), 1, action)
             self.add_child(action_progress_bar)            
     
-    def play_animation(self, action):
+    def play_action_animation(self, action):
         self.set_active_action(action)
         self.on_animation = True
         
-    def stop_animation(self):
+    def stop_action_animation(self):
         self.on_animation = False
         self.actual_animation = None
         self.actual_action = None

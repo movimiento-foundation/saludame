@@ -29,16 +29,17 @@ class Kid(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, game_man, mood):
         Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
         
-        self.moods = game_man.moods_list
-        
-        self.mood = self.moods[9]
-        
-        self.character = game_man.character
+        self.character = game_man.character 
         
         self.moods = game_man.moods_list
-        self.mood_index = 9     
         
-        self.index = 0      
+        self.mood_index = 9 # Default mood_index (normal)
+        self.mood = self.moods[9] # Default mood (normal)
+        
+        self.action_index = -1 # Default action_index (no-action)
+        self.action = None           
+        
+        self.index = 0 # Sequence number of the actual animation      
             
     ##### Moods #####    
     def change_mood(self):
@@ -51,14 +52,32 @@ class Kid(Window):
     def set_mood(self, mood):
         self.mood_index = self.moods.index(mood) 
         self.mood = self.moods[self.mood_index]
+        
+    ##### Actions #####
+    def play_action_animation(self, action):
+        self.index = 0
+        self.action = action   
+        
+    def stop_action_animation(self):
+        self.action = None
     
     ##### Draw #####
     def pre_draw(self, screen):
-        
-        dirList = os.listdir(self.mood.kid_animation_path)
-        dirList.sort()
-        self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
-        
+        if (self.action): # An action is enabled
+            if (self.action.kid_animation_path):
+                dirList = os.listdir(self.action.kid_animation_path)
+                dirList.sort()
+                self.file_list = [os.path.join(self.action.kid_animation_path, fname) for fname in dirList if '.png' in fname]
+            else:
+                dirList = os.listdir(self.mood.kid_animation_path)
+                dirList.sort()
+                self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
+                        
+        else:            
+            dirList = os.listdir(self.mood.kid_animation_path)
+            dirList.sort()
+            self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
+            
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file)
         
