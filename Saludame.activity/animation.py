@@ -50,6 +50,7 @@ class Kid(Window):
         self.index = 0
         
     def set_mood(self, mood):
+        self.index = 0
         self.mood_index = self.moods.index(mood) 
         self.mood = self.moods[self.mood_index]
         
@@ -71,13 +72,12 @@ class Kid(Window):
             else:
                 dirList = os.listdir(self.mood.kid_animation_path)
                 dirList.sort()
-                self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
-                        
+                self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]                        
         else:            
             dirList = os.listdir(self.mood.kid_animation_path)
             dirList.sort()
             self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
-            
+           
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file)
         

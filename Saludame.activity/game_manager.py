@@ -163,8 +163,7 @@ class GameManager:
             
             if(self.active_event.time_left):
                 self.active_event.perform()
-            else:
-                
+            else:                
                 self.windows_controller.remove_personal_event(self.active_event)
                 self.active_event.reset()
                 self.active_event = None

@@ -30,9 +30,6 @@ class KidWindow(Window):
         self.menu = menu_creator.load_menu(game_man, (480, 270), self.rect, windows_controller)
         self.add_window(self.menu)
         
-        # Para probar:
-        self.show_kid_balloon("Me duele la panza :(")
-        
         self.last_repaint = False
         
     ##### Moods #####    
@@ -50,10 +47,15 @@ class KidWindow(Window):
         self.kid.stop_action_animation()
     
     ##### Kid ballon #####
-    def show_kid_balloon(self, text):
+    def show_kid_balloon(self, message, time_span):
         self.balloon = KidBalloon(self.rect, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller)
-        self.balloon.set_text(text)
+        self.balloon.set_text(message)
+        self.balloon.set_time_span(time_span)
         self.add_window(self.balloon)
+        
+    def remove_kid_ballon(self):
+        self.windows.remove(self.balloon)
+        self.balloon = None
 
     def draw(self, screen, frames):
         
@@ -64,24 +66,53 @@ class KidWindow(Window):
         # If the menu is showing repaint the whole window
         if self.menu.show:
             self.last_repaint = True
-            self.repaint = True
+            self.repaint = True         
         
-        return Window.draw(self, screen, frames)
+        changes = Window.draw(self, screen, frames)
+    
+        if self.balloon:    
+            if not self.balloon.visible:
+                self.remove_kid_ballon()
+                
+        return changes 
         
 class KidBalloon(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller):
+        
         background = pygame.image.load("assets/events/balloon.png").convert_alpha()
         rect.size = background.get_size()
+        
         Window.__init__(self, container, rect, frame_rate, windows_controller, "balloon")
+        
+        self.bg = (self.windows_controller.screen.subsurface(self.rect).copy())
+        
         self.set_bg_image(background)
         self.text = None
+        self.time_span = None
+        
+        self.visible = True
+    
+    # Override handle_mouse_down    
+    def handle_mouse_down(self, (x, y)):
+        self.visible = False
         
     def set_text(self, text):
         self.text = utilities.TextBlock(self.rect, 140, 20, 1, text, 18, pygame.Color("black"))
         self.add_child(self.text)
+        
+    def set_time_span(self, time_span):
+        self.time_span = time_span
     
     def draw(self, screen, frames):
-        self.repaint = True
-        return Window.draw(self, screen, frames)
-        
+        if (not self.time_span):
+            self.visible = False
+        if (self.visible):
+            self.time_span -= 1
+            self.repaint = True
+            return Window.draw(self, screen, frames)
+        else:
+            screen.blit(self.bg, self.rect)
+            return [self.rect]
+            
+            

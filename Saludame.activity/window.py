@@ -14,7 +14,7 @@ class Window:
     
     def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=None):
         self.container = container
-        self.rect = pygame.Rect(container.left + rect.left, container.top + rect.top, rect.width, rect.height) # Relativo al container
+        self.rect = pygame.Rect(container.left + rect.left, container.top + rect.top, rect.width, rect.height)
         self.frame_rate = frame_rate
         self.background = pygame.Surface(rect.size)
         self.bg_color = bg_color

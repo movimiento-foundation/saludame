@@ -78,9 +78,9 @@ class AppLoader:
         ef4 = effects.Effect(bars_controller, [("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
         ef5 = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
         
-        event_ill = events.Event("ill.jpg", None, "ill", 5, 15, "kind", None, ef4, "me siento mal!", 2, 5) #preferred mood sick 1
-        event_caries = events.Event("caries.jpg", None, "caries", 5, 15, "kind", None, ef3, "me duele una muela...", 5, 5)
-        event_stomach_ache = events.Event("ill.jpg", "assets/events/stomach_ache", "stomach_ache", 5, 15, "kind", None, ef5, "me duele la panza! :(", 2, 5) #preferred mood sick 1
+        event_ill = events.Event("ill.jpg", None, "ill", 5, 15, "kind", None, ef4, "me siento mal!", 2, 50) #preferred mood sick 1
+        event_caries = events.Event("caries.jpg", None, "caries", 5, 15, "kind", None, ef3, "me duele una muela...", 5, 50)
+        event_stomach_ache = events.Event("ill.jpg", "assets/events/stomach_ache", "stomach_ache", 5, 15, "kind", None, ef5, "me duele la panza! :(", 2, 50) #preferred mood sick 1
         
         return [event_ill, event_caries, event_stomach_ache]
     
@@ -101,9 +101,9 @@ class AppLoader:
         #NORMAL
         m_normal = actions.Mood("normal", 9, "assets/kid/moods/normal")
         #HAPPY
-        m_happy3 = actions.Mood("happy_3", 10, "assets/kid/moods/angry3")
-        m_happy2 = actions.Mood("happy_2", 11, "assets/kid/moods/angry2")
-        m_happy1 = actions.Mood("happy_1", 12, "assets/kid/moods/angry1")
+        m_happy3 = actions.Mood("happy_3", 10, "assets/kid/moods/happy3")
+        m_happy2 = actions.Mood("happy_2", 11, "assets/kid/moods/happy2")
+        m_happy1 = actions.Mood("happy_1", 12, "assets/kid/moods/happy1")
         
         #Los moods están ordenados en la lista segun su rank
         moods_list = [m_sick3, m_sick2, m_sick1, m_sad3, m_sad2, m_sad1, m_angry3, m_angry2, m_angry1,

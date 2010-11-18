@@ -11,6 +11,7 @@ class Event:
         
         self.kid_animation_path = kid_animation_path
     
+        # Messages at ballon
         self.kid_message = kid_message
         self.message_time_span = message_time_span
         

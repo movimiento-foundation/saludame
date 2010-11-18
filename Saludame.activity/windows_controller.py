@@ -96,9 +96,10 @@ class WindowsController:
     def remove_personal_event(self, event):
         self.windows["panel_window"].remove_personal_event(event) 
     
+    ##### Messages at ballon #####
     def show_kid_message(self, message, message_time_span):
         print "mostrar mensaje: ", message, " durante: ", message_time_span
-
+        self.windows["kid"].show_kid_balloon(message, message_time_span)
     
     ##### Moods #####    
     def set_mood(self, mood):
