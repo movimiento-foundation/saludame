@@ -18,7 +18,10 @@ class GameManager:
         self.character = character
         self.bars_controller = bars_controller
         self.windows_controller = windows_controller
+        
+        #management
         self.count = 0 #sirve como 'clock' interno, para mantener un orden de tiempo dentro de la clase.
+        self.pause = False
         
         #evenst, actions, moods
         self.events_list = events_list
@@ -40,6 +43,11 @@ class GameManager:
         self.probability_ranges = self.__calculate_ranges(self.events_list)
         self.events_interval = EVENTS_OCCURRENCE_INTERVAL
         
+    def pause_game(self):
+        self.pause = True
+    
+    def continue_game(self):
+        self.pause = False
 
     def set_active_action(self, action_id):
         #place = get_place(self.character.actual_place) 
@@ -84,14 +92,15 @@ class GameManager:
         """
         Increment signal, it means that an iteration has been completed 
         """
-        self.count += 1
-        if(self.count >= CONTROL_INTERVAL):
-            self.__control_active_actions() #handle active character actions
-            self.bars_controller.calculate_score()  #calculates the score of the score_bar
-            self.__control_active_events() #handle active events
-            self.__check_active_mood() # check if the active character mood
-            
-            self.count = 0    
+        if not self.pause:
+            self.count += 1
+            if(self.count >= CONTROL_INTERVAL):
+                self.__control_active_actions() #handle active character actions
+                self.bars_controller.calculate_score()  #calculates the score of the score_bar
+                self.__control_active_events() #handle active events
+                self.__check_active_mood() # check if the active character mood
+                
+                self.count = 0    
     
     def get_place(self, id_place):
         """
@@ -217,5 +226,6 @@ class GameManager:
     
     
     
+
 
 

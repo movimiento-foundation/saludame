@@ -80,14 +80,15 @@ class Main():
         clock = pygame.time.Clock()
         
         # windows_controller asociado al screen
-        self.windows_controller = WindowsController(screen)   
+        self.windows_controller = WindowsController(screen, None)   
         
         # Initialize game_manager, character, actions and menu.        
         app_loader = app_init.AppLoader(self.windows_controller)
         bars_loader = app_loader.get_status_bars_loader()
         game_man = app_loader.get_game_manager()
         
-        self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader, game_man)
+        self.windows_controller.game_man = game_man
+        self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
           
         frames = 0
         
@@ -130,3 +131,4 @@ class Main():
 
 if __name__ == "__main__":
     Main().main(False)
+

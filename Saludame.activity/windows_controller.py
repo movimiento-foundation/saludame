@@ -14,7 +14,11 @@ Clase encargada del control de ventanas
 """
 class WindowsController:
     
-    def __init__(self, screen):
+    def __init__(self, screen, game_manager):
+        
+        #game manager
+        self.game_man = game_manager
+        
         internal_size = 1200, 780       # The game is meant to run in this resolution
         self.scaled_game = ScaledGame(screen, internal_size)
         
@@ -31,7 +35,7 @@ class WindowsController:
         self.active_tooltip_bg = None
         self.active_tooltip = None
         
-    def create_windows_and_activate_main(self, app_loader, clock, bars_loader, game_man):
+    def create_windows_and_activate_main(self, app_loader, clock, bars_loader):
         """
         Creates windows and set the main_window as active window
         """
@@ -43,7 +47,7 @@ class WindowsController:
         customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((200, 100), (934, 567)), 1, self, app_loader.get_character())
         
         # Main Window
-        main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha, bars_loader, game_man)
+        main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha, bars_loader, self.game_man)
         
         # Activate Main window
         self.set_active_window("main_window")  
@@ -58,12 +62,16 @@ class WindowsController:
         self.show_window_hierarchy(self.windows_stack[-1])
                
         if (self.windows_stack[-1].get_register_id() == "main_window"):
+            self.game_man.continue_game()
             self.reload_main = True 
             for win in self.windows_stack[-1].windows:
                 if isinstance(win, Window):
                     win.enable_repaint()
     
     def set_active_window(self, window_key):
+        if window_key <> "main_window":
+            self.game_man.pause_game()
+        
         self.windows_stack.append(self.windows[window_key])        
         self.show_window_hierarchy(self.windows_stack[-1])     
         
@@ -219,4 +227,5 @@ class ScaledGame:
             y = int(display_coordinates[1] / self.scale_factor[0])
             return x, y
         
+
 
