@@ -10,7 +10,7 @@ from window import *
 SECTION_OFFSET_X = 0
 SECTION_WIDTH = 220
 SECTION_MIN_HEIGHT = 52
-SECTION_TOP_PADDING = 16
+SECTION_TOP_PADDING = 18
 
 BAR_OFFSET_X = 30
 BAR_WIDTH = 182
@@ -21,9 +21,12 @@ SCORE_BAR_WIDTH = 118
 SCORE_BAR_X_OFFSET = 82
 
 BAR_BACK_COLOR = pygame.Color("#106168")
-ROOT_BAR_COLOR = pygame.Color("#7ee113")
-SUB_BAR_COLOR = pygame.Color("#cb37eb")
-SCORE_BAR_COLOR = pygame.Color("#51b8ed")
+#ROOT_BAR_COLOR = pygame.Color("#7ee113")
+#SUB_BAR_COLOR = pygame.Color("#a742bd")
+#SCORE_BAR_COLOR = pygame.Color("#51b8ed")
+ROOT_BAR_PARTITIONS = {33: pygame.Color("#cb0e12"), 100: pygame.Color("#7ee113")}       # Red until 33, Green until hundred
+SUB_BAR_PARTITIONS = {100: pygame.Color("#a742bd")}                                     # Violet until hundred
+SCORE_BAR_PARTITIONS = {100: pygame.Color("#51b8ed")}                                   # Skyblue until hundred
 
 TEXT_COLOR_TUPLE = (255, 255, 255)
 TEXT_COLOR = "#0f5e65"
@@ -58,7 +61,7 @@ class BarsWindow(Window):
         self.hygiene_section = BarSection(windows_controller, self.rect, _(u"HIGIENE"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_hygiene.png")
         
         y += SECTION_MIN_HEIGHT
-        self.nutrition_section = BarSection(windows_controller, self.rect, _(u"NUTRICIÓN"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_nutrition.png")
+        self.nutrition_section = BarSection(windows_controller, self.rect, _(u"ALIMENTACIÓN"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_nutrition.png")
         
         y += SECTION_MIN_HEIGHT
         self.spare_time_section = BarSection(windows_controller, self.rect, _(u"TIEMPO LIBRE"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_spare_time.png")
@@ -152,7 +155,7 @@ class BarSection(Window):
         label_widget = utilities.Text(self.rect, pos[0], pos[1], 1, self.name, 16, pygame.Color(TEXT_COLOR), utilities.Text.ALIGN_RIGHT, True, True)
         
         # visuals
-        self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_COLOR)
+        self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_PARTITIONS)
         self.root_bar_display.show_name = False
         
         self.displays_list = self.__get_displays()      # obtengo los displays para cada barra.
@@ -239,7 +242,8 @@ class BarSection(Window):
         """
         display_list = []
         for status_bar in self.children_bar:
-            display = BarDisplay(BAR_HEIGHT, BAR_WIDTH, (BAR_OFFSET_X, 1), status_bar, SUB_BAR_COLOR)
+            width = self.rect.width
+            display = BarDisplay(BAR_HEIGHT, width, (BAR_OFFSET_X, 1), status_bar, SUB_BAR_PARTITIONS)
             display_list.append(display)
         return display_list
 
@@ -253,7 +257,7 @@ class BarDisplay(Widget):
     actualizada según los incrementos o decrementos de la barra representada.
     """
     
-    def __init__(self, height, width, position, status_bar, color):
+    def __init__(self, height, width, position, status_bar, color_partitions):
         
         rect = pygame.Rect(position, (width, height))
         Widget.__init__(self, pygame.Rect(0, 0, width, height), rect, 1)
@@ -261,7 +265,7 @@ class BarDisplay(Widget):
         # attributes
         self.status_bar = status_bar
         self.label = status_bar.label
-        self.color = color
+        self.color_partitions = color_partitions
         self.position = position
         self.background = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         self.surface = self.background.copy()   # The actual surface to be blitted
@@ -269,28 +273,36 @@ class BarDisplay(Widget):
         # visuals
         self.font = utilities.get_font(12, True, False)
         
-        self.last_value = self.status_bar.value #valor inicial
+        self.last_value = -1    # valor inicial
         
         self.show_name = True
         
     def draw(self, screen):
         
-        #if(self.last_value != self.status_bar.value):
-        rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
-        charged_rect = pygame.Rect(rect)  # create a copy
-        charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
-        
-        self.surface.fill(BAR_BACK_COLOR, rect)
-        self.surface.fill(self.color, charged_rect)
-        self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
-        
-        if self.show_name:
-            self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 5))
+        if self.last_value != self.status_bar.value:
+            rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
+            charged_rect = pygame.Rect(rect)  # create a copy
+            charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
+            
+            color = self.get_color()
+            
+            self.surface.fill(BAR_BACK_COLOR, rect)
+            self.surface.fill(color, charged_rect)
+            self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
+            
+            if self.show_name:
+                self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 5))
         
         screen.blit(self.surface, self.rect_absolute)
         
         return self.rect_absolute
 
+    def get_color(self):
+        for value, color in sorted(self.color_partitions.items()):
+            if self.status_bar.value <= value:
+                return color
+        return sorted(self.color_partitions.values())[-1]
+        
 class ScoreSection(Widget):
     """
     Sección que muestra la barra de puntaje principal.
@@ -306,7 +318,7 @@ class ScoreSection(Widget):
         
         # visuals
         score_background = pygame.image.load("assets/layout/score_bar_back.png").convert_alpha()
-        self.score_bar_display = BarDisplay(score_background.get_height(), score_background.get_width(), (SCORE_BAR_X_OFFSET, 12), self.score_bar, SCORE_BAR_COLOR)
+        self.score_bar_display = BarDisplay(score_background.get_height(), score_background.get_width(), (SCORE_BAR_X_OFFSET, 12), self.score_bar, SCORE_BAR_PARTITIONS)
         self.score_bar_display.background = score_background
         
         #self.surface = self.get_background().subsurface(self.rect_in_container)

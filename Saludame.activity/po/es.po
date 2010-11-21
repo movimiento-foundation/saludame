@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-09 23:49-0200\n"
+"POT-Creation-Date: 2010-11-21 20:08-0200\n"
 "PO-Revision-Date: 2010-11-07 20:45-0200\n"
 "Last-Translator: Pablo Moleri <pmoleri@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -186,9 +186,8 @@ msgid "Tea"
 msgstr "Té"
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:28
-#, fuzzy
 msgid "Dinner"
-msgstr "Dinner"
+msgstr "Cena"
 
 #: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:29
 msgid "How regularly should children exercise?"
@@ -278,27 +277,28 @@ msgstr "Créditos"
 msgid "Library"
 msgstr "Biblioteca"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:52
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:55
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:55
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:58
 msgid "ESTADO FÍSICO"
 msgstr "ESTADO FÍSICO"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:58
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:61
 msgid "HIGIENE"
 msgstr "HIGIENE"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:61
-msgid "NUTRICIÓN"
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:64
+#, fuzzy
+msgid "ALIMENTACIÓN"
 msgstr "NUTRICIÓN"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:64
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:67
 msgid "TIEMPO LIBRE"
 msgstr "TIEMPO LIBRE"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:329
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:341
 msgid "NIVEL"
 msgstr "NIVEL"
 
@@ -315,8 +315,8 @@ msgid "Energía"
 msgstr "Energía"
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:21
-msgid "Resistencia"
-msgstr "Resistencia"
+msgid "Defenses"
+msgstr "Defensas"
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:21
 msgid "Peso"
@@ -367,8 +367,8 @@ msgid "Agua"
 msgstr "Agua"
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:34
-msgid "Nutrition"
-msgstr "Nutrición"
+msgid "Alimentation"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:39
 msgid "Deportes"
@@ -389,6 +389,12 @@ msgstr "Responsabilidad"
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:40
 msgid "Tiempo Libre"
 msgstr "Tiempo libre"
+
+#~ msgid "Resistencia"
+#~ msgstr "Resistencia"
+
+#~ msgid "Nutrition"
+#~ msgstr "Nutrición"
 
 #~ msgid "Carpincho"
 #~ msgstr "Carpincho"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-09 23:49-0200\n"
+"POT-Creation-Date: 2010-11-21 20:08-0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -276,27 +276,27 @@ msgstr ""
 msgid "Library"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:52
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:55
 msgid "TOTAL"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:55
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:58
 msgid "ESTADO FÍSICO"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:58
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:61
 msgid "HIGIENE"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:61
-msgid "NUTRICIÓN"
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:64
+msgid "ALIMENTACIÓN"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:64
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:67
 msgid "TIEMPO LIBRE"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:329
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:341
 msgid "NIVEL"
 msgstr ""
 
@@ -313,7 +313,7 @@ msgid "Energía"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:21
-msgid "Resistencia"
+msgid "Defenses"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:21
@@ -365,7 +365,7 @@ msgid "Agua"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:34
-msgid "Nutrition"
+msgid "Alimentation"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:39

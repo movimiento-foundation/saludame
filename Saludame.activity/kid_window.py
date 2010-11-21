@@ -27,7 +27,7 @@ class KidWindow(Window):
         self.balloon = None
         
         # Menu
-        self.menu = menu_creator.load_menu(game_man, (480, 270), self.rect, windows_controller)
+        self.menu = menu_creator.load_menu(game_man, (480, 250), self.rect, windows_controller)
         self.add_window(self.menu)
         
         self.last_repaint = False
