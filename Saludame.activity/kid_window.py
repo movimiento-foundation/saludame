@@ -32,6 +32,11 @@ class KidWindow(Window):
         
         self.last_repaint = False
         
+    ##### Environment #####
+    def set_environment(self, environment):
+        self.set_bg_image(pygame.image.load(environment.background_path).convert())  
+        self.kid.set_bg_image(self.bg_image.subsurface(self.kid_rect))
+        
     ##### Moods #####    
     def change_mood(self):
         self.kid.change_mood()
@@ -116,3 +121,4 @@ class KidBalloon(Window):
             return [self.rect]
             
             
+

@@ -147,3 +147,4 @@ class FPS:
         text_surf = self.font.render(text, False, (255, 255, 255))
         screen.blit(text_surf, self.rect)
         return [self.rect]
+

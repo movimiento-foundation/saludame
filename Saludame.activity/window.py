@@ -155,3 +155,4 @@ class Window:
     
     def get_background(self):
         return self.get_background_and_owner()[0]
+

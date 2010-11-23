@@ -83,7 +83,12 @@ class WindowsController:
         W = []
         for win in window.windows:
             W.append(win.register_id)
-        print(" (%s)" % (W))        
+        print(" (%s)" % (W))    
+        
+    ##### BACKGROUND #####
+    
+    def set_environment(self, environment):
+        self.windows["kid"].set_environment(environment)  
     
     ##### Actions #####
     def show_action_animation(self, action):
@@ -227,5 +232,6 @@ class ScaledGame:
             y = int(display_coordinates[1] / self.scale_factor[0])
             return x, y
         
+
 
 

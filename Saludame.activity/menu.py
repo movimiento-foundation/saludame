@@ -76,7 +76,8 @@ class Menu(Window):
         Send an action to the game_manager. The action was selected
         in one of the sub-items
         """
-        self.game_manager.set_active_action(action_id)
+        #self.game_manager.execute_action(action_id)
+        self.game_manager.execute_action(action_id)
     
     def set_actual_selection(self, actual_selection):
         """
@@ -172,8 +173,8 @@ class Item(Widget):
         y_size = max([icon.get_size()[1], text.get_size()[1]])
         
         surface = pygame.Surface((x_size, y_size))
-        surface.blit(icon, (0,0))
-        surface.blit(text, (icon.get_size()[0] + 2,0))
+        surface.blit(icon, (0, 0))
+        surface.blit(text, (icon.get_size()[0] + 2, 0))
         rect = surface.get_rect()
         
         Widget.__init__(self, container, rect, frame_rate, surface)
@@ -205,3 +206,4 @@ class Item(Widget):
             self.menu.close()
             if(self.action_id != None):
                 self.menu.send_action(self.action_id)
+

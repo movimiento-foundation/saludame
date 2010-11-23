@@ -15,11 +15,6 @@ class AppLoader:
         ### loaders
         self.bars_loader = status_bars_creator.BarsLoader()
         
-        actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller())
-
-        ### actions 
-        self.actions_list = actions_loader.get_actions_list() 
-        
         ### status bars 
         self.status_bars_controller = self.bars_loader.get_bar_controller()
         self.character_bars = self.bars_loader.get_third_level_bars() #the third level status bars
@@ -27,8 +22,8 @@ class AppLoader:
         ### events
         self.events_list = self.__load_events(self.status_bars_controller)
         ### places
-        character_loader = character_creator.CharacterLoader(self.actions_list, self.character_bars)
-        self.places_dictionary = character_loader.get_places_dictionary()
+        character_loader = character_creator.CharacterLoader()
+        self.places_dictionary = None
         
         ### character
         self.character = character_loader.get_character()
@@ -36,7 +31,11 @@ class AppLoader:
         self.moods_list = self.__load_moods()
         
         ### game manager
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, self.actions_list, self.events_list, None, self.moods_list, windows_controller)
+        
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, None, character_loader.get_environments_dictionary(), self.moods_list, windows_controller)
+        actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
+        self.actions_list = actions_loader.get_actions_list() 
+        self.game_man.actions_list = self.actions_list
         self.game_man.add_background_action("BARS_DEC") #acción de decrementar las barras
         
         ### menu
@@ -114,5 +113,6 @@ class AppLoader:
         
         
         
+
 
 

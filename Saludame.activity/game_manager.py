@@ -4,6 +4,8 @@ CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las 
 EVENTS_OCCURRENCE_INTERVAL = 5 #per control interval after an event
 
 import random
+import effects
+import character
 
 class GameManager:
     """
@@ -11,7 +13,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_list, moods_list, windows_controller):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_list, environments_dictionary, moods_list, windows_controller):
         """
         Constructor de la clase
         """
@@ -43,51 +45,20 @@ class GameManager:
         self.probability_ranges = self.__calculate_ranges(self.events_list)
         self.events_interval = EVENTS_OCCURRENCE_INTERVAL
         
+        #environment
+        self.environments_dictionary = environments_dictionary
+        self.current_weather = "sunny" # default weather
+        self.current_place = "schoolyard" # default place
+        
+        #for testing
+        self.p_i = 0
+        
     def pause_game(self):
         self.pause = True
     
     def continue_game(self):
         self.pause = False
-
-    def set_active_action(self, action_id):
-        #place = get_place(self.character.actual_place) 
-        #if(place.allowed_action(action_id)): #continúa con la acción, solo si es permitida en el lugar
-        if(not self.active_char_action): #Si existe una accion activa no la interrumpe
-            if(True): #dont check char's place yet
-                action = self.get_action(action_id)
-                if(action):
-                    action.perform() 
-                    self.windows_controller.show_action_animation(action)
-                    self.active_char_action = action
     
-    def get_active_action(self):
-        """
-        Return the character active action
-        """
-        return self.active_char_action
-    
-    def interrupt_active_action(self, action_id):
-        """
-        Stops the active action if exist, and set as active the
-        action with the 'action_id'. If the action_id is 'None', just
-        stops the active action.
-        """
-        self.active_char_action.reset()
-        self.active_char_action = None
-        
-        if(action_id):
-            action = self.get_action(action_id)
-            if(action):
-                self.active_char_action = action
-
-    def add_background_action(self, action_id):
-        """
-        Add a background action.
-        """
-        action = self.get_action(action_id)
-        if(action):
-            self.background_actions.append(action)
-
     def signal(self):
         """
         Increment signal, it means that an iteration has been completed 
@@ -102,14 +73,98 @@ class GameManager:
                 
                 self.count = 0    
     
-    def get_place(self, id_place):
+
+## Environment handling
+
+    def set_character_location(self, place_id):
+        print "character went to: ", place_id
+        weather = self.get_current_weather()
+        environment_id = place_id + "_" + weather
+        environment = self.environments_dictionary[environment_id]
+        
+        self.windows_controller.set_environment(environment)
+    
+    def set_current_weather(self, weather):
+        self.current_weather = weather
+        
+    
+    def get_current_weather(self):
+        l = ["rainy", "sunny", "cold", "normal"]
+        i = random.randint(0, 3)
+        if i == self.p_i:
+            return self.get_current_weather()
+        else:
+           self.p_i = i
+        
+        print "se genero el clima: ", l[i]
+        
+        return l[i]
+        
+    def get_place(self, place_id):
         """
-        Returns the place asociated to the id_place
+        Returns the place asociated to the place_id
         """
         for place in self.places_list:
-            if(place.id == id_place):
+            if(place.id == place_id):
                 return place
+                
+## Actions handling
     
+    def execute_action(self, action_id):
+        action = self.get_action(action_id)
+        
+        if isinstance(action.effect, effects.Effect): #this action affects status bars
+            self.set_active_action(action_id)
+        elif isinstance(action.effect, effects.LocationEffect): #this action affects  character location
+            if(self.active_char_action):
+                self.interrupt_active_action(None)
+            action.perform()
+            action.reset()
+        
+    
+    def interrupt_active_action(self, action_id):
+        """
+        Stops the active action if exist, and set as active the
+        action with the 'action_id'. If the action_id is 'None', just
+        stops the active action.
+        """
+        self.active_char_action.reset()
+        self.active_char_action = None
+        self.windows_controller.stop_actual_action_animation()
+        
+        if(action_id):
+            action = self.get_action(action_id)
+            if(action):
+                self.active_char_action = action
+     
+    def add_background_action(self, action_id):
+        """
+        Add a background action.
+        """
+        action = self.get_action(action_id)
+        if(action):
+            self.background_actions.append(action)
+    
+    def get_active_action(self):
+        """
+        Return the character active action
+        """
+        return self.active_char_action
+    
+    def set_active_action(self, action_id):
+        """
+        Set the active char actions
+        """
+        #place = get_place(self.character.actual_place) 
+        #if(place.allowed_action(action_id)): #continúa con la acción, solo si es permitida en el lugar
+        if(not self.active_char_action): #Si existe una accion activa no la interrumpe
+            if(True): #dont check char's place yet
+                action = self.get_action(action_id)
+                if(action):
+                    action.perform() 
+                    self.windows_controller.show_action_animation(action)
+                    self.active_char_action = action
+            
     def get_action(self, action_id):
         """
         Returns the action asociated to the id_action
@@ -117,9 +172,11 @@ class GameManager:
         for action in self.actions_list:
             if(action.id == action_id):
                 return action
-        
+    
     def __control_active_actions(self):
-            
+        """
+        Controls active game actions.
+        """
         for action in self.background_actions:
             action.perform()
             action.time_span = 1 #that means background actions never stop
@@ -131,7 +188,6 @@ class GameManager:
                 self.active_char_action.reset()
                 self.active_char_action = None
                 self.windows_controller.stop_actual_action_animation()
-                
                 
 ## Moods handling
 
@@ -226,6 +282,7 @@ class GameManager:
     
     
     
+
 
 
 

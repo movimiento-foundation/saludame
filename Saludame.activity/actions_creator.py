@@ -18,13 +18,14 @@ CHEW_PATH = os.path.normpath("assets/kid/food/guiso")
 
 bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spare_time", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
 
-### ANIMATIONS ###
+
 
 #actions list tuple format:
 #[("action's id","icon_path","picture_path", appereance_probability, time_span, 
 #    kid_animation_frame_rate,kid_animation_loop_times, kid_animation_path, window_animation_frame_rate,
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
 
+### ACTIONS THAT AFFECT STATUS BARS
 
 actions_list = [
     #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
@@ -125,13 +126,26 @@ actions_list = [
     ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)
 ]
 
+### ACTIONS THAT SET CHARACTER LOCATION
+
+locations_ac_list = [("goto_schoolyard", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "schoolyard")),
+                     ("goto_country", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "country")),
+                     ("goto_classroom", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "classroom")),
+                     ("goto_square", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "square")),
+                     ("goto_living", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home")),
+                     ("goto_bedroom", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home")),
+                     ("goto_kitchen", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home")),
+                     ("goto_bathroom", None, None, None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home"))
+                    ]
+
 class ActionsLoader:
     """
     Crea las acciones (Action) y sus efectos (Effect y EffectStatus) asociados.
     """
     
-    def __init__(self, bar_controller):
+    def __init__(self, bar_controller, game_manager):
         self.bar_controller = bar_controller
+        self.game_manager = game_manager
         self.actions_list = self.__load_actions()
         
         
@@ -139,9 +153,17 @@ class ActionsLoader:
         return self.actions_list
     
     def __load_actions(self):
-        return [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], action[11], action[12], self.__set_bar_controller(action[13])) for action in actions_list]
+        status_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], action[11], action[12], self.__set_bar_controller(action[13])) for action in actions_list]
+        location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], action[11], action[12], self.__set_game_manager(action[13])) for action in locations_ac_list]
         
-    def __set_bar_controller(self, effect_status):
-        effect_status.set_bar_controller(self.bar_controller)
-        return effect_status
+        return status_actions + location_actions
+        
+    def __set_bar_controller(self, effect):
+        effect.set_bar_controller(self.bar_controller)
+        return effect
+    
+    def __set_game_manager(self, location_effect):
+        location_effect.set_game_manager(self.game_manager)
+        return location_effect
+
 

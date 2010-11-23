@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 class Effect:
+    """
+    Represents effects that affect directly on the status bars.
+    """
    
     def __init__(self, bars_controller, effect_satatus_list):
         """
@@ -8,9 +11,6 @@ class Effect:
         """
         self.bars_controller = bars_controller
         self.effect_status_list = effect_satatus_list #list of tuples (bar_id, increase_rate)
-    
-    def add_effect(self, effect_status):
-        self.effect_status_list.append(effect_status)
         
     def activate(self):
         for effect_status in self.effect_status_list:
@@ -19,8 +19,22 @@ class Effect:
     def set_bar_controller(self, bars_controller):
         self.bars_controller = bars_controller
 
+class LocationEffect:
+    """
+    Represents effects that set the character location.
+    """
+    
+    def __init__(self, game_manager, place_id):
+        self.game_manager = game_manager
+        self.place_id = place_id
+    
+    def activate(self):
+        self.game_manager.set_character_location(self.place_id)
+    
+    def set_game_manager(self, game_manager):
+        self.game_manager = game_manager
         
-        
+
 
 
 

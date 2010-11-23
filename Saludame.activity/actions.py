@@ -2,7 +2,6 @@
 
 import status_bars
 import events
-import animation
 
 class Action:
     
@@ -46,6 +45,7 @@ class Mood:
         self.kid_animation_path = kid_animation_path
         self.kid_frame_rate = frame_rate
     
+
 
 
 

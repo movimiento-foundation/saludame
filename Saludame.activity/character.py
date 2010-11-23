@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import actions
 import pygame
 
         
 class Character:
     
-    def __init__(self, name, level, score, hair_color, socks_color, skin_color, shoes_color, status_bar_list, clothes):
+    def __init__(self, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
         self.name = name
         self.level = level
         self.score = score
@@ -19,16 +18,25 @@ class Character:
         self.clothes = clothes
 
         self.actual_place = None
-        self.status_bar_list = status_bar_list #status bars
-        self.active_events_list = []
 
-        self.mood_list = [] #Class Mood instance's list
     
     def set_clothes(self, clothes):
         self.clothes = clothes
         
     def set_place(self, place_id):
         self.actual_place = place_id
+        
+class Environment:
+    
+    def __init__(self, background_path, background_music):
+        self.background_path = background_path
+        self.background_music = background_music
+    
+    def get_background_path(self):
+        return self.background_path
+    
+    def get_background_music(self):
+        return self.background_music
         
 class Place:
     
@@ -70,5 +78,6 @@ class Clothes:
         
         
         
+
 
 

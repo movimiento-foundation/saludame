@@ -59,7 +59,20 @@ example = [
         (_("Talk with a friend"), "assets/icons/icon.png", "talk_talk", None),
         (_("Do homework"), "assets/icons/icon.png", "study_study", None),
         (_("Clean up the bedroom"), "assets/icons/icon.png", "clean_clean", None)
-    ])
+    ]),
+    
+   (_("ir a..."), "assets/icons/icon_parent.png", None, [
+       (_("Schoolyard"), "assets/icons/icon.png", "goto_schoolyard", None),
+       (_("Country"), "assets/icons/icon.png", "goto_country", None),
+       (_("Classroom"), "assets/icons/icon.png", "goto_classroom", None),
+       (_("Square"), "assets/icons/icon.png", "goto_square", None),
+       (_("Home"), "assets/icons/icon_parent.png", None, [
+            (_("Living room"), "assets/icons/icon.png", "goto_living", None),
+            (_("Bedroom"), "assets/icons/icon.png", "goto_bedroom", None),
+            (_("Kitchen"), "assets/icons/icon.png", "goto_kitchen", None),
+            (_("Bathroom"), "assets/icons/icon.png", "goto_bathroom", None)
+        ])
+   ])
 ]
 
 MENU_FRAME_RATE = 1
@@ -82,3 +95,4 @@ def create_item(item_tuple, a_menu, container, font):
         subitems = []
 
     return menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font)
+
