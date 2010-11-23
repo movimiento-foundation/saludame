@@ -4,7 +4,7 @@ import actions
 
 class Event:
     
-    def __init__(self, picture, kid_animation_path, name, appereance_probability, time_span, kind, event_status, effect, kid_message, preferred_mood=9, message_time_span=5):
+    def __init__(self, picture, kid_animation_path, name, description, appereance_probability, time_span, kind, event_status, effect, kid_message, preferred_mood=9, message_time_span=5):
         self.appereance_probability = appereance_probability
         self.time_span = time_span
         self.time_left = time_span
@@ -23,6 +23,7 @@ class Event:
         self.kind = kind
         
         self.name = name
+        self.description = description
         
         self.effect = effect
         
@@ -39,5 +40,3 @@ class EventStatusProbability:
     def __init__(self, conditioned_probability, direct_indirect):
         self.conditioned_probability = conditioned_probability
         self.direct_indirect = direct_indirect
-
-

@@ -108,6 +108,12 @@ class WindowsController:
         
     def remove_personal_event(self, event):
         self.windows["panel_window"].remove_personal_event(event) 
+        
+    def add_social_event(self, event):
+        self.windows["kid"].add_social_event(event)
+        
+    def remove_social_event(self, event):
+        self.windows["kid"].remove_social_event(event) 
     
     ##### Messages at ballon #####
     def show_kid_message(self, message, message_time_span):
