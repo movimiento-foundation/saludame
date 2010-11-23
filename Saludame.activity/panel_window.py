@@ -47,6 +47,13 @@ class PanelWindow(Window):
         
         # Social
         self.surf_social = pygame.Surface((70, 110))
+        #self.rect_personal = pygame.Rect((510, 652), self.surf_social.get_rect().size)
+        self.active_social_events = []
+        self.index_social_event = 0
+        
+        # Para probar GUI eventos sociales
+        social = ImageButton(self.rect_personal, pygame.Rect(190, 15, 80, 80), 1, "assets/events/caries.jpg", self._cb_button_click_social)
+        self.add_button(social)
         
         # Customization
         customization_button = ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
@@ -137,6 +144,9 @@ class PanelWindow(Window):
 
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization_window")
+        
+    def _cb_button_click_social(self, button):
+        self.windows_controller.add_social_event(None)
         
 class ActionProgressBar(Widget):
     """
