@@ -31,7 +31,9 @@ class PanelWindow(Window):
         
         self.on_animation = False
         self.actual_action = None
-        self.actual_animation = None        
+        self.actual_animation = None
+        
+        self.action_progress_bar = None        
         
         # Personal
         self.surf_personal = pygame.Surface((130, 110))
@@ -61,7 +63,7 @@ class PanelWindow(Window):
         self.add_button(customization_button)
         
         # Info
-        info_button = ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png") 
+        info_button = ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action) 
         self.add_button(info_button)
 
         # Environment 
@@ -73,8 +75,8 @@ class PanelWindow(Window):
         if (action.window_animation_path != None):
             self.actual_animation = animation.ActionAnimation(pygame.Rect(20, 5, 100, 100), 10, action.window_animation_path, action.sound_path)
         else:
-            action_progress_bar = ActionProgressBar(self.rect_action, pygame.Rect((45, 15), (182, 26)), 1, action)
-            self.add_child(action_progress_bar)            
+            self.action_progress_bar = ActionProgressBar(self.rect_action, pygame.Rect((45, 15), (182, 26)), 1, action)
+            self.add_child(self.action_progress_bar)            
     
     def play_action_animation(self, action):
         self.set_active_action(action)
@@ -84,6 +86,9 @@ class PanelWindow(Window):
         self.on_animation = False
         self.actual_animation = None
         self.actual_action = None
+        if (self.action_progress_bar):
+            self.remove_child(self.action_progress_bar)
+            self.action_progress_bar = None
     
     ########## Events ##########    
     def add_personal_event(self, event):
@@ -147,6 +152,9 @@ class PanelWindow(Window):
         
     def _cb_button_click_social(self, button):
         self.windows_controller.add_social_event(None)
+        
+    def _cb_button_click_stop_action(self, nutton):
+        self.stop_action_animation()
         
 class ActionProgressBar(Widget):
     """

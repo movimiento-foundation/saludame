@@ -83,6 +83,9 @@ class Window:
         self.widgets.append(widget)
         widget.parent = self
         
+    def remove_child(self, widget):
+        self.widgets.remove(widget)
+        
     def add_button(self, button):
         self.add_child(button)
         self.buttons.append(button)
