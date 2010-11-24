@@ -10,7 +10,7 @@ BARS_DECREASE_RATE = -0.2
 BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
 APPLE_PATH = os.path.normpath("assets/food/apple")
 STEW_PATH = os.path.normpath("assets/food/stew")
-CHEW_PATH = os.path.normpath("assets/kid/food/guiso")
+CHEW_PATH = os.path.normpath("assets/kid/actions/eat")
 
 #EFFECTS
 ##BACKGROUND EFFECTS
