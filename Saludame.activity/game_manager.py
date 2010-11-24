@@ -135,7 +135,7 @@ class GameManager:
         l = ["rainy", "sunny", "cold", "normal"]
         i = random.randint(0, 3)
         if i == self.p_i:
-            return self.get_current_weather()
+            return self.get_random_weather()
         else:
            self.p_i = i
         
