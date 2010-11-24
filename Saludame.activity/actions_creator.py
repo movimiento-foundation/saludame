@@ -11,6 +11,7 @@ BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
 APPLE_PATH = os.path.normpath("assets/food/apple")
 STEW_PATH = os.path.normpath("assets/food/stew")
 CHEW_PATH = os.path.normpath("assets/kid/actions/eat")
+JUMP_ROPE_PATH = os.path.normpath("assets/kid/actions/ropejump")
 
 #EFFECTS
 ##BACKGROUND EFFECTS
@@ -43,6 +44,10 @@ actions_list = [
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
     ),
     
+    ("sport_jump", "icon_path", "picture_path", 0.3, 8, 0, 0, JUMP_ROPE_PATH, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+
     # Fruit
     ("eat_apple", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)])
