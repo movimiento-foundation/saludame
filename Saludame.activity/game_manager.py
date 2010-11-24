@@ -3,6 +3,8 @@
 CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las acciones.
 EVENTS_OCCURRENCE_INTERVAL = 5 #per control interval after an event
 
+HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
+
 import random
 import effects
 import character
@@ -50,9 +52,18 @@ class GameManager:
         self.current_weather = "sunny" # default weather
         self.current_place = "schoolyard" # default place
         
+        # time of day
+        self.hour = 2 # value between 0 and 3
+                      # 0 night, 1 morning, 2 noon, 3 afternoon
+        self.hour_count = HOUR_COUNT_CYCLE # managment cycles that have to pass for handling the hour
+        self.day_dic = {0 : "night", 1 : "morning", 2 : "noon", 3 : "afternoon"}
+        self.current_time = self.day_dic[self.hour] #current time of day
+        
         #for testing
         self.p_i = 0
         
+# management
+
     def pause_game(self):
         self.pause = True
     
@@ -61,34 +72,66 @@ class GameManager:
     
     def signal(self):
         """
-        Increment signal, it means that an iteration has been completed 
+        Increment signal, it means that a main iteration has been completed 
         """
         if not self.pause:
             self.count += 1
             if(self.count >= CONTROL_INTERVAL):
-                self.__control_active_actions() #handle active character actions
-                self.bars_controller.calculate_score()  #calculates the score of the score_bar
-                self.__control_active_events() #handle active events
+                self.__control_active_actions() # handle active character actions
+                self.bars_controller.calculate_score()  # calculates the score of the score_bar
+                self.__control_active_events() # handle active events
                 self.__check_active_mood() # check if the active character mood
+                self.__handle_time()
                 
                 self.count = 0    
     
 
 ## Environment handling
-
-    def set_character_location(self, place_id):
-        print "character went to: ", place_id
-        weather = self.get_current_weather()
-        environment_id = place_id + "_" + weather
+   
+    def update_environment(self):
+        """
+        Sets the character environment and send a message to the
+        windows_controller
+        """
+        environment_id = self.current_place + "_" + self.current_weather
         environment = self.environments_dictionary[environment_id]
         
         self.windows_controller.set_environment(environment)
-    
-    def set_current_weather(self, weather):
-        self.current_weather = weather
+
+### time of day
+   
+    def __handle_time(self):
+        if not self.hour_count:
+            self.hour_count = HOUR_COUNT_CYCLE
+            
+            self.hour += 1
+            
+            if self.hour > 3:
+                self.hour = 0 #night
+            
+            self.current_time = self.day_dic[self.hour]
+            print "cambio el momento del día a: ", self.current_time
+            
+            if self.hour == 1: #temporal para cambiar el clima
+                self.set_current_weather(self.get_random_weather())
+            
+            self.update_environment()
+        else:
+            self.hour_count -= 1
         
+        
+### weather
+
+    def set_current_weather(self, weather):
+        """
+        Set the current weather.
+        """
+        self.current_weather = weather
     
-    def get_current_weather(self):
+    def get_random_weather(self):
+        """
+        Returns a random weather, never returns the previous weather.
+        """
         l = ["rainy", "sunny", "cold", "normal"]
         i = random.randint(0, 3)
         if i == self.p_i:
@@ -100,6 +143,17 @@ class GameManager:
         
         return l[i]
         
+### location
+
+    def set_character_location(self, place_id):
+        """
+        Set the character location.
+        """
+        print "character went to: ", place_id
+        self.current_place = place_id
+        
+        self.update_environment()
+
     def get_place(self, place_id):
         """
         Returns the place asociated to the place_id
