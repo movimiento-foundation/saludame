@@ -170,7 +170,7 @@ class MessageBalloon(Window):
         self.visible = False
         
     def set_text(self, text):
-        self.text = utilities.TextBlock(self.rect, 140, 20, 1, text, 18, pygame.Color("black"))
+        self.text = utilities.TextBlock(self.rect, 140, 40, 1, text, 18, pygame.Color("black"))
         self.add_child(self.text)
         
     def set_time_span(self, time_span):

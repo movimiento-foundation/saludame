@@ -90,6 +90,10 @@ class Window:
         self.add_child(button)
         self.buttons.append(button)
         button.parent = self
+        
+    def remove_button(self, button):
+        self.buttons.remove(button)
+        self.remove_child(button)
     
     def add_window(self, window):
         self.windows.append(window)
@@ -108,6 +112,7 @@ class Window:
                     self.windows_controller.hide_active_tooltip()
                     button.showing_tooltip = False
                 button.on_mouse_click()
+                return # No seguimos buscando el botón
         
         for win in self.windows:
             if win.rect.collidepoint(x, y):
@@ -122,8 +127,13 @@ class Window:
                         self.windows_controller.hide_active_tooltip()
                         self.windows_controller.show_tooltip(button.tooltip)
                         button.showing_tooltip = True
+                    if button.super_tooltip:
+                        self.windows_controller.hide_active_tooltip()
+                        self.windows_controller.show_super_tooltip(button.super_tooltip)
+                        button.showing_tooltip = True
                     button.on_mouse_over()
                     button.over = True 
+                    return # No seguimos buscando el botón
             else:
                 # Ineficiente! Por ahora lo dejo asi para PROBAR
                 # Esta todo el tiempo haciendo esto! Cambiar
@@ -133,6 +143,10 @@ class Window:
                     button.showing_tooltip = False
                 button.over = False
                 button.on_mouse_out()
+                
+        for win in self.windows:
+            if win.rect.collidepoint(x, y):
+                win.handle_mouse_over((x, y))
 
     def move(self, (x, y)):
         """ Moves the window the given offset, notifying all its subitems """

@@ -94,9 +94,19 @@ class PanelWindow(Window):
     def add_personal_event(self, event):
         if (not event in self.active_personal_events):
             self.active_personal_events.append(event)
+            
+        self.b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (self.active_personal_events[self.index_personal_event].picture)).convert_alpha(), self._cb_button_click_personal_next)
+        
+        event_info = "Nombre: %s \n" %(event.name)
+        for eff in event.effect.effect_status_list:
+            event_info += "%s: %s \n" %(eff[0], eff[1])
+        
+        self.b_event_personal.set_super_tooltip(event_info)
+        self.add_button(self.b_event_personal)
         
     def remove_personal_event(self, event):
         self.active_personal_events.remove(event)
+        self.remove_button(self.b_event_personal)
         
     def pre_draw(self, screen):
                     
@@ -120,18 +130,15 @@ class PanelWindow(Window):
         # Blit the action surface with screen
         screen.blit(self.surf_action, self.rect_action)
         
-        #### Personal ####
+        #### Personal Events ####
         self.surf_personal.fill(WHITE)
-        if (self.active_personal_events):
-            event = pygame.image.load("assets/events/%s" % (self.active_personal_events[self.index_personal_event].picture)).convert_alpha()
-            self.surf_personal.blit(event, (23, 0))       
         
         # Blit the personal surface with screen
         screen.blit(self.surf_personal, self.rect_personal)
         
-        #### Environment #### 
+        #### Social Events ####
         
-        #### Social ####
+        #### Environment #### 
         
         # Info
         

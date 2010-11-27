@@ -3,7 +3,7 @@
 import pygame
 from window import Window
 import sys
-from utilities import Text
+from utilities import Text, TextBlock
 
 import challenges_creator
 import customization
@@ -144,6 +144,13 @@ class WindowsController:
         self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
         self.showing_tooltip = True
         
+    def show_super_tooltip(self, tooltip):
+        x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
+        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 16, pygame.Color('red'))
+        
+        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
+        self.showing_tooltip = True
+        
     def hide_active_tooltip(self):
         # Solo se ejecuta si se esta mostrando algun tooltip en la pantalla
         if self.showing_tooltip:
@@ -181,7 +188,8 @@ class WindowsController:
         
         # Tooltips        
         if self.showing_tooltip:
-            self.screen.fill((255, 255, 255), self.active_tooltip.rect_in_container)
+            if (isinstance(self.active_tooltip, Text)):
+                self.screen.fill((255, 255, 255), self.active_tooltip.rect_in_container)
             # Le decimos al tooltip (widget) que se dibuje
             self.active_tooltip.draw(self.screen)
             changes.append(self.active_tooltip_bg[1])

@@ -33,8 +33,3 @@ class LocationEffect:
     
     def set_game_manager(self, game_manager):
         self.game_manager = game_manager
-        
-
-
-
-

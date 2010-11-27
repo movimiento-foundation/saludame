@@ -69,6 +69,9 @@ class Button(Widget):
     
     def set_tooltip(self, text):
         self.tooltip = text
+        
+    def set_super_tooltip(self, text):
+        self.super_tooltip = text
     
     def on_mouse_click(self):
         if self.function_on_mouse_click: # if there's a callback setted makes the call
@@ -145,14 +148,16 @@ def get_color_tuple(color):
         return get_color_tuple(color)
     
 class TextBlock(Widget):
-    def __init__(self, container, x, y, frame_rate, text, size, color):        
-        Widget.__init__(self, container, pygame.Rect(x,y,0,0), frame_rate)
+    def __init__(self, container, x, y, frame_rate, text, size, color):    
+            
+        Widget.__init__(self, container, pygame.Rect(x, y, 0, 0), frame_rate)
         
         self.lines = []
         self.font = get_font(size)
         self.color = color
         self.parse_lines(text)
         self.size = size
+        self.prepare_text_block()
         
     def parse_lines(self, text):
         (b, _, a) = text.partition(u"\n")
@@ -160,13 +165,29 @@ class TextBlock(Widget):
         while(a != ''):
             (b, _, a) = a.partition(u"\n")
             self.lines.append(b)
-        
-    def draw(self, screen):
+            
+    def prepare_text_block(self):
         number_of_lines = 0
         for l in self.lines:
             number_of_lines += 1           
             r = self.font.render(l, False, self.color)
-            screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines)) 
+            if (r.get_rect().width > self.rect_absolute.width):
+                self.rect_absolute.width = r.get_rect().width
+            self.rect_absolute.height += r.get_rect().height 
+            
+        # Make it fit in the container
+        if self.rect_absolute.right > self.container.right:
+            self.rect_absolute.right = self.container.right
+        if self.rect_absolute.bottom > self.container.bottom:
+            self.rect_absolute.bottom = self.container.bottom                  
+        
+    def draw(self, screen):
+        number_of_lines = 0
+        screen.fill((255, 255, 255), (self.rect_absolute))
+        for l in self.lines:          
+            r = self.font.render(l, False, self.color)
+            screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines))
+            number_of_lines += 1
 
 font_dict = {}  # Chaches created font instances
 def get_font(size, bold=False, italic=False):
