@@ -37,6 +37,7 @@ class Text(Widget):
         self.background = self.font.render(self.text, False, self.color)
     
     def switch_color_text(self, color):
+        self.color = color
         self.refresh()
         return (self)
     

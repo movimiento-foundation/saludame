@@ -9,6 +9,8 @@ import random
 import effects
 import character
 
+instance = None
+
 class GameManager:
     """
     Clase gestora del sistema. Se encarga del control de las acciones
@@ -19,6 +21,9 @@ class GameManager:
         """
         Constructor de la clase
         """
+        global instance
+        instance = self
+        
         self.character = character
         self.bars_controller = bars_controller
         self.windows_controller = windows_controller
@@ -36,7 +41,7 @@ class GameManager:
         
         #character states
         self.active_char_action = None #Active character action, Action instance
-        self.active_event = None 
+        self.active_event = None
         self.active_mood = None
         self.__check_active_mood() # sets active_mood
         
@@ -59,6 +64,8 @@ class GameManager:
         self.day_dic = {0 : "night", 1 : "morning", 2 : "noon", 3 : "afternoon"}
         self.current_time = self.day_dic[self.hour] #current time of day
         
+        self.level = 1
+        
         #for testing
         self.p_i = 0
         
@@ -79,6 +86,7 @@ class GameManager:
             if(self.count >= CONTROL_INTERVAL):
                 self.__control_active_actions() # handle active character actions
                 self.bars_controller.calculate_score()  # calculates the score of the score_bar
+                self.__control_level() # Checks if level must be changed
                 self.__control_active_events() # handle active events
                 self.__check_active_mood() # check if the active character mood
                 self.__handle_time()
@@ -331,12 +339,30 @@ class GameManager:
             previous += event.appereance_probability + 1
         return ranges
     
-    
-    
-    
-    
-    
+# Score handling
+    def add_points(self, points):
+        score_bar = [bar for bar in self.bars_controller.bars if bar.id == "score_bar"][0]
+        score_bar.value += points
+        
+    def __control_level(self):
+        score_bar = [bar for bar in self.bars_controller.bars if bar.id == "score_bar"][0]
+        if score_bar.value == 100:
+            # sets master challenge
+            self.level += 1
+            score_bar.value = 1
+            self.set_master_challenge()
+            
+        if score_bar.value == 0:
+            # falls back to previous level
+            if self.level > 1:
+                self.level -= 1
+                score_bar.value = 99
 
-
-
-
+    def set_master_challenge(self):
+        # The master challenge occurs when the player completed a level.
+        # If it is answered correctly the player wins some points, so he starts the new level with these points
+        # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
+        # reach the master challenge again.
+        self.challenges_creator.get_challenge()
+        self.windows_controller.set_active_window("challenges_window")
+        

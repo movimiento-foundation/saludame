@@ -42,6 +42,7 @@ class WindowsController:
         # Challenges
         cha = challenges_creator.ChallengesCreator(self.screen.get_rect(), pygame.Rect((200, 150), (934, 567)), 1, self, (40, 40, 200))
         cha.create_challenges()
+        self.game_man.challenges_creator = cha
         
         # Customization Window
         customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((200, 100), (934, 567)), 1, self, app_loader.get_character())
@@ -138,7 +139,7 @@ class WindowsController:
     #### Tooltips #####    
     def show_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
-        self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 16, pygame.Color('red'))
+        self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'))
         
         # Necesitamos guardar lo que esta atras del tooltip para cuando lo querramos esconder
         self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
@@ -146,11 +147,11 @@ class WindowsController:
         
     def show_super_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
-        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 16, pygame.Color('red'))
+        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'))
         
         self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
         self.showing_tooltip = True
-        
+    
     def hide_active_tooltip(self):
         # Solo se ejecuta si se esta mostrando algun tooltip en la pantalla
         if self.showing_tooltip:
@@ -160,13 +161,13 @@ class WindowsController:
             self.next_update(self.active_tooltip_bg[1])      
             self.showing_tooltip = False
     ###################
-            
+    
     def next_update(self, rect):
         """
         Add a rect that must be updated at next update
         """
         self.next_update_list.append(rect)
-        
+    
     def update(self, frames):
         """
         Updates GUI 

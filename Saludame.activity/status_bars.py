@@ -6,6 +6,7 @@ from gettext import gettext as _
 import status_bars_creator
 import utilities
 from window import *
+import game_manager
 
 SECTION_OFFSET_X = 0
 SECTION_WIDTH = 220
@@ -341,7 +342,7 @@ class ScoreSection(Widget):
         level_text = _("NIVEL")
         level_text_surface = self.font.render(level_text, 1, self.text_color)
         
-        level_number = str(self.level)
+        level_number = str(game_manager.instance.level)
         level_number_surface = self.number_font.render(level_number, 1, self.text_color)
         
         self.surface.blit(level_text_surface, (0, 34 - level_text_surface.get_height()))
@@ -432,7 +433,7 @@ class StatusBar:
             self.parent.increase_from_child(value)
         
         if self.value > self.max:
-            self.value = self.max
+            self.value = self.maxbars_controller
         elif self.value < 0:
             self.value = 0
         

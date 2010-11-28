@@ -18,6 +18,9 @@ FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 TITLE_FONT_SIZE = 24
 TEXT_FONT_SIZE = 18
 
+ANSWER_COLOR = pygame.Color("blue")
+MOUSE_OVER_COLOR = pygame.Color("green")
+
 class MultipleChoice(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
@@ -35,6 +38,9 @@ class MultipleChoice(Window):
         # If a question is setted, we have to "erase" the old challenge
         self.question = None
         
+        self.win_points = 0
+        self.lose_points = 0
+        
         # Control de preguntas largas (más de 1 línea)
         # Problema para decidir "donde" cortar la pregunta
         self.question_lines = 1;
@@ -44,12 +50,14 @@ class MultipleChoice(Window):
         self.buttons += [self.btn_close] 
         
         # Answer Button
-        self.btn_view_answer = TextButton(self.rect, pygame.Rect(30, 350, 20, 20), 1, "Me doy por vencido! :(...", TEXT_FONT_SIZE, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
-        self.buttons += [self.btn_view_answer]        
+        #self.btn_view_answer = TextButton(self.rect, pygame.Rect(30, 350, 20, 20), 1, "Me doy por vencido! :(...", TEXT_FONT_SIZE, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
+        #self.buttons += [self.btn_view_answer]        
         
         for b in self.buttons:
             self.add_child(b) 
-            
+        
+        self.wait = 0
+        
     ####### Set attributes #######
     def set_question(self, question):
         if (self.question):
@@ -88,7 +96,7 @@ class MultipleChoice(Window):
         y += 40 * self.question_lines
         for ans in answers:
             y += 30
-            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, pygame.Color("blue"), self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.buttons.append(b)
             self.add_child(b)        
@@ -99,6 +107,21 @@ class MultipleChoice(Window):
         image = Image(self.rect, pygame.Rect(500, 40, 20, 20), 1, image)
         self.add_child(image)
     
+    def set_win_points(self, points):
+        self.win_points = points
+    
+    def set_lose_points(self, points):
+        self.lose_points = points
+    
+    def pre_draw(self, screen):
+        if FIN_MC:
+            self.wait += 1
+        
+        if self.wait >= 20:
+            self.windows_controller.close_active_window()
+        
+        return []
+        
     ######## Callbacks buttons ########
     
     def _cb_button_click_choice(self, button):
@@ -106,19 +129,21 @@ class MultipleChoice(Window):
         if not FIN_MC:
             if(button == self.choices[self.correct]):
                 self.s_correct.play()
+                self.windows_controller.game_man.add_points(self.win_points)
                 FIN_MC = True # Damos por finalizada la pregunta
             else:
+                self.windows_controller.game_man.add_points(-self.lose_points)
                 self.s_incorrect.play()
         
     def _cb_button_over_choice(self, button):
         if not FIN_MC:
-            button.switch_color_text(pygame.Color("green"))
+            button.switch_color_text(MOUSE_OVER_COLOR)
             button.force_update()
             self.s_over.play()        
             
     def _cb_button_out_choice(self, button):
         if not FIN_MC:
-            button.switch_color_text(pygame.Color("blue"))
+            button.switch_color_text(ANSWER_COLOR)
             button.force_update()
     
     def _cb_button_click_answer(self, button):
@@ -145,8 +170,9 @@ class MultipleChoice(Window):
         Delete question and answers and repaint. Set FIN_MC false
         """
         self.choices = []
-        self.widgets = [self.btn_close, self.btn_view_answer]
-        self.buttons = [self.btn_close, self.btn_view_answer]
+        self.widgets = [self.btn_close] #, self.btn_view_answer]
+        self.buttons = [self.btn_close] #, self.btn_view_answer]
         self.repaint = True
+        self.wait = 0
         global FIN_MC
         FIN_MC = False

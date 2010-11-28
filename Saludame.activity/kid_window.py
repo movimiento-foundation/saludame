@@ -42,6 +42,7 @@ class KidWindow(Window):
     def set_environment(self, environment):
         self.set_bg_image(pygame.image.load(environment.background_path).convert())  
         self.kid.set_bg_image(self.bg_image.subsurface(self.kid_rect))
+        self.repaint = True
         
     ##### Moods #####    
     def change_mood(self):
