@@ -112,6 +112,7 @@ class SaludameActivity(Activity):
         return True
     
     def _start_cb(self):
+        self.startup_window.set_welcome()
         self.toolbox.set_current_toolbar(1)     # Move to game tab
     
     def show_game(self):

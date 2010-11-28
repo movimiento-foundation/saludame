@@ -48,7 +48,9 @@ class ContentWindow(gtk.HBox):
             self.web_view.load_uri(HOME_PAGE)
             self.web_view.show()
         else:
-            self.web_view = gtk.Button("Pretty Health stuff goes here")
+            self.web_view = gtk.Button()
+            self.web_view.load_uri = self.web_view.set_label
+            self.web_view.load_uri(HOME_PAGE)
             self.add(self.web_view)
             self.web_view.show()
 
@@ -73,16 +75,27 @@ class ContentWindow(gtk.HBox):
         self.treeview.set_search_column(0)
         
         self.treeview_loaded = False
-        self.treeview.connect("row-activated", self.selection)
-    
-    def selection(self, treeview, tree_path, view_column):
+        self.treeview.connect("cursor-changed", self.cursor_changed_cb)
+
+    def cursor_changed_cb(self, treeview):
+        tree_path, column = self.treeview.get_cursor()
+        
         it = self.treestore.get_iter(tree_path)
         path = self.treestore.get_value(it, 1)
 
         real_path = os.path.join(ROOT_PATH, path)
-        print real_path
+        #print real_path
         
         self.web_view.load_uri( unicode(real_path) )
+
+    #def selection(self, treeview, tree_path, view_column):
+        #it = self.treestore.get_iter(tree_path)
+        #path = self.treestore.get_value(it, 1)
+
+        #real_path = os.path.join(ROOT_PATH, path)
+        #print real_path
+        
+        #self.web_view.load_uri( unicode(real_path) )
     
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
@@ -105,18 +118,25 @@ class ContentWindow(gtk.HBox):
         iters = {ROOT_PATH: root_iter}
         
         for root, dirs, files in os.walk(ROOT_PATH):
-            for _file in files:
-                if _file.endswith(".html"):
-                    display_name = self.get_display_name(_file)
-                    fullpath = os.path.join(root, _file)
-                    self.treestore.append(iters[root], (display_name, fullpath))
-                
-            for _dir in dirs:
-                _iter = self.treestore.append(iters[root], (_dir, root))
-                iters[os.path.join(root, _dir)] = _iter
+            all = []
+            all += [(file, 'f') for file in files]
+            all += [(dir, 'd') for dir in dirs]
+            all = sorted(all)
+            
+            for node_name, node_type in all:
+                if node_type == 'f':
+                    if node_name.endswith(".html"):
+                        display_name = self.get_display_name(node_name)
+                        fullpath = os.path.join(root, node_name)
+                        self.treestore.append(iters[root], (display_name, fullpath))
+                else:
+                    display_name = self.get_display_name(node_name)
+                    _iter = self.treestore.append(iters[root], (display_name, root))
+                    iters[os.path.join(root, node_name)] = _iter
         
     def get_display_name(self, file_name):
         display_name = file_name.replace(".html", "")
+        display_name = display_name.split("-", 1)[-1]
         return display_name
         
 if __name__ == "__main__":
