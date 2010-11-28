@@ -14,6 +14,7 @@ import customization
 
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 WHITE = pygame.Color("white")
+BAR_BACK_COLOR = pygame.Color("#106168")
 
 class PanelWindow(Window):
     
@@ -25,9 +26,7 @@ class PanelWindow(Window):
         self.set_bg_image(PANEL_BG_PATH)
         
         # Actions
-        self.surf_action = pygame.Surface((280, 110))
-        self.rect_action = pygame.Rect((760, 652), self.surf_action.get_rect().size)
-        self.surf_action.fill(WHITE)
+        self.rect_action = pygame.Rect((560, 36), (310, 124))
         
         self.on_animation = False
         self.actual_action = None
@@ -63,20 +62,34 @@ class PanelWindow(Window):
         self.add_button(customization_button)
         
         # Info
-        info_button = ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action) 
+        info_button = ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action)
         self.add_button(info_button)
 
         # Environment 
-        # ...
+        self.weather_button = None
+        self.set_weather()
     
+    def set_weather(self):
+        if self.weather_button:
+            self.buttons.remove(self.weather_button)
+            self.widgets.remove(self.weather_button)
+        
+        weather = self.windows_controller.game_man.current_weather
+        file_path = "assets/events/weather/" + weather + ".png"
+        self.weather_button = ImageButton(self.rect, pygame.Rect(51, 34, 1, 1), 1, file_path)
+        self.add_button(self.weather_button)
+        
     ########## Actions ##########    
     def set_active_action(self, action):
         self.actual_action = action
-        if (action.window_animation_path != None):
-            self.actual_animation = animation.ActionAnimation(pygame.Rect(20, 5, 100, 100), 10, action.window_animation_path, action.sound_path)
+        if action.window_animation_path:
+            self.actual_animation = animation.ActionAnimation(self.rect, self.rect_action, 10, action.window_animation_path, action.sound_path)
+            self.add_child(self.actual_animation)
         else:
-            self.action_progress_bar = ActionProgressBar(self.rect_action, pygame.Rect((45, 15), (182, 26)), 1, action)
-            self.add_child(self.action_progress_bar)            
+            rect_progress = self.rect_action.move(45, 15)
+            rect_progress.size = (182, 26)
+            self.action_progress_bar = ActionProgressBar(self.rect, rect_progress, 1, action)
+            self.add_child(self.action_progress_bar)
     
     def play_action_animation(self, action):
         self.set_active_action(action)
@@ -84,15 +97,20 @@ class PanelWindow(Window):
         
     def stop_action_animation(self):
         self.on_animation = False
-        self.actual_animation = None
         self.actual_action = None
-        if (self.action_progress_bar):
+        if self.actual_animation:
+            self.remove_child(self.actual_animation)
+            self.actual_animation = None
+            self.repaint = True
+        
+        if self.action_progress_bar:
             self.remove_child(self.action_progress_bar)
             self.action_progress_bar = None
+            self.repaint = True
     
     ########## Events ##########    
     def add_personal_event(self, event):
-        if (not event in self.active_personal_events):
+        if not event in self.active_personal_events:
             self.active_personal_events.append(event)
             
         self.b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (self.active_personal_events[self.index_personal_event].picture)).convert_alpha(), self._cb_button_click_personal_next)
@@ -114,34 +132,16 @@ class PanelWindow(Window):
         changes = []
         
         #### Actions ####
-        if(self.on_animation and self.actual_animation != None and self.timing % self.actual_animation.frame_rate == 0):
-            if(self.timing > 12):
+        if self.on_animation and self.actual_animation and self.timing % self.actual_animation.frame_rate == 0:
+            if self.timing > 12:
                 self.timing = 0
-            
-            #font = pygame.font.SysFont("Dejavu", 25)
-            #self.surf_action.blit(font.render(self.actual_animation[1], 1, (0, 0, 255)), (120, 20))
-            
-            # Draw the animation on action surface
-            changes += self.actual_animation.draw(self.surf_action)
-            
-        elif (not self.on_animation):
-            self.surf_action.fill(WHITE)
-        
-        # Blit the action surface with screen
-        screen.blit(self.surf_action, self.rect_action)
         
         #### Personal Events ####
         self.surf_personal.fill(WHITE)
         
         # Blit the personal surface with screen
         screen.blit(self.surf_personal, self.rect_personal)
-        
-        #### Social Events ####
-        
-        #### Environment #### 
-        
-        # Info
-        
+
         return [self.rect]
     
     ########### Buttons Callbacks ###########
@@ -185,7 +185,7 @@ class ActionProgressBar(Widget):
         
         charged_rect.width = ((float)(self.decrease) / self.action.time_span) * rect.width
         
-        self.surface.fill(pygame.Color("red"), rect)
+        self.surface.fill(BAR_BACK_COLOR, rect)
         self.surface.fill(pygame.Color("blue"), charged_rect)
         self.surface.blit(self.background, (0, 0)) # Background blits over the charge, because it has the propper alpha
         

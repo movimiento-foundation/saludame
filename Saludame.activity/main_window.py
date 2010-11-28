@@ -34,15 +34,15 @@ class MainWindow(Window):
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 4))
         
         # Challenges
-        challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
-        challenges_button.set_tooltip(_("Challenges module"))
-        self.add_button(challenges_button)
+        #challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
+        #challenges_button.set_tooltip(_("Challenges module"))
+        #self.add_button(challenges_button)
         
         #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
         #self.add_button(stop_animation_button)
         
-        btn_change_mood = ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
-        self.add_button(btn_change_mood)
+        #btn_change_mood = ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
+        #self.add_button(btn_change_mood)
     
     #### Callbacks ####    
     def _cb_button_click_challenges(self, button):

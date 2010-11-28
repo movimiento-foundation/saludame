@@ -99,14 +99,14 @@ class Kid(Window):
             
             index += 1
             
-class ActionAnimation():
+class ActionAnimation(Widget):
     """
     An action animation to show at panel
     """
-    def __init__(self, rect, frame_rate, animation_path, sound_path):
+    def __init__(self, container, rect, frame_rate, animation_path, sound_path):
+        Widget.__init__(self, container, rect, frame_rate)
         
         self.path = animation_path
-        self.rect = rect
         self.frame_rate = frame_rate
         
         dirList = os.listdir(animation_path)
@@ -121,15 +121,15 @@ class ActionAnimation():
         file = self.file_list[self.index]
         self.sprite = pygame.image.load(file).convert_alpha()
         rect = self.sprite.get_rect()
-        rect.center = self.rect.center
+        rect.center = self.rect_absolute.center
         
         screen.fill(WHITE, rect)
-        screen.blit(self.sprite, self.rect)
+        screen.blit(self.sprite, rect)
         
         self.index = (self.index + 1) % len(self.file_list)
         self.blip.play()
         
-        return [self.rect]
+        return self.rect_absolute
 
 class FPS:  
     def __init__(self, container, rect, frame_rate, clock):
