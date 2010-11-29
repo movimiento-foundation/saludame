@@ -94,6 +94,7 @@ class Window:
     def remove_button(self, button):
         self.buttons.remove(button)
         self.remove_child(button)
+        button.parent = None
     
     def add_window(self, window):
         self.windows.append(window)
@@ -119,7 +120,13 @@ class Window:
                 win.handle_mouse_down((x, y))
     
     def handle_mouse_over(self, (x, y)):
-        for button in self.buttons:
+        
+        buttons = []
+        buttons += self.buttons
+        for win in self.windows:
+            buttons += win.buttons
+       
+        for button in buttons:
             if button.contains_point(x, y):
                 if(not button.over):
                     # Tooltips
@@ -143,10 +150,6 @@ class Window:
                     button.showing_tooltip = False
                 button.over = False
                 button.on_mouse_out()
-                
-        for win in self.windows:
-            if win.rect.collidepoint(x, y):
-                win.handle_mouse_over((x, y))
 
     def move(self, (x, y)):
         """ Moves the window the given offset, notifying all its subitems """

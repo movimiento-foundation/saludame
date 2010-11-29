@@ -117,15 +117,21 @@ class PanelWindow(Window):
             
         self.b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (self.active_personal_events[self.index_personal_event].picture)).convert_alpha(), self._cb_button_click_personal_next)
         
-        event_info = "Nombre: %s \n" %(event.name)
+        event_info = "%s \n" % (event.description)
+        
         for eff in event.effect.effect_status_list:
-            event_info += "%s: %s \n" %(eff[0], eff[1])
+            bar_label = event.effect.bars_controller.get_bar_label(eff[0])
+            if (eff[1] > 0):
+                event_info += "+ %s \n" % (bar_label)
+            else:
+                event_info += "- %s \n" % (bar_label)
         
         self.b_event_personal.set_super_tooltip(event_info)
         self.add_button(self.b_event_personal)
         
     def remove_personal_event(self, event):
         self.active_personal_events.remove(event)
+        self.windows_controller.hide_active_tooltip()
         self.remove_button(self.b_event_personal)
         
     def pre_draw(self, screen):
