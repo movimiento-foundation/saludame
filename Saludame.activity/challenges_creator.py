@@ -47,6 +47,7 @@ class ChallengesCreator:
         # Set multiple choice attributes
         self.challenge.set_question(c[0])
         self.challenge.set_answers(c[1])
+        self.challenge.set_correct_answer(c[2])
         self.challenge.set_win_points(c[3])
         self.challenge.set_lose_points(c[4])
         
