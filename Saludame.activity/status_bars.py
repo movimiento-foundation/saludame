@@ -387,6 +387,11 @@ class BarsController:
         percent = self.overall_bar.value / self.overall_bar.max
         
         return percent
+    
+    def get_bar_label (self, bar_id):
+        for bar in self.bars:
+            if bar.id == bar_id:
+                return bar.label
         
 class StatusBar:
     """
