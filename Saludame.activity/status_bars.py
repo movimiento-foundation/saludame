@@ -333,7 +333,7 @@ class ScoreSection(Widget):
         self.text_color = pygame.Color(TEXT_COLOR)
         
     def draw(self, screen):
-        self.surface.blit(self.get_background().subsurface(self.rect_in_container), (0,0))
+        self.surface.blit(self.get_background().subsurface(self.rect_in_container), (0, 0))
         
         # draw bar:
         self.score_bar_display.draw(self.surface)
@@ -392,6 +392,18 @@ class BarsController:
         for bar in self.bars:
             if bar.id == bar_id:
                 return bar.label
+    
+    def get_bars_status(self):
+        """
+        Generates a dictionary {bar_id : actual_bar_value} and
+        returns it.
+        """
+        bars_state = {}
+        
+        for bar in self.bars:
+            bars_state.update({ bar.id : bar.value })
+        
+        return bars_state
         
 class StatusBar:
     """
@@ -456,3 +468,4 @@ class StatusBar:
                 self.value = self.max
             elif self.value < 0:
                 self.value = 0
+

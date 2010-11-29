@@ -78,22 +78,22 @@ class AppLoader:
         _events = []
         
         # probabiliy configuration: (bar, type, threshold, probability_percentaje)
-        probability = [("v_frutas", "indirect", 10, 30)]
+        probability = [("v_frutas", "indirect", 10.0, 30.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5)])
         event = events.Event("ill.jpg", None, "constipation", _("Constipation"), 5, 15, "personal", probability, effect, u"Me duele la panza y no \n puedo ir al baño", 2, 50)
         _events.append(event)
         
-        probability = [("w_hands", "indirect", 25, 30)]
+        probability = [("w_hands", "indirect", 25.0, 30.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5), ("agua", -1.0), ("defenses", -0.5)])
         event = events.Event("ill.jpg", None, "diarrhea", _("Diarrhea"), 5, 15, "personal", probability, effect, "Tengo diarrea", 2, 50)
         _events.append(event)
         
-        probability = [("nutrition", "indirect", 100, 40), ("relaxing", "indirect", 100, 40)]
+        probability = [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5), ("relaxing", -0.5)])
         event = events.Event("ill.jpg", None, "headache", _("Headache"), 5, 15, "personal", probability, effect, "Me duele la cabeza", 2, 50)
         _events.append(event)
         
-        probability = [("b_teeth", "indirect", 25, 50), ("dulces", "direct", 75, 20)]
+        probability = [("b_teeth", "indirect", 25.0, 50.0), ("dulces", "direct", 75.0, 20.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("defenses", -1.0), ("fun", -1.0), ("relaxing", -1.0)])
         event = events.Event("caries.jpg", None, "caries", _("Caries"), 5, 15, "personal", probability, effect, "Me duele una muela...", 5, 50)
         _events.append(event)
@@ -135,4 +135,5 @@ class AppLoader:
                       m_normal, m_happy3, m_happy2, m_happy1]
         
         return moods_list
+
 
