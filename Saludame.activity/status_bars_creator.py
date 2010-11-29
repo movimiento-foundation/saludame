@@ -10,10 +10,10 @@ class BarsLoader:
     """
     
     def __init__(self):
-        hard_level = (100, 70)
+        hard_level = (100, 65)
         
         self.score_bar = status_bars.StatusBar("score_bar", _("Score"), None, [], 100, 0)
-        self.overall_bar = status_bars.StatusBar("overall_bar", _("Overall"), None, [], 100, 70)
+        self.overall_bar = status_bars.StatusBar("overall_bar", _("Overall"), None, [], hard_level[0], hard_level[1])
         
         #'hard_level' para plasmar que la idea es que los valores por defecto de las barras
         #se carguen segun un nivel de dificultad

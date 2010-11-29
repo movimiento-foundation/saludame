@@ -8,9 +8,9 @@ import utilities
 example = [
     # ("display_name", "path_to_icon.png", "action_id", [Children]),
     
-    (_("Eat"), "assets/icons/icon_parent.png", None, [
+    (_("Eat..."), "assets/icons/icon_parent.png", None, [
         
-        (_("Complete meals"), "assets/icons/icon_parent.png", None, [
+        (_("Comidas completas..."), "assets/icons/icon_parent.png", None, [
             
             (_("Stew"), "assets/icons/icon.png", "eat_stew", None),
             (_("Currasco"), "assets/icons/icon.png", "eat_churrasco", None),
@@ -23,7 +23,7 @@ example = [
             
         ]),
         
-        (_("Fruta"), "assets/icons/icon_parent.png", None, [
+        (_("Fruta..."), "assets/icons/icon_parent.png", None, [
             
             (_("Manzana"), "assets/icons/icon.png", "eat_apple", None),
             (_("Naranja"), "assets/icons/icon.png", "eat_orange", None),
@@ -32,7 +32,7 @@ example = [
             
         ]),
         
-        (_("Desayuno y merienda"), "assets/icons/icon_parent.png", None, [
+        (_("Desayuno y merienda..."), "assets/icons/icon_parent.png", None, [
             
             (_("Tostadas con membrillo"), "assets/icons/icon.png", "tostadas_membrillo", None),
             (_("Queso"), "assets/icons/icon.png", "tostadas_queso", None),
@@ -43,6 +43,16 @@ example = [
             (_("Café con leche"), "assets/icons/icon.png", "leche_cafe", None),
             (_("Leche"), "assets/icons/icon.png", "leche", None),
             (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None),
+            
+        ]),
+        
+        (_("Líquidos..."), "assets/icons/icon_parent.png", None, [
+            
+            (_("Agua"), "assets/icons/icon.png", "agua", None),
+            (_("Limonada"), "assets/icons/icon.png", "limonada", None),
+            (_("Jugo de naranja"), "assets/icons/icon.png", "jugo_naranja", None),
+            (_("Jugo de peras"), "assets/icons/icon.png", "jugo_peras", None),
+            (_("Jugo de zanahorias"), "assets/icons/icon.png", "jugo_peras", None),
             
         ]),
         
@@ -61,12 +71,12 @@ example = [
         (_("Clean up the bedroom"), "assets/icons/icon.png", "clean_clean", None)
     ]),
     
-   (_("ir a..."), "assets/icons/icon_parent.png", None, [
+   (_("Ir a..."), "assets/icons/icon_parent.png", None, [
        (_("Schoolyard"), "assets/icons/icon.png", "goto_schoolyard", None),
        (_("Country"), "assets/icons/icon.png", "goto_country", None),
        (_("Classroom"), "assets/icons/icon.png", "goto_classroom", None),
        (_("Square"), "assets/icons/icon.png", "goto_square", None),
-       (_("Home"), "assets/icons/icon_parent.png", None, [
+       (_("Home..."), "assets/icons/icon_parent.png", None, [
             (_("Living room"), "assets/icons/icon.png", "goto_living", None),
             (_("Bedroom"), "assets/icons/icon.png", "goto_bedroom", None),
             (_("Kitchen"), "assets/icons/icon.png", "goto_kitchen", None),

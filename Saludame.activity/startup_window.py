@@ -69,7 +69,7 @@ class Welcome(gtk.VBox):
 class SelectGenderAndName(gtk.VBox):
     
     def __init__(self, callback):
-        gtk.VBox.__init__(self, False)
+        gtk.VBox.__init__(self, True)
         
         self.callback = callback
         
@@ -149,9 +149,17 @@ class Introduction(gtk.VBox):
             
         slide = story[self.index]
         
+        # Image
         image = gtk.Image()
         image.set_from_file(slide["image"])
         self.pack_start(image)
+        
+        # Text
+        text_view = gtk.TextView()
+        text_buffer = text_view.get_buffer()
+        text_buffer.set_text(slide["text"])
+        text_view.set_wrap_mode(gtk.WRAP_WORD)
+        self.pack_start(text_view, False, False)
         
         # HBox with buttons
         hbox = gtk.HBox(False)
@@ -168,11 +176,6 @@ class Introduction(gtk.VBox):
         hbox.pack_start(btn_next)
         self.pack_start(hbox)
         
-        text_view = gtk.TextView()
-        text_buffer = text_view.get_buffer()
-        text_buffer.set_text(slide["text"])
-        text_view.set_wrap_mode(gtk.WRAP_WORD)
-        self.pack_start(text_view, False, False)
         self.show_all()
         
     def _next(self, button):

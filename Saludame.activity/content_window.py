@@ -12,7 +12,7 @@ else:
     ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
-HOME_PAGE = os.path.join(ROOT_PATH, u'Introducción.html')
+HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción.html')
 
 hulahop_ok = True
 try:
@@ -35,6 +35,7 @@ class ContentWindow(gtk.HBox):
         self.pack_start(self.treeview, False)
         
         self.web_view = None
+        self.last_uri = HOME_PAGE
         
         self.connect("expose-event", self._exposed)
         self.show_all()
@@ -45,12 +46,12 @@ class ContentWindow(gtk.HBox):
             self.pack_start(self.web_view, True, True)
             
             print HOME_PAGE
-            self.web_view.load_uri(HOME_PAGE)
+            self.web_view.load_uri(self.last_uri)
             self.web_view.show()
         else:
             self.web_view = gtk.Button()
             self.web_view.load_uri = self.web_view.set_label
-            self.web_view.load_uri(HOME_PAGE)
+            self.web_view.load_uri(self.last_uri)
             self.add(self.web_view)
             self.web_view.show()
 
@@ -138,6 +139,12 @@ class ContentWindow(gtk.HBox):
         display_name = file_name.replace(".html", "")
         display_name = display_name.split("-", 1)[-1]
         return display_name
+    
+    def set_url(self, link):
+        link = ROOT_PATH + link
+        self.last_uri = unicode(link)
+        if self.web_view:
+            self.web_view.load_uri( self.last_uri )
         
 if __name__ == "__main__":
     window = ContentWindow()

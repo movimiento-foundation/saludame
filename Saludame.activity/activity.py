@@ -112,6 +112,7 @@ class SaludameActivity(Activity):
         return True
     
     def _start_cb(self):
+        game.set_library_function = self.set_library    # Sets the callback to put links in the library
         self.startup_window.set_welcome()
         self.toolbox.set_current_toolbar(1)     # Move to game tab
     
@@ -125,3 +126,8 @@ class SaludameActivity(Activity):
             self.running = True
             # Start pygame
             self.pygame_canvas.run_pygame(lambda:game.Main().main(True))    # Indico que llame a la función local para iniciar el juego pygame
+
+    def set_library(self, link):
+        self.toolbox.set_current_toolbar(2)
+        self.health_library.set_url(link)
+        

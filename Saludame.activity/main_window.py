@@ -31,7 +31,7 @@ class MainWindow(Window):
         #self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
         self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller, bars_loader))
         
-        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 4))
+        self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
         # Challenges
         #challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
@@ -57,33 +57,36 @@ class MainWindow(Window):
 
 class Clock(Widget):
     
-    def __init__(self, container, rect_in_container, frame_rate):
+    def __init__(self, container, rect_in_container, frame_rate, game_manager):
         background = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
         rect_in_container.size = background.get_size()
         Widget.__init__(self, container, rect_in_container, frame_rate)
         
+        self.game_manager = game_manager
         self.background = background
         self.frames = 0
         self.frame_index = 0
         self.frame_paths = [
+            "assets/layout/clock_D.png",
             "assets/layout/clock_A.png",
             "assets/layout/clock_B.png",
             "assets/layout/clock_C.png",
-            "assets/layout/clock_D.png"
         ]
+        self.set_frame()
+    
+    def set_frame(self):
+        self.frame = pygame.image.load(self.frame_paths[self.frame_index]).convert_alpha()
         
     def draw(self, screen):
         change = Widget.draw(self, screen)
         
-        image = pygame.image.load(self.frame_paths[self.frame_index]).convert_alpha()
-        rect = pygame.Rect((0, 0), image.get_size())
-        rect.center = self.rect_absolute.center
-        screen.blit(image, rect)
+        if self.game_manager.hour <> self.frame_index:
+            self.frame_index = self.game_manager.hour
+            self.set_frame()
         
-        self.frames += 1
-        if self.frames % 20 == 0:
-            self.frame_index += 1
-            self.frame_index %= 4
+        rect = pygame.Rect((0, 0), self.frame.get_size())
+        rect.center = self.rect_absolute.center
+        screen.blit(self.frame, rect)
         
         return change
         

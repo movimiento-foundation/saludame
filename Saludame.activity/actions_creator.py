@@ -4,7 +4,7 @@ import effects
 import actions
 import os
 
-BARS_DECREASE_RATE = -0.2
+BARS_DECREASE_RATE = -0.1
 
 #ANIMATIONS
 BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")

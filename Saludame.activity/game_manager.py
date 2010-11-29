@@ -175,14 +175,14 @@ class GameManager:
     def execute_action(self, action_id):
         action = self.get_action(action_id)
         
-        if isinstance(action.effect, effects.Effect): #this action affects status bars
-            self.set_active_action(action_id)
-        elif isinstance(action.effect, effects.LocationEffect): #this action affects  character location
-            if(self.active_char_action):
-                self.interrupt_active_action(None)
-            action.perform()
-            action.reset()
-        
+        if action:
+            if isinstance(action.effect, effects.Effect): #this action affects status bars
+                self.set_active_action(action_id)
+            elif isinstance(action.effect, effects.LocationEffect): #this action affects  character location
+                if(self.active_char_action):
+                    self.interrupt_active_action(None)
+                action.perform()
+                action.reset()        
     
     def interrupt_active_action(self, action_id):
         """

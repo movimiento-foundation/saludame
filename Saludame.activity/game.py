@@ -41,6 +41,8 @@ running = True
 
 main_class = None
 
+set_library_function = None
+
 class Main():
     def __init__(self):
         self.windows_controller = None

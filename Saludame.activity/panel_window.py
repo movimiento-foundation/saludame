@@ -11,6 +11,7 @@ from utilities import *
 
 import animation
 import customization
+import game
 
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 WHITE = pygame.Color("white")
@@ -53,8 +54,9 @@ class PanelWindow(Window):
         self.index_social_event = 0
         
         # Para probar GUI eventos sociales
-        social = ImageButton(self.rect_personal, pygame.Rect(190, 15, 80, 80), 1, "assets/events/caries.jpg", self._cb_button_click_social)
-        self.add_button(social)
+        # PM: comentado para presentación
+        #social = ImageButton(self.rect_personal, pygame.Rect(190, 15, 80, 80), 1, "assets/events/caries.jpg", self._cb_button_click_social)
+        #self.add_button(social)
         
         # Customization
         customization_button = ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
@@ -147,8 +149,11 @@ class PanelWindow(Window):
     ########### Buttons Callbacks ###########
     
     def _cb_button_click_personal_next(self, button):
+        if game.set_library_function:
+            game.set_library_function("99-Eventos.html") ##diarrhea")
+        
         if self.index_personal_event < len (self.active_personal_events) - 1:
-            self.index_personal_event += 1  
+            self.index_personal_event += 1
             
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
