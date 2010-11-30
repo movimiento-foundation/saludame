@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las acciones.
-EVENTS_OCCURRENCE_INTERVAL = 5 #per control interval after an event
+EVENTS_OCCURRENCE_INTERVAL = 2 #per control interval after an event
 
 HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
 
@@ -68,6 +68,7 @@ class GameManager:
         
         #for testing
         self.p_i = 0
+
         
 # management
 
@@ -91,9 +92,8 @@ class GameManager:
                 self.__check_active_mood() # check if the active character mood
                 self.__handle_time()
                 
-                self.count = 0    
+                self.count = 0
     
-
 ## Environment handling
    
     def update_environment(self):
@@ -296,7 +296,7 @@ class GameManager:
                 self.active_event = None
         else:
             if(not self.events_interval): 
-                self.active_event = self.__get_new_event() #get a new random event
+                self.active_event = self.__get_random_event() #get a new random event
 
                 self.windows_controller.add_personal_event(self.active_event) #notify windows controller
                 
@@ -309,14 +309,27 @@ class GameManager:
             else:
                 self.events_interval -= 1
     
-    def __get_new_event(self):
+    def __get_random_event(self):
         """
         Get a random event
         """
+        self.__update_events_probability()
+        
         rand = random.randint(0, self.max_rand)
         for i in range(0, len(self.probability_ranges)):
             if(rand >= self.probability_ranges[i][0] and rand <= self.probability_ranges[i][1]):
                 return self.events_list[i]
+    
+    def __update_events_probability(self):
+        """
+        Updates events probability
+        """
+        #updates events probability
+        for evt in self.events_list:
+            print evt.name, " prob: ", evt.update_probability(self.bars_controller.get_bars_status())
+        
+        self.max_rand = self.__calculate_max_rand(self.events_list)
+        self.probability_ranges = self.__calculate_ranges(self.events_list)
             
     def __calculate_max_rand(self, events_list):
         """
@@ -324,7 +337,7 @@ class GameManager:
         """
         max_rand = 0
         for event in events_list:
-            max_rand += event.appereance_probability
+            max_rand += event.get_probability()
         return max_rand
     
     def __calculate_ranges(self, events_list):
@@ -335,13 +348,13 @@ class GameManager:
         previous = 0
         ranges = []
         for event in events_list:
-            ranges += [(previous, previous + event.appereance_probability)]
-            previous += event.appereance_probability + 1
+            ranges += [(previous, previous + event.get_probability())]
+            previous += event.get_probability() + 1
         return ranges
     
 # Score handling
     def add_points(self, points):
-        score_bar = [bar for bar in self.bars_controller.bars if bar.id == "score_bar"][0]
+        score_bar = self.bars_controller.score_bar
         score_bar.value += points
         
     def __control_level(self):
@@ -366,3 +379,4 @@ class GameManager:
         self.challenges_creator.get_challenge()
         self.windows_controller.set_active_window("challenges_window")
         
+
