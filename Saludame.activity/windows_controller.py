@@ -40,18 +40,22 @@ class WindowsController:
         Creates windows and set the main_window as active window
         """
         # Challenges
-        cha = challenges_creator.ChallengesCreator(self.screen.get_rect(), pygame.Rect((200, 150), (934, 567)), 1, self, (40, 40, 200))
+        cha = challenges_creator.ChallengesCreator(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, (40, 40, 200))
         cha.create_challenges()
         self.game_man.challenges_creator = cha
         
         # Customization Window
-        customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((200, 100), (934, 567)), 1, self, app_loader.get_character())
+        customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, app_loader.get_character())
         
         # Main Window
         main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha, bars_loader, self.game_man)
         
         # Activate Main window
-        self.set_active_window("main_window")  
+        self.set_active_window("main_window")
+        self.update(1)
+        
+        # Activate Customization over main window
+        self.set_active_window("customization_window")
     
     ##### Windows #####    
     def close_active_window(self):
@@ -173,8 +177,8 @@ class WindowsController:
         Updates GUI 
         """    
         # Cada vez que "volvamos" a la ventana principal es necesario
-        # repintar el fondo para que no queden rastros de la ventana anterior  
-        if (self.reload_main): 
+        # repintar el fondo para que no queden rastros de la ventana anterior
+        if self.reload_main:
             pygame.display.flip() # Actualizamos el screen para hacer visibles los efectos
             self.reload_main = False       
         
@@ -189,13 +193,14 @@ class WindowsController:
         
         # Tooltips        
         if self.showing_tooltip:
-            if (isinstance(self.active_tooltip, Text)):
+            if isinstance(self.active_tooltip, Text):
                 self.screen.fill((255, 255, 255), self.active_tooltip.rect_in_container)
             # Le decimos al tooltip (widget) que se dibuje
             self.active_tooltip.draw(self.screen)
             changes.append(self.active_tooltip_bg[1])
         
-        self.scaled_game.update_screen(changes)
+        #self.scaled_game.update_screen(changes)
+        self.scaled_game.flip()
 
 
 class ScaledGame:
@@ -218,6 +223,13 @@ class ScaledGame:
         """
         return self.internal_screen
     
+    def flip(self):
+        if self.scale_factor == (1, 1):
+            pygame.display.update(rect_list)
+        else:
+            pygame.transform.scale(self.internal_screen, self.screen.get_size(), self.screen)
+        pygame.display.flip()
+        
     def update_screen(self, rect_list):
         if self.scale_factor == (1, 1):
             pygame.display.update(rect_list)
@@ -246,7 +258,4 @@ class ScaledGame:
             x = int(display_coordinates[0] / self.scale_factor[0])
             y = int(display_coordinates[1] / self.scale_factor[0])
             return x, y
-        
-
-
-
+    

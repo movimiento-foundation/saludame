@@ -9,6 +9,7 @@ class Text(Widget):
     
     ALIGN_LEFT = 0
     ALIGN_RIGHT = 1
+    ALIGN_CENTER = 2
     
     def __init__(self, container_rect, x, y, frame_rate, text, size, color, alignment=ALIGN_LEFT, bold=False, italic=False):
         self.font = get_font(size, bold, italic)
@@ -19,8 +20,10 @@ class Text(Widget):
         render = self.font.render(self.text, False, color)
         if alignment == Text.ALIGN_LEFT:
             rect = render.get_rect(topleft=(x, y))
-        else:
+        elif alignment == Text.ALIGN_RIGHT:
             rect = render.get_rect(topright=(x, y))
+        else:
+            rect = render.get_rect(center=(x, y))
         
         # Make it fit in the container
         if rect.right > container_rect.right:
@@ -118,16 +121,38 @@ class TextButton(ImageButton):
         ImageButton.__init__(self, container, self.text.rect_in_container, frame_rate, self.text.background, cb_click, cb_over, cb_out)
         
     def switch_color_text(self, color):
-        self.background = self.text.switch_color_text(color).background        
+        self.background = self.text.switch_color_text(color).background
+    
+class TextButton2(ImageButton):
+    
+    def __init__(self, container, rect, frame_rate, text, size, color, background, cb_click=None, cb_over=None, cb_out=None):
+        self.back = background
+        self.text = text
+        self.size = size
+        self.color = color
         
+        rect.size = self.back.get_size()
+        surface = self.get_surface()
+        ImageButton.__init__(self, container, rect, frame_rate, surface, cb_click, cb_over, cb_out)
+        
+    def switch_color_text(self, color):
+        self.color = color
+        self.background = self.get_surface()
+    
+    def get_surface(self):
+        font = get_font(self.size)
+        render = font.render(self.text, True, self.color)
+        
+        surface = self.back.copy()
+        surface.blit(render, render.get_rect(center=surface.get_rect().center) )
+        return surface
+
+def get_accept_button(container, rect, text, cb_click=None, cb_over=None, cb_out=None):
+    background = pygame.image.load("assets/windows/dialog_button.png").convert_alpha()
+    return TextButton2(container, rect, 1, text, 24, pygame.Color("#397b7e"), background, cb_click, cb_over, cb_out)
+    
 def change_color(surface, old_color, new_color):
     # No funciona en pygame 1.8.0
-    #image_pixel_array = pygame.PixelArray(self.sprite)
-    #image_pixel_array.replace(old_color, new_color)
-    
-    #mapped_int = surface.map_rgb(old_color)
-    #surface.set_palette_at(mapped_int, new_color[0:3])   
-    
     i = 0
     indexes = []
     palette = surface.get_palette()

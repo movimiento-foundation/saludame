@@ -52,7 +52,7 @@ example = [
             (_("Limonada"), "assets/icons/icon.png", "limonada", None),
             (_("Jugo de naranja"), "assets/icons/icon.png", "jugo_naranja", None),
             (_("Jugo de peras"), "assets/icons/icon.png", "jugo_peras", None),
-            (_("Jugo de zanahorias"), "assets/icons/icon.png", "jugo_peras", None),
+            (_("Jugo de zanahorias"), "assets/icons/icon.png", "jugo_zanahorias", None),
             
         ]),
         
