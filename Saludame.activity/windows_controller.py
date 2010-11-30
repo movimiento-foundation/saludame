@@ -107,6 +107,9 @@ class WindowsController:
     def add_personal_event(self, event):
         self.windows["panel_window"].add_personal_event(event)
         
+        if event.kid_message:
+            self.show_kid_message(event.kid_message, event.message_time_span)
+    
     def remove_personal_event(self, event):
         self.windows["panel_window"].remove_personal_event(event) 
         
@@ -114,7 +117,7 @@ class WindowsController:
         self.windows["kid"].add_social_event(event)
         
     def remove_social_event(self, event):
-        self.windows["kid"].remove_social_event(event) 
+        self.windows["kid"].remove_social_event() 
     
     ##### Messages at ballon #####
     def show_kid_message(self, message, message_time_span):
@@ -247,6 +250,7 @@ class ScaledGame:
             y = int(display_coordinates[1] / self.scale_factor[0])
             return x, y
         
+
 
 
 

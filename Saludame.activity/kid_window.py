@@ -188,3 +188,4 @@ class MessageBalloon(Window):
             screen.blit(self.bg, self.rect)
             return [self.rect]
 
+

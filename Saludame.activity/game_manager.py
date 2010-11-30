@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las acciones.
-EVENTS_OCCURRENCE_INTERVAL = 2 #per control interval after an event
+EVENTS_OCCURRENCE_INTERVAL = 10 #per control interval after an event
 
 HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
 
 import random
 import effects
 import character
+import events
 
 instance = None
 
@@ -33,7 +34,8 @@ class GameManager:
         self.pause = False
         
         #evenst, actions, moods
-        self.events_list = events_list
+        self.personal_events_list = self.__get_personal_events(events_list)
+        self.social_events_list = self.__get_social_events(events_list)
         self.actions_list = actions_list
         self.moods_list = moods_list        
 
@@ -42,14 +44,13 @@ class GameManager:
         #character states
         self.active_char_action = None #Active character action, Action instance
         self.active_event = None
+        self.active_social_event = None
         self.active_mood = None
         self.__check_active_mood() # sets active_mood
         
         self.places_list = places_list
         
         #for events handling:
-        self.max_rand = self.__calculate_max_rand(self.events_list)
-        self.probability_ranges = self.__calculate_ranges(self.events_list)
         self.events_interval = EVENTS_OCCURRENCE_INTERVAL
         
         #environment
@@ -284,7 +285,45 @@ class GameManager:
 
     def __control_active_events(self):
         """
-        Active event handler
+        Active events handler
+        """
+        self.__handle_personal_events()
+        self.__handle_social_events()
+         
+        if self.events_interval == 0: 
+            # add personal
+            self.active_event = self.__get_random_event(self.personal_events_list) #get a new random event
+
+            self.windows_controller.add_personal_event(self.active_event) #notify windows controller
+            
+            # add social
+            self.active_social_event = self.__get_random_event(self.social_events_list)
+            
+            self.windows_controller.add_social_event(self.active_social_event)
+            
+            print "se disparó el evento: ", self.active_event.name
+            
+            self.events_interval = EVENTS_OCCURRENCE_INTERVAL
+        else:
+            self.events_interval -= 1
+        
+    
+    def __handle_social_events(self):
+        """
+        Handle social events
+        """
+        if(self.active_social_event):
+            
+            if(self.active_social_event.time_left):
+                self.active_social_event.perform()
+            else:                
+                self.windows_controller.remove_social_event(self.active_social_event)
+                self.active_social_event.reset()
+                self.active_social_event = None
+    
+    def __handle_personal_events(self):
+        """
+        Handle personal events
         """
         if(self.active_event):
             
@@ -294,42 +333,29 @@ class GameManager:
                 self.windows_controller.remove_personal_event(self.active_event)
                 self.active_event.reset()
                 self.active_event = None
-        else:
-            if(not self.events_interval): 
-                self.active_event = self.__get_random_event() #get a new random event
-
-                self.windows_controller.add_personal_event(self.active_event) #notify windows controller
-                
-                print "se disparó el evento: ", self.active_event.name
-
-                if(self.active_event.kid_message):
-                    self.windows_controller.show_kid_message(self.active_event.kid_message, self.active_event.message_time_span)
-                
-                self.events_interval = EVENTS_OCCURRENCE_INTERVAL
-            else:
-                self.events_interval -= 1
     
-    def __get_random_event(self):
+    def __get_random_event(self, events_list):
         """
         Get a random event
         """
-        self.__update_events_probability()
+        self.__update_events_probability(events_list) # it updates the probabilities of the list's events
         
-        rand = random.randint(0, self.max_rand)
-        for i in range(0, len(self.probability_ranges)):
-            if(rand >= self.probability_ranges[i][0] and rand <= self.probability_ranges[i][1]):
-                return self.events_list[i]
+        max_rand = self.__calculate_max_rand(events_list) # get the max_rand for the events_list
+        
+        probability_ranges = self.__calculate_ranges(events_list) # calculate the ranges for these events
+        
+        rand = random.randint(0, max_rand)
+        for i in range(0, len(probability_ranges)):
+            if(rand >= probability_ranges[i][0] and rand <= probability_ranges[i][1]):
+                return events_list[i]
     
-    def __update_events_probability(self):
+    def __update_events_probability(self, events_list):
         """
         Updates events probability
         """
         #updates events probability
-        for evt in self.events_list:
+        for evt in events_list:
             print evt.name, " prob: ", evt.update_probability(self.bars_controller.get_bars_status())
-        
-        self.max_rand = self.__calculate_max_rand(self.events_list)
-        self.probability_ranges = self.__calculate_ranges(self.events_list)
             
     def __calculate_max_rand(self, events_list):
         """
@@ -351,6 +377,25 @@ class GameManager:
             ranges += [(previous, previous + event.get_probability())]
             previous += event.get_probability() + 1
         return ranges
+    
+    def __get_social_events(self, events_list):
+        
+        social_events = []
+        for evt in events_list:
+            if isinstance(evt, events.SocialEvent):
+                social_events.append(evt)
+                
+        return social_events
+        
+    
+    def __get_personal_events(self, events_list):
+        
+        personal_events = []
+        for evt in events_list:
+            if isinstance(evt, events.PersonalEvent):
+                personal_events.append(evt)
+                
+        return personal_events
     
 # Score handling
     def add_points(self, points):
@@ -379,4 +424,5 @@ class GameManager:
         self.challenges_creator.get_challenge()
         self.windows_controller.set_active_window("challenges_window")
         
+
 
