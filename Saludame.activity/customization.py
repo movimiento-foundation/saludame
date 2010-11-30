@@ -44,17 +44,20 @@ class CustomizationWindow(window.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, character):
         window.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window")
-        self.set_bg_image("assets/windows/window_1.png")
+        self.set_bg_image("assets/windows/window_2.png")
         
         kid_rect = pygame.Rect((20, 20), (1,1))
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
-        self.btn_close = utilities.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
-        self.btn_hair = utilities.TextButton(self.rect, pygame.Rect((500, 150), (70, 30)), 1, _("Hair"), 30, (0, 0, 0), self._cb_button_hair)
-        self.btn_skin = utilities.TextButton(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (0, 0, 0), self._cb_button_skin)
-        self.btn_socks = utilities.TextButton(self.rect, pygame.Rect((500, 250), (70, 30)), 1, _("Socks"), 30, (0, 0, 0), self._cb_button_socks)
-        self.btn_shoes = utilities.TextButton(self.rect, pygame.Rect((500, 300), (70, 30)), 1, _("Shoes"), 30, (0, 0, 0), self._cb_button_shoes)
+        #self.btn_close = utilities.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
+        self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Accept"), self._cb_button_click_close)
+        
+        button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
+        self.btn_hair = utilities.TextButton2(self.rect, pygame.Rect((500, 120), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
+        self.btn_skin = utilities.TextButton2(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
+        self.btn_socks = utilities.TextButton2(self.rect, pygame.Rect((500, 280), (70, 30)), 1, _("Socks"), 30, (255, 255, 255), button_back, self._cb_button_socks)
+        self.btn_shoes = utilities.TextButton2(self.rect, pygame.Rect((500, 360), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
         self.buttons += [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes]
         self.widgets += [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes]
         

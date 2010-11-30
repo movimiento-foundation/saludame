@@ -15,7 +15,9 @@ import game
 
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 WHITE = pygame.Color("white")
+
 BAR_BACK_COLOR = pygame.Color("#106168")
+BAR_FILL_COLOR = pygame.Color("#a742bd")
 
 class PanelWindow(Window):
     
@@ -88,7 +90,7 @@ class PanelWindow(Window):
             self.actual_animation = animation.ActionAnimation(self.rect, self.rect_action, 10, action.window_animation_path, action.sound_path)
             self.add_child(self.actual_animation)
         else:
-            rect_progress = self.rect_action.move(45, 15)
+            rect_progress = self.rect_action.move(65, 45)
             rect_progress.size = (182, 26)
             self.action_progress_bar = ActionProgressBar(self.rect, rect_progress, 1, action)
             self.add_child(self.action_progress_bar)
@@ -156,7 +158,7 @@ class PanelWindow(Window):
     
     def _cb_button_click_personal_next(self, button):
         if game.set_library_function:
-            game.set_library_function("99-Eventos.html") ##diarrhea")
+            game.set_library_function("99-Eventos.html") #diarrhea")
         
         if self.index_personal_event < len (self.active_personal_events) - 1:
             self.index_personal_event += 1
@@ -197,7 +199,7 @@ class ActionProgressBar(Widget):
         charged_rect.width = ((float)(self.decrease) / self.action.time_span) * rect.width
         
         self.surface.fill(BAR_BACK_COLOR, rect)
-        self.surface.fill(pygame.Color("blue"), charged_rect)
+        self.surface.fill(BAR_FILL_COLOR, charged_rect)
         self.surface.blit(self.background, (0, 0)) # Background blits over the charge, because it has the propper alpha
         
         self.decrease = self.action.time_left

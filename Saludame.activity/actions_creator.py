@@ -128,6 +128,23 @@ actions_list = [
         effects.Effect(None, [("l_quesos", 2.0), ("c_leguminosas", 1.0), ("agua", 1.0), ("weight", 2.0)])
     ),
     
+    # Líquidos
+    ("agua", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+        effects.Effect(None, [("agua", 1.0)])
+    ),
+    ("limonada", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+        effects.Effect(None, [("agua", 1.0)])
+    ),
+    ("jugo_naranja", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+        effects.Effect(None, [("agua", 1.0)])
+    ),
+    ("jugo_peras", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+        effects.Effect(None, [("agua", 1.0)])
+    ),
+    ("jugo_zanahorias", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+        effects.Effect(None, [("agua", 1.0)])
+    ),
+    
     ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)
 ]
 
