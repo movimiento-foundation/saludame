@@ -372,14 +372,14 @@ class BarsController:
                 break
     
     def calculate_score(self):
-        if(self.overall_bar.value > self.overall_bar.max / 2):
-            if(self.overall_bar.value > (self.overall_bar.max / 2) + (self.overall_bar.max / 4)): #more than 3/4
-                self.score_bar.increase(5)
+        if self.overall_bar.value > self.overall_bar.max / 2:
+            if self.overall_bar.value > (self.overall_bar.max / 2) + (self.overall_bar.max / 4): #more than 3/4
+                self.score_bar.increase(3)
             else: #more than a half.
-                self.score_bar.increase(2)
+                self.score_bar.increase(1)
         else: 
-            if(self.overall_bar.value < (self.overall_bar.max / 2) - (self.overall_bar.max / 4)): #less than 1/4
-                self.score_bar.increase(-5)
+            if self.overall_bar.value < (self.overall_bar.max / 2) - (self.overall_bar.max / 4): #less than 1/4
+                self.score_bar.increase(-3)
             else: # less than 1/2
                 self.score_bar.increase(-1)
     

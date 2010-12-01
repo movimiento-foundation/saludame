@@ -29,7 +29,7 @@ class MainWindow(Window):
         #self.windows.append(animation.Apple(pygame.Rect((700, 90), (150, 172)), 10))
         
         #self.windows.append(animation.FPS(container, pygame.Rect((1100, 550), (50, 20)), 15, self.clock))
-        self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 1, windows_controller, bars_loader))
+        self.windows.append(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 5, windows_controller, bars_loader))
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         

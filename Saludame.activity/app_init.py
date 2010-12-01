@@ -95,7 +95,7 @@ class AppLoader:
         event = events.PersonalEvent("caries.jpg", None, "caries", _("Caries"), 5, 15, "personal", probability, effect, "Me duele una muela", 5, 50)
         _events.append(event)
         
-        probability = []
+        probability = [("overall_bar", "constant", 100.0, 15.0)]
         effect = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.0), ("resistencia", -0.9), ("fat", -0.5)])
         event = events.PersonalEvent("ill.jpg", "assets/events/stomach_ache", "stomach_ache", _("Stomach ache"), 5, 15, "personal", probability, effect, "Me duele la panza! :(", 2, 50)
         _events.append(event)
@@ -105,14 +105,17 @@ class AppLoader:
         probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
         
         #editar parametros:
-        event = events.SocialEvent("caries.jpg", "assets/characters/teacher.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", 100)
+        event = events.SocialEvent("caries.jpg", "assets/characters/teacher.png", "p_caries", _("Prevenir caries"), 5.0, 20, probability, u"Deberías lavarte los \ndientes", 100)
         _events.append(event)
 
-        #(picture, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, message_time_span)
-        probability = [("responsability", "indirect", 50.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "study", _("Estudiar"), 5.0, 15, probability, u"¿Hiciste los deberes?", 100)
+        probability = [("responsability", "indirect", 60.0, 70.0)]
+        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", 100)
         _events.append(event)
-        
+
+        probability = [("responsability", "indirect", 70.0, 70.0)]
+        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", 100)
+        _events.append(event)
+
         return _events
     
     def __load_moods(self):

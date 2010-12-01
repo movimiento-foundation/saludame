@@ -51,6 +51,7 @@ class Translator(object):
         # Enable events
         # (add instead of set here because the main window is already realized)
         self._mainwindow.add_events(
+            gtk.gdk.EXPOSURE_MASK | \
             gtk.gdk.KEY_PRESS_MASK | \
             gtk.gdk.KEY_RELEASE_MASK \
         )
@@ -70,12 +71,13 @@ class Translator(object):
         self._mainwindow.connect('unrealize', self._quit_cb)
         self._mainwindow.connect('key_press_event', self._keydown_cb)
         self._mainwindow.connect('key_release_event', self._keyup_cb)
+        self._mainwindow.connect('expose-event', self._expose_cb)
+        
         self._inner_evb.connect('key_press_event', self._keydown_cb)
         self._inner_evb.connect('key_release_event', self._keyup_cb)
         self._inner_evb.connect('button_press_event', self._mousedown_cb)
         self._inner_evb.connect('button_release_event', self._mouseup_cb)
         self._inner_evb.connect('motion-notify-event', self._mousemove_cb)
-        self._inner_evb.connect('expose-event', self._expose_cb)
         self._inner_evb.connect('configure-event', self._resize_cb)
         
         # Internal data
@@ -102,8 +104,8 @@ class Translator(object):
     def _expose_cb(self, event, widget):
         if pygame.display.get_init():
             pygame.event.post(pygame.event.Event(pygame.VIDEOEXPOSE))
-        return True
-
+        return False # continue processing
+    
     def _resize_cb(self, widget, event):
         evt = pygame.event.Event(pygame.VIDEORESIZE, 
                                  size=(event.width,event.height), width=event.width, height=event.height)
