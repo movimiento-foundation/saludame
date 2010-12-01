@@ -135,7 +135,8 @@ class PanelWindow(Window):
     def remove_personal_event(self, event):
         self.active_personal_events.remove(event)
         self.windows_controller.hide_active_tooltip()
-        self.remove_button(self.b_event_personal)
+        if self.b_event_personal in self.buttons:
+            self.remove_button(self.b_event_personal)
         self.b_event_personal = None
         
     def add_social_event(self, event):
