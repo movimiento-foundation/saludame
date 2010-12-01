@@ -66,10 +66,10 @@ example = [
     ]),
     
     (_("Tiempo libre..."), "assets/icons/icon_parent.png", None, [
-        (_("Go to sleep"), "assets/icons/icon.png", "sleep_sleep", None),
-        (_("Talk with a friend"), "assets/icons/icon.png", "talk_talk", None),
-        (_("Do homework"), "assets/icons/icon.png", "study_study", None),
-        (_("Clean up the bedroom"), "assets/icons/icon.png", "clean_clean", None)
+        (_("Go to sleep"), "assets/icons/icon.png", "sp_sleep", None),
+        (_("Talk with a friend"), "assets/icons/icon.png", "sp_talk", None),
+        (_("Do homework"), "assets/icons/icon.png", "sp_study", None),
+        (_("Clean up the bedroom"), "assets/icons/icon.png", "sp_clean", None)
     ]),
     
    (_("Ir a..."), "assets/icons/icon_parent.png", None, [

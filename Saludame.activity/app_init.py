@@ -105,11 +105,11 @@ class AppLoader:
         probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
         
         #editar parametros:
-        event = events.SocialEvent("caries.jpg", "assets/characters/teacher.png", "p_caries", _("Prevenir caries"), 5.0, 20, probability, u"Deberías lavarte los \ndientes", 100)
+        event = events.SocialEvent("caries.jpg", "assets/characters/teacher.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", None, 100)
         _events.append(event)
 
         probability = [("responsability", "indirect", 60.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", 100)
+        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", None, 100)
         _events.append(event)
 
         probability = [("responsability", "indirect", 70.0, 70.0)]
