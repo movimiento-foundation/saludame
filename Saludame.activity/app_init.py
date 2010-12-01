@@ -109,7 +109,7 @@ class AppLoader:
         probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
         
         #editar parametros:
-        event = events.SocialEvent("caries.jpg", "imagen del dentista", "p_caries", _("Prevenir caries"), 5.0, 5, probability, "Deberías lavarte los dientes...", 50)
+        event = events.SocialEvent("caries.jpg", "assets/characters/teacher.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, "Deberías lavarte los \ndientes...", 100)
         _events.append(event)
         
         return _events

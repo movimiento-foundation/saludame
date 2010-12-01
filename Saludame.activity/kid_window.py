@@ -61,17 +61,18 @@ class KidWindow(Window):
     ##### Events #####
     def add_social_event(self, event):
         self.social_event = event
-        self.external_character = ExternalCharacter(self.rect, pygame.Rect(700, 170, 1, 1), 1, self.windows_controller)
+        self.external_character = ExternalCharacter(self.rect, pygame.Rect(700, 170, 1, 1), 1, self.windows_controller, event)
         self.add_window(self.external_character)
                 
     def remove_social_event(self):
         self.social_event = None
-        self.windows.remove(self.external_character)
+        if self.external_character:
+            self.remove_window(self.external_character)
         self.external_character = None
     
     ##### Kid ballon #####
     def show_kid_balloon(self, message, time_span):
-        self.balloon = MessageBalloon(self.rect, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller)
+        self.balloon = MessageBalloon(self.rect, pygame.Rect(80, 80, 1, 1), 1, self.windows_controller)
         self.balloon.set_text(message)
         self.balloon.set_time_span(time_span)
         self.add_window(self.balloon)
@@ -110,9 +111,9 @@ class KidWindow(Window):
         return changes
     
 class ExternalCharacter(Window):
-    def __init__(self, container, rect, frame_rate, windows_controller):
+    def __init__(self, container, rect, frame_rate, windows_controller, event):
         
-        self.character = pygame.image.load("assets/characters/teacher.png").convert_alpha()
+        self.character = pygame.image.load(event.person_path).convert_alpha()
         rect.size = self.character.get_size()
         
         Window.__init__(self, container, rect, frame_rate, windows_controller, "external_character")
@@ -120,11 +121,11 @@ class ExternalCharacter(Window):
         self.set_bg_image(self.character)
         
         self.visible = True
-        self.time_span = 100 # Hardcoded 
+        self.time_span = event.message_time_span
         
         self.message_balloon = MessageBalloon(self.container, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller)  
-        self.message_balloon.set_text(u"Deberías ir al dentista....") # Hardcoded
-        self.message_balloon.set_time_span(self.time_span) # Mismo time_span que el character
+        self.message_balloon.set_text(event.person_message)
+        self.message_balloon.set_time_span(self.time_span) # same time_span as character
         
         self.bg1 = (self.windows_controller.screen.subsurface(self.rect).copy())
         self.bg2 = (self.windows_controller.screen.subsurface(self.message_balloon.rect).copy())

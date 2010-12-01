@@ -99,6 +99,3 @@ class SocialEvent(Event):
     
     def reset(self):
         self.time_left = self.time_span
-    
-    
-

@@ -100,6 +100,9 @@ class Window:
         self.windows.append(window)
         window.parent = self
         
+    def remove_window(self, window):
+        self.windows.remove(window)
+                
     def enable_repaint(self):
         self.repaint = True
         for win in self.windows:
