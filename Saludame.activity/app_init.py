@@ -113,7 +113,7 @@ class AppLoader:
         _events.append(event)
 
         probability = [("responsability", "indirect", 70.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", 100)
+        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", None, 100)
         _events.append(event)
 
         return _events
