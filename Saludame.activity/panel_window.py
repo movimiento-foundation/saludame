@@ -50,15 +50,16 @@ class PanelWindow(Window):
         self.add_button(personal_back)
         
         # Social
-        self.surf_social = pygame.Surface((70, 110))
-        #self.rect_personal = pygame.Rect((510, 652), self.surf_social.get_rect().size)
+        self.surf_social = pygame.Surface((130, 110))
+        self.rect_social = pygame.Rect((579, 652), self.surf_social.get_rect().size)
         self.active_social_events = []
         self.index_social_event = 0
         
-        # Para probar GUI eventos sociales
-        # PM: comentado para presentación
-        #social = ImageButton(self.rect_personal, pygame.Rect(190, 15, 80, 80), 1, "assets/events/caries.jpg", self._cb_button_click_social)
-        #self.add_button(social)
+        social_next = ImageButton(self.rect_social, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_social_next)
+        social_back = ImageButton(self.rect_social, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_social_back)
+        
+        self.add_button(social_next)
+        self.add_button(social_back)
         
         # Customization
         customization_button = ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
@@ -117,7 +118,7 @@ class PanelWindow(Window):
         if not event in self.active_personal_events:
             self.active_personal_events.append(event)
             
-        self.b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (self.active_personal_events[self.index_personal_event].picture)).convert_alpha(), self._cb_button_click_personal_next)
+        self.b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
         
         event_info = "%s \n" % (event.description)
         
@@ -135,22 +136,41 @@ class PanelWindow(Window):
         self.active_personal_events.remove(event)
         self.windows_controller.hide_active_tooltip()
         self.remove_button(self.b_event_personal)
+        self.b_event_personal = None
+        
+    def add_social_event(self, event):
+        if not event in self.active_social_events:
+            self.active_social_events.append(event)
+            
+        self.b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
+        
+        event_info = "%s \n" % (event.description)
+        
+        self.b_event_social.set_super_tooltip(event_info)
+        self.add_button(self.b_event_social)
+        
+    def remove_social_event(self, event):
+        self.active_social_events.remove(event)
+        self.windows_controller.hide_active_tooltip()
+        self.remove_button(self.b_event_social)
+        self.b_event_social = None
         
     def pre_draw(self, screen):
                     
         self.timing += 1
-        changes = []
         
         #### Actions ####
         if self.on_animation and self.actual_animation and self.timing % self.actual_animation.frame_rate == 0:
             if self.timing > 12:
                 self.timing = 0
         
-        #### Personal Events ####
+        #### Events ####
         self.surf_personal.fill(WHITE)
+        self.surf_social.fill(WHITE)
         
-        # Blit the personal surface with screen
+        # Blit the personal and social surfaces with screen
         screen.blit(self.surf_personal, self.rect_personal)
+        screen.blit(self.surf_social, self.rect_social)
 
         return [self.rect]
     
@@ -165,7 +185,18 @@ class PanelWindow(Window):
             
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
-            self.index_personal_event -= 1           
+            self.index_personal_event -= 1  
+            
+    def _cb_button_click_social_next(self, button):
+        if game.set_library_function:
+            game.set_library_function("99-Eventos.html") #diarrhea")
+        
+        if self.index_personal_event < len (self.active_personal_events) - 1:
+            self.index_personal_event += 1
+            
+    def _cb_button_click_social_back(self, button):
+        if self.index_personal_event > 0:
+            self.index_personal_event -= 1         
 
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization_window")
