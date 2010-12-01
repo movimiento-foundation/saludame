@@ -242,7 +242,7 @@ class GameManager:
         """
         for action in self.background_actions:
             action.perform()
-            action.time_span = 1 #that means background actions never stop
+            action.time_span = -1 #that means background actions never stop
             
         if self.active_char_action: #if the character is performing an action: 
             if self.active_char_action.time_left > 0:

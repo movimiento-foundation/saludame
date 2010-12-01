@@ -30,10 +30,12 @@ class Action:
         
     def perform(self):
         if self.time_span == -1:
-            # Activates always
+            # Perpetual
             self.effect.activate()
         else:
+            # Checks time left
             if self.time_left > 0:
+                self.effect.activate()
                 self.time_left -= 1
             else:
                 self.time_left = 0
