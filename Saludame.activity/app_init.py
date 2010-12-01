@@ -71,10 +71,6 @@ class AppLoader:
         #picture, kid_animation_path, id, description, appereance_probability, time_span, kind, event_status, effect, kid_message, 
         #preferred_mood=9, message_time_span = time_span)
         
-        #temporal para testear eventos
-        dec = -1.0
-        inc = 1.0
-        
         _events = []
         
         # probabiliy configuration: (bar, type, threshold, probability_percentaje)
@@ -99,7 +95,7 @@ class AppLoader:
         _events.append(event)
         
         probability = []
-        effect = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.4), ("resistencia", -0.9), ("fat", -0.5)])
+        effect = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.0), ("resistencia", -0.9), ("fat", -0.5)])
         event = events.Event("ill.jpg", "assets/events/stomach_ache", "stomach_ache", _("Stomach ache"), 5, 15, "personal", probability, effect, "Me duele la panza! :(", 2, 50)
         _events.append(event)
         

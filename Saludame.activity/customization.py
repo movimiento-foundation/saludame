@@ -10,7 +10,7 @@ from gettext import gettext as _
 
 COLORS_HAIR = [
     ("#000000", "#191919"),     # BLACK
-    ("#FFFF10", "#DDDD10"),     # YELLOW
+    ("#fce94f", "#edd400"),     # YELLOW
     ("#803310", "#552210"),     # BROWN
     ("#A03310", "#852210"),     # Red
 ]
@@ -28,17 +28,26 @@ COLORS_SKIN = [
     ("#4a311b", "#3b2614"),
 ]
 
-COLORS_SOCKS = [
+TANGO_PALETTE = [
+    ("#edd400", "#c4a000"),     # Yellow
+    ("#f57700", "#ce5c00"),     # Orange
+    ("#c17d11", "#8f5902"),     # Brown
+    ("#73d216", "#4e9a06"),     # Green
+    ("#3465a4", "#204a87"),     # Blue
+    ("#75507b", "#5c3566"),     # Plum
+    ("#cc0000", "#a40000"),     # Red
+    ("#ffffff", "#d3d7cf"),     # White
+    ("#d3d7cf", "#babdb6"),     # Aluminium light
+    ("#555753", "#2e3436"),     # Aluminium dark
+    ("#000000", "#2e3436"),     # Black
+    
+    # Original design (not tango)
     ("#fd8255", "#db601f"),     # Orange
-    ("#FFFF00", "#DDDD00" ),    # Yellow
-    ("#803300", "#552200")      # Brown
+    ("#eeea00", "#938200")      # Yellow
 ]
 
-COLORS_SHOES = [
-    ("#00B000", "#006000"),     # Green
-    ("#2222FF", "#5522FF"),     # Blue
-    ("#AA00AA", "#AA44AA")      # Violet
-]
+COLORS_SOCKS = TANGO_PALETTE
+COLORS_SHOES = TANGO_PALETTE
 
 class CustomizationWindow(window.Window):
     

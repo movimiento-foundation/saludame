@@ -29,10 +29,15 @@ class Action:
         self.sound_loop_times = sound_loop_times
         
     def perform(self):
-        if(self.time_left):
+        if self.time_span == -1:
+            # Activates always
             self.effect.activate()
-            self.time_left -= 1
-
+        else:
+            if self.time_left > 0:
+                self.time_left -= 1
+            else:
+                self.time_left = 0
+    
     def reset(self):
         self.time_left = self.time_span    
         
@@ -44,13 +49,3 @@ class Mood:
         
         self.kid_animation_path = kid_animation_path
         self.kid_frame_rate = frame_rate
-    
-
-
-
-
-
-
-
-
-

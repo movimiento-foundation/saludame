@@ -272,7 +272,7 @@ class BarDisplay(Widget):
         self.surface = self.background.copy()   # The actual surface to be blitted
         
         # visuals
-        self.font = utilities.get_font(12, True, False)
+        self.font = utilities.get_font(13, True, False)
         
         self.last_value = -1    # valor inicial
         
@@ -292,7 +292,7 @@ class BarDisplay(Widget):
             self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
             
             if self.show_name:
-                self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 5))
+                self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 4))
         
         screen.blit(self.surface, self.rect_absolute)
         
@@ -339,7 +339,7 @@ class ScoreSection(Widget):
         self.score_bar_display.draw(self.surface)
         
         # write level:
-        level_text = _("NIVEL")
+        level_text = _("LEVEL")
         level_text_surface = self.font.render(level_text, 1, self.text_color)
         
         level_number = str(game_manager.instance.level)
@@ -423,49 +423,60 @@ class StatusBar:
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
-        # Increments/decrements this bar
-        self.value += increase_rate
         
-        # Keep the value between self.max and 0
-        self.value = min([self.value, self.max])
-        self.value = max([self.value, 0])
-        
-        # Increments childrens
-        if len(self.children_list) > 0:
+        if self.children_list:
+            # Increments childrens
             for child in self.children_list:
                 child.increase_from_parent(increase_rate)
-                
-        # Increments parent
-        if self.parent != None:
-            self.parent.increase_from_child(increase_rate)
+            self.recalculate()
+        else:
+            # Increments/decrements this bar
+            self.value += increase_rate
+            
+            # Keep the value between self.max and 0
+            self.value = min([self.value, self.max])
+            self.value = max([self.value, 0])
+            
+            if self.parent:
+                self.parent.recalculate()
     
-    def increase_from_child(self, increase_rate):
-        """
-        Incrementa el valor de la barra.
-        """
-        value = float(increase_rate) / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-        self.value += value
+    def recalculate(self):
+        children = len(self.children_list)
+        if children > 0:
+            values = sum([child.value for child in self.children_list])
+            value = float(values) / children
+            if self.value <> value:
+                self.value = value
+                if self.parent:
+                    self.parent.recalculate()
+    
+    #def increase_from_child(self, increase_rate):
+        #"""
+        #Incrementa el valor de la barra.
+        #"""
+        #value = float(increase_rate) / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
+        #self.value += value
         
-        if self.parent != None:
-            self.parent.increase_from_child(value)
+        #if self.parent != None:
+            #self.parent.increase_from_child(value)
         
-        if self.value > self.max:
-            self.value = self.maxbars_controller
-        elif self.value < 0:
-            self.value = 0
+        #if self.value > self.max:
+            #self.value = self.maxbars_controller
+        #elif self.value < 0:
+            #self.value = 0
         
     def increase_from_parent(self, increase_rate):
         """
         Incrementa el valor de la barra y repercute en los hijos.
         """
-        if self.value < max and self.value > 0:
+        if len(self.children_list) > 0:
+            for child in self.children_list:
+                child.increase_from_parent(increase_rate)
+            self.recalculate()
+        else:
             self.value += increase_rate
-            if len(self.children_list) > 0:
-                for child in self.children_list:
-                    child.increase_from_parent(increase_rate)
             
             if self.value > self.max:
                 self.value = self.max
             elif self.value < 0:
                 self.value = 0
-

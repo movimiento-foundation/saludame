@@ -31,23 +31,6 @@ bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spar
 actions_list = [
     #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
     
-    # Sports
-    ("sport_football", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
-    ),
-
-    ("sport_run", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
-    ),
-    
-    ("sport_hide_seek", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
-    ),
-    
-    ("sport_jump", "icon_path", "picture_path", 0.3, 8, 0, 0, JUMP_ROPE_PATH, 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
-    ),
-
     # Fruit
     ("eat_apple", "icon_path", "picture_path", 0.3, 8, 3, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)])
@@ -145,6 +128,58 @@ actions_list = [
         effects.Effect(None, [("agua", 1.0)])
     ),
     
+    # Sports
+    ("sport_football", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+
+    ("sport_run", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+    
+    ("sport_hide_seek", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+    
+    ("sport_jump", "icon_path", "picture_path", 0.3, 8, 0, 0, JUMP_ROPE_PATH, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)])
+    ),
+    
+    # Tiempo Libre
+    ("sleep_sleep", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", 0.5), ("relaxing", 2.0)])
+    ),
+
+    ("talk_talk", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("fun", 0.5)])
+    ),
+    
+    ("study_study", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)])
+    ),
+    
+    ("clean_clean", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)])
+    ),
+    
+    # Higiene
+    ("shower", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("shower", 5.0)])
+    ),
+
+    ("brush_teeth", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("b_teeth", 0.5)])
+    ),
+    
+    ("wash_hands", "icon_path", "picture_path", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("w_hands", 3.0)])
+    ),
+    
+    ("toilet", "icon_path", "picture_path", 0.3, 1.9, 0, 1, "assets/kid/actions/toilet", 3, 1, None, 4, "sound_path",
+        effects.Effect(None, [("toilet", 4.0)])
+    ),
+    
+    # Default action - affects the bars continuously
     ("BARS_DEC", None, None, 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect)
 ]
 

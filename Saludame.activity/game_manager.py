@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-CONTROL_INTERVAL = 15 #cantidad de señales hasta que realiza un checkeo de las acciones.
+CONTROL_INTERVAL = 16   # cantidad de señales hasta que controla acciones, eventos, clima, etc
 EVENTS_OCCURRENCE_INTERVAL = 2 #per control interval after an event
 
 HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
@@ -243,8 +243,8 @@ class GameManager:
             action.perform()
             action.time_span = 1 #that means background actions never stop
             
-        if(self.active_char_action): #if the character is performing an action: 
-            if(self.active_char_action.time_left):
+        if self.active_char_action: #if the character is performing an action: 
+            if self.active_char_action.time_left > 0:
                 self.active_char_action.perform()
             else: #if the action was completed: 
                 self.active_char_action.reset()

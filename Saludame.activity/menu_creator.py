@@ -58,10 +58,11 @@ example = [
         
     ]),
     
-    (_("Do sports..."), "assets/icons/icon_parent.png", None, [
+    (_("Deportes..."), "assets/icons/icon_parent.png", None, [
         (_("Run"), "assets/icons/icon.png", "sport_run", None),
         (_("Jump the rope"), "assets/icons/icon.png", "sport_jump", None),
-        (_("Play footbal"), "assets/icons/icon.png", "sport_football", None)
+        (_("Play footbal"), "assets/icons/icon.png", "sport_football", None),
+        (_("Hide and Seek"), "assets/icons/icon.png", "sport_hide_seek", None)
     ]),
     
     (_("Tiempo libre..."), "assets/icons/icon_parent.png", None, [
@@ -80,8 +81,14 @@ example = [
             (_("Living room"), "assets/icons/icon.png", "goto_living", None),
             (_("Bedroom"), "assets/icons/icon.png", "goto_bedroom", None),
             (_("Kitchen"), "assets/icons/icon.png", "goto_kitchen", None),
-            (_("Bathroom"), "assets/icons/icon.png", "goto_bathroom", None)
         ])
+   ]),
+   
+   (_("Higiene..."), "assets/icons/icon_parent.png", None, [
+       (_("Bañarse"), "assets/icons/icon.png", "shower", None),
+       (_("Lavarse los dientes"), "assets/icons/icon.png", "brush_teeth", None),
+       (_("Lavarse las manos"), "assets/icons/icon.png", "wash_hands", None),
+       (_("Ir al baño"), "assets/icons/icon.png", "toilet", None),
    ])
 ]
 
