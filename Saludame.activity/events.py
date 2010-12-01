@@ -69,7 +69,8 @@ class PersonalEvent(Event):
         
     def perform(self):
         if(self.time_left):
-            self.effect.activate()
+            if self.effect:
+                self.effect.activate()
             self.time_left -= 1
     
     def reset(self):
@@ -77,7 +78,7 @@ class PersonalEvent(Event):
 
 class SocialEvent(Event):
     
-    def __init__(self, picture, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, message_time_span=5):
+    def __init__(self, picture, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, effect, message_time_span=5):
         Event.__init__(self, picture, name, description, appereance_probability, time_span, condicioned_bars)
         
         self.time_span = time_span
@@ -92,9 +93,13 @@ class SocialEvent(Event):
         
         self.name = name
         self.description = description
+
+        self.effect = effect
         
     def perform(self):
         if(self.time_left):
+            if self.effect:
+                self.effect.activate()
             self.time_left -= 1
     
     def reset(self):
