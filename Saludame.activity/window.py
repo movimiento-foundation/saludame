@@ -84,7 +84,8 @@ class Window:
         widget.parent = self
         
     def remove_child(self, widget):
-        self.widgets.remove(widget)
+        if widget in self.widgets:
+            self.widgets.remove(widget)
         
     def add_button(self, button):
         self.add_child(button)
@@ -92,9 +93,10 @@ class Window:
         button.parent = self
         
     def remove_button(self, button):
-        self.buttons.remove(button)
-        self.remove_child(button)
-        button.parent = None
+        if button in self.buttons:
+            self.buttons.remove(button)
+            self.remove_child(button)
+            button.parent = None
     
     def add_window(self, window):
         self.windows.append(window)

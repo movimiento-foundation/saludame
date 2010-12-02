@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+import utilities
 
 class Widget:
     
@@ -19,9 +20,15 @@ class Widget:
         self.showing_tooltip = False
     
     def draw(self, screen):
-        if self.background:
-            screen.blit(self.background, self.rect_absolute)
-            return self.rect_absolute
+        if isinstance (self, utilities.Button):
+            if self.visible:
+                if self.background:
+                    screen.blit(self.background, self.rect_absolute)
+                    return self.rect_absolute
+        else:
+            if self.background:
+                screen.blit(self.background, self.rect_absolute)
+                return self.rect_absolute
     
     def force_update(self): # Forzamos la actualizacion del widget independientemente del frame_rate
         #screen.blit(self.background, self.rect_in_container)
