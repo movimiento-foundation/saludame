@@ -153,7 +153,8 @@ class PanelWindow(Window):
     def remove_social_event(self, event):
         self.active_social_events.remove(event)
         self.windows_controller.hide_active_tooltip()
-        self.remove_button(self.b_event_social)
+        if self.b_event_social in self.buttons:
+            self.remove_button(self.b_event_social)
         self.b_event_social = None
         
     def pre_draw(self, screen):

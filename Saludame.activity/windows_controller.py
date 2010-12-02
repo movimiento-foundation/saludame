@@ -205,8 +205,8 @@ class WindowsController:
             self.active_tooltip.draw(self.screen)
             changes.append(self.active_tooltip_bg[1])
         
-        #self.scaled_game.update_screen(changes)
-        self.scaled_game.flip()
+        self.scaled_game.update_screen(changes)
+        #self.scaled_game.flip()
 
 
 class ScaledGame:
@@ -231,10 +231,10 @@ class ScaledGame:
     
     def flip(self):
         if self.scale_factor == (1, 1):
-            pygame.display.update(rect_list)
+            pygame.display.flip()
         else:
             pygame.transform.scale(self.internal_screen, self.screen.get_size(), self.screen)
-        pygame.display.flip()
+            pygame.display.flip()
         
     def update_screen(self, rect_list):
         if self.scale_factor == (1, 1):
