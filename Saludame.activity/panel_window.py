@@ -40,7 +40,7 @@ class PanelWindow(Window):
         # Personal
         self.surf_personal = pygame.Surface((130, 110))
         self.rect_personal = pygame.Rect((410, 652), self.surf_personal.get_rect().size)
-        self.active_personal_events = []
+        self.active_personal_events = [] # tuple (event, button)
         self.index_personal_event = 0       
         
         personal_next = ImageButton(self.rect_personal, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
@@ -49,10 +49,15 @@ class PanelWindow(Window):
         self.add_button(personal_next)
         self.add_button(personal_back)
         
+        self.count_personal_events = Text(self.rect_personal, 50, 82, 1, "%s/%s" % (self.index_personal_event, len(self.active_personal_events)), 20, pygame.Color("black"))
+        self.add_child(self.count_personal_events)
+        
+        self.b_event_personal = None # Visible event at panel
+        
         # Social
         self.surf_social = pygame.Surface((130, 110))
         self.rect_social = pygame.Rect((579, 652), self.surf_social.get_rect().size)
-        self.active_social_events = []
+        self.active_social_events = [] # tuple (event, button)
         self.index_social_event = 0
         
         social_next = ImageButton(self.rect_social, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_social_next)
@@ -60,6 +65,11 @@ class PanelWindow(Window):
         
         self.add_button(social_next)
         self.add_button(social_back)
+        
+        self.count_social_events = Text(self.rect_social, 50, 82, 1, "%s/%s" % (self.index_social_event, len(self.active_social_events)), 20, pygame.Color("black"))
+        self.add_child(self.count_social_events)
+        
+        self.b_event_social = None # Visible event at panel
         
         # Customization
         customization_button = ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
@@ -115,45 +125,104 @@ class PanelWindow(Window):
     
     ########## Events ##########    
     def add_personal_event(self, event):
-        if not event in self.active_personal_events:
-            self.active_personal_events.append(event)
+        if not event in self.active_personal_events:            
+            b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
             
-        self.b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
-        
-        event_info = "%s \n" % (event.description)
-        
-        for eff in event.effect.effect_status_list:
-            bar_label = event.effect.bars_controller.get_bar_label(eff[0])
-            if (eff[1] > 0):
-                event_info += "+ %s \n" % (bar_label)
-            else:
-                event_info += "- %s \n" % (bar_label)
-        
-        self.b_event_personal.set_super_tooltip(event_info)
-        self.add_button(self.b_event_personal)
+            event_info = "%s \n" % (event.description)
+            
+            for eff in event.effect.effect_status_list:
+                bar_label = event.effect.bars_controller.get_bar_label(eff[0])
+                if (eff[1] > 0):
+                    event_info += "+ %s \n" % (bar_label)
+                else:
+                    event_info += "- %s \n" % (bar_label)
+            
+            b_event_personal.set_super_tooltip(event_info)
+            
+            self.active_personal_events.append((event, b_event_personal))
+            
+            if self.b_event_personal:
+                self.remove_button(self.b_event_personal)
+            self.b_event_personal = b_event_personal
+            self.add_button(self.b_event_personal)
+            self.index_personal_event = len(self.active_personal_events) - 1
+            
+            self.refresh_count_personal_events()
         
     def remove_personal_event(self, event):
-        self.active_personal_events.remove(event)
+        
+        for e in self.active_personal_events:
+            if e[0] == event:
+                self.active_personal_events.remove(e)
+                
+        if self.b_event_personal:
+            self.remove_button(self.b_event_personal)
+                
+        if self.active_personal_events:
+            self.index_personal_event = 0
+            self.b_event_personal = self.active_personal_events[0][1]
+            self.add_button(self.b_event_personal)
+        
         self.windows_controller.hide_active_tooltip()
-        self.remove_button(self.b_event_personal)
-        self.b_event_personal = None
+        
+        self.refresh_count_personal_events()        
         
     def add_social_event(self, event):
         if not event in self.active_social_events:
-            self.active_social_events.append(event)
             
-        self.b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
-        
-        event_info = "%s \n" % (event.description)
-        
-        self.b_event_social.set_super_tooltip(event_info)
-        self.add_button(self.b_event_social)
+            b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
+            
+            event_info = "%s \n" % (event.description)
+            
+            b_event_social.set_super_tooltip(event_info)
+            
+            self.active_social_events.append((event, b_event_social))
+            
+            if self.b_event_social:
+                self.remove_button(self.b_event_social)
+            self.b_event_social = b_event_social
+            self.add_button(self.b_event_social)
+            self.index_social_event = len(self.active_social_events) - 1
+            
+            self.refresh_count_social_events()
         
     def remove_social_event(self, event):
-        self.active_social_events.remove(event)
+        
+        for e in self.active_social_events:
+            if e[0] == event:
+                self.active_social_events.remove(e)
+                
+        if self.b_event_social:
+            self.remove_button(self.b_event_social)
+                
+        if self.active_social_events:
+            self.index_social_event = 0
+            self.b_event_social = self.active_social_events[0][1]
+            self.add_button(self.b_event_social)
+            
         self.windows_controller.hide_active_tooltip()
-        self.remove_button(self.b_event_social)
-        self.b_event_social = None
+        
+        self.refresh_count_social_events()
+  
+    def refresh_count_personal_events(self):
+        
+        if self.active_personal_events:
+            self.count_personal_events.text = "%s/%s" % (self.index_personal_event + 1, len(self.active_personal_events))
+            self.count_personal_events.refresh()
+            
+        else:
+            self.count_personal_events.text = "0/0"
+            self.count_personal_events.refresh()
+            
+    def refresh_count_social_events(self):
+        
+        if self.active_social_events:
+            self.count_social_events.text = "%s/%s" % (self.index_social_event + 1, len(self.active_social_events))
+            self.count_social_events.refresh()
+            
+        else:
+            self.count_social_events.text = "0/0"
+            self.count_social_events.refresh()
         
     def pre_draw(self, screen):
                     
@@ -181,28 +250,41 @@ class PanelWindow(Window):
             game.set_library_function("99-Eventos.html") #diarrhea")
         
         if self.index_personal_event < len (self.active_personal_events) - 1:
+            self.remove_button(self.b_event_personal)
             self.index_personal_event += 1
+            self.refresh_count_personal_events()
+            self.b_event_personal = self.active_personal_events[self.index_personal_event][1]
+            self.add_button(self.b_event_personal)
             
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
-            self.index_personal_event -= 1  
+            self.remove_button(self.b_event_personal)
+            self.index_personal_event -= 1 
+            self.refresh_count_personal_events() 
+            self.b_event_personal = self.active_personal_events[self.index_personal_event][1]
+            self.add_button(self.b_event_personal)
             
     def _cb_button_click_social_next(self, button):
         if game.set_library_function:
             game.set_library_function("99-Eventos.html") #diarrhea")
         
-        if self.index_personal_event < len (self.active_personal_events) - 1:
-            self.index_personal_event += 1
+        if self.index_social_event < len (self.active_social_events) - 1:
+            self.remove_button(self.b_event_social)
+            self.index_social_event += 1
+            self.refresh_count_social_events()
+            self.b_event_social = self.active_social_events[self.index_social_event][1]
+            self.add_button(self.b_event_social)
             
     def _cb_button_click_social_back(self, button):
-        if self.index_personal_event > 0:
-            self.index_personal_event -= 1         
+        if self.index_social_event > 0:
+            self.remove_button(self.b_event_social)
+            self.index_social_event -= 1
+            self.refresh_count_social_events() 
+            self.b_event_social = self.active_social_events[self.index_social_event][1]
+            self.add_button(self.b_event_social)        
 
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization_window")
-        
-    def _cb_button_click_social(self, button):
-        self.windows_controller.add_social_event(None)
         
     def _cb_button_click_stop_action(self, nutton):
         self.stop_action_animation()

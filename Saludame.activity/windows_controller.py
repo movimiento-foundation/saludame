@@ -52,7 +52,7 @@ class WindowsController:
         
         # Activate Main window
         self.set_active_window("main_window")
-        self.update(1)
+        self.update(0)
         
         # Activate Customization over main window
         self.set_active_window("customization_window")

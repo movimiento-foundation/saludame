@@ -46,8 +46,8 @@ class GameManager:
         
         #character states
         self.active_char_action = None #Active character action, Action instance
-        self.active_event = None
-        self.active_social_event = None
+        self.active_events = []
+        self.active_social_events = []
         self.active_mood = None
         self.__check_active_mood() # sets active_mood
         
@@ -202,9 +202,9 @@ class GameManager:
         self.active_char_action = None
         self.windows_controller.stop_actual_action_animation()
         
-        if(action_id):
+        if action_id:
             action = self.get_action(action_id)
-            if(action):
+            if action:
                 self.active_char_action = action
      
     def add_background_action(self, action_id):
@@ -212,7 +212,7 @@ class GameManager:
         Add a background action.
         """
         action = self.get_action(action_id)
-        if(action):
+        if action:
             self.background_actions.append(action)
     
     def get_active_action(self):
@@ -270,20 +270,22 @@ class GameManager:
         overall_bar_percent = self.bars_controller.get_overall_percent()
         overall_bar_mood = 9 # set in normal mood
         
-        if(overall_bar_percent < 0.33): 
+        if overall_bar_percent < 0.33:
             overall_bar_mood = 5 #set mood in sad grade 1
-        elif(overall_bar_percent > 0.66):
+        elif overall_bar_percent > 0.66:
             overall_bar_mood = 10 #set mood in happy 3
         
-        if(self.active_event):
-            event_preferred_mood = self.active_event.preferred_mood
+        event_preferred_moods = [event.preferred_mood for event in self.active_events]
+        #event_preferred_moods += [event.preferred_mood for event in self.active_social_events]
+        if event_preferred_moods:
+            event_preferred_mood = min(event_preferred_moods)
         
-        if(event_preferred_mood <= overall_bar_mood): # choose the lowest value
+        if event_preferred_mood <= overall_bar_mood: # choose the lowest value
             mood = self.moods_list[event_preferred_mood]
         else:
             mood = self.moods_list[overall_bar_mood]
         
-        if(mood <> self.active_mood):
+        if mood <> self.active_mood:
             self.active_mood = mood
             self.windows_controller.set_mood(mood)
             print "cambio estado de animo a: ", self.active_mood.name
@@ -296,18 +298,24 @@ class GameManager:
         """
         self.__handle_personal_events()
         self.__handle_social_events()
-         
+        
         if self.events_interval == 0:
             if random.randint(0, 1):
                 # add personal
-                self.active_event = self.__get_random_event(self.personal_events_list) #get a new random event
-                self.windows_controller.add_personal_event(self.active_event) #notify windows controller
-                print "se disparó el evento: ", self.active_event.name
+                if len(self.active_events) <= 1:
+                    event = self.__get_random_event(self.personal_events_list) #get a new random event
+                    if event and not (event in self.active_events):
+                        self.active_events.append(event)
+                        self.windows_controller.add_personal_event(event) #notify windows controller
+                        print "se disparó el evento: ", event.name
             else:
                 # add social
-                self.active_social_event = self.__get_random_event(self.social_events_list)                
-                self.windows_controller.add_social_event(self.active_social_event)
-                print "se disparó el evento: ", self.active_social_event.name
+                if len(self.active_social_events) <= 1:
+                    event = self.__get_random_event(self.social_events_list)
+                    if event and not (event in self.active_social_events):
+                        self.active_social_events.append(event)
+                        self.windows_controller.add_social_event(event)
+                        print "se disparó el evento: ", event.name
             
             self.events_interval = EVENTS_OCCURRENCE_INTERVAL
         else:
@@ -318,27 +326,27 @@ class GameManager:
         """
         Handle social events
         """
-        if(self.active_social_event):
+        for event in self.active_social_events:
             
-            if(self.active_social_event.time_left):
-                self.active_social_event.perform()
-            else:                
-                self.windows_controller.remove_social_event(self.active_social_event)
-                self.active_social_event.reset()
-                self.active_social_event = None
+            if event.time_left:
+                event.perform()
+            else:
+                self.windows_controller.remove_social_event(event)
+                event.reset()
+                self.active_social_events.remove(event)
     
     def __handle_personal_events(self):
         """
         Handle personal events
         """
-        if(self.active_event):
+        for event in self.active_events:
             
-            if(self.active_event.time_left):
-                self.active_event.perform()
+            if event.time_left:
+                event.perform()
             else:                
-                self.windows_controller.remove_personal_event(self.active_event)
-                self.active_event.reset()
-                self.active_event = None
+                self.windows_controller.remove_personal_event(event)
+                event.reset()
+                self.active_events.remove(event)
     
     def __get_random_event(self, events_list):
         """
@@ -346,14 +354,21 @@ class GameManager:
         """
         self.__update_events_probability(events_list) # it updates the probabilities of the list's events
         
-        max_rand = self.__calculate_max_rand(events_list) # get the max_rand for the events_list
+        #max_rand = self.__calculate_max_rand(events_list) # get the max_rand for the events_list
         
         probability_ranges = self.__calculate_ranges(events_list) # calculate the ranges for these events
+        max_rand = probability_ranges[-1][1]    # Second member of last event
         
-        rand = random.randint(0, max_rand)
-        for i in range(0, len(probability_ranges)):
-            if(rand >= probability_ranges[i][0] and rand <= probability_ranges[i][1]):
-                return events_list[i]
+        print probability_ranges
+        
+        if max_rand == 0:
+            # There aren't events with probability
+            return None
+        else:
+            rand = random.random()*max_rand
+            for i in range(0, len(probability_ranges)):
+                if rand >= probability_ranges[i][0] and rand <= probability_ranges[i][1]:
+                    return events_list[i]
     
     def __update_events_probability(self, events_list):
         """
@@ -381,7 +396,7 @@ class GameManager:
         ranges = []
         for event in events_list:
             ranges += [(previous, previous + event.get_probability())]
-            previous += event.get_probability() + 1
+            previous += event.get_probability()
         return ranges
     
     def __get_social_events(self, events_list):

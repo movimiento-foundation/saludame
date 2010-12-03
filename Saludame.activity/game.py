@@ -56,8 +56,6 @@ class Main():
         """
         global running, pauses
         
-        print "A"
-        
         if from_sugar:
                 import gtk
 
@@ -75,8 +73,6 @@ class Main():
         assert screen, "No screen"
         
         pygame.display.update()  
-        
-        print "B"
         
         # This clock is used to keep the game at the desired FPS.
         clock = pygame.time.Clock()
@@ -119,6 +115,8 @@ class Main():
                             running = False
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
+                        elif event.type == pygame.VIDEOEXPOSE:
+                            self.windows_controller.reload_main = True
                             
                 self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 

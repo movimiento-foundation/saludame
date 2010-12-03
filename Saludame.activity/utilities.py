@@ -67,6 +67,8 @@ class Button(Widget):
         self.function_on_mouse_out = cb_out
         
         self.over = False
+        self.enable = True
+        self.visible = True
         
     def contains_point(self, x, y):
         return self.rect_absolute.collidepoint(x, y)
@@ -78,15 +80,15 @@ class Button(Widget):
         self.super_tooltip = text
     
     def on_mouse_click(self):
-        if self.function_on_mouse_click: # if there's a callback setted makes the call
+        if (self.function_on_mouse_click and self.enable): # if there's a callback setted makes the call
             self.function_on_mouse_click(self)
         
     def on_mouse_over(self):
-        if self.function_on_mouse_over: # if there's a callback setted makes the call
+        if (self.function_on_mouse_over and self.enable): # if there's a callback setted makes the call
             self.function_on_mouse_over(self)
     
     def on_mouse_out(self):
-        if self.function_on_mouse_out: # if there's a callback setted makes the call
+        if (self.function_on_mouse_out and self.enable): # if there's a callback setted makes the call
             self.function_on_mouse_out(self)
             
     def set_on_mouse_click(self, fn):
