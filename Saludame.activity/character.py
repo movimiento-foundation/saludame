@@ -25,7 +25,17 @@ class Character:
         
     def set_place(self, place_id):
         self.actual_place = place_id
-        
+    
+    def load_properties(self, game_status):
+        """
+        Load the character properties from previous data
+        """
+        self.hair_color = game_status["hair_color"]
+        self.socks_color = game_status["socks_color"]
+        self.skin_color = game_status["skin_color"]
+        self.shoes_color = game_status["shoes_color"]
+        self.name = game_status["name"]
+
 class Environment:
     
     def __init__(self, background_path, background_music):
@@ -72,12 +82,4 @@ class Clothes:
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)
-        
-        
-        
-        
-        
-        
-
-
 

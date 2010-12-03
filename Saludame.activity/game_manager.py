@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+INSTANCE_FILE_PATH = "game.save"
+GAME_VERSION = "1.0"
+
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
 EVENTS_OCCURRENCE_INTERVAL = 10 #per control interval after an event
 
@@ -69,6 +72,10 @@ class GameManager:
         
         #for testing
         self.p_i = 0
+        
+        ##testin save
+        self.save_game()
+        self.load_game()
 
         
 # management
@@ -400,9 +407,10 @@ class GameManager:
     def add_points(self, points):
         score_bar = self.bars_controller.score_bar
         score_bar.value += points
+        self.character.score = score_bar.value
         
     def __control_level(self):
-        score_bar = [bar for bar in self.bars_controller.bars if bar.id == "score_bar"][0]
+        score_bar = self.bars_controller.score_bar
         if score_bar.value == 100:
             # sets master challenge
             self.level += 1
@@ -423,5 +431,54 @@ class GameManager:
         self.challenges_creator.get_challenge()
         self.windows_controller.set_active_window("challenges_window")
         
+# Save and load game
+
+    def save_game(self):
+        """
+        Save the game instance
+        """
+        game_status = {}
+        ##save bars status
+        bars_status_dic = self.bars_controller.get_bars_status()
+        ##save character properties
+        char_properties = {"hair_color" : self.character.hair_color,
+                           "socks_color": self.character.socks_color,
+                           "skin_color" : self.character.skin_color,
+                           "shoes_color": self.character.shoes_color,
+                           "actual_place" : self.character.actual_place,
+                           "name" : self.character.name,
+                           "level": self.level
+                           }
+        ##
+        game_status.update(bars_status_dic)
+        game_status.update(char_properties)
+        game_status.update({"version" : GAME_VERSION})
+        
+        try:
+            f = open(INSTANCE_FILE_PATH, 'w')
+            f.write(game_status.__str__())
+            f.close()
+            
+            print "se guardo la partida con exito. Version ", GAME_VERSION
+        except:
+            print "no se pudo guardar la partida."
+            raise
+
+    def load_game(self):
+        try:
+            f = open(INSTANCE_FILE_PATH)
+            str = f.read()
+            game_status = eval(str)
+            f.close()
+            
+            #load bars status
+            self.bars_controller.load_bars_status(game_status)
+            self.character.load_properties(game_status)
+            self.level = game_status["level"]
+            
+            print "se cargo la partida con exito. Version ", game_status["version"]
+        except:
+            print "no se pudo cargar la partida."
+            raise
 
 

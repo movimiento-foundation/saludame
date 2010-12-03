@@ -404,6 +404,14 @@ class BarsController:
             bars_state.update({ bar.id : bar.value })
         
         return bars_state
+    
+    def load_bars_status(self, bars_values):
+        """
+        Load a previous status for each bar
+        """
+        for bar in self.bars:
+            bar.value = bars_values[bar.id]
+            
         
 class StatusBar:
     """
@@ -480,3 +488,4 @@ class StatusBar:
                 self.value = self.max
             elif self.value < 0:
                 self.value = 0
+
