@@ -59,7 +59,6 @@ class GameManager:
         #environment
         self.environments_dictionary = environments_dictionary
         self.current_weather = "sunny" # default weather
-        self.current_place = "schoolyard" # default place
         
         # time of day
         self.hour = 2 # value between 0 and 3
@@ -72,11 +71,6 @@ class GameManager:
         
         #for testing
         self.p_i = 0
-        
-        ##testin save
-        self.save_game()
-        self.load_game()
-
         
 # management
 
@@ -109,7 +103,7 @@ class GameManager:
         Sets the character environment and send a message to the
         windows_controller
         """
-        environment_id = self.current_place + "_" + self.current_weather
+        environment_id = self.character.current_place + "_" + self.current_weather
         environment = self.environments_dictionary[environment_id]
         
         self.windows_controller.set_environment(environment)
@@ -166,7 +160,7 @@ class GameManager:
         Set the character location.
         """
         print "character went to: ", place_id
-        self.current_place = place_id
+        self.character.current_place = place_id
         
         self.update_environment()
 
@@ -456,14 +450,7 @@ class GameManager:
         ##save bars status
         bars_status_dic = self.bars_controller.get_bars_status()
         ##save character properties
-        char_properties = {"hair_color" : self.character.hair_color,
-                           "socks_color": self.character.socks_color,
-                           "skin_color" : self.character.skin_color,
-                           "shoes_color": self.character.shoes_color,
-                           "actual_place" : self.character.actual_place,
-                           "name" : self.character.name,
-                           "level": self.level
-                           }
+        char_properties = self.character.get_status()
         ##
         game_status.update(bars_status_dic)
         game_status.update(char_properties)
@@ -488,12 +475,12 @@ class GameManager:
             
             #load bars status
             self.bars_controller.load_bars_status(game_status)
+            #character properties
             self.character.load_properties(game_status)
-            self.level = game_status["level"]
+
+            self.update_environment()
             
             print "se cargo la partida con exito. Version ", game_status["version"]
         except:
             print "no se pudo cargar la partida."
-            raise
-
 

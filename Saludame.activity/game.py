@@ -87,6 +87,8 @@ class Main():
         
         self.windows_controller.game_man = game_man
         self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
+
+        game_man.load_game()
           
         frames = 0
         
@@ -111,8 +113,10 @@ class Main():
                     for event in events:
                         if event.type == pygame.QUIT:
                             running = False
+                            game_man.save_game()
                         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and not from_sugar:
                             running = False
+                            game_man.save_game()
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
                         elif event.type == pygame.VIDEOEXPOSE:
