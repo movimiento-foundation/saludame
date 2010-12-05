@@ -5,7 +5,9 @@ import pygame
         
 class Character:
     
-    def __init__(self, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
+    def __init__(self, sex, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
+        
+        self.sex = sex
         self.name = name
         self.level = level
         
@@ -18,7 +20,6 @@ class Character:
         self.grade = 5
 
         self.current_place = 'schoolyard' #default place
-
     
     def set_clothes(self, clothes):
         self.clothes = clothes
