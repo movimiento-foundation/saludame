@@ -64,11 +64,15 @@ class Kid(Window):
         self.set_animation()
     
     def set_animation(self):
+        
+        sex = self.character.sex
+        clothes = self.character.clothes
+        
         self.index = 0 # Sequence number of the current animation
         if self.action and self.action.kid_animation_path: # An action with animation is enabled
-            dirList = os.listdir(self.action.kid_animation_path)
+            dirList = os.listdir("%s/%s/%s" % (self.action.kid_animation_path, sex, clothes))
             dirList.sort()
-            self.file_list = [os.path.join(self.action.kid_animation_path, fname) for fname in dirList if '.png' in fname]
+            self.file_list = [os.path.join("%s/%s/%s" % (self.action.kid_animation_path, sex, clothes), fname) for fname in dirList if '.png' in fname]
         else:            
             dirList = os.listdir(self.mood.kid_animation_path)
             dirList.sort()

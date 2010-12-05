@@ -5,27 +5,58 @@ import pygame
         
 class Character:
     
-    def __init__(self, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
+    def __init__(self, sex, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
+        
+        self.sex = sex
         self.name = name
         self.level = level
-        self.score = score
         
         # visuals
         self.hair_color = hair_color
         self.socks_color = socks_color
         self.skin_color = skin_color
         self.shoes_color = shoes_color
-        self.clothes = clothes
+        self.clothes = 'school'
+        self.grade = 5
 
-        self.actual_place = None
-
+        self.current_place = 'schoolyard' #default place
     
     def set_clothes(self, clothes):
         self.clothes = clothes
         
     def set_place(self, place_id):
         self.actual_place = place_id
-        
+
+    def get_status(self):
+        """
+        Get the character current status, and returns
+        a dictionary.
+        """
+        status = {"hair_color" : self.hair_color,
+                  "socks_color" : self.socks_color,
+                  "skin_color" : self.skin_color,
+                  "shoes_color" : self.shoes_color,
+                  "current_place" : self.current_place,
+                  "name" : self.name,
+                  "level" : self.level,
+                  "grade" : self.grade,
+                  "clothes" : self.clothes
+                  }
+        return status
+    
+    def load_properties(self, game_status):
+        """
+        Load the character properties from previous data
+        """
+        self.hair_color = game_status["hair_color"]
+        self.socks_color = game_status["socks_color"]
+        self.skin_color = game_status["skin_color"]
+        self.shoes_color = game_status["shoes_color"]
+        self.name = game_status["name"]
+        self.clothes = game_status["clothes"]
+        self.grade = game_status["grade"]
+        self.current_place = game_status["current_place"]
+
 class Environment:
     
     def __init__(self, background_path, background_music):
@@ -72,12 +103,4 @@ class Clothes:
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)
-        
-        
-        
-        
-        
-        
-
-
 

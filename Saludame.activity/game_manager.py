@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+INSTANCE_FILE_PATH = "game.save"
+GAME_VERSION = "1.0"
+
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
 EVENTS_OCCURRENCE_INTERVAL = 10 #per control interval after an event
 
@@ -56,7 +59,6 @@ class GameManager:
         #environment
         self.environments_dictionary = environments_dictionary
         self.current_weather = "sunny" # default weather
-        self.current_place = "schoolyard" # default place
         
         # time of day
         self.hour = 2 # value between 0 and 3
@@ -69,7 +71,6 @@ class GameManager:
         
         #for testing
         self.p_i = 0
-
         
 # management
 
@@ -102,7 +103,7 @@ class GameManager:
         Sets the character environment and send a message to the
         windows_controller
         """
-        environment_id = self.current_place + "_" + self.current_weather
+        environment_id = self.character.current_place + "_" + self.current_weather
         environment = self.environments_dictionary[environment_id]
         
         self.windows_controller.set_environment(environment)
@@ -159,7 +160,7 @@ class GameManager:
         Set the character location.
         """
         print "character went to: ", place_id
-        self.current_place = place_id
+        self.character.current_place = place_id
         
         self.update_environment()
 
@@ -415,9 +416,10 @@ class GameManager:
     def add_points(self, points):
         score_bar = self.bars_controller.score_bar
         score_bar.value += points
+        self.character.score = score_bar.value
         
     def __control_level(self):
-        score_bar = [bar for bar in self.bars_controller.bars if bar.id == "score_bar"][0]
+        score_bar = self.bars_controller.score_bar
         if score_bar.value == 100:
             # sets master challenge
             self.level += 1
@@ -438,5 +440,47 @@ class GameManager:
         self.challenges_creator.get_challenge()
         self.windows_controller.set_active_window("challenges_window")
         
+# Save and load game
 
+    def save_game(self):
+        """
+        Save the game instance
+        """
+        game_status = {}
+        ##save bars status
+        bars_status_dic = self.bars_controller.get_bars_status()
+        ##save character properties
+        char_properties = self.character.get_status()
+        ##
+        game_status.update(bars_status_dic)
+        game_status.update(char_properties)
+        game_status.update({"version" : GAME_VERSION})
+        
+        try:
+            f = open(INSTANCE_FILE_PATH, 'w')
+            f.write(game_status.__str__())
+            f.close()
+            
+            print "se guardo la partida con exito. Version ", GAME_VERSION
+        except:
+            print "no se pudo guardar la partida."
+            raise
+
+    def load_game(self):
+        try:
+            f = open(INSTANCE_FILE_PATH)
+            str = f.read()
+            game_status = eval(str)
+            f.close()
+            
+            #load bars status
+            self.bars_controller.load_bars_status(game_status)
+            #character properties
+            self.character.load_properties(game_status)
+
+            self.update_environment()
+            
+            print "se cargo la partida con exito. Version ", game_status["version"]
+        except:
+            print "no se pudo cargar la partida."
 
