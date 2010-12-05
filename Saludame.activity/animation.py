@@ -70,13 +70,15 @@ class Kid(Window):
         
         self.index = 0 # Sequence number of the current animation
         if self.action and self.action.kid_animation_path: # An action with animation is enabled
-            dirList = os.listdir("%s/%s/%s" % (self.action.kid_animation_path, sex, clothes))
+            directory = "%s/%s/%s" % (self.action.kid_animation_path, sex, clothes)
+            dirList = os.listdir(directory)
             dirList.sort()
             self.file_list = [os.path.join("%s/%s/%s" % (self.action.kid_animation_path, sex, clothes), fname) for fname in dirList if '.png' in fname]
-        else:            
-            dirList = os.listdir(self.mood.kid_animation_path)
+        else:
+            directory = "%s/%s/%s" % (self.mood.kid_animation_path, sex, clothes)
+            dirList = os.listdir(directory)
             dirList.sort()
-            self.file_list = [os.path.join(self.mood.kid_animation_path, fname) for fname in dirList if '.png' in fname]
+            self.file_list = [os.path.join(directory, fname) for fname in dirList if '.png' in fname]
     
     ##### Draw #####
     def pre_draw(self, screen):
