@@ -60,7 +60,7 @@ class CustomizationWindow(window.Window):
         self.add_child(self.kid)
         
         #self.btn_close = utilities.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
-        self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Accept"), self._cb_button_click_close)
+        self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
         button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
         self.btn_hair = utilities.TextButton2(self.rect, pygame.Rect((500, 120), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
@@ -110,6 +110,7 @@ FEMALE_PATH = os.path.normpath("customization/girl.png")
 
 class CustomizatedKid(widget.Widget):
     
+    # Base colors for each part of the picture
     COLOR_MAP = {
         "hair": (pygame.Color("#00ffff"), pygame.Color("#009f9f")),
         "skin": (pygame.Color("#ffccc7"), pygame.Color("#cba5a0")),
@@ -121,16 +122,9 @@ class CustomizatedKid(widget.Widget):
         widget.Widget.__init__(self, container, rect, frame_rate)
         
         self.character = character
+        self.set_gender("male") # Sets the correct picture and applies color mappings
         
-        self.mappings = CustomizatedKid.COLOR_MAP.copy()
-        self.character.mappings = self.mappings # Shares the same dict with the logic
-        
-        self.set_gender("male")
-        
-        self.background = self.kid
-        
-        # hair needs to be mapped apart, because its default color is different to its base color
-        self.set_mapping("hair", (pygame.Color("#000000"), pygame.Color("#191919")))
+        self.dirty = True
     
     def set_mapping(self, key, colors):
         self.character.mappings[key] = tuple(colors)
@@ -158,4 +152,9 @@ class CustomizatedKid(widget.Widget):
             self.set_rect_size(self.kid.get_size())
             self.apply_mappings()
     
-
+    # Override
+    def draw(self, screen):
+        if self.dirty:
+            self.dirty = False
+            self.apply_mappings()
+        return widget.Widget.draw(self, screen)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-01 16:47-0200\n"
+"POT-Creation-Date: 2010-12-07 18:49-0200\n"
 "PO-Revision-Date: 2010-11-07 20:45-0200\n"
 "Last-Translator: Pablo Moleri <pmoleri@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -21,25 +21,37 @@ msgstr ""
 msgid "Saludame"
 msgstr "Salúdame"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:79
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:80
 msgid "Constipation"
 msgstr "Constipación"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:84
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:85
 msgid "Diarrhea"
 msgstr "Diarrea"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:89
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:90
 msgid "Headache"
 msgstr "Dolor de cabeza"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:94
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:95
 msgid "Caries"
 msgstr "Caries"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:99
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:100
 msgid "Stomach ache"
 msgstr "Dolor de panza"
+
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:108
+msgid "Prevenir caries"
+msgstr "Prevenir caries"
+
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:112
+msgid "Estudiar"
+msgstr "Estudiar"
+
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:116
+msgid "Control médico"
+msgstr "Control médico"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:11
 msgid "Eat..."
@@ -235,22 +247,38 @@ msgid "Kitchen"
 msgstr "Cocina"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:87
+msgid "Cambiar de ropa"
+msgstr ""
+
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:88
+msgid "School"
+msgstr "Escuela"
+
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:89
+msgid "Sunny"
+msgstr "Caluroso"
+
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:90
+msgid "Rainy"
+msgstr "Luvioso"
+
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:93
 msgid "Higiene..."
 msgstr "Higiene..."
 
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:88
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:94
 msgid "Bañarse"
 msgstr "Bañarse"
 
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:89
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:95
 msgid "Lavarse los dientes"
 msgstr "Lavarse los dientes"
 
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:90
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:96
 msgid "Lavarse las manos"
 msgstr "Lavarse las manos"
 
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:91
+#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:97
 msgid "Ir al baño"
 msgstr "Ir al baño"
 
@@ -342,13 +370,13 @@ msgstr "< Atrás"
 msgid "Next >"
 msgstr "Siguiente >"
 
-#: /home/pmoleri/saludame/Saludame.activity/panel_window.py:65
+#: /home/pmoleri/saludame/Saludame.activity/panel_window.py:76
 msgid "Customization module"
 msgstr "Personalización"
 
 #: /home/pmoleri/saludame/Saludame.activity/customization.py:63
-msgid "Accept"
-msgstr "Aceptar"
+msgid "Continue"
+msgstr "Continuar"
 
 #: /home/pmoleri/saludame/Saludame.activity/customization.py:66
 msgid "Hair"
@@ -489,6 +517,9 @@ msgstr "Responsabilidad"
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:40
 msgid "Tiempo Libre"
 msgstr "Tiempo libre"
+
+#~ msgid "Accept"
+#~ msgstr "Aceptar"
 
 #~ msgid "Do sports..."
 #~ msgstr "Hacer deportes..."

@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import pygame
-        
+
+DEFAULT_MAPPINGS = {
+    "hair": (pygame.Color("#000000"), pygame.Color("#191919")),
+    "skin": (pygame.Color("#ffccc7"), pygame.Color("#cba5a0")),
+    "socks": (pygame.Color("#fd8255"), pygame.Color("#db601f")),
+    "shoes": (pygame.Color("#eeea00"), pygame.Color("#938200"))
+}
+
 class Character:
     
     def __init__(self, sex, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
@@ -11,10 +18,8 @@ class Character:
         self.level = level
         
         # visuals
-        self.hair_color = hair_color
-        self.socks_color = socks_color
-        self.skin_color = skin_color
-        self.shoes_color = shoes_color
+        self.mappings = DEFAULT_MAPPINGS.copy()
+        
         self.clothes = 'school'
         self.grade = 5
 
@@ -110,5 +115,3 @@ class Clothes:
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)
-
-
