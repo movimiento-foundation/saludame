@@ -76,17 +76,58 @@ class Menu(Window):
         Send an action to the game_manager. The action was selected
         in one of the sub-items
         """
-        #self.game_manager.execute_action(action_id)
         self.game_manager.execute_action(action_id)
     
-    def set_actual_selection(self, actual_selection):
+    def set_actual_selection(self, items_list):
         """
         Set the actual items selection.
         """
         if(not self.on_expansion):
+            actual_selection = self.get_allowed_items(items_list)
             self.actual_selection = actual_selection
             self.on_expansion = True #if the selection changes, display the animation
             self.radius = 0
+    
+    def get_allowed_items(self, items_list):
+        """
+        Verifies wich items are allowed to perform its actions 
+        for currently character's properties.  
+        """
+        allowed_items = []
+        for item in items_list:
+            if item.action_id: #the item hasn't sub items
+                action = self.game_manager.get_action(item.action_id)
+                if self.verify_action(action, self.game_manager):
+                    allowed_items.append(item)
+            else:
+                allowed_items.append(item)
+        return allowed_items
+    
+    def verify_action(self, action, game_manager):
+        # verify place
+        allowed = False
+        if action.allowed_places:
+            current_place = game_manager.get_current_place()
+            for place in action.allowed_places:
+                if current_place == place:
+                    allowed = True
+                    break
+            if not allowed:
+                return False
+        #verify hour
+        if action.allowed_hours:
+            allowed = False
+            current_hour = game_manager.get_current_hour()
+            for hour in action.allowed_hours:
+                if current_hour == hour:
+                    allowed = True
+                    break
+            if not allowed:
+                return False
+        #verify event
+        if action.allowed_events:
+            None
+        return True
         
     def close(self):
         """
@@ -187,7 +228,9 @@ class Item(Widget):
     
     
     def draw_item(self, screen):
-        #draw the item in the screen
+        """
+        draw the item in the screen
+        """
         screen.blit(self.background, self.rect_absolute)
     
     def on_mouse_over(self):
@@ -206,4 +249,5 @@ class Item(Widget):
             self.menu.close()
             if(self.action_id != None):
                 self.menu.send_action(self.action_id)
+
 

@@ -71,7 +71,7 @@ class GameManager:
         
         #for testing
         self.p_i = 0
-        
+
 # management
 
     def pause_game(self):
@@ -497,4 +497,17 @@ class GameManager:
             print "se cargo la partida con exito. Version ", game_status["version"]
         except:
             print "no se pudo cargar la partida."
+
+## 
+    def get_current_place(self):
+        """
+        returns character's current location.
+        """
+        return self.character.current_place
+    
+    def get_current_hour(self):
+        """
+        returns current momento of day.
+        """
+        return self.current_time
 
