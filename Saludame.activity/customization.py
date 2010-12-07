@@ -9,10 +9,10 @@ import utilities
 from gettext import gettext as _
 
 COLORS_HAIR = [
-    ("#000000", "#191919"),     # BLACK
-    ("#fce94f", "#edd400"),     # YELLOW
-    ("#803310", "#552210"),     # BROWN
-    ("#A03310", "#852210"),     # Red
+    ("#000000", "#191919"), # BLACK
+    ("#fce94f", "#edd400"), # YELLOW
+    ("#803310", "#552210"), # BROWN
+    ("#A03310", "#852210"), # Red
 ]
 
 COLORS_SKIN = [
@@ -29,20 +29,20 @@ COLORS_SKIN = [
 ]
 
 TANGO_PALETTE = [
-    ("#edd400", "#c4a000"),     # Yellow
-    ("#f57700", "#ce5c00"),     # Orange
-    ("#c17d11", "#8f5902"),     # Brown
-    ("#73d216", "#4e9a06"),     # Green
-    ("#3465a4", "#204a87"),     # Blue
-    ("#75507b", "#5c3566"),     # Plum
-    ("#cc0000", "#a40000"),     # Red
-    ("#ffffff", "#d3d7cf"),     # White
-    ("#d3d7cf", "#babdb6"),     # Aluminium light
-    ("#555753", "#2e3436"),     # Aluminium dark
-    ("#000000", "#2e3436"),     # Black
+    ("#edd400", "#c4a000"), # Yellow
+    ("#f57700", "#ce5c00"), # Orange
+    ("#c17d11", "#8f5902"), # Brown
+    ("#73d216", "#4e9a06"), # Green
+    ("#3465a4", "#204a87"), # Blue
+    ("#75507b", "#5c3566"), # Plum
+    ("#cc0000", "#a40000"), # Red
+    ("#ffffff", "#d3d7cf"), # White
+    ("#d3d7cf", "#babdb6"), # Aluminium light
+    ("#555753", "#2e3436"), # Aluminium dark
+    ("#000000", "#2e3436"), # Black
     
     # Original design (not tango)
-    ("#fd8255", "#db601f"),     # Orange
+    ("#fd8255", "#db601f"), # Orange
     ("#eeea00", "#938200")      # Yellow
 ]
 
@@ -55,7 +55,7 @@ class CustomizationWindow(window.Window):
         window.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window")
         self.set_bg_image("assets/windows/window_2.png")
         
-        kid_rect = pygame.Rect((20, 20), (1,1))
+        kid_rect = pygame.Rect((20, 20), (1, 1))
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
@@ -133,14 +133,14 @@ class CustomizatedKid(widget.Widget):
         self.set_mapping("hair", (pygame.Color("#000000"), pygame.Color("#191919")))
     
     def set_mapping(self, key, colors):
-        self.mappings[key] = tuple(colors)
+        self.character.mappings[key] = tuple(colors)
         self.apply_mappings()
         
     def apply_mappings(self):
         self.background = self.kid.copy()
         for key in CustomizatedKid.COLOR_MAP:
             origin_colors = CustomizatedKid.COLOR_MAP[key]
-            mapped_colors = self.mappings[key]
+            mapped_colors = self.character.mappings[key]
             utilities.change_color(self.background, origin_colors[0], mapped_colors[0])
             utilities.change_color(self.background, origin_colors[1], mapped_colors[1])
         
@@ -158,3 +158,4 @@ class CustomizatedKid(widget.Widget):
             self.set_rect_size(self.kid.get_size())
             self.apply_mappings()
     
+

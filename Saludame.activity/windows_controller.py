@@ -55,7 +55,7 @@ class WindowsController:
         self.update(0)
         
         # Activate Customization over main window
-        self.set_active_window("customization_window")
+        #self.set_active_window("customization_window")
     
     ##### Windows #####    
     def close_active_window(self):
