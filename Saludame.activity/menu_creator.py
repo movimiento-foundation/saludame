@@ -72,7 +72,7 @@ example = [
         (_("Clean up the bedroom"), "assets/icons/icon.png", "sp_clean", None)
     ]),
     
-   (_("Ir a..."), "assets/icons/icon_parent.png", None, [
+    (_("Ir a..."), "assets/icons/icon_parent.png", None, [
        (_("Schoolyard"), "assets/icons/icon.png", "goto_schoolyard", None),
        (_("Country"), "assets/icons/icon.png", "goto_country", None),
        (_("Classroom"), "assets/icons/icon.png", "goto_classroom", None),
@@ -83,6 +83,12 @@ example = [
             (_("Kitchen"), "assets/icons/icon.png", "goto_kitchen", None),
         ])
    ]),
+   
+    (_("Cambiar de ropa"), "assets/icons/icon_parent.png", None, [
+        (_("School"), "assets/icons/icon.png", "change_school_clothes", None),
+        (_("Sunny"), "assets/icons/icon.png", "change_sunny_clothes", None),
+        (_("Rainy"), "assets/icons/icon.png", "change_rainy_clothes", None),
+    ]),
    
    (_("Higiene..."), "assets/icons/icon_parent.png", None, [
        (_("Bañarse"), "assets/icons/icon.png", "shower", None),

@@ -19,8 +19,6 @@ JUMP_ROPE_PATH = os.path.normpath("assets/kid/actions/ropejump")
 
 bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spare_time", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
 
-
-
 #actions list tuple format:
 #[("action's id","icon_path","picture_path", appereance_probability, time_span, 
 #    kid_animation_frame_rate,kid_animation_loop_times, kid_animation_path, window_animation_frame_rate,
@@ -195,6 +193,13 @@ locations_ac_list = [("goto_schoolyard", None, 1, None, None, None, None, None, 
                      ("goto_bathroom", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home"))
                     ]
 
+
+### ACTIONS THAT SET CHARACTER CLOTHES
+clothes_ac_list = [("change_school_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "school")),
+                     ("change_sunny_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "sunny")),
+                     ("change_rainy_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "sunny")),
+                  ]
+
 class ActionsLoader:
     """
     Crea las acciones (Action) y sus efectos (Effect y EffectStatus) asociados.
@@ -203,8 +208,7 @@ class ActionsLoader:
     def __init__(self, bar_controller, game_manager):
         self.bar_controller = bar_controller
         self.game_manager = game_manager
-        self.actions_list = self.__load_actions()
-        
+        self.actions_list = self.__load_actions()        
         
     def get_actions_list(self): 
         return self.actions_list
@@ -214,14 +218,14 @@ class ActionsLoader:
         
         location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11])) for action in locations_ac_list]
         
-        return status_actions + location_actions
+        clothes_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11])) for action in clothes_ac_list]
+        
+        return status_actions + location_actions + clothes_actions
         
     def __set_bar_controller(self, effect):
         effect.set_bar_controller(self.bar_controller)
         return effect
     
-    def __set_game_manager(self, location_effect):
-        location_effect.set_game_manager(self.game_manager)
-        return location_effect
-
-
+    def __set_game_manager(self, effect):
+        effect.set_game_manager(self.game_manager)
+        return effect

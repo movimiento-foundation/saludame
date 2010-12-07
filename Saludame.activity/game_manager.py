@@ -171,6 +171,15 @@ class GameManager:
         for place in self.places_list:
             if(place.id == place_id):
                 return place
+            
+### Clothes
+    def set_character_clothes(self, clothes_id):
+        """
+        Set the character clothes.
+        """
+        self.character.set_clothes(clothes_id)
+        self.windows_controller.update_clothes()
+        print "character's clothes: ", clothes_id
                 
 ## Actions handling
     
@@ -180,11 +189,16 @@ class GameManager:
         if action:
             if isinstance(action.effect, effects.Effect): #this action affects status bars
                 self.set_active_action(action_id)
-            elif isinstance(action.effect, effects.LocationEffect): #this action affects  character location
+            elif isinstance(action.effect, effects.LocationEffect): #this action affects character location
                 if(self.active_char_action):
                     self.interrupt_active_action(None)
                 action.perform()
-                action.reset()        
+                action.reset() 
+            elif isinstance(action.effect, effects.ClothesEffect): #this action affects character clothes
+                if(self.active_char_action):
+                    self.interrupt_active_action(None)
+                action.perform()
+                action.reset()       
     
     def interrupt_active_action(self, action_id):
         """

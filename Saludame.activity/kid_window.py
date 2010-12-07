@@ -44,6 +44,10 @@ class KidWindow(Window):
         self.kid.set_bg_image(self.bg_image.subsurface(self.kid_rect))
         self.repaint = True
         
+    ##### Clothes #####
+    def update_clothes(self):
+        self.kid.update_clothes()
+        
     ##### Moods #####    
     def change_mood(self):
         self.kid.change_mood()

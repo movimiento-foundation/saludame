@@ -54,6 +54,10 @@ class Kid(Window):
         self.mood = self.moods[self.mood_index]
         self.set_animation()
         
+    ##### Clothes ####
+    def update_clothes(self):
+        self.set_animation()
+        
     ##### Actions #####
     def play_action_animation(self, action):
         self.action = action

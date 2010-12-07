@@ -93,7 +93,12 @@ class WindowsController:
     ##### BACKGROUND #####
     
     def set_environment(self, environment):
-        self.windows["kid"].set_environment(environment)  
+        self.windows["kid"].set_environment(environment) 
+        
+    ##### CLOTHES #####
+    
+    def update_clothes(self):
+        self.windows["kid"].update_clothes() 
     
     ##### Actions #####
     def show_action_animation(self, action):

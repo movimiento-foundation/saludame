@@ -33,3 +33,18 @@ class LocationEffect:
     
     def set_game_manager(self, game_manager):
         self.game_manager = game_manager
+        
+class ClothesEffect:
+    """
+    Represents effects that set the character clothes.
+    """
+    
+    def __init__(self, game_manager, clothes_id):
+        self.game_manager = game_manager
+        self.clothes_id = clothes_id
+    
+    def activate(self):
+        self.game_manager.set_character_clothes(self.clothes_id)
+    
+    def set_game_manager(self, game_manager):
+        self.game_manager = game_manager
