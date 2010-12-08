@@ -499,6 +499,13 @@ class GameManager:
             print "no se pudo cargar la partida."
 
 ## 
+    def get_active_events(self):
+        """
+        returns current events
+        """
+        events = self.active_events + self.active_social_events
+        return events
+    
     def get_current_place(self):
         """
         returns character's current location.

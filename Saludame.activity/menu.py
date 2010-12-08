@@ -126,7 +126,15 @@ class Menu(Window):
                 return False
         #verify event
         if action.allowed_events:
-            None
+            allowed = False
+            active_events = game_manager.get_active_events()
+            for evt_name in action.allowed_events:
+                for active_evt in active_events:
+                    if evt_name == active_evt.name:
+                        allowed = True
+                        break
+            if not allowed:
+                return False
         return True
         
     def close(self):
