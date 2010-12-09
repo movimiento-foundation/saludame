@@ -14,7 +14,7 @@ from window import Window
 import utilities
 
 SIZE = 600, 280
-EXP_SPEED = 10 #expansion speed, in pixels per frame
+EXP_SPEED = 15 #expansion speed, in pixels per frame
 
 CLOSE_MENU = "close_menu"
 BACK_MENU = "back_menu"
@@ -34,21 +34,21 @@ class Menu(Window):
         
         self.frame_rate = frame_rate
         self.item_list = item_list # item's list that going to be displayed, root items
-        self.previous_items = [self.item_list]
+        self.previous_items = []
         
         self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
 
-        #self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font)
-        #self.back.rect_in_container.center = center
-        #self.back.set_rect_in_container(self.back.rect_in_container)
+        self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font)
+        self.back.rect_in_container.center = center
+        self.back.set_rect_in_container(self.back.rect_in_container)
         
         self.actual_selection = self.item_list  #list of actual subitems selection
         
         self.radius = radius
         self.show = False
-        #self.on_compression = True #para mostrar la animación al iniciar
+
         self.on_expansion = False
         self.calculate()
         
@@ -75,9 +75,13 @@ class Menu(Window):
             for item in self.actual_selection:
                 item.draw_item(screen)
                 changes.append(item.rect_absolute)
-          
-            self.exit.draw_item(screen)
-            changes.append(self.exit.rect_absolute)
+            
+            if self.depth == 0:
+                self.exit.draw_item(screen)
+                changes.append(self.exit.rect_absolute)
+            else:
+                self.back.draw_item(screen)
+                changes.append(self.back.rect_absolute)
         
         return changes
     
@@ -99,8 +103,9 @@ class Menu(Window):
         Set the actual items selection.
         """
         if(not self.on_expansion):
-            actual_selection = self.get_allowed_items(items_list)
+            actual_selection = self.get_allowed_items(items_list) # gets some allowed items, fewer than nine
             self.actual_selection = actual_selection
+            #
             self.on_expansion = True #if the selection changes, display the animation
             self.radius = 0
     
@@ -159,22 +164,40 @@ class Menu(Window):
         """
         self.show = False
         self.depth = 0
+        self.previous_items = []
         self.set_actual_selection(self.item_list)
 
-    def back(self):
+    def back_to_previous_selection(self):
+        """
+        comes back to a previous items selection.
+        """
         self.depth -= 1
-        self.set_actual_selection(self.previous_items)
+        self.set_actual_selection(self.previous_items[self.depth])
+        if self.depth == 0:
+            self.previous_items = []
+
+    def show_items(self, subitems_list):
+        """
+        shows the recive items
+        """
+        self.previous_items.append(self.actual_selection)
+        self.depth += 1
+        self.set_actual_selection(subitems_list)
+
     
     #handlers
     def handle_mouse_down(self, coord):
-        if self.show:
-            if not self.exit.rect_absolute.collidepoint(coord):
+        if self.show and not self.on_expansion:
+            if self.exit.rect_absolute.collidepoint(coord) and self.depth == 0:
+                self.close()                
+            elif self.exit.rect_absolute.collidepoint(coord) and self.depth > 0: #click on back item, it's in the same position of exit item
+                self.back_to_previous_selection()
+            else:
                 for item in self.actual_selection:
                     if item.rect_absolute.collidepoint(coord):
                         item.on_mouse_click()
                         break
-            else:
-                self.close()
+
         else:
             self.show = True
 
@@ -274,7 +297,7 @@ class Item(Widget):
         Handle mouse click
         """
         if len(self.subitems_list) > 0:
-            self.menu.set_actual_selection(self.subitems_list)
+            self.menu.show_items(self.subitems_list)
         else:
             if self.action_id != None:
                 self.menu.send_action(self.action_id)
