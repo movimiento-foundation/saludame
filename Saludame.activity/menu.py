@@ -165,7 +165,8 @@ class Menu(Window):
         self.show = False
         self.depth = 0
         self.previous_items = []
-        self.set_actual_selection(self.item_list)
+        self.actual_selection = []
+        self.game_manager.menu_active = False
 
     def back_to_previous_selection(self):
         """
@@ -199,7 +200,9 @@ class Menu(Window):
                         break
 
         else:
+            self.set_actual_selection(self.item_list)
             self.show = True
+            self.game_manager.menu_active = True
 
     #privates
     

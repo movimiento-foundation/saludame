@@ -4,7 +4,7 @@ INSTANCE_FILE_PATH = "game.save"
 GAME_VERSION = "1.0"
 
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
-EVENTS_OCCURRENCE_INTERVAL = 10 #per control interval after an event
+EVENTS_OCCURRENCE_INTERVAL = 5 #per control interval after an event
 
 HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
 
@@ -36,7 +36,7 @@ class GameManager:
         self.count = 0 #sirve como 'clock' interno, para mantener un orden de tiempo dentro de la clase.
         self.pause = False
         
-        #evenst, actions, moods
+        #events, actions, moods
         self.personal_events_list = self.__get_personal_events(events_list)
         self.social_events_list = self.__get_social_events(events_list)
         self.actions_list = actions_list
@@ -68,8 +68,11 @@ class GameManager:
         self.current_time = self.day_dic[self.hour] #current time of day
         
         self.level = 1
+
+        # menu handling
+        self.menu_active = False
         
-        #for testing
+        #for weather
         self.p_i = 0
 
 # management
@@ -307,7 +310,7 @@ class GameManager:
         self.__handle_personal_events()
         self.__handle_social_events()
         
-        if self.events_interval == 0:
+        if self.events_interval == 0 and not self.menu_active and not self.active_char_action:
             if random.randint(0, 1):
                 # add personal
                 if len(self.active_events) <= 1:
@@ -326,7 +329,7 @@ class GameManager:
                         print "se disparó el evento: ", event.name
             
             self.events_interval = EVENTS_OCCURRENCE_INTERVAL
-        else:
+        elif self.events_interval > 0:
             self.events_interval -= 1
         
     
