@@ -16,6 +16,9 @@ import utilities
 SIZE = 600, 280
 EXP_SPEED = 10 #expansion speed, in pixels per frame
 
+CLOSE_MENU = "close_menu"
+BACK_MENU = "back_menu"
+
 class Menu(Window):
     
     def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager, font):
@@ -24,15 +27,22 @@ class Menu(Window):
         rect.center = center
         self.windows_controller = windows_controller
         Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
+
+        self.depth = 0 #it means we are in the root of the menu, mayor values means we are not.
         
         self.center = center # center of the menu's circle
         
         self.frame_rate = frame_rate
-        self.item_list = item_list # item's list that going to be displayed
+        self.item_list = item_list # item's list that going to be displayed, root items
+        self.previous_items = [self.item_list]
         
-        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", "close_menu", [], self, font)
+        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
+
+        #self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font)
+        #self.back.rect_in_container.center = center
+        #self.back.set_rect_in_container(self.back.rect_in_container)
         
         self.actual_selection = self.item_list  #list of actual subitems selection
         
@@ -65,7 +75,7 @@ class Menu(Window):
             for item in self.actual_selection:
                 item.draw_item(screen)
                 changes.append(item.rect_absolute)
-                
+          
             self.exit.draw_item(screen)
             changes.append(self.exit.rect_absolute)
         
@@ -76,7 +86,13 @@ class Menu(Window):
         Send an action to the game_manager. The action was selected
         in one of the sub-items
         """
-        self.game_manager.execute_action(action_id)
+        if action_id == CLOSE_MENU:
+            self.close()
+        elif action_id == BACK_MENU:
+            self.back()
+        else:
+            self.game_manager.execute_action(action_id)
+            self.close()
     
     def set_actual_selection(self, items_list):
         """
@@ -142,8 +158,14 @@ class Menu(Window):
         Close the Menu Window
         """
         self.show = False
-        self.set_actual_selection(self.item_list)    
+        self.depth = 0
+        self.set_actual_selection(self.item_list)
+
+    def back(self):
+        self.depth -= 1
+        self.set_actual_selection(self.previous_items)
     
+    #handlers
     def handle_mouse_down(self, coord):
         if self.show:
             if not self.exit.rect_absolute.collidepoint(coord):
@@ -251,11 +273,11 @@ class Item(Widget):
         """
         Handle mouse click
         """
-        if(len(self.subitems_list) > 0):
+        if len(self.subitems_list) > 0:
             self.menu.set_actual_selection(self.subitems_list)
         else:
-            self.menu.close()
-            if(self.action_id != None):
+            if self.action_id != None:
                 self.menu.send_action(self.action_id)
-
+            else:
+                self.menu.send_action(CLOSE_MENU) # if the item have not children and have not an action_id, close the menu
 
