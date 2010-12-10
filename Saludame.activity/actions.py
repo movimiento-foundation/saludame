@@ -5,17 +5,19 @@ import events
 
 class Action:
     
-    def __init__(self, id, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect, allowed_places, allowed_hours, allowed_events):
+    def __init__(self, id, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect, allowed_places, allowed_hours, allowed_events, level=1):
         
         self.id = id
         self.appereance_probability = appereance_probability
         self.time_span = time_span
         self.time_left = time_span
         self.effect = effect
+        
         # conditions
         self.allowed_places = allowed_places
         self.allowed_hours = allowed_hours
         self.allowed_events = allowed_events
+        self.level = level
         
         # animations
         self.kid_animation_path = kid_animation_path

@@ -66,8 +66,6 @@ class GameManager:
         self.hour_count = HOUR_COUNT_CYCLE # managment cycles that have to pass for handling the hour
         self.day_dic = {0 : "night", 1 : "morning", 2 : "noon", 3 : "afternoon"}
         self.current_time = self.day_dic[self.hour] #current time of day
-        
-        self.level = 1
 
         # menu handling
         self.menu_active = False
@@ -439,14 +437,14 @@ class GameManager:
         score_bar = self.bars_controller.score_bar
         if score_bar.value == 100:
             # sets master challenge
-            self.level += 1
+            self.character.level += 1
             score_bar.value = 1
             self.set_master_challenge()
             
         if score_bar.value == 0:
             # falls back to previous level
-            if self.level > 1:
-                self.level -= 1
+            if self.character.level > 1:
+                self.character.level -= 1
                 score_bar.value = 99
 
     def set_master_challenge(self):
@@ -502,6 +500,12 @@ class GameManager:
             print "no se pudo cargar la partida."
 
 ## 
+    def get_level(self):
+        """
+        returns the character's  current level
+        """
+        return self.character.level
+
     def get_active_events(self):
         """
         returns current events

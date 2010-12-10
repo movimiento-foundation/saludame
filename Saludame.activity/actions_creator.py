@@ -174,7 +174,7 @@ actions_list = [
     ),
     
     ("toilet", 0.3, 1.9, 0, 1, "assets/kid/actions/toilet", 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("toilet", 4.0)]), None, None, None
+        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 3
     ),
     
     # Default action - affects the bars continuously
@@ -214,11 +214,11 @@ class ActionsLoader:
         return self.actions_list
     
     def __load_actions(self):
-        status_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_bar_controller(action[11]), action[12], action[13], action[14]) for action in actions_list]
+        status_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_bar_controller(action[11]), action[12], action[13], action[14], self.get_level(action)) for action in actions_list]
         
-        location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14]) for action in locations_ac_list]
+        location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14], self.get_level(action)) for action in locations_ac_list]
         
-        clothes_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14]) for action in clothes_ac_list]
+        clothes_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14], self.get_level(action)) for action in clothes_ac_list]
         
         return status_actions + location_actions + clothes_actions
         
@@ -229,4 +229,13 @@ class ActionsLoader:
     def __set_game_manager(self, effect):
         effect.set_game_manager(self.game_manager)
         return effect
+
+    def get_level(self, action):
+        """
+        returns the action attribute level if it has.
+        """
+        if len(action) > 15:
+            return action[15]
+        else:
+            return 1 #action's default level
 

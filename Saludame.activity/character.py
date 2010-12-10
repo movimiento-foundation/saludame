@@ -68,6 +68,7 @@ class Character:
         self.clothes = game_status["clothes"]
         self.grade = game_status["grade"]
         self.current_place = game_status["current_place"]
+        self.level = game_status["level"]
 
 class Environment:
     

@@ -156,6 +156,10 @@ class Menu(Window):
                         break
             if not allowed:
                 return False
+
+        if action.level > self.game_manager.get_level():
+            return False
+        
         return True
         
     def close(self):

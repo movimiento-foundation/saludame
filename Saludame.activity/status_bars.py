@@ -342,7 +342,7 @@ class ScoreSection(Widget):
         level_text = _("LEVEL")
         level_text_surface = self.font.render(level_text, 1, self.text_color)
         
-        level_number = str(game_manager.instance.level)
+        level_number = str(game_manager.instance.get_level())
         level_number_surface = self.number_font.render(level_number, 1, self.text_color)
         
         self.surface.blit(level_text_surface, (0, 34 - level_text_surface.get_height()))
