@@ -12,6 +12,7 @@ import math
 from widget import Widget
 from window import Window
 import utilities
+import effects
 
 SIZE = 600, 280
 EXP_SPEED = 15 #expansion speed, in pixels per frame
@@ -125,7 +126,8 @@ class Menu(Window):
         return allowed_items
     
     def verify_action(self, action, game_manager):
-        # verify place
+        
+        #verify place
         allowed = False
         if action.allowed_places:
             current_place = game_manager.get_current_place()
@@ -135,6 +137,7 @@ class Menu(Window):
                     break
             if not allowed:
                 return False
+            
         #verify hour
         if action.allowed_hours:
             allowed = False
@@ -145,6 +148,7 @@ class Menu(Window):
                     break
             if not allowed:
                 return False
+            
         #verify event
         if action.allowed_events:
             allowed = False
@@ -156,7 +160,9 @@ class Menu(Window):
                         break
             if not allowed:
                 return False
-        return True
+            
+        #verify path      
+        return utilities.verify_path(action, self.game_manager)
         
     def close(self):
         """

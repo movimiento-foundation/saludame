@@ -16,6 +16,7 @@ class Character:
         self.sex = sex
         self.name = name
         self.level = level
+        self.mood = "normal"
         
         # visuals
         self.mappings = DEFAULT_MAPPINGS.copy()

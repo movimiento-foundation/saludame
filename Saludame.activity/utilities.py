@@ -4,6 +4,8 @@
 
 from widget import *
 import pygame
+import os
+from game_manager import *
 
 class Text(Widget):
     
@@ -146,7 +148,7 @@ class TextButton2(ImageButton):
         render = font.render(self.text, True, self.color)
         
         surface = self.back.copy()
-        surface.blit(render, render.get_rect(center=surface.get_rect().center) )
+        surface.blit(render, render.get_rect(center=surface.get_rect().center))
         return surface
 
 def get_accept_button(container, rect, text, cb_click=None, cb_over=None, cb_out=None):
@@ -234,3 +236,35 @@ def get_font(size, bold=False, italic=False):
     font_dict[key] = font
     
     return font
+
+#### Paths controls ####
+def check_directory(directory):
+    try:
+        print directory
+        os.listdir(directory)
+        return True
+    except OSError:
+        return False
+    
+def check_image(image_path):
+    try:
+        print image_path
+        pygame.image.load(image_path)
+        return True        
+    except:
+        return False
+    
+def verify_path(action, game_manager):
+    if isinstance(action.effect, effects.Effect): # If the action has effects on bars
+        if action.kid_animation_path: # and has a kid animation path
+            return check_directory("%s/%s/%s" % (action.kid_animation_path, game_manager.character.sex, game_manager.character.clothes)) # check animation directory (action_path/sex/clothes)
+        else:
+            return True
+            
+    if isinstance(action.effect, effects.ClothesEffect): # If the action has clothes effects
+        return check_directory("%s/%s/%s" % (game_manager.character.mood.kid_animation_path, game_manager.character.sex, action.effect.clothes_id))
+        
+    if isinstance(action.effect, effects.LocationEffect): # If the action has location effects
+        return check_image(game_manager.environments_dictionary[action.effect.place_id + "_" + game_manager.current_weather].background_path)        
+        
+    return True
