@@ -59,6 +59,7 @@ class GameManager:
         #environment
         self.environments_dictionary = environments_dictionary
         self.current_weather = "sunny" # default weather
+        self.environment = None
         
         # time of day
         self.hour = 2 # value between 0 and 3
@@ -105,9 +106,9 @@ class GameManager:
         windows_controller
         """
         environment_id = self.character.current_place + "_" + self.current_weather
-        environment = self.environments_dictionary[environment_id]
+        self.environment = self.environments_dictionary[environment_id]
         
-        self.windows_controller.set_environment(environment)
+        self.windows_controller.set_environment(self.environment)
 
 ### time of day
    
@@ -297,6 +298,7 @@ class GameManager:
         if mood <> self.active_mood:
             self.active_mood = mood
             self.windows_controller.set_mood(mood)
+            self.character.mood = mood
             print "cambio estado de animo a: ", self.active_mood.name
         
 ## Events handling

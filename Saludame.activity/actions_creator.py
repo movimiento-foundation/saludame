@@ -197,7 +197,7 @@ locations_ac_list = [("goto_schoolyard", None, 1, None, None, None, None, None, 
 ### ACTIONS THAT SET CHARACTER CLOTHES
 clothes_ac_list = [("change_school_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "school"), None, None, None),
                      ("change_sunny_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "sunny"), None, None, None),
-                     ("change_rainy_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "sunny"), None, None, None),
+                     ("change_rainy_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "rainy"), None, None, None),
                   ]
 
 class ActionsLoader:
