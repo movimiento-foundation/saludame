@@ -13,9 +13,11 @@ from widget import Widget
 from window import Window
 import utilities
 import effects
+import random
 
 SIZE = 600, 280
 EXP_SPEED = 15 #expansion speed, in pixels per frame
+MAX_ITEMS = 9 #max items quantity per selection
 
 CLOSE_MENU = "close_menu"
 BACK_MENU = "back_menu"
@@ -105,6 +107,9 @@ class Menu(Window):
         """
         if(not self.on_expansion):
             actual_selection = self.get_allowed_items(items_list) # gets some allowed items, fewer than nine
+            if len(actual_selection) > MAX_ITEMS:
+                actual_selection = random.sample(actual_selection, MAX_ITEMS)
+            
             self.actual_selection = actual_selection
             #
             self.on_expansion = True #if the selection changes, display the animation

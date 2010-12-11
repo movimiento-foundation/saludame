@@ -42,8 +42,7 @@ example = [
             (_("Leche chocolatada"), "assets/icons/icon.png", "leche_chocolatada", None),
             (_("Café con leche"), "assets/icons/icon.png", "leche_cafe", None),
             (_("Leche"), "assets/icons/icon.png", "leche", None),
-            (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None),
-            
+            (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None)
         ]),
         
         (_("Líquidos..."), "assets/icons/icon_parent.png", None, [
