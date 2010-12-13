@@ -99,9 +99,9 @@ example = [
 
 MENU_FRAME_RATE = 1
 
-def load_menu(character, center, container, windows_controller):
+def load_menu(game_manager, center, container, windows_controller):
     font = utilities.get_font(20)
-    m = menu.Menu(1, container, windows_controller, [], center, 90, character, font)
+    m = menu.Menu(1, container, windows_controller, [], center, 90, game_manager, font)
     for item in example:
         an_item = create_item(item, m, container, font)
         m.add_item(an_item)
@@ -117,4 +117,5 @@ def create_item(item_tuple, a_menu, container, font):
         subitems = []
 
     return menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font)
+
 

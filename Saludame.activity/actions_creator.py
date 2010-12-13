@@ -166,7 +166,7 @@ actions_list = [
     ),
 
     ("brush_teeth", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("b_teeth", 0.5)]), None, None, None
+        effects.Effect(None, [("b_teeth", 0.5)]), None, None, None, 1, "un link"
     ),
     
     ("wash_hands", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
@@ -174,7 +174,7 @@ actions_list = [
     ),
     
     ("toilet", 0.3, 1.9, 0, 1, "assets/kid/actions/toilet", 3, 1, None, 4, "sound_path",
-        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 3
+        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "un link"
     ),
     
     # Default action - affects the bars continuously
@@ -214,11 +214,11 @@ class ActionsLoader:
         return self.actions_list
     
     def __load_actions(self):
-        status_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_bar_controller(action[11]), action[12], action[13], action[14], self.get_level(action)) for action in actions_list]
+        status_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_bar_controller(action[11]), action[12], action[13], action[14], self.get_level(action), self.get_link(action)) for action in actions_list]
         
-        location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14], self.get_level(action)) for action in locations_ac_list]
+        location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14], self.get_level(action), self.get_link(action)) for action in locations_ac_list]
         
-        clothes_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14], self.get_level(action)) for action in clothes_ac_list]
+        clothes_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], action[10], self.__set_game_manager(action[11]), action[12], action[13], action[14], self.get_level(action), self.get_link(action)) for action in clothes_ac_list]
         
         return status_actions + location_actions + clothes_actions
         
@@ -238,4 +238,11 @@ class ActionsLoader:
             return action[15]
         else:
             return 1 #action's default level
+    
+    def get_link(self, action):
+        if len(action) > 16:
+            return action[16]
+        else:
+            return None
+
 

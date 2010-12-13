@@ -25,6 +25,7 @@ LARGE_TEXT = 10 #fewer mean small text
 SMALL_BUTTON = "assets/menu/A.png"
 LARGE_BUTTON = "assets/menu/B.png"
 CENTER_BUTTON = "assets/menu/center.png"
+HELP_BUTTON = "assets/menu/menu_help.png"
 
 CLOSE_MENU = "close_menu"
 BACK_MENU = "back_menu"
@@ -36,6 +37,7 @@ class Menu(Window):
         rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
         self.windows_controller = windows_controller
+        self.game_manager = game_manager
         Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
 
         self.depth = 0 #it means we are in the root of the menu, mayor values means we are not.
@@ -61,8 +63,6 @@ class Menu(Window):
 
         self.on_expansion = False
         self.calculate()
-        
-        self.game_manager = game_manager
         
     
     def add_item(self, item):
@@ -296,20 +296,44 @@ class Item(Widget):
         #surface.blit(icon, (0, 0))
         #surface.blit(text, (icon.get_size()[0] + 2, 0))
         #rect = surface.get_rect()
-        self.path = None
+        self.help_image = None
+        self.bg_image = None
         if center_item:
-            self.image_btn = pygame.image.load(CENTER_BUTTON).convert_alpha()
+            self.bg_image = pygame.image.load(CENTER_BUTTON).convert_alpha()
         else:
             if len(self.name) > LARGE_TEXT:
-                self.image_btn = pygame.image.load(LARGE_BUTTON).convert_alpha()
+                self.bg_image = pygame.image.load(LARGE_BUTTON).convert_alpha()
             else:
-                self.image_btn = pygame.image.load(SMALL_BUTTON).convert_alpha()
+                self.bg_image = pygame.image.load(SMALL_BUTTON).convert_alpha()
+        self.bg_rect = self.bg_image.get_rect()
         
-        rect = self.image_btn.get_rect()
+        action = self.menu.game_manager.get_action(self.action_id)
+        if action:
+            if action.link: #has to show help button
+                self.help_image = pygame.image.load(HELP_BUTTON).convert_alpha()
+                self.help_rect = self.help_image.get_rect()
+                
+        size_and_surface = self.get_surface(20, self.name, self.bg_image, self.help_image)
         
-        self.button = utilities.TextButton2(rect, pygame.Rect((500, 120), (70, 30)), 1, self.name, 20, (255, 255, 255), self.image_btn, None)
+        self.rect = pygame.Rect((0, 0), size_and_surface[0])
         
-        Widget.__init__(self, container, rect, frame_rate, self.button.get_surface())
+        Widget.__init__(self, container, self.rect, frame_rate, size_and_surface[1])
+
+    def get_surface(self, font_size, text, bg_image, help_image):
+        font = utilities.get_font(font_size)
+        render = font.render(text, True, (255, 255, 255))
+        
+        if help_image:
+            full_size = self.help_rect.width + self.bg_rect.width - 4, self.help_rect.height
+            surface = pygame.Surface(full_size)
+            surface.fill(bg_image.get_at(bg_image.get_rect().center))
+            surface.blit(bg_image, bg_image.get_rect(left=self.bg_image.get_rect().left))
+            surface.blit(help_image, help_image.get_rect(left=surface.get_rect().left + self.bg_rect.width - 4))
+        else:
+            full_size = bg_image.get_rect().size
+            surface = bg_image.copy()
+        surface.blit(render, render.get_rect(center=self.bg_rect.center))
+        return full_size, surface
         
     def add_subitem(self, item):
         """
