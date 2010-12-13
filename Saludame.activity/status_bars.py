@@ -10,7 +10,7 @@ import game_manager
 
 SECTION_OFFSET_X = 0
 SECTION_WIDTH = 220
-SECTION_MIN_HEIGHT = 52
+SECTION_MIN_HEIGHT = 50
 SECTION_TOP_PADDING = 18
 
 BAR_OFFSET_X = 30
@@ -55,7 +55,7 @@ class BarsWindow(Window):
         y = 50
         self.overall_section = BarSection(windows_controller, self.rect, _(u"TOTAL"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_total.png")
         
-        y = 120
+        y = 110
         self.physica_section = BarSection(windows_controller, self.rect, _(u"ESTADO FÍSICO"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_physica.png")
         
         y += SECTION_MIN_HEIGHT
@@ -244,13 +244,9 @@ class BarSection(Window):
         display_list = []
         for status_bar in self.children_bar:
             width = self.rect.width
-            display = BarDisplay(BAR_HEIGHT, width, (BAR_OFFSET_X, 1), status_bar, SUB_BAR_PARTITIONS)
+            display = BarDisplay(BAR_HEIGHT, width, (BAR_OFFSET_X, 0), status_bar, SUB_BAR_PARTITIONS)
             display_list.append(display)
         return display_list
-
-    #def draw(self, screen, frames):
-        #screen.fill((0,0,0), self.rect)
-        #return []
         
 class BarDisplay(Widget):
     """

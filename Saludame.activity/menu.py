@@ -231,7 +231,7 @@ class Menu(Window):
         self.__calculate_items_position(self.actual_selection)
         
     def __calculate_items_position(self, item_list):
-        if(len(item_list) > 0):
+        if len(item_list) > 0:
             angle = (2 * math.pi) / len(item_list)
         else:
             angle = 0

@@ -29,6 +29,7 @@ import customization
 import app_init
 import challenges_creator
 import os
+import sound_manager
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -60,7 +61,10 @@ class Main():
                 import gtk
 
         # Optimizes sound quality and buffer for quick loading
-        pygame.mixer.pre_init(22050, -16, 8, 256)
+        pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
+        pygame.mixer.pre_init(22050, -16, 1, 512)
+        
+        pygame.mixer.music.set_endevent(pygame.USEREVENT)
         
         # Inits PyGame module
         pygame.init()
@@ -95,6 +99,9 @@ class Main():
         # Main loop
         update = True # The first time the screen need to be updated
         
+        sound_manager.SoundManager()
+        sound_manager.instance.set_music("sick")
+        
         while running:
             
             if from_sugar:
@@ -121,6 +128,8 @@ class Main():
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
                         elif event.type == pygame.VIDEOEXPOSE:
                             self.windows_controller.reload_main = True
+                        elif event.type == pygame.USEREVENT and event.code == 0: # Music ended
+                            sound_manager.instance.start_playing()
                             
                 self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 

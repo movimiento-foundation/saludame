@@ -39,6 +39,7 @@ class Kid(Window):
         self.action_index = -1 # Default action_index (no-action)
         self.action = None           
         
+        self.sprite = None
         self.set_animation()
             
     ##### Moods #####    
@@ -75,19 +76,16 @@ class Kid(Window):
         self.index = 0 # Sequence number of the current animation
         if self.action and self.action.kid_animation_path: # An action with animation is enabled
             directory = "%s/%s/%s" % (self.action.kid_animation_path, sex, clothes)
-            dirList = os.listdir(directory)
-            dirList.sort()
-            self.file_list = [os.path.join("%s/%s/%s" % (self.action.kid_animation_path, sex, clothes), fname) for fname in dirList if '.png' in fname]
+            self.file_list = get_image_list(directory)
         else:
             directory = "%s/%s/%s" % (self.mood.kid_animation_path, sex, clothes)
-            dirList = os.listdir(directory)
-            dirList.sort()
-            self.file_list = [os.path.join(directory, fname) for fname in dirList if '.png' in fname]
+            self.file_list = get_image_list(directory)
     
     ##### Draw #####
     def pre_draw(self, screen):
-        file = self.file_list[self.index]
-        self.sprite = pygame.image.load(file)
+        filename = self.file_list[self.index]
+        #self.sprite = pygame.image.load(file)
+        self.sprite = load_animation(self.sprite, filename)
         
         maps = self.character.mappings
         self.change_color(COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
@@ -143,6 +141,8 @@ class ActionAnimation(Widget):
 
 class FPS:  
     def __init__(self, container, rect, frame_rate, clock):
+        self.register_id = ""
+        self.buttons = []
         self.rect = rect
         self.frame_rate = frame_rate
         self.clock = clock
@@ -156,3 +156,25 @@ class FPS:
         screen.blit(text_surf, self.rect)
         return [self.rect]
 
+def get_image_list(directory):
+    dirList = os.listdir(directory)
+    dirList.sort()
+    return [os.path.join(directory, fname) for fname in dirList if fname.endswith('.png') or fname.endswith('.diff.gz')]
+    
+import gzip
+import imagepatch
+def load_animation(last_image, new_filename):
+    if new_filename.endswith('.png'):
+        new = pygame.image.load(new_filename)
+    else:
+        f = gzip.open(new_filename, 'r')
+        diff = f.read()
+        f.close()
+        
+        new_buffer = imagepatch.patch(last_image.get_buffer().raw, diff)
+        
+        new = last_image                        # both point to the same surface
+        new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
+        
+    return new
+    
