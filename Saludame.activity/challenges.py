@@ -13,6 +13,8 @@ S_CORRECT_PATH = os.path.normpath("assets/sound/correct.ogg")
 S_OVER_PATH = os.path.normpath("assets/sound/over.ogg")
 S_INCORRECT_PATH = os.path.normpath("assets/sound/incorrect.ogg")
 
+N_TF = 4
+
 FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
 TITLE_FONT_SIZE = 24
@@ -23,7 +25,7 @@ MOUSE_OVER_COLOR = pygame.Color("green")
 
 class MultipleChoice(Window):
     
-    def __init__(self, container, rect, frame_rate, windows_controller, bg_color=(0, 0, 0)):
+    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, bg_color=(0, 0, 0)):
         Window.__init__(self, container, rect, frame_rate, windows_controller, "challenges_window", bg_color)     
         
         ###### Sounds ######
@@ -34,6 +36,11 @@ class MultipleChoice(Window):
         
         self.choices = []
         self.correct = 0
+        
+        self.kind = "mc"
+        self.n_tf = N_TF
+        
+        self.challenges_creator = challenges_creator
         
         # If a question is setted, we have to "erase" the old challenge
         self.question = None
@@ -70,7 +77,7 @@ class MultipleChoice(Window):
         Problema: "corta" la pregunta en un valor hardcodeado el
         cual muchas veces "corta" a una palabra en cualquier lado.
         """               
-        if (self.question.rect_in_container.width > self.rect.width -20):
+        if (self.question.rect_in_container.width > self.rect.width - 20):
             q1 = Text(self.rect, 30, 30, 1, question[:43], TITLE_FONT_SIZE, (0, 255, 0))
             q2 = Text(self.rect, 30, 65, 1, question[43:], TITLE_FONT_SIZE, (0, 255, 0))
             self.add_child(q1)
@@ -130,7 +137,15 @@ class MultipleChoice(Window):
             if(button == self.choices[self.correct]):
                 self.s_correct.play()
                 self.windows_controller.game_man.add_points(self.win_points)
-                FIN_MC = True # Damos por finalizada la pregunta
+                if self.kind == "tf":
+                    if self.n_tf:
+                        self.n_tf -= 1
+                        self.challenges_creator.get_challenge("tf")
+                    else:
+                        FIN_MC = True # Damos por finalizado el desafío
+                        self.n_tf = N_TF
+                else:
+                    FIN_MC = True # Damos por finalizado el desafío
             else:
                 self.windows_controller.game_man.add_points(-self.lose_points)
                 self.s_incorrect.play()

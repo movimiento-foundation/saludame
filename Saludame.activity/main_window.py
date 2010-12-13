@@ -34,9 +34,13 @@ class MainWindow(Window):
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
         # Challenges
-        #challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_challenges)
-        #challenges_button.set_tooltip(_("Challenges module"))
-        #self.add_button(challenges_button)
+        challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
+        challenges_button.set_tooltip(_("Multiple choice"))
+        self.add_button(challenges_button)
+        
+        challenges_button2 = ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_tf_challenges)
+        challenges_button2.set_tooltip(_("True or false"))
+        self.add_button(challenges_button2)
         
         #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
         #self.add_button(stop_animation_button)
@@ -45,8 +49,12 @@ class MainWindow(Window):
         #self.add_button(btn_change_mood)
     
     #### Callbacks ####    
-    def _cb_button_click_challenges(self, button):
-        self.cha_loader.get_challenge()
+    def _cb_button_click_mc_challenges(self, button):
+        self.cha_loader.get_challenge("mc")
+        self.windows_controller.set_active_window("challenges_window")
+        
+    def _cb_button_click_tf_challenges(self, button):
+        self.cha_loader.get_challenge("tf")
         self.windows_controller.set_active_window("challenges_window")
         
     def _cb_button_click_stop_animation(self, button):

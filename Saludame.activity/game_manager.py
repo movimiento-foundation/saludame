@@ -454,7 +454,7 @@ class GameManager:
         # If it is answered correctly the player wins some points, so he starts the new level with these points
         # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
         # reach the master challenge again.
-        self.challenges_creator.get_challenge()
+        self.challenges_creator.get_challenge("mc")
         self.windows_controller.set_active_window("challenges_window")
         
 # Save and load game
