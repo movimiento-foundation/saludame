@@ -19,6 +19,13 @@ SIZE = 600, 280
 EXP_SPEED = 15 #expansion speed, in pixels per frame
 MAX_ITEMS = 9 #max items quantity per selection
 
+#fonts
+LARGE_TEXT = 10 #fewer mean small text
+#buttons
+SMALL_BUTTON = "assets/menu/A.png"
+LARGE_BUTTON = "assets/menu/B.png"
+CENTER_BUTTON = "assets/menu/center.png"
+
 CLOSE_MENU = "close_menu"
 BACK_MENU = "back_menu"
 
@@ -39,11 +46,11 @@ class Menu(Window):
         self.item_list = item_list # item's list that going to be displayed, root items
         self.previous_items = []
         
-        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font)
+        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, True)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
 
-        self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font)
+        self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font, True)
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         
@@ -272,7 +279,7 @@ class Item(Widget):
     """
     Entity that represent an item
     """
-    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu, font):
+    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu, font, center_item=False):
         
         self.name = name
         self.subitems_list = subitems_list
@@ -280,19 +287,29 @@ class Item(Widget):
         self.menu = menu
         
         # visuals
-        path = os.path.normpath(icon_path)
-        icon = pygame.image.load(path).convert_alpha()
-        text = font.render(self.name, True, (255, 255, 255))
+        #path = os.path.normpath(icon_path)
+        #icon = pygame.image.load(path).convert_alpha()
+        #text = font.render(self.name, True, (255, 255, 255))
+        #x_size = icon.get_size()[0] + text.get_size()[0] + 2
+        #y_size = max([icon.get_size()[1], text.get_size()[1]])
+        #surface = pygame.Surface((x_size, y_size))
+        #surface.blit(icon, (0, 0))
+        #surface.blit(text, (icon.get_size()[0] + 2, 0))
+        #rect = surface.get_rect()
+        self.path = None
+        if center_item:
+            self.image_btn = pygame.image.load(CENTER_BUTTON).convert_alpha()
+        else:
+            if len(self.name) > LARGE_TEXT:
+                self.image_btn = pygame.image.load(LARGE_BUTTON).convert_alpha()
+            else:
+                self.image_btn = pygame.image.load(SMALL_BUTTON).convert_alpha()
         
-        x_size = icon.get_size()[0] + text.get_size()[0] + 2
-        y_size = max([icon.get_size()[1], text.get_size()[1]])
+        rect = self.image_btn.get_rect()
         
-        surface = pygame.Surface((x_size, y_size))
-        surface.blit(icon, (0, 0))
-        surface.blit(text, (icon.get_size()[0] + 2, 0))
-        rect = surface.get_rect()
+        self.button = utilities.TextButton2(rect, pygame.Rect((500, 120), (70, 30)), 1, self.name, 20, (255, 255, 255), self.image_btn, None)
         
-        Widget.__init__(self, container, rect, frame_rate, surface)
+        Widget.__init__(self, container, rect, frame_rate, self.button.get_surface())
         
     def add_subitem(self, item):
         """
@@ -324,4 +341,5 @@ class Item(Widget):
                 self.menu.send_action(self.action_id)
             else:
                 self.menu.send_action(CLOSE_MENU) # if the item have not children and have not an action_id, close the menu
+
 
