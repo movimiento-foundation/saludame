@@ -190,12 +190,14 @@ class TextBlock(Widget):
         self.prepare_text_block()
         
     def parse_lines(self, text):
-        (b, _, a) = text.partition(u"\n")
+        #(b, _, a) = text.partition(u"\n") #########WARNING########
+        (b, _, a) = text.partition("\n")
         self.lines.append(b)
         while(a != ''):
-            (b, _, a) = a.partition(u"\n")
+            #(b, _, a) = a.partition(u"\n") ########WARNING########
+            (b, _, a) = a.partition("\n")
             self.lines.append(b)
-            
+
     def prepare_text_block(self):
         number_of_lines = 0
         for l in self.lines:

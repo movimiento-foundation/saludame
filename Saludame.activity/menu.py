@@ -16,8 +16,9 @@ import effects
 import random
 
 SIZE = 600, 280
-EXP_SPEED = 15 #expansion speed, in pixels per frame
-MAX_ITEMS = 9 #max items quantity per selection
+EXP_SPEED = 15.0 #expansion speed, in pixels per frame
+MAX_ITEMS = 8 #max items quantity per selection
+RADIUS = 90.0
 
 #fonts
 LARGE_TEXT = 10 #fewer mean small text
@@ -58,7 +59,7 @@ class Menu(Window):
         
         self.actual_selection = self.item_list  #list of actual subitems selection
         
-        self.radius = radius
+        self.radius = RADIUS
         self.show = False
 
         self.on_expansion = False
@@ -239,13 +240,12 @@ class Menu(Window):
         
     def __calculate_items_position(self, item_list):
         if len(item_list) > 0:
-            angle = (2 * math.pi) / len(item_list)
+            angle = (2.0 * math.pi) / len(item_list)
         else:
-            angle = 0
-        current_angle = math.pi / 4
+            angle = 0.0
+        current_angle = - math.pi / 2.0 - angle / 2.0
         for item in item_list:
             self.__calculate_item_position(item, current_angle) #calculate the position for each item
-            #self.__calculate_items_position(center, radius, item.subitems_list) #calculate the position for each item's subitem
             current_angle += angle
       
     def __calculate_item_position(self, item, angle):
@@ -270,10 +270,11 @@ class Menu(Window):
                 rect.midleft = coord
         else:
             if coord[1] > self.center[1]:
-                rect.midbottom = coord
+                rect.midbottom = coord[0], coord[1] + 25
             else:
-                rect.midtop = coord
+                rect.midtop = coord[0], coord[1] - 25
         item.set_rect_in_container(rect)   # Recalculates the absolute coordinates
+        
 
 class Item(Widget):
     """
