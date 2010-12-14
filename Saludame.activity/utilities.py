@@ -70,7 +70,6 @@ class Button(Widget):
         
         self.over = False
         self.enable = True
-        self.visible = True
         
     def contains_point(self, x, y):
         return self.rect_absolute.collidepoint(x, y)
@@ -116,7 +115,8 @@ class ImageButton(Button):
     
     def switch_image_background(self, image):
         if not isinstance(image, pygame.Surface):
-            image = pygame.image.load(image).convert_alpha()
+            image = pygame.imaself.text_intro.visible = True
+        self.text_result.visible = Falsege.load(image).convert_alpha()
         self.background = image
         
 class TextButton(ImageButton):     
@@ -212,12 +212,13 @@ class TextBlock(Widget):
             self.rect_absolute.bottom = self.container.bottom                  
         
     def draw(self, screen):
-        number_of_lines = 0
-        screen.fill((255, 255, 255), (self.rect_absolute))
-        for l in self.lines:          
-            r = self.font.render(l, False, self.color)
-            screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines))
-            number_of_lines += 1
+        if self.visible:
+            number_of_lines = 0
+            screen.fill((255, 255, 255), (self.rect_absolute))
+            for l in self.lines:          
+                r = self.font.render(l, False, self.color)
+                screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines))
+                number_of_lines += 1
 
 font_dict = {}  # Chaches created font instances
 def get_font(size, bold=False, italic=False):

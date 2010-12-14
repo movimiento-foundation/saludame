@@ -34,9 +34,9 @@ class MainWindow(Window):
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
         # Challenges
-        challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
-        challenges_button.set_tooltip(_("Multiple choice"))
-        self.add_button(challenges_button)
+        #challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
+        #challenges_button.set_tooltip(_("Multiple choice"))
+        #self.add_button(challenges_button)
         
         challenges_button2 = ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_tf_challenges)
         challenges_button2.set_tooltip(_("True or false"))

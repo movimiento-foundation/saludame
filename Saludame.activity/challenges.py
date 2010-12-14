@@ -8,6 +8,7 @@ import pygame
 import os
 from utilities import *
 from window import *
+from gettext import gettext as _
 
 S_CORRECT_PATH = os.path.normpath("assets/sound/correct.ogg")
 S_OVER_PATH = os.path.normpath("assets/sound/over.ogg")
@@ -121,12 +122,15 @@ class MultipleChoice(Window):
         self.lose_points = points
     
     def pre_draw(self, screen):
+        """
         if FIN_MC:
             self.wait += 1
         
         if self.wait >= 20:
             self.windows_controller.close_active_window()
-        
+        """
+        if FIN_MC:
+            self.windows_controller.close_active_window()
         return []
         
     ######## Callbacks buttons ########
@@ -144,11 +148,15 @@ class MultipleChoice(Window):
                     else:
                         FIN_MC = True # Damos por finalizado el desafío
                         self.n_tf = N_TF
-                else:
+                else:                    
                     FIN_MC = True # Damos por finalizado el desafío
+                    self.windows_controller.show_master_challenge_result_good()
             else:
                 self.windows_controller.game_man.add_points(-self.lose_points)
                 self.s_incorrect.play()
+                if self.kind == "mc":
+                    FIN_MC = True
+                    self.windows_controller.show_master_challenge_result_bad()                
         
     def _cb_button_over_choice(self, button):
         if not FIN_MC:
@@ -191,3 +199,44 @@ class MultipleChoice(Window):
         self.wait = 0
         global FIN_MC
         FIN_MC = False
+        
+class InfoMasterChallenge(Window):
+    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, bg_color=(0, 0, 0)):
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "info_master_challenge", bg_color)
+             
+        self.set_bg_image("assets/windows/window_2.png")
+        self.challenges_creator = challenges_creator
+        
+        self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_continue)
+        self.add_button(self.btn_continue)
+        
+        self.text_intro = utilities.TextBlock(rect, 40, 60, 1, text_intro, 35, pygame.Color("blue"))
+        self.text_result_good = utilities.TextBlock(rect, 40, 60, 1, text_result_good, 35, pygame.Color("blue"))
+        self.text_result_bad = utilities.TextBlock(rect, 40, 60, 1, text_result_bad, 35, pygame.Color("blue"))
+        
+        self.add_child(self.text_intro)
+        self.add_child(self.text_result_good)
+        self.add_child(self.text_result_bad)
+        
+    def show_intro(self):
+        self.text_intro.visible = True
+        self.text_result_good.visible = False
+        self.text_result_bad.visible = False
+        
+    def show_result_good(self):
+        self.text_intro.visible = False
+        self.text_result_good.visible = True
+        self.text_result_bad.visible = False
+        
+    def show_result_bad(self):
+        self.text_intro.visible = False
+        self.text_result_good.visible = False
+        self.text_result_bad.visible = True
+        
+    def _cb_button_click_continue(self, button):
+        self.windows_controller.close_active_window()
+                
+        if self.text_intro.visible:
+            self.challenges_creator.get_challenge("mc")
+            self.windows_controller.set_active_window("challenges_window")
+        

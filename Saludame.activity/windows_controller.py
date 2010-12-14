@@ -8,6 +8,7 @@ from utilities import Text, TextBlock
 import challenges_creator
 import customization
 import main_window
+import challenges
 
 """
 Clase encargada del control de ventanas
@@ -40,15 +41,17 @@ class WindowsController:
         Creates windows and set the main_window as active window
         """
         # Challenges
-        cha = challenges_creator.ChallengesCreator(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, (40, 40, 200))
-        cha.create_challenges()
-        self.game_man.challenges_creator = cha
+        cha_creator = challenges_creator.ChallengesCreator(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, (40, 40, 200))
+        cha_creator.create_challenges()
+        self.game_man.challenges_creator = cha_creator
+        
+        info_master_challenge = challenges.InfoMasterChallenge(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, cha_creator, "¡Felicitaciones! \nHas completado el nivel actual. Para pasar de nivel \ndebes contestar bien la siguiente pregunta. \n\n¡¡Suerte!!", "Felicitaciones, has pasado de nivel. \nSe han desbloqueado nuevas acciones, \n¿te animás a encontrarlas?", "Contestaste incorrectamente, \ntendrás que intentar pasar de nivel más adelante")
         
         # Customization Window
         customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, app_loader.get_character())
         
         # Main Window
-        main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha, bars_loader, self.game_man)
+        main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha_creator, bars_loader, self.game_man)
         
         # Activate Main window
         self.set_active_window("main_window")
@@ -82,6 +85,18 @@ class WindowsController:
         
     def register_new_window(self, id, window):
         self.windows[id] = window
+        
+    def show_master_challenge_intro(self):
+        self.set_active_window("info_master_challenge")
+        self.windows["info_master_challenge"].show_intro()
+        
+    def show_master_challenge_result_good(self):
+        self.set_active_window("info_master_challenge")
+        self.windows["info_master_challenge"].show_result_good()
+        
+    def show_master_challenge_result_bad(self):
+        self.set_active_window("info_master_challenge")
+        self.windows["info_master_challenge"].show_result_bad()    
         
     def show_window_hierarchy(self, window):
         sys.stdout.write(window.get_register_id())

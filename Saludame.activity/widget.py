@@ -18,14 +18,11 @@ class Widget:
         self.tooltip = tooltip
         self.super_tooltip = None
         self.showing_tooltip = False
+        
+        self.visible = True
     
     def draw(self, screen):
-        if isinstance (self, utilities.Button):
-            if self.visible:
-                if self.background:
-                    screen.blit(self.background, self.rect_absolute)
-                    return self.rect_absolute
-        else:
+        if self.visible:
             if self.background:
                 screen.blit(self.background, self.rect_absolute)
                 return self.rect_absolute
