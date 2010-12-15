@@ -3,6 +3,8 @@
 import pygame
 from gettext import gettext as _
 
+import utilities
+
 from window import *
 from panel_window import PanelWindow
 from kid_window import KidWindow
@@ -15,6 +17,8 @@ class MainWindow(Window):
         
         self.clock = clock
         self.cha_loader = cha_loader
+        
+        self.game_manager = game_man
         
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         
@@ -42,6 +46,9 @@ class MainWindow(Window):
         challenges_button2.set_tooltip(_("True or false"))
         self.add_button(challenges_button2)
         
+        button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
+        btn_reset = utilities.TextButton2(self.rect, pygame.Rect((1000, 20), (70, 30)), 1, _("Reset"), 30, (255, 255, 255), button_back, self._cb_reset_game)
+        self.add_button(btn_reset)
         #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
         #self.add_button(stop_animation_button)
         
@@ -62,6 +69,9 @@ class MainWindow(Window):
         
     def _cb_button_click_change_mood(self, button):
         self.kidW.change_mood()
+    
+    def _cb_reset_game(self, button):
+        self.game_manager.reset_game()
 
 class Clock(Widget):
     
@@ -98,3 +108,4 @@ class Clock(Widget):
         
         return change
         
+

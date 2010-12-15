@@ -8,6 +8,8 @@ import utilities
 from window import *
 import game_manager
 
+DEFAULT_BARS_VALUES = 65.0
+
 SECTION_OFFSET_X = 0
 SECTION_WIDTH = 220
 SECTION_MIN_HEIGHT = 50
@@ -407,7 +409,14 @@ class BarsController:
         """
         for bar in self.bars:
             bar.value = bars_values[bar.id]
-            
+    
+    def reset(self):
+        """
+        Restore the bars value to the default value.
+        """
+        for bar in self.bars:
+            bar.value = DEFAULT_BARS_VALUES
+        self.score_bar.value = 0.0
         
 class StatusBar:
     """
@@ -484,4 +493,5 @@ class StatusBar:
                 self.value = self.max
             elif self.value < 0:
                 self.value = 0
+
 

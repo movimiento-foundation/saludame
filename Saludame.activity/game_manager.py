@@ -208,9 +208,10 @@ class GameManager:
         action with the 'action_id'. If the action_id is 'None', just
         stops the active action.
         """
-        self.active_char_action.reset()
-        self.active_char_action = None
-        self.windows_controller.stop_actual_action_animation()
+        if self.active_char_action:
+            self.active_char_action.reset()
+            self.active_char_action = None
+            self.windows_controller.stop_actual_action_animation()
         
         if action_id:
             action = self.get_action(action_id)
@@ -457,7 +458,33 @@ class GameManager:
           
         self.windows_controller.show_master_challenge_intro()        
         
-# Save and load game
+# Save, load and reset game
+
+    def reset_game(self):
+        """
+        Reset game properties
+        """
+        # actions
+        self.interrupt_active_action(None)
+        # events
+        for personal_event in self.active_events:
+            self.windows_controller.remove_personal_event(personal_event)
+        for social_event in self.active_social_events:
+            self.windows_controller.remove_social_event(social_event)
+        self.active_events = []
+        self.active_social_events = []
+        self.events_interval = EVENTS_OCCURRENCE_INTERVAL
+        # character
+        self.character.reset()
+        # bars
+        self.bars_controller.reset()
+        # weather
+        self.current_weather = "sunny" # default weather
+        self.update_environment()
+        # hour
+        self.hour = 2 
+        self.hour_count = HOUR_COUNT_CYCLE 
+        self.current_time = self.day_dic[self.hour]
 
     def save_game(self):
         """
@@ -526,4 +553,5 @@ class GameManager:
         returns current momento of day.
         """
         return self.current_time
+
 

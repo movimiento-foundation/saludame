@@ -70,6 +70,15 @@ class Character:
         self.grade = game_status["grade"]
         self.current_place = game_status["current_place"]
         self.level = game_status["level"]
+    
+    def reset(self):
+        """
+        Restore some character properties to its default values.
+        """
+        self.level = 1
+        self.clothes = 'school'
+        self.current_place = 'schoolyard'
+        self.mappings = DEFAULT_MAPPINGS.copy()
 
 class Environment:
     
@@ -117,3 +126,4 @@ class Clothes:
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)
+
