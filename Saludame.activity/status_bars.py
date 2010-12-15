@@ -408,6 +408,14 @@ class BarsController:
         for bar in self.bars:
             bar.value = bars_values[bar.id]
             
+    def get_lowest_bar(self):
+        value = self.bars[0].value
+        lowest_bar = None
+        for bar in self.bars[0:4]: # bars in second_level (section bars) are self.bars[0:4] 
+            if bar.value <= value:
+                value = bar.value
+                lowest_bar = bar
+        return lowest_bar            
         
 class StatusBar:
     """

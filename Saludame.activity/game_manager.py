@@ -252,6 +252,9 @@ class GameManager:
         for action in self.actions_list:
             if(action.id == action_id):
                 return action
+            
+    def get_lowest_bar(self):
+        return self.bars_controller.get_lowest_bar()
     
     def __control_active_actions(self):
         """

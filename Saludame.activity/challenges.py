@@ -79,8 +79,8 @@ class MultipleChoice(Window):
         cual muchas veces "corta" a una palabra en cualquier lado.
         """               
         if (self.question.rect_in_container.width > self.rect.width - 20):
-            q1 = Text(self.rect, 30, 30, 1, question[:43], TITLE_FONT_SIZE, (0, 255, 0))
-            q2 = Text(self.rect, 30, 65, 1, question[43:], TITLE_FONT_SIZE, (0, 255, 0))
+            q1 = Text(self.rect, 30, 30, 1, question[:43], TITLE_FONT_SIZE, (0, 0, 0))
+            q2 = Text(self.rect, 30, 65, 1, question[43:], TITLE_FONT_SIZE, (0, 0, 0))
             self.add_child(q1)
             self.add_child(q2)
             self.question_lines = 2
