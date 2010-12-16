@@ -266,7 +266,10 @@ class BarDisplay(Widget):
         self.label = status_bar.label
         self.color_partitions = color_partitions
         self.position = position
-        self.background = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
+        if isinstance(self.status_bar, WeightBar):
+            self.background = pygame.image.load("assets/layout/weight_bar_back.png").convert_alpha()
+        else:
+            self.background = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         self.surface = self.background.copy()   # The actual surface to be blitted
         
         # visuals
@@ -441,6 +444,9 @@ class StatusBar:
         self.parent = parent_bar # Barra padre
         self.children_list = children_list # conjunto de barras hijas
         
+    def get_score(self):
+        return self.value
+        
     def increase(self, increase_rate):
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
@@ -465,27 +471,12 @@ class StatusBar:
     def recalculate(self):
         children = len(self.children_list)
         if children > 0:
-            values = sum([child.value for child in self.children_list])
+            values = sum([child.get_score() for child in self.children_list])
             value = float(values) / children
             if self.value <> value:
                 self.value = value
                 if self.parent:
                     self.parent.recalculate()
-    
-    #def increase_from_child(self, increase_rate):
-        #"""
-        #Incrementa el valor de la barra.
-        #"""
-        #value = float(increase_rate) / len(self.children_list) #para que el incremento de esta barra mantenga relacion con la de sus hijos
-        #self.value += value
-        
-        #if self.parent != None:
-            #self.parent.increase_from_child(value)
-        
-        #if self.value > self.max:
-            #self.value = self.maxbars_controller
-        #elif self.value < 0:
-            #self.value = 0
         
     def increase_from_parent(self, increase_rate):
         """
@@ -503,4 +494,18 @@ class StatusBar:
             elif self.value < 0:
                 self.value = 0
 
+class WeightBar(StatusBar):
+    
+    def __init__(self, id, label, parent_bar, children_list, max_value, init_value):
+        StatusBar.__init__(self, id, label, parent_bar, children_list, max_value, init_value)
+    
+    def get_score(self):
+        if self.value < 50:
+            return self.value * 2.0
+        else:
+            return 100.0 - 2.0 * self.value
+    
+    
+    
+    
 
