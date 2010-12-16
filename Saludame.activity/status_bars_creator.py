@@ -27,7 +27,7 @@ class BarsLoader:
         
         ### hygiene
         hygiene_children_id = [("shower", _("Ducha")), ("w_hands", _("Manos")), ("b_teeth", _("Dientes")), ("toilet", _(u"Baño"))]
-        hygiene = status_bars.StatusBar("hygiene", "Hygiene", self.overall_bar, [], hard_level[0], hard_level[1])
+        hygiene = status_bars.StatusBar("hygiene", "Higiene", self.overall_bar, [], hard_level[0], hard_level[1])
         hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar
 
