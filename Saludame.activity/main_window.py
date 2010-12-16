@@ -21,10 +21,7 @@ class MainWindow(Window):
         self.game_manager = game_man
         
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
-        
-        # temporal para probar PanelWindow (se cargará el diccionario en un módulo aparte).
-        # self.animations_dic = {'eat_apple': (animation.Apple(pygame.Rect((0, 0), (120, 172)), 10), "Eating an apple!") }
-        
+           
         self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller)
         self.windows.append(self.panel_win)
         
@@ -38,9 +35,9 @@ class MainWindow(Window):
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
         # Challenges
-        #challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
-        #challenges_button.set_tooltip(_("Multiple choice"))
-        #self.add_button(challenges_button)
+        challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
+        challenges_button.set_tooltip(_("Multiple choice"))
+        self.add_button(challenges_button)
         
         challenges_button2 = ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_tf_challenges)
         challenges_button2.set_tooltip(_("True or false"))
@@ -58,11 +55,15 @@ class MainWindow(Window):
     #### Callbacks ####    
     def _cb_button_click_mc_challenges(self, button):
         self.cha_loader.get_challenge("mc")
-        self.windows_controller.set_active_window("challenges_window")
+        self.windows_controller.set_active_window("mc_challenge_window")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" %(self.cha_loader.game_man.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
+        self.windows_controller.set_active_window("info_challenge_window")
         
     def _cb_button_click_tf_challenges(self, button):
         self.cha_loader.get_challenge("tf")
-        self.windows_controller.set_active_window("challenges_window")
+        self.windows_controller.set_active_window("tf_challenge_window")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Flaso: %s" %(self.cha_loader.game_man.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
+        self.windows_controller.set_active_window("info_challenge_window")
         
     def _cb_button_click_stop_animation(self, button):
         self.panel_win.stop_animation()

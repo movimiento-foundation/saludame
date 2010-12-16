@@ -459,7 +459,8 @@ class GameManager:
         # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
         # reach the master challenge again.
           
-        self.windows_controller.show_master_challenge_intro()        
+        #self.windows_controller.show_master_challenge_intro()
+        pass        
         
 # Save, load and reset game
 
