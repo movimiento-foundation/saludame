@@ -49,11 +49,11 @@ class Menu(Window):
         self.item_list = item_list # item's list that going to be displayed, root items
         self.previous_items = []
         
-        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, True)
+        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, None, None, True)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
 
-        self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font, True)
+        self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font, None, None, True)
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         
