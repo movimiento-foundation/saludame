@@ -8,7 +8,7 @@ import utilities
 from window import *
 import game_manager
 
-DEFAULT_BARS_VALUES = 65.0
+DEFAULT_BARS_VALUES = 50.0
 
 SECTION_OFFSET_X = 0
 SECTION_WIDTH = 220
@@ -268,6 +268,7 @@ class BarDisplay(Widget):
         self.position = position
         if isinstance(self.status_bar, WeightBar):
             self.background = pygame.image.load("assets/layout/weight_bar_back.png").convert_alpha()
+            self.arrow = pygame.image.load("assets/layout/weight_bar_arrow.png").convert_alpha()
         else:
             self.background = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         self.surface = self.background.copy()   # The actual surface to be blitted
@@ -282,15 +283,20 @@ class BarDisplay(Widget):
     def draw(self, screen):
         
         if self.last_value != self.status_bar.value:
-            rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
-            charged_rect = pygame.Rect(rect)  # create a copy
-            charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
-            
-            color = self.get_color()
-            
-            self.surface.fill(BAR_BACK_COLOR, rect)
-            self.surface.fill(color, charged_rect)
-            self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
+            if isinstance(self.status_bar, WeightBar):
+                arrow_position = self.status_bar.value * (self.rect_in_container.width - 2.0) / self.status_bar.max
+                self.surface.blit(self.background, (0, 0))
+                self.surface.blit(self.arrow, (arrow_position, 14))
+            elif isinstance(self.status_bar, StatusBar):
+                rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
+                charged_rect = pygame.Rect(rect)  # create a copy
+                charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
+                
+                color = self.get_color()
+                
+                self.surface.fill(BAR_BACK_COLOR, rect)
+                self.surface.fill(color, charged_rect)
+                self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
             
             if self.show_name:
                 self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 4))
@@ -504,8 +510,4 @@ class WeightBar(StatusBar):
             return self.value * 2.0
         else:
             return 100.0 - 2.0 * self.value
-    
-    
-    
-    
 
