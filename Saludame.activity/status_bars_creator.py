@@ -10,7 +10,7 @@ class BarsLoader:
     """
     
     def __init__(self):
-        hard_level = (100, 65)
+        hard_level = (100, 50)
         
         self.score_bar = status_bars.StatusBar("score_bar", _("Score"), None, [], 100, 0)
         self.overall_bar = status_bars.StatusBar("overall_bar", _("Overall"), None, [], hard_level[0], hard_level[1])
@@ -18,9 +18,11 @@ class BarsLoader:
         #'hard_level' para plasmar que la idea es que los valores por defecto de las barras
         #se carguen segun un nivel de dificultad
         # physica
-        physica_children_id = [("energy", _(u"Energía")), ("defenses", _("Defenses")), ("weight", _("Peso"))]
+        physica_children_id = [("energy", _(u"Energía")), ("defenses", _("Defenses"))]
         physica = status_bars.StatusBar("physica", "Physica", self.overall_bar, [], hard_level[0], hard_level[1])
         physica_children_bar = [status_bars.StatusBar(id[0], id[1], physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
+        weight_bar = status_bars.WeightBar("weight", _("Peso"), physica, [], hard_level[0], hard_level[1])
+        physica_children_bar.append(weight_bar)
         physica.children_list = physica_children_bar
         
         ### hygiene

@@ -253,6 +253,9 @@ class GameManager:
         for action in self.actions_list:
             if(action.id == action_id):
                 return action
+            
+    def get_lowest_bar(self):
+        return self.bars_controller.get_lowest_bar()
     
     def __control_active_actions(self):
         """
@@ -456,7 +459,8 @@ class GameManager:
         # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
         # reach the master challenge again.
           
-        self.windows_controller.show_master_challenge_intro()        
+        #self.windows_controller.show_master_challenge_intro()
+        pass        
         
 # Save, load and reset game
 

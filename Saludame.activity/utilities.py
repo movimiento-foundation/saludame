@@ -178,7 +178,7 @@ def get_color_tuple(color):
         return get_color_tuple(color)
     
 class TextBlock(Widget):
-    def __init__(self, container, x, y, frame_rate, text, size, color):    
+    def __init__(self, container, x, y, frame_rate, text, size, color, fill=True):    
             
         Widget.__init__(self, container, pygame.Rect(x, y, 0, 0), frame_rate)
         
@@ -188,13 +188,13 @@ class TextBlock(Widget):
         self.parse_lines(text)
         self.size = size
         self.prepare_text_block()
+        self.fill = fill
         
     def parse_lines(self, text):
         if isinstance(text, unicode):
             eol = u"\n"
         else:
-            eol = "\n"
-            
+            eol = "\n"            
         (b, _, a) = text.partition(eol)
         self.lines.append(b)
         while(a != ''):
@@ -209,7 +209,7 @@ class TextBlock(Widget):
             if (r.get_rect().width > self.rect_absolute.width):
                 self.rect_absolute.width = r.get_rect().width
             self.rect_absolute.height += r.get_rect().height 
-            
+        
         # Make it fit in the container
         if self.rect_absolute.right > self.container.right:
             self.rect_absolute.right = self.container.right
@@ -219,7 +219,8 @@ class TextBlock(Widget):
     def draw(self, screen):
         if self.visible:
             number_of_lines = 0
-            screen.fill((255, 255, 255), (self.rect_absolute))
+            if self.fill:
+                screen.fill((255, 255, 255), (self.rect_absolute))
             for l in self.lines:          
                 r = self.font.render(l, False, self.color)
                 screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines))

@@ -26,8 +26,8 @@ MOUSE_OVER_COLOR = pygame.Color("green")
 
 class MultipleChoice(Window):
     
-    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "challenges_window", bg_color)     
+    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color=(0, 0, 0)):
+        Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)     
         
         ###### Sounds ######
         self.s_correct = pygame.mixer.Sound(S_CORRECT_PATH)
@@ -38,8 +38,7 @@ class MultipleChoice(Window):
         self.choices = []
         self.correct = 0
         
-        self.kind = "mc"
-        self.n_tf = N_TF
+        self.opportinities = 1
         
         self.challenges_creator = challenges_creator
         
@@ -49,17 +48,9 @@ class MultipleChoice(Window):
         self.win_points = 0
         self.lose_points = 0
         
-        # Control de preguntas largas (más de 1 línea)
-        # Problema para decidir "donde" cortar la pregunta
-        self.question_lines = 1;
-        
         # Close Button
         self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
-        self.buttons += [self.btn_close] 
-        
-        # Answer Button
-        #self.btn_view_answer = TextButton(self.rect, pygame.Rect(30, 350, 20, 20), 1, "Me doy por vencido! :(...", TEXT_FONT_SIZE, (255, 20, 20), self._cb_button_click_answer, self._cb_button_over_answer, self._cb_button_out_answer)        
-        #self.buttons += [self.btn_view_answer]        
+        self.buttons += [self.btn_close]       
         
         for b in self.buttons:
             self.add_child(b) 
@@ -70,38 +61,19 @@ class MultipleChoice(Window):
     def set_question(self, question):
         if (self.question):
             self.erase()
-        self.question = Text(self.rect, 30, 30, 1, question, TITLE_FONT_SIZE, (0, 0, 0))
-        
-        """
-        Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
-        en función de la cantidad de líenas de la pregunta.
-        Problema: "corta" la pregunta en un valor hardcodeado el
-        cual muchas veces "corta" a una palabra en cualquier lado.
-        """               
-        if (self.question.rect_in_container.width > self.rect.width - 20):
-            q1 = Text(self.rect, 30, 30, 1, question[:43], TITLE_FONT_SIZE, (0, 255, 0))
-            q2 = Text(self.rect, 30, 65, 1, question[43:], TITLE_FONT_SIZE, (0, 255, 0))
-            self.add_child(q1)
-            self.add_child(q2)
-            self.question_lines = 2
-            return
-        
-        self.question_lines = 1
+                
+        self.question = TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, (0, 0, 0), False)
         self.add_child(self.question)
         
     def set_correct_answer(self, a):
         self.correct = a
         
     def set_answers(self, answers):
-        x = 35 
-        y = 20       
-        """
-        Control de preguntas largas. Funciona bien y "relocaliza" las respuestas
-        en función de la cantidad de líenas de la pregunta.
-        Problema: "corta" la pregunta en un valor hardcodeado el
-        cual muchas veces "corta" a una palabra en cualquier lado.
-        """
-        y += 40 * self.question_lines
+        x = 30 
+        y = self.question.rect_absolute.top  
+
+        y += 40 * len(self.question.lines)
+        
         for ans in answers:
             y += 30
             b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
@@ -120,43 +92,33 @@ class MultipleChoice(Window):
     
     def set_lose_points(self, points):
         self.lose_points = points
-    
-    def pre_draw(self, screen):
-        """
-        if FIN_MC:
-            self.wait += 1
-        
-        if self.wait >= 20:
-            self.windows_controller.close_active_window()
-        """
-        if FIN_MC:
-            self.windows_controller.close_active_window()
-        return []
         
     ######## Callbacks buttons ########
     
     def _cb_button_click_choice(self, button):
-        global FIN_MC
-        if not FIN_MC:
-            if(button == self.choices[self.correct]):
-                self.s_correct.play()
-                self.windows_controller.game_man.add_points(self.win_points)
-                if self.kind == "tf":
-                    if self.n_tf:
-                        self.n_tf -= 1
-                        self.challenges_creator.get_challenge("tf")
-                    else:
-                        FIN_MC = True # Damos por finalizado el desafío
-                        self.n_tf = N_TF
-                else:                    
-                    FIN_MC = True # Damos por finalizado el desafío
-                    self.windows_controller.show_master_challenge_result_good()
-            else:
-                self.windows_controller.game_man.add_points(-self.lose_points)
-                self.s_incorrect.play()
-                if self.kind == "mc":
-                    FIN_MC = True
-                    self.windows_controller.show_master_challenge_result_bad()                
+        if(button == self.choices[self.correct]):
+            self.s_correct.play()
+            self.windows_controller.game_man.add_points(self.win_points)                  
+            
+            self.windows_controller.close_active_window()
+            self.windows_controller.windows["info_challenge_window"].update_content(u"¡Respuesta correcta!", u"Muy bien, \nganaste %s puntos para tu barra %s" % (self.win_points, self.challenges_creator.game_man.get_lowest_bar().label))
+            self.windows_controller.set_active_window("info_challenge_window") 
+            self.opportinities = 1               
+        else:
+            self.windows_controller.game_man.add_points(-self.lose_points)
+            self.s_incorrect.play()
+            self.windows_controller.close_active_window()
+                
+            if (self.opportinities == 0):
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \nperdiste %s puntos en tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.lose_points, self.challenges_creator.game_man.get_lowest_bar().label))
+                self.windows_controller.set_active_window("info_challenge_window")
+                self.opportinities = 1
+            else:                                            
+                self.opportinities -= 1
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Respuseta incorrecta", u"La respuesta no esta correcta, intenta otra vez")
+                self.windows_controller.set_active_window("mc_challenge_window")
+                self.windows_controller.set_active_window("info_challenge_window")
+
         
     def _cb_button_over_choice(self, button):
         if not FIN_MC:
@@ -167,22 +129,8 @@ class MultipleChoice(Window):
     def _cb_button_out_choice(self, button):
         if not FIN_MC:
             button.switch_color_text(ANSWER_COLOR)
-            button.force_update()
-    
-    def _cb_button_click_answer(self, button):
-        global FIN_MC
-        FIN_MC = True
-        for c in self.choices:
-            c.switch_color_text((10, 10, 10)) 
-        (self.choices[self.correct]).switch_color_text((255, 0, 0))       
-        
-    def _cb_button_over_answer(self, button):
-        if not FIN_MC:        
-            self.s_over.play()
-            
-    def _cb_button_out_answer(self, button):
-        pass
-    
+            button.force_update()      
+
     def _cb_button_click_close(self, button):
         self.windows_controller.close_active_window()
     
@@ -200,9 +148,94 @@ class MultipleChoice(Window):
         global FIN_MC
         FIN_MC = False
         
-class InfoMasterChallenge(Window):
+class TrueOrFalse(MultipleChoice):
+    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color=(0, 0, 0)):
+        
+        MultipleChoice.__init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color)
+        
+        self.n_tf = N_TF 
+        self.question_number = 0
+        self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
+        
+    def pre_draw(self, screen):
+        if self.answers[0] == "waiting":
+            q0 = pygame.draw.circle(screen, pygame.Color("grey"), (1020, 550), 10)
+        elif self.answers[0] == "incorrect":
+            q0 = pygame.draw.circle(screen, pygame.Color("red"), (1020, 550), 10)
+        elif self.answers[0] == "correct":
+            q0 = pygame.draw.circle(screen, pygame.Color("green"), (1020, 550), 10)
+            
+        if self.answers[1] == "waiting":
+            q1 = pygame.draw.circle(screen, pygame.Color("grey"), (1050, 550), 10)
+        elif self.answers[1] == "incorrect":
+            q1 = pygame.draw.circle(screen, pygame.Color("red"), (1050, 550), 10)
+        elif self.answers[1] == "correct":
+            q1 = pygame.draw.circle(screen, pygame.Color("green"), (1050, 550), 10)
+        
+        
+        if self.answers[2] == "waiting":
+            q2 = pygame.draw.circle(screen, pygame.Color("grey"), (1080, 550), 10)
+        elif self.answers[2] == "incorrect":
+            q2 = pygame.draw.circle(screen, pygame.Color("red"), (1080, 550), 10)
+        elif self.answers[2] == "correct":
+            q2 = pygame.draw.circle(screen, pygame.Color("green"), (1080, 550), 10)
+        
+        
+        if self.answers[3] == "waiting":
+            q3 = pygame.draw.circle(screen, pygame.Color("grey"), (1110, 550), 10)
+        elif self.answers[3] == "incorrect":
+            q3 = pygame.draw.circle(screen, pygame.Color("red"), (1110, 550), 10)
+        elif self.answers[3] == "correct":
+            q3 = pygame.draw.circle(screen, pygame.Color("green"), (1110, 550), 10)
+        
+        
+        if self.answers[4] == "waiting":
+            q4 = pygame.draw.circle(screen, pygame.Color("grey"), (1140, 550), 10)
+        elif self.answers[4] == "incorrect":
+            q4 = pygame.draw.circle(screen, pygame.Color("red"), (1140, 550), 10)
+        elif self.answers[4] == "correct":
+            q4 = pygame.draw.circle(screen, pygame.Color("green"), (1140, 550), 10)
+        
+        
+        return [q0, q1, q2, q3, q4]
+        
+    def _cb_button_click_choice(self, button):
+        if(button == self.choices[self.correct]):
+            self.s_correct.play()
+            self.windows_controller.game_man.add_points(self.win_points)
+            if self.n_tf:
+                # Correct answer
+                self.answers[self.question_number] = "correct"
+                self.n_tf -= 1
+                self.challenges_creator.get_challenge("tf")
+                self.question_number += 1
+            else:
+                self.windows_controller.close_active_window()
+                self.result_and_reset()
+        else:
+            self.windows_controller.game_man.add_points(-self.lose_points)
+            self.s_incorrect.play()
+            if self.n_tf:
+                # Incorrect answer
+                self.answers[self.question_number] = "incorrect"
+                self.n_tf -= 1
+                self.challenges_creator.get_challenge("tf")
+                self.question_number += 1
+            else:
+                self.windows_controller.close_active_window()
+                self.result_and_reset()
+
+    def result_and_reset(self):
+        self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct") + 1), u"Ganaste %s puntos para tu \nbarra %s" % ("[ver puntos]", self.challenges_creator.game_man.get_lowest_bar().label))        
+        self.windows_controller.set_active_window("info_challenge_window")
+        
+        self.n_tf = N_TF
+        self.question_number = 0
+        self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
+        
+class InfoChallenge(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "info_master_challenge", bg_color)
+        Window.__init__(self, container, rect, frame_rate, windows_controller, "info_challenge_window", bg_color)
              
         self.set_bg_image("assets/windows/window_2.png")
         self.challenges_creator = challenges_creator
@@ -210,33 +243,20 @@ class InfoMasterChallenge(Window):
         self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_continue)
         self.add_button(self.btn_continue)
         
-        self.text_intro = utilities.TextBlock(rect, 40, 60, 1, text_intro, 35, pygame.Color("blue"))
-        self.text_result_good = utilities.TextBlock(rect, 40, 60, 1, text_result_good, 35, pygame.Color("blue"))
-        self.text_result_bad = utilities.TextBlock(rect, 40, 60, 1, text_result_bad, 35, pygame.Color("blue"))
+        # Texts
+        self.title = utilities.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, pygame.Color("blue"))
+        self.text = utilities.TextBlock(rect, 40, 120, 1, "Texto de prueba", 35, pygame.Color("black"))
+        self.image = utilities.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "challenges/ninio_normal.png")
+    
+        self.add_child(self.title)
+        self.add_child(self.text)
+        self.add_child(self.image)
         
-        self.add_child(self.text_intro)
-        self.add_child(self.text_result_good)
-        self.add_child(self.text_result_bad)
-        
-    def show_intro(self):
-        self.text_intro.visible = True
-        self.text_result_good.visible = False
-        self.text_result_bad.visible = False
-        
-    def show_result_good(self):
-        self.text_intro.visible = False
-        self.text_result_good.visible = True
-        self.text_result_bad.visible = False
-        
-    def show_result_bad(self):
-        self.text_intro.visible = False
-        self.text_result_good.visible = False
-        self.text_result_bad.visible = True
+    def update_content(self, title="Verdadero o Falso", text="Texto de prueba", image="challenges/ninio_normal.png"):
+        self.title.text = title
+        self.title.refresh()
+        self.text.parse_lines(text)
+        self.image = image
         
     def _cb_button_click_continue(self, button):
-        self.windows_controller.close_active_window()
-                
-        if self.text_intro.visible:
-            self.challenges_creator.get_challenge("mc")
-            self.windows_controller.set_active_window("challenges_window")
-        
+        self.windows_controller.close_active_window()    
