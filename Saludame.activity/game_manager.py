@@ -12,6 +12,7 @@ import random
 import effects
 import character
 import events
+import sound_manager
 
 instance = None
 
@@ -304,7 +305,8 @@ class GameManager:
             self.windows_controller.set_mood(mood)
             self.character.mood = mood
             print "cambio estado de animo a: ", self.active_mood.name
-        
+            sound_manager.instance.set_music(mood.music)
+
 ## Events handling
 
     def __control_active_events(self):

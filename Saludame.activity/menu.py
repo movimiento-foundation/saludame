@@ -14,6 +14,7 @@ from window import Window
 import utilities
 import effects
 import random
+from gettext import gettext as _
 
 SIZE = 600, 280
 EXP_SPEED = 15.0 #expansion speed, in pixels per frame
@@ -49,11 +50,11 @@ class Menu(Window):
         self.item_list = item_list # item's list that going to be displayed, root items
         self.previous_items = []
         
-        self.exit = Item(container, frame_rate, "salir", "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, True)
+        self.exit = Item(container, frame_rate, _("exit"), "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, True)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
 
-        self.back = Item(container, frame_rate, "back", "assets/icons/icon_quit.png", BACK_MENU, [], self, font, True)
+        self.back = Item(container, frame_rate, _("back"), "assets/icons/icon_quit.png", BACK_MENU, [], self, font, True)
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         

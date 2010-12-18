@@ -84,7 +84,9 @@ class Main():
         # windows_controller asociado al screen
         self.windows_controller = WindowsController(screen, None)   
         
-        # Initialize game_manager, character, actions and menu.        
+        # Initialize sound_manager, game_manager, character, actions and menu.    
+        sound_manager.SoundManager()
+        
         app_loader = app_init.AppLoader(self.windows_controller)
         bars_loader = app_loader.get_status_bars_loader()
         game_man = app_loader.get_game_manager()
@@ -98,9 +100,6 @@ class Main():
         
         # Main loop
         update = True # The first time the screen need to be updated
-        
-        sound_manager.SoundManager()
-        sound_manager.instance.set_music("sick")
         
         while running:
             

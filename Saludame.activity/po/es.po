@@ -248,7 +248,7 @@ msgstr "Cocina"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:87
 msgid "Cambiar de ropa"
-msgstr ""
+msgstr "Cambiar de ropa"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:88
 msgid "School"

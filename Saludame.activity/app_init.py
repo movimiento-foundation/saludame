@@ -121,31 +121,30 @@ class AppLoader:
     def __load_moods(self):
         
         #SICK
-        m_sick3 = actions.Mood("sick_3", 0, "assets/kid/moods/sick3")
-        m_sick2 = actions.Mood("sick_2", 1, "assets/kid/moods/sick2")
-        m_sick1 = actions.Mood("sick_1", 2, "assets/kid/moods/sick1")
+        m_sick3 = actions.Mood("sick_3", 0, "assets/kid/moods/sick3", "sick")
+        m_sick2 = actions.Mood("sick_2", 1, "assets/kid/moods/sick2", "sick")
+        m_sick1 = actions.Mood("sick_1", 2, "assets/kid/moods/sick1", "sick")
         
         #SAD
-        m_sad3 = actions.Mood("sad_3", 3, "assets/kid/moods/sad3")
-        m_sad2 = actions.Mood("sad_2", 4, "assets/kid/moods/sad2")
-        m_sad1 = actions.Mood("sad_1", 5, "assets/kid/moods/sad1")
+        m_sad3 = actions.Mood("sad_3", 3, "assets/kid/moods/sad3", "sad")
+        m_sad2 = actions.Mood("sad_2", 4, "assets/kid/moods/sad2", "sad")
+        m_sad1 = actions.Mood("sad_1", 5, "assets/kid/moods/sad1", "sad")
         
         #ANGRY
-        m_angry3 = actions.Mood("angry_3", 6, "assets/kid/moods/angry3")
-        m_angry2 = actions.Mood("angry_2", 7, "assets/kid/moods/angry2")
-        m_angry1 = actions.Mood("angry_1", 8, "assets/kid/moods/angry1")
+        m_angry3 = actions.Mood("angry_3", 6, "assets/kid/moods/angry3", "angry")
+        m_angry2 = actions.Mood("angry_2", 7, "assets/kid/moods/angry2", "angry")
+        m_angry1 = actions.Mood("angry_1", 8, "assets/kid/moods/angry1", "angry")
         
         #NORMAL
-        m_normal = actions.Mood("normal", 9, "assets/kid/moods/normal")
+        m_normal = actions.Mood("normal", 9, "assets/kid/moods/normal", "normal")
         
         #HAPPY
-        m_happy3 = actions.Mood("happy_3", 10, "assets/kid/moods/happy3")
-        m_happy2 = actions.Mood("happy_2", 11, "assets/kid/moods/happy2")
-        m_happy1 = actions.Mood("happy_1", 12, "assets/kid/moods/happy1")
+        m_happy3 = actions.Mood("happy_3", 10, "assets/kid/moods/happy3", "happy")
+        m_happy2 = actions.Mood("happy_2", 11, "assets/kid/moods/happy2", "happy")
+        m_happy1 = actions.Mood("happy_1", 12, "assets/kid/moods/happy1", "happy")
         
         #Los moods están ordenados en la lista segun su rank
         moods_list = [m_sick3, m_sick2, m_sick1, m_sad3, m_sad2, m_sad1, m_angry3, m_angry2, m_angry1,
                       m_normal, m_happy3, m_happy2, m_happy1]
         
         return moods_list
-
