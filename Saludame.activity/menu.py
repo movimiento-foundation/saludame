@@ -50,11 +50,11 @@ class Menu(Window):
         self.item_list = item_list # item's list that going to be displayed, root items
         self.previous_items = []
         
-        self.exit = Item(container, frame_rate, _("exit"), "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, True)
+        self.exit = Item(container, frame_rate, _("exit"), "assets/icons/icon_quit.png", CLOSE_MENU, [], self, font, None, None, True)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
-
-        self.back = Item(container, frame_rate, _("back"), "assets/icons/icon_quit.png", BACK_MENU, [], self, font, True)
+        
+        self.back = Item(container, frame_rate, _("back"), "assets/icons/icon_quit.png", BACK_MENU, [], self, font, None, None, True)
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         
@@ -131,13 +131,40 @@ class Menu(Window):
         """
         allowed_items = []
         for item in items_list:
-            if item.action_id: #the item hasn't sub items
-                action = self.game_manager.get_action(item.action_id)
-                if self.verify_action(action, self.game_manager):
+            #verifies item conditions
+            if self.verify_item(item, self.game_manager):
+                #verifies item's action conditions
+                if item.action_id: #the item hasn't sub items
+                    action = self.game_manager.get_action(item.action_id)
+                    if self.verify_action(action, self.game_manager):
+                        allowed_items.append(item)
+                else:
                     allowed_items.append(item)
-            else:
-                allowed_items.append(item)
         return allowed_items
+    
+    def verify_item(self, item, game_manager):
+        #verify place
+        if item.allowed_places:
+            allowed = False
+            current_place = game_manager.get_current_place()
+            for place in item.allowed_places:
+                if current_place == place:
+                    allowed = True
+                    break
+            if not allowed:
+                return False
+        #verify hour
+        if item.allowed_hours:
+            allowed = False
+            current_hour = game_manager.get_current_hour()
+            for hour in item.allowed_hours:
+                if current_hour == hour:
+                    allowed = True
+                    break
+            if not allowed:
+                return False
+
+        return True
     
     def verify_action(self, action, game_manager):
         
@@ -177,11 +204,10 @@ class Menu(Window):
 
         if action.level > self.game_manager.get_level():
             return False
-
+        #verify path
         if not utilities.verify_path(action, self.game_manager):
             return False
-            
-        #verify path      
+              
         return True
 
         
@@ -281,23 +307,15 @@ class Item(Widget):
     """
     Entity that represent an item
     """
-    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu, font, center_item=False):
+    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu, font, allowed_places = None, allowed_hours = None,  center_item=False):
         
         self.name = name
         self.subitems_list = subitems_list
         self.action_id = action_id
         self.menu = menu
+        self.allowed_places = allowed_places
+        self.allowed_hours = allowed_hours
         
-        # visuals
-        #path = os.path.normpath(icon_path)
-        #icon = pygame.image.load(path).convert_alpha()
-        #text = font.render(self.name, True, (255, 255, 255))
-        #x_size = icon.get_size()[0] + text.get_size()[0] + 2
-        #y_size = max([icon.get_size()[1], text.get_size()[1]])
-        #surface = pygame.Surface((x_size, y_size))
-        #surface.blit(icon, (0, 0))
-        #surface.blit(text, (icon.get_size()[0] + 2, 0))
-        #rect = surface.get_rect()
         self.help_image = None
         self.bg_image = None
         if center_item:

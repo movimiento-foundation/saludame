@@ -5,7 +5,7 @@ import pygame
 from gettext import gettext as _
 import utilities
 
-example = [
+items = [
     # ("display_name", "path_to_icon.png", "action_id", [Children]),
     
     (_("Eat..."), "assets/icons/icon_parent.png", None, [
@@ -42,8 +42,9 @@ example = [
             (_("Leche chocolatada"), "assets/icons/icon.png", "leche_chocolatada", None),
             (_("Café con leche"), "assets/icons/icon.png", "leche_cafe", None),
             (_("Leche"), "assets/icons/icon.png", "leche", None),
-            (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None)
-        ]),
+            (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None)], 
+            ["schoolyard", "home"], ["morning", "afternoon"]
+        ),
         
         (_("Líquidos..."), "assets/icons/icon_parent.png", None, [
             
@@ -102,7 +103,7 @@ MENU_FRAME_RATE = 1
 def load_menu(game_manager, center, container, windows_controller):
     font = utilities.get_font(20)
     m = menu.Menu(1, container, windows_controller, [], center, 90, game_manager, font)
-    for item in example:
+    for item in items:
         an_item = create_item(item, m, container, font)
         m.add_item(an_item)
     m.calculate()
@@ -115,7 +116,14 @@ def create_item(item_tuple, a_menu, container, font):
         subitems = [create_item(sub_item, a_menu, container, font) for sub_item in item_tuple[3]]
     else:
         subitems = []
-
-    return menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font)
+    lenght = len(item_tuple)
+    item = None
+    if lenght == 4:
+        item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font)
+    elif lenght == 5: # the item has place restrictions
+        item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font, item_tuple[4])
+    elif lenght == 6: # the item has time restrictions
+        item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font, item_tuple[4], item_tuple[5])
+    return item
 
 
