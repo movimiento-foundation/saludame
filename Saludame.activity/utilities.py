@@ -191,6 +191,7 @@ class TextBlock(Widget):
         self.fill = fill
         
     def parse_lines(self, text):
+        self.lines = []
         if isinstance(text, unicode):
             eol = u"\n"
         else:
