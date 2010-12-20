@@ -98,10 +98,10 @@ class ChallengesCreator:
             if c[5]:
                 self.mc_challenge.set_image(c[5])  
                 
-            return self.mc_challenge           
+            return self.mc_challenge          
             
-            
-        elif kind == "tf":        
+        elif kind == "tf":   
+            self.tf_challenge.kind = "normal"     
             bar = self.game_man.get_lowest_bar()
             if bar.id == "physica":
                 r = random.randrange(0, len(self.tf_challenges_physica))
@@ -130,4 +130,28 @@ class ChallengesCreator:
             return self.tf_challenge
                 
         elif kind == "master":
-            pass
+            self.tf_challenge.kind = "master"
+            
+            if self.game_man.character.level < 4:
+                self.game_man.character.limit = 3
+            elif self.game_man.character.level < 7:
+                self.game_man.character.limit = 4
+            else:
+                self.game_man.character.limit = 5
+                
+            r = random.randrange(0, len(self.mc_challenges))
+            c = self.mc_challenges[r]
+            
+            # Set challenge attributes
+            self.tf_challenge.set_question(c[0])
+            self.tf_challenge.set_answers(c[1])
+            self.tf_challenge.set_correct_answer(c[2])
+            self.tf_challenge.set_win_points(c[3])
+            self.tf_challenge.set_lose_points(c[4])
+            
+            # If challenge has an image
+            if c[5]:
+                self.tf_challenge.set_image(c[5])  
+                
+            return self.tf_challenge
+            

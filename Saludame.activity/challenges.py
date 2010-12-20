@@ -157,6 +157,12 @@ class TrueOrFalse(MultipleChoice):
         self.question_number = 0
         self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
         
+        self.kind = "normal"    # normal or master
+                                # master challenge is like a TrueOrFalse challenge with mutlitple choice questions 
+                                
+        self.limit = 3
+        self.perdio = False
+        
     def pre_draw(self, screen):
         if self.answers[0] == "waiting":
             q0 = pygame.draw.circle(screen, pygame.Color("grey"), (1020, 550), 10)
@@ -207,7 +213,10 @@ class TrueOrFalse(MultipleChoice):
                 # Correct answer
                 self.answers[self.question_number] = "correct"
                 self.n_tf -= 1
-                self.challenges_creator.get_challenge("tf")
+                if self.kind == "master":                    
+                    self.challenges_creator.get_challenge("master")
+                elif self.kind == "normal":
+                    self.challenges_creator.get_challenge("tf")
                 self.question_number += 1
             else:
                 self.windows_controller.close_active_window()
@@ -215,24 +224,45 @@ class TrueOrFalse(MultipleChoice):
         else:
             self.windows_controller.game_man.add_points(-self.lose_points)
             self.s_incorrect.play()
-            if self.n_tf:
+            if self.n_tf and not self.perdio:
                 # Incorrect answer
                 self.answers[self.question_number] = "incorrect"
                 self.n_tf -= 1
-                self.challenges_creator.get_challenge("tf")
+                                
+                if self.kind == "master":
+                    if self.answers.count("incorrect") == 5 - self.limit:
+                        self.perdio = True  
+                    self.challenges_creator.get_challenge("master")
+                    
+                if self.kind == "normal":
+                    self.challenges_creator.get_challenge("tf")
                 self.question_number += 1
             else:
                 self.windows_controller.close_active_window()
                 self.result_and_reset()
 
     def result_and_reset(self):
-        self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct") + 1), u"Ganaste %s puntos para tu \nbarra %s" % ("[ver puntos]", self.challenges_creator.game_man.get_lowest_bar().label))        
+        if self.kind == "normal":
+            self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct") + 1), u"Ganaste %s puntos para tu \nbarra %s" % ("[ver puntos]", self.challenges_creator.game_man.get_lowest_bar().label))
+        if self.kind == "master":
+            if self.perdio:
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
+            else:
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Ganaste", u"¡Pasaste de nivel! \nBusca las nuevas acciones en tu menú")
         self.windows_controller.set_active_window("info_challenge_window")
         
         self.n_tf = N_TF
         self.question_number = 0
         self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
+        self.perdio = False
         
+    def _cb_button_click_close(self, button):
+        self.windows_controller.close_active_window()   
+        self.n_tf = N_TF
+        self.question_number = 0
+        self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
+        self.perdio = False
+    
 class InfoChallenge(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, bg_color=(0, 0, 0)):
         Window.__init__(self, container, rect, frame_rate, windows_controller, "info_challenge_window", bg_color)
@@ -259,4 +289,4 @@ class InfoChallenge(Window):
         self.image = image
         
     def _cb_button_click_continue(self, button):
-        self.windows_controller.close_active_window()    
+        self.windows_controller.close_active_window()   

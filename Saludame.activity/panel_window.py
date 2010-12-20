@@ -130,12 +130,13 @@ class PanelWindow(Window):
             
             event_info = "%s \n" % (event.description)
             
-            for eff in event.effect.effect_status_list:
-                bar_label = event.effect.bars_controller.get_bar_label(eff[0])
-                if (eff[1] > 0):
-                    event_info += "+ %s \n" % (bar_label)
-                else:
-                    event_info += "- %s \n" % (bar_label)
+            if event.effect:
+                for eff in event.effect.effect_status_list:
+                    bar_label = event.effect.bars_controller.get_bar_label(eff[0])
+                    if (eff[1] > 0):
+                        event_info += "+ %s \n" % (bar_label)
+                    else:
+                        event_info += "- %s \n" % (bar_label)
             
             b_event_personal.set_super_tooltip(event_info)
             
@@ -173,6 +174,14 @@ class PanelWindow(Window):
             b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
             
             event_info = "%s \n" % (event.description)
+            
+            if event.effect:
+                for eff in event.effect.effect_status_list:
+                    bar_label = event.effect.bars_controller.get_bar_label(eff[0])
+                    if (eff[1] > 0):
+                        event_info += "+ %s \n" % (bar_label)
+                    else:
+                        event_info += "- %s \n" % (bar_label)
             
             b_event_social.set_super_tooltip(event_info)
             
@@ -244,10 +253,15 @@ class PanelWindow(Window):
     
     ########### Buttons Callbacks ###########
     
-    def _cb_button_click_personal_next(self, button):
+    def _cb_button_click_personal(self, button):
         if game.set_library_function:
             game.set_library_function("99-Eventos.html") #diarrhea")
         
+    def _cb_button_click_social(self, button):
+        if game.set_library_function:
+            game.set_library_function("99-Eventos.html") #diarrhea")
+    
+    def _cb_button_click_personal_next(self, button):        
         if self.index_personal_event < len (self.active_personal_events) - 1:
             self.remove_button(self.b_event_personal)
             self.index_personal_event += 1
@@ -263,10 +277,7 @@ class PanelWindow(Window):
             self.b_event_personal = self.active_personal_events[self.index_personal_event][1]
             self.add_button(self.b_event_personal)
             
-    def _cb_button_click_social_next(self, button):
-        if game.set_library_function:
-            game.set_library_function("99-Eventos.html") #diarrhea")
-        
+    def _cb_button_click_social_next(self, button):        
         if self.index_social_event < len (self.active_social_events) - 1:
             self.remove_button(self.b_event_social)
             self.index_social_event += 1

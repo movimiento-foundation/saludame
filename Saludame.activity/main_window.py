@@ -34,7 +34,11 @@ class MainWindow(Window):
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
-        # Challenges
+        # Challenges        
+        challenges_button3 = ImageButton(self.rect, pygame.Rect((1120, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_master_challenge)
+        challenges_button3.set_tooltip(_("Master challenge"))
+        self.add_button(challenges_button3)
+        
         challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
         challenges_button.set_tooltip(_("Multiple choice"))
         self.add_button(challenges_button)
@@ -64,6 +68,13 @@ class MainWindow(Window):
         self.windows_controller.set_active_window("tf_challenge_window")
         self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Flaso: %s" %(self.cha_loader.game_man.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
         self.windows_controller.set_active_window("info_challenge_window")
+        
+    def _cb_button_click_master_challenge(self, button):
+        self.cha_loader.get_challenge("master")
+        self.windows_controller.set_active_window("tf_challenge_window")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estas por pasar de nivel! \nPara superarlo tienes que responder \ncorrecto a 3 de las 5 preguntas \nque siguen \n\n¡Suerte!")
+        self.windows_controller.set_active_window("info_challenge_window")
+        
         
     def _cb_button_click_stop_animation(self, button):
         self.panel_win.stop_animation()
