@@ -13,7 +13,7 @@ class Text(Widget):
     ALIGN_RIGHT = 1
     ALIGN_CENTER = 2
     
-    def __init__(self, container_rect, x, y, frame_rate, text, size, color, alignment=ALIGN_LEFT, bold=False, italic=False):
+    def __init__(self, container_rect, x, y, frame_rate, text, size, color, type="normal", alignment=ALIGN_LEFT, bold=False, italic=False):
         self.font = get_font(size, bold, italic)
         self.text = unicode(text)
         self.color = color
@@ -26,12 +26,15 @@ class Text(Widget):
             rect = render.get_rect(topright=(x, y))
         else:
             rect = render.get_rect(center=(x, y))
-        
+            
+        if type == "tooltip":
+            rect.bottomleft = (x, y)
+            
         # Make it fit in the container
         if rect.right > container_rect.right:
             rect.right = container_rect.right
         if rect.bottom > container_rect.bottom:
-            rect.bottom = container_rect.bottom
+            rect.bottom = container_rect.bottom        
         
         Widget.__init__(self, container_rect, rect, frame_rate)
         
@@ -99,8 +102,7 @@ class Button(Widget):
         self.function_on_mouse_over = fn
 
     def set_on_mouse_out(self, fn):
-        self.function_on_mouse_out = fn   
-    
+        self.function_on_mouse_out = fn      
 
 class ImageButton(Button):
     
@@ -178,7 +180,7 @@ def get_color_tuple(color):
         return get_color_tuple(color)
     
 class TextBlock(Widget):
-    def __init__(self, container, x, y, frame_rate, text, size, color, fill=True):    
+    def __init__(self, container, x, y, frame_rate, text, size, color, type="normal", fill=True):    
             
         Widget.__init__(self, container, pygame.Rect(x, y, 0, 0), frame_rate)
         
@@ -189,6 +191,9 @@ class TextBlock(Widget):
         self.size = size
         self.prepare_text_block()
         self.fill = fill
+        
+        if type == "tooltip":
+            self.rect_absolute.bottomleft = (x, y)
         
     def parse_lines(self, text):
         self.lines = []
