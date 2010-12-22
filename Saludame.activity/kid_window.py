@@ -108,10 +108,6 @@ class KidWindow(Window):
             if not self.external_character.visible:
                 self.remove_social_event()
         
-        # Characters at social events        
-        if self.external_character:
-            changes += self.external_character.draw(screen, frames)
-                
         return changes
     
 class ExternalCharacter(Window):
@@ -193,3 +189,4 @@ class MessageBalloon(Window):
         else:
             screen.blit(self.bg, self.rect)
             return [self.rect]
+    

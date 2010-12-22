@@ -136,8 +136,8 @@ class Main():
         
                 frames += 1
 
-		game_man.signal()
-        
+                game_man.signal()
+                
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
 
