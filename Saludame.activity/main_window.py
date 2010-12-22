@@ -34,10 +34,7 @@ class MainWindow(Window):
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
-        # Challenges        
-        challenges_button3 = ImageButton(self.rect, pygame.Rect((1120, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_master_challenge)
-        challenges_button3.set_tooltip(_("Master challenge"))
-        self.add_button(challenges_button3)
+        # Challenges
         
         challenges_button = ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
         challenges_button.set_tooltip(_("Multiple choice"))
@@ -46,6 +43,14 @@ class MainWindow(Window):
         challenges_button2 = ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_tf_challenges)
         challenges_button2.set_tooltip(_("True or false"))
         self.add_button(challenges_button2)
+        
+        challenges_button3 = ImageButton(self.rect, pygame.Rect((1120, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_master_challenge)
+        challenges_button3.set_tooltip(_("Master challenge"))
+        self.add_button(challenges_button3)
+        
+        challenges_button4 = ImageButton(self.rect, pygame.Rect((1120, 200), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_cooking_challenge)
+        challenges_button4.set_tooltip(_("Cooking"))
+        self.add_button(challenges_button4)
         
         button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
         btn_reset = utilities.TextButton2(self.rect, pygame.Rect((1000, 20), (70, 30)), 1, _("Reset"), 30, (255, 255, 255), button_back, self._cb_reset_game)
@@ -75,6 +80,8 @@ class MainWindow(Window):
         self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estas por pasar de nivel! \nPara superarlo tienes que responder \ncorrecto a 3 de las 5 preguntas \nque siguen \n\n¡Suerte!")
         self.windows_controller.set_active_window("info_challenge_window")
         
+    def _cb_button_click_cooking_challenge(self, button):
+        self.windows_controller.set_active_window("cooking_challenge_window")
         
     def _cb_button_click_stop_animation(self, button):
         self.panel_win.stop_animation()

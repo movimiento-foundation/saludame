@@ -89,6 +89,9 @@ class WindowsController:
     def register_new_window(self, id, window):
         self.windows[id] = window  
         
+    def unregister_window(self, window):
+        del self.windows[window.register_id]
+        
     def show_window_hierarchy(self, window):
         sys.stdout.write(window.get_register_id())
         W = []
@@ -151,10 +154,17 @@ class WindowsController:
     def handle_mouse_down(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_down((x, y))
+        
+    def handle_mouse_up(self, pos):
+        self.windows_stack[-1].handle_mouse_up(pos)
                 
     def handle_mouse_over(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_over((x, y))
+        
+    def handle_mouse_motion(self, (x, y)):
+        x, y = self.scaled_game.scale_coordinates((x, y))
+        self.windows_stack[-1].handle_mouse_motion((x, y))
     ##########################
     
     #### Tooltips #####    

@@ -125,6 +125,10 @@ class Main():
                             game_man.save_game()
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
+                        elif event.type == pygame.MOUSEBUTTONUP:
+                            self.windows_controller.handle_mouse_up(event.pos)
+                        elif event.type == pygame.MOUSEMOTION:
+                            self.windows_controller.handle_mouse_motion(event.pos)
                         elif event.type == pygame.VIDEOEXPOSE:
                             self.windows_controller.reload_main = True
                         elif event.type == pygame.USEREVENT and event.code == 0: # Music ended

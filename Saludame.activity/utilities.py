@@ -56,8 +56,7 @@ class Image(Widget):
             self.background = pygame.image.load(image).convert_alpha()
         else:
             self.background = image
-        Widget.__init__(self, container, rect, frame_rate, self.background)        
-        
+        Widget.__init__(self, container, pygame.Rect((rect.left, rect.top), self.background.get_rect().size), frame_rate, self.background)                
 
 class Button(Widget):
     
@@ -73,9 +72,6 @@ class Button(Widget):
         
         self.over = False
         self.enable = True
-        
-    def contains_point(self, x, y):
-        return self.rect_absolute.collidepoint(x, y)
     
     def set_tooltip(self, text):
         self.tooltip = text

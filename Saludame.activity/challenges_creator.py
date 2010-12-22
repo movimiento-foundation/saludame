@@ -18,13 +18,14 @@ class ChallengesCreator:
 
         self.game_man = game_man
         
-        # Multiple Choice window
+        # Multiple Choice and Master window
         self.mc_challenge = challenges.MultipleChoice(self.container, self.rect, self.frame_rate, self.windows_controller, self, "mc_challenge_window", self.bg_color)
-        self.mc_challenge.set_bg_image("assets/windows/window_1.png")
         
         # True or False window
         self.tf_challenge = challenges.TrueOrFalse(self.container, self.rect, self.frame_rate, self.windows_controller, self, "tf_challenge_window", self.bg_color)
-        self.tf_challenge.set_bg_image("assets/windows/window_1.png")        
+        
+        # Cooking window 
+        self.cooking_challenge = challenges.Cooking(self.container, self.rect, self.frame_rate, self.windows_controller, "cooking_challenge_window", self.bg_color)    
         
         # Tuples of mc_challenges   
         self.mc_challenges = []

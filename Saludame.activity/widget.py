@@ -68,3 +68,6 @@ class Widget:
                 return background.subsurface(rect)
         return pygame.Surface(self.rect_absolute.size)
     
+    def contains_point(self, x, y):
+        return self.rect_absolute.collidepoint(x, y)
+    
