@@ -9,6 +9,7 @@ from window import *
 import game_manager
 
 DEFAULT_BARS_VALUES = 50.0
+MAX_BARS_VALUE = 100
 
 SECTION_OFFSET_X = 0
 SECTION_WIDTH = 220
@@ -284,7 +285,8 @@ class BarDisplay(Widget):
         
         if self.last_value != self.status_bar.value:
             if isinstance(self.status_bar, WeightBar):
-                arrow_position = self.status_bar.value * (self.rect_in_container.width - 2.0) / self.status_bar.max
+                position = self.status_bar.value * (self.rect_in_container.width) / (BAR_WIDTH)
+                arrow_position = min([position, BAR_WIDTH + BAR_OFFSET_X])
                 self.surface.blit(self.background, (0, 0))
                 self.surface.blit(self.arrow, (arrow_position, 14))
             elif isinstance(self.status_bar, StatusBar):
@@ -509,5 +511,5 @@ class WeightBar(StatusBar):
         if self.value < 50:
             return self.value * 2.0
         else:
-            return 100.0 - 2.0 * self.value
+            return self.max - 2.0 * self.value
 
