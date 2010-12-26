@@ -44,6 +44,9 @@ class Window:
         
     def set_bg_color(self, color):
         self.bg_color = color
+        
+    def dispose(self):
+        self.windows_controller.unregister_window(self)
     
     # Abstract function.    
     def pre_draw(self, screen):
@@ -155,7 +158,15 @@ class Window:
                     button.showing_tooltip = False
                 button.over = False
                 button.on_mouse_out()
+    
+    # It will be overridden by cooking challenge or other D&D challenge           
+    def handle_mouse_motion(self, (x, y)):
+        pass
 
+    # It will be overridden by cooking challenge or other D&D challenge           
+    def handle_mouse_up(self, pos):
+        pass
+    
     def move(self, (x, y)):
         """ Moves the window the given offset, notifying all its subitems """
         self.rect.move_ip(x, y)

@@ -89,6 +89,9 @@ class WindowsController:
     def register_new_window(self, id, window):
         self.windows[id] = window  
         
+    def unregister_window(self, window):
+        del self.windows[window.register_id]
+        
     def show_window_hierarchy(self, window):
         sys.stdout.write(window.get_register_id())
         W = []
@@ -151,16 +154,23 @@ class WindowsController:
     def handle_mouse_down(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_down((x, y))
+        
+    def handle_mouse_up(self, pos):
+        self.windows_stack[-1].handle_mouse_up(pos)
                 
     def handle_mouse_over(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_over((x, y))
+        
+    def handle_mouse_motion(self, (x, y)):
+        x, y = self.scaled_game.scale_coordinates((x, y))
+        self.windows_stack[-1].handle_mouse_motion((x, y))
     ##########################
     
     #### Tooltips #####    
     def show_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
-        self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'))
+        self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
         
         # Necesitamos guardar lo que esta atras del tooltip para cuando lo querramos esconder
         self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
@@ -168,7 +178,7 @@ class WindowsController:
         
     def show_super_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
-        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'))
+        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
         
         self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
         self.showing_tooltip = True
@@ -218,7 +228,6 @@ class WindowsController:
         
         self.scaled_game.update_screen(changes)
         #self.scaled_game.flip()
-
 
 class ScaledGame:
     

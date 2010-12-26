@@ -27,7 +27,9 @@ MOUSE_OVER_COLOR = pygame.Color("green")
 class MultipleChoice(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)     
+        Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
+        
+        self.set_bg_image("assets/windows/window_1.png")     
         
         ###### Sounds ######
         self.s_correct = pygame.mixer.Sound(S_CORRECT_PATH)
@@ -50,10 +52,7 @@ class MultipleChoice(Window):
         
         # Close Button
         self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
-        self.buttons += [self.btn_close]       
-        
-        for b in self.buttons:
-            self.add_child(b) 
+        self.add_button(self.btn_close)     
         
         self.wait = 0
         
@@ -290,3 +289,51 @@ class InfoChallenge(Window):
         
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()   
+
+class Cooking(Window):
+    def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=(0, 0, 0)):
+        Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
+        
+        self.set_bg_image("assets/windows/window_1.png") 
+        
+        # Close Button
+        self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
+        self.add_button(self.btn_close) 
+        
+        # Some widgets to test DnD
+        self.dnd = []
+        self.dnd.append(Image(rect, pygame.Rect(50, 100, 100, 100), 1, "assets/events/ill.jpg"))
+        self.dnd.append(Image(rect, pygame.Rect(50, 250, 100, 100), 1, "assets/events/caries.jpg"))
+        self.dnd.append(Image(rect, pygame.Rect(50, 400, 100, 100), 1, "assets/events/unkown.png"))
+        
+        self.trash = Image(rect, pygame.Rect(500, 200, 200, 200), 1, "assets/challenges/trash.png")
+
+        for w in self.dnd:
+            self.add_child(w)
+        self.add_child(self.trash)  
+        
+        # Mouse mode (1 - left button pressed)
+        self.mouse_mode = 0  
+        
+    def handle_mouse_down(self, (x, y)):
+        Window.handle_mouse_down(self, (x, y))                
+        self.mouse_mode = 1    
+        
+    def handle_mouse_up(self, pos):  
+        Window.handle_mouse_up(self, pos) 
+        for widget in self.dnd:
+            if self.trash.contains_point(widget.rect_absolute.centerx, widget.rect_absolute.centery):
+                self.remove_child(widget)                            
+        self.mouse_mode = 0
+    
+    def handle_mouse_motion(self, pos):
+        if pos[0] < self.rect.right - 70 and pos[0] > self.rect.left + 70 and pos[1] < self.rect.bottom - 70 and pos[1] > self.rect.top + 120:
+            if self.mouse_mode == 1:
+                for widget in self.dnd:
+                    if widget.contains_point(pos[0], pos[1]):
+                        widget.rect_absolute.centerx = pos[0]
+                        widget.rect_absolute.centery = pos[1]     
+                        self.repaint = True               
+        
+    def _cb_button_click_close(self, button):
+        self.windows_controller.close_active_window()
