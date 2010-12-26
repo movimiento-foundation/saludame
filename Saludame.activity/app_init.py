@@ -33,7 +33,7 @@ class AppLoader:
         
         ### game manager
         
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, None, character_loader.get_environments_dictionary(), self.moods_list, windows_controller)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, character_loader.get_places(), character_loader.get_environments_dictionary(), character_loader.get_weather_effects(), self.moods_list, windows_controller)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list() 
         self.game_man.actions_list = self.actions_list
@@ -148,3 +148,4 @@ class AppLoader:
                       m_normal, m_happy3, m_happy2, m_happy1]
         
         return moods_list
+
