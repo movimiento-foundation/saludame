@@ -2,10 +2,6 @@
 
 import pygame
 
-from utilities import *
-
-BLACK = pygame.Color("black")
-
 class Window:
     
     # Una ventana contiene 'n' widgets

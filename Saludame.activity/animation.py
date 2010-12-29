@@ -3,7 +3,7 @@
 import pygame
 import os
 import utilities
-from window import *
+import gui
 
 COLORS_HAIR = (pygame.Color("#00ffff"), pygame.Color("#009f9f"))
 COLORS_SKIN = (pygame.Color("#ffccc7"), pygame.Color("#cba5a0"))
@@ -17,10 +17,10 @@ BLACK = pygame.Color("black")
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 
-class Kid(Window):
+class Kid(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, game_man, mood):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
         
         self.character = game_man.character 
         
@@ -98,12 +98,12 @@ class Kid(Window):
             
             index += 1
             
-class ActionAnimation(Widget):
+class ActionAnimation(gui.Widget):
     """
     An action animation to show at panel
     """
     def __init__(self, container, rect, frame_rate, animation_path, sound_path):
-        Widget.__init__(self, container, rect, frame_rate)
+        gui.Widget.__init__(self, container, rect, frame_rate)
         
         self.path = animation_path
         self.frame_rate = frame_rate

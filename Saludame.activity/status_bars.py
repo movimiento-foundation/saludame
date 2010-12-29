@@ -5,7 +5,7 @@ from gettext import gettext as _
 
 import status_bars_creator
 import utilities
-from window import *
+import gui
 import game_manager
 
 DEFAULT_BARS_VALUES = 50.0
@@ -38,12 +38,12 @@ SUB_BAR_TEXT_COLOR = "#ffffff"
 
 # ****************** VISUALES ******************
 
-class BarsWindow(Window):
+class BarsWindow(gui.Window):
     """
     Clase que representa la ventana de las barras de estado del juego.
     """
     def __init__(self, container, rect, frame_rate, windows_controller, bars_loader):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "bars_window")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "bars_window")
         
         # rect and surface:
         self.rect.size = (227, 590)
@@ -134,7 +134,7 @@ class Accordeon:
             section.move_up()
             section.compress()
 
-class BarSection(Window):
+class BarSection(gui.Window):
     """
     Clase que contiene un conjunto de BarDisplay, y las
     muestra por pantalla
@@ -143,7 +143,7 @@ class BarSection(Window):
     def __init__(self, windows_controller, container, name, root_bar, children_bar, size, position, icon_path):
         
         rect = pygame.Rect(position, size)
-        Window.__init__(self, container, rect, 1, windows_controller, "bar_section_window")
+        gui.Window.__init__(self, container, rect, 1, windows_controller, "bar_section_window")
         
         # section attributes
         self.name = name
@@ -156,7 +156,7 @@ class BarSection(Window):
         #label_rect = pygame.Rect((0,0), label_render.get_size())
         #label_rect.right = self.rect.right - 8
         pos = self.rect.right - 8, 0
-        label_widget = utilities.Text(self.rect, pos[0], pos[1], 1, self.name, 16, pygame.Color(TEXT_COLOR), utilities.Text.ALIGN_RIGHT, True, True)
+        label_widget = gui.Text(self.rect, pos[0], pos[1], 1, self.name, 16, pygame.Color(TEXT_COLOR), gui.Text.ALIGN_RIGHT, True, True)
         
         # visuals
         self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_PARTITIONS)
@@ -168,7 +168,7 @@ class BarSection(Window):
         
         if icon_path:
             icon = pygame.image.load(icon_path).convert()
-            self.icon = Widget(self.rect, pygame.Rect((0, 0), icon.get_size()), 1, icon)
+            self.icon = gui.Widget(self.rect, pygame.Rect((0, 0), icon.get_size()), 1, icon)
             self.fixed_widgets.append(self.icon)
         else:
             self.icon = None
@@ -251,7 +251,7 @@ class BarSection(Window):
             display_list.append(display)
         return display_list
         
-class BarDisplay(Widget):
+class BarDisplay(gui.Widget):
     """
     Clase que se encarga de representar visualmente a una barra, manteniéndose
     actualizada según los incrementos o decrementos de la barra representada.
@@ -260,7 +260,7 @@ class BarDisplay(Widget):
     def __init__(self, height, width, position, status_bar, color_partitions):
         
         rect = pygame.Rect(position, (width, height))
-        Widget.__init__(self, pygame.Rect(0, 0, width, height), rect, 1)
+        gui.Widget.__init__(self, pygame.Rect(0, 0, width, height), rect, 1)
         
         # attributes
         self.status_bar = status_bar
@@ -313,13 +313,13 @@ class BarDisplay(Widget):
                 return color
         return sorted(self.color_partitions.values())[-1]
         
-class ScoreSection(Widget):
+class ScoreSection(gui.Widget):
     """
     Sección que muestra la barra de puntaje principal.
     """
     def __init__(self, bar, container, size, position, level):
         rect = pygame.Rect(position, size)
-        Widget.__init__(self, container, rect, 1)
+        gui.Widget.__init__(self, container, rect, 1)
         
         # attributes
         self.name = "score section"

@@ -54,7 +54,7 @@ class Main():
         import challenges_creator
         import customization
         import sound_manager
-        import windows_controller
+        import saludame_windows_controller
         
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
@@ -78,7 +78,7 @@ class Main():
         clock = pygame.time.Clock()
         
         # windows_controller asociado al screen
-        self.windows_controller = windows_controller.WindowsController(screen, None)   
+        self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, None)   
         
         # Initialize sound_manager, game_manager, character, actions and menu.    
         sound_manager.SoundManager()

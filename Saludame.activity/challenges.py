@@ -6,8 +6,8 @@ Challenges module
 
 import pygame
 import os
+import gui
 import utilities
-from window import *
 from gettext import gettext as _
 
 S_CORRECT_PATH = os.path.normpath("assets/sound/correct.ogg")
@@ -24,10 +24,10 @@ TEXT_FONT_SIZE = 18
 ANSWER_COLOR = pygame.Color("blue")
 MOUSE_OVER_COLOR = pygame.Color("green")
 
-class MultipleChoice(Window):
+class MultipleChoice(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
         
         self.set_bg_image("assets/windows/window_1.png")     
         
@@ -51,17 +51,17 @@ class MultipleChoice(Window):
         self.lose_points = 0
         
         # Close Button
-        self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
+        self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
         self.add_button(self.btn_close)     
         
         self.wait = 0
         
     ####### Set attributes #######
     def set_question(self, question):
-        if (self.question):
+        if self.question:
             self.erase()
-                
-        self.question = TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, (0, 0, 0), False)
+        
+        self.question = gui.TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, (0, 0, 0), False)
         self.add_child(self.question)
         
     def set_correct_answer(self, a):
@@ -75,7 +75,7 @@ class MultipleChoice(Window):
         
         for ans in answers:
             y += 30
-            b = TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            b = gui.TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.buttons.append(b)
             self.add_child(b)        
@@ -83,7 +83,7 @@ class MultipleChoice(Window):
     def set_image(self, image):
         if (not isinstance(image, pygame.Surface)):
             image = pygame.image.load(image)
-        image = Image(self.rect, pygame.Rect(500, 40, 20, 20), 1, image)
+        image = gui.Image(self.rect, pygame.Rect(500, 40, 20, 20), 1, image)
         self.add_child(image)
     
     def set_win_points(self, points):
@@ -107,7 +107,7 @@ class MultipleChoice(Window):
             self.windows_controller.game_man.add_points(-self.lose_points)
             self.s_incorrect.play()
             self.windows_controller.close_active_window()
-                
+            
             if (self.opportinities == 0):
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \nperdiste %s puntos en tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.lose_points, self.challenges_creator.game_man.get_lowest_bar().label))
                 self.windows_controller.set_active_window("info_challenge_window")
@@ -262,9 +262,9 @@ class TrueOrFalse(MultipleChoice):
         self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
         self.perdio = False
     
-class InfoChallenge(Window):
+class InfoChallenge(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "info_challenge_window", bg_color)
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "info_challenge_window", bg_color)
              
         self.set_bg_image("assets/windows/window_2.png")
         self.challenges_creator = challenges_creator
@@ -273,9 +273,9 @@ class InfoChallenge(Window):
         self.add_button(self.btn_continue)
         
         # Texts
-        self.title = utilities.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, pygame.Color("blue"))
-        self.text = utilities.TextBlock(rect, 40, 120, 1, "Texto de prueba", 35, pygame.Color("black"))
-        self.image = utilities.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "challenges/ninio_normal.png")
+        self.title = gui.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, pygame.Color("blue"))
+        self.text = gui.TextBlock(rect, 40, 120, 1, "Texto de prueba", 35, pygame.Color("black"))
+        self.image = gui.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "challenges/ninio_normal.png")
     
         self.add_child(self.title)
         self.add_child(self.text)
@@ -290,23 +290,23 @@ class InfoChallenge(Window):
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()   
 
-class Cooking(Window):
+class Cooking(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=(0, 0, 0)):
-        Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
         
         self.set_bg_image("assets/windows/window_1.png") 
         
         # Close Button
-        self.btn_close = TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
+        self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
         self.add_button(self.btn_close) 
         
         # Some widgets to test DnD
         self.dnd = []
-        self.dnd.append(Image(rect, pygame.Rect(50, 100, 100, 100), 1, "assets/events/ill.jpg"))
-        self.dnd.append(Image(rect, pygame.Rect(50, 250, 100, 100), 1, "assets/events/caries.jpg"))
-        self.dnd.append(Image(rect, pygame.Rect(50, 400, 100, 100), 1, "assets/events/unkown.png"))
+        self.dnd.append(gui.Image(rect, pygame.Rect(50, 100, 100, 100), 1, "assets/events/ill.jpg"))
+        self.dnd.append(gui.Image(rect, pygame.Rect(50, 250, 100, 100), 1, "assets/events/caries.jpg"))
+        self.dnd.append(gui.Image(rect, pygame.Rect(50, 400, 100, 100), 1, "assets/events/unkown.png"))
         
-        self.trash = Image(rect, pygame.Rect(500, 200, 200, 200), 1, "assets/challenges/trash.png")
+        self.trash = gui.Image(rect, pygame.Rect(500, 200, 200, 200), 1, "assets/challenges/trash.png")
 
         for w in self.dnd:
             self.add_child(w)
@@ -316,11 +316,11 @@ class Cooking(Window):
         self.mouse_mode = 0  
         
     def handle_mouse_down(self, (x, y)):
-        Window.handle_mouse_down(self, (x, y))                
+        gui.Window.handle_mouse_down(self, (x, y))                
         self.mouse_mode = 1    
         
     def handle_mouse_up(self, pos):  
-        Window.handle_mouse_up(self, pos) 
+        gui.Window.handle_mouse_up(self, pos) 
         for widget in self.dnd:
             if self.trash.contains_point(widget.rect_absolute.centerx, widget.rect_absolute.centery):
                 self.remove_child(widget)                            

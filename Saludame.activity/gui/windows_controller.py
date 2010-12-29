@@ -2,65 +2,35 @@
 
 import pygame
 from window import Window
-import sys
 from utilities import Text, TextBlock
-
-import challenges_creator
-import customization
-import main_window
-import challenges
 
 """
 Clase encargada del control de ventanas
 """
 class WindowsController:
     
-    def __init__(self, screen, game_manager):
-        
-        #game manager
-        self.game_man = game_manager
-        
+    def __init__(self, screen):
         internal_size = 1200, 780       # The game is meant to run in this resolution
         self.scaled_game = ScaledGame(screen, internal_size)
         
         self.screen = self.scaled_game.get_internal_screen()
         
-        self.windows = {} # Diccionario de ventanas. Aca se encuentran todas las ventanas del programa
+        self.windows = {}       # Diccionario de ventanas. Aca se encuentran todas las ventanas del programa
         self.windows_stack = [] # Stack de ventanas para el control de venta activa. Aca se enceuntra el stack de ventanas abiertas
         self.reload_main = True
         
-        self.next_update_list = []
+        self.next_update_list = []      # Keeps track of updates done to the screen
         
         # Tooltips
         self.showing_tooltip = False
         self.active_tooltip_bg = None
         self.active_tooltip = None
-        
-    def create_windows_and_activate_main(self, app_loader, clock, bars_loader):
-        """
-        Creates windows and set the main_window as active window
-        """
-        # Challenges
-        cha_creator = challenges_creator.ChallengesCreator(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, self.game_man, (40, 40, 200))
-        cha_creator.create_challenges()
-        self.game_man.challenges_creator = cha_creator
-        
-        info_master_challenge = challenges.InfoChallenge(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, cha_creator, u"¡Felicitaciones! \nHas completado el nivel actual. Para pasar de nivel \ndebes contestar bien la siguiente pregunta. \n\n¡¡Suerte!!", u"Felicitaciones, has pasado de nivel. \nSe han desbloqueado nuevas acciones, \n¿te animás a encontrarlas?", u"Contestaste incorrectamente, \ntendrás que intentar pasar de nivel más adelante")
-        
-        # Customization Window
-        customization_window = customization.CustomizationWindow(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, app_loader.get_character())
-        
-        # Main Window
-        main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha_creator, bars_loader, self.game_man)
-        
-        # Activate Main window
-        self.set_active_window("main_window")
-        self.update(0)
-        
-        # Activate Customization over main window
-        #self.set_active_window("customization_window")
     
-    ##### Windows #####    
+    def get_screen(self):
+        return self.screen
+    
+    
+    # Windows
     def close_active_window(self):
         self.windows_stack[-1].repaint = True
         # Solo puede ser llamado por la ventana activa e implica
@@ -75,9 +45,6 @@ class WindowsController:
             for win in self.windows_stack[-1].windows:
                 if isinstance(win, Window):
                     win.enable_repaint()
-                    
-    def get_screen(self):
-        return self.screen
     
     def set_active_window(self, window_key):
         if window_key <> "main_window":
@@ -90,67 +57,20 @@ class WindowsController:
         self.windows[id] = window  
         
     def unregister_window(self, window):
-        del self.windows[window.register_id]
+        try:
+            del self.windows[window.register_id]
+        except:
+            pass
         
     def show_window_hierarchy(self, window):
-        sys.stdout.write(window.get_register_id())
+        print window.get_register_id()
         W = []
         for win in window.windows:
             W.append(win.register_id)
         print(" (%s)" % (W))    
-        
-    ##### BACKGROUND #####
     
-    def set_environment(self, environment):
-        self.windows["kid"].set_environment(environment) 
-        
-    ##### CLOTHES #####
     
-    def update_clothes(self):
-        self.windows["kid"].update_clothes() 
-    
-    ##### Actions #####
-    def show_action_animation(self, action):
-        """
-        Display an action animation at panel and kid window
-        """
-        self.windows["panel_window"].play_action_animation(action)
-        self.windows["kid"].play_action_animation(action)
-        
-    def stop_actual_action_animation(self):
-        self.windows["panel_window"].stop_action_animation() 
-        self.windows["kid"].stop_action_animation()
-    
-    ##### Events #####      
-    def add_personal_event(self, event):
-        self.windows["panel_window"].add_personal_event(event)
-        
-        if event.kid_message:
-            self.show_kid_message(event.kid_message, event.message_time_span)
-    
-    def remove_personal_event(self, event):
-        self.windows["panel_window"].remove_personal_event(event) 
-        
-    def add_social_event(self, event):
-        self.windows["panel_window"].add_social_event(event)
-        
-        if event.person_path:
-            self.windows["kid"].add_social_event(event)
-        
-    def remove_social_event(self, event):
-        self.windows["panel_window"].remove_social_event(event) 
-    
-    ##### Messages at ballon #####
-    def show_kid_message(self, message, message_time_span):
-        print "mostrar mensaje: ", message, " durante: ", message_time_span
-        self.windows["kid"].show_kid_balloon(message, message_time_span)
-    
-    ##### Moods #####    
-    def set_mood(self, mood):
-        if self.windows:
-            self.windows["kid"].set_mood(mood)               
-    
-    #### Events handlers ####    
+    # Events handlers
     def handle_mouse_down(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_down((x, y))
@@ -165,9 +85,9 @@ class WindowsController:
     def handle_mouse_motion(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_motion((x, y))
-    ##########################
     
-    #### Tooltips #####    
+    
+    # Tooltips
     def show_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
         self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
@@ -191,8 +111,9 @@ class WindowsController:
             # Lo guardamos en la lista de las proximas actualizaciones 
             self.next_update(self.active_tooltip_bg[1])      
             self.showing_tooltip = False
-    ###################
     
+    
+    # Updates to the screen
     def next_update(self, rect):
         """
         Add a rect that must be updated at next update
@@ -284,4 +205,3 @@ class ScaledGame:
             x = int(display_coordinates[0] / self.scale_factor[0])
             y = int(display_coordinates[1] / self.scale_factor[0])
             return x, y
-

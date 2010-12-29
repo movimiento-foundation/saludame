@@ -9,8 +9,7 @@
 import pygame
 import os
 import math
-from widget import Widget
-from window import Window
+import gui
 import utilities
 import effects
 import random
@@ -32,7 +31,7 @@ HELP_BUTTON = "assets/menu/menu_help.png"
 CLOSE_MENU = "close_menu"
 BACK_MENU = "back_menu"
 
-class Menu(Window):
+class Menu(gui.Window):
     
     def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager, font):
         
@@ -40,7 +39,7 @@ class Menu(Window):
         rect.center = center
         self.windows_controller = windows_controller
         self.game_manager = game_manager
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
 
         self.depth = 0 #it means we are in the root of the menu, mayor values means we are not.
         
@@ -303,7 +302,7 @@ class Menu(Window):
         item.set_rect_in_container(rect)   # Recalculates the absolute coordinates
         
 
-class Item(Widget):
+class Item(gui.Widget):
     """
     Entity that represent an item
     """
@@ -337,7 +336,7 @@ class Item(Widget):
         
         self.rect = pygame.Rect((0, 0), size_and_surface[0])
         
-        Widget.__init__(self, container, self.rect, frame_rate, size_and_surface[1])
+        gui.Widget.__init__(self, container, self.rect, frame_rate, size_and_surface[1])
 
     def get_surface(self, font_size, text, bg_image, help_image):
         font = utilities.get_font(font_size)
@@ -385,5 +384,3 @@ class Item(Widget):
                 self.menu.send_action(self.action_id)
             else:
                 self.menu.send_action(CLOSE_MENU) # if the item have not children and have not an action_id, close the menu
-
-

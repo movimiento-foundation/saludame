@@ -4,6 +4,7 @@ import menu
 import pygame
 from gettext import gettext as _
 import utilities
+import gui
 
 items = [
     # ("display_name", "path_to_icon.png", "action_id", [Children]),
@@ -101,7 +102,7 @@ items = [
 MENU_FRAME_RATE = 1
 
 def load_menu(game_manager, center, container, windows_controller):
-    font = utilities.get_font(20)
+    font = gui.get_font(20)
     m = menu.Menu(1, container, windows_controller, [], center, 90, game_manager, font)
     for item in items:
         an_item = create_item(item, m, container, font)

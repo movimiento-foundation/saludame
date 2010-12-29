@@ -2,18 +2,17 @@
 import os
 import pygame
 
-from window import Window
-import utilities
+import gui
 import menu_creator
 import animation
 
 BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_sunny.png")
 
-class KidWindow(Window):
+class KidWindow(gui.Window):
 
     def __init__(self, container, rect, frame_rate, windows_controller, game_man):
         
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "kid")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "kid")
         self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())   
         
         self.kid_rect = pygame.Rect((280, 70), (350, 480))  
@@ -98,7 +97,7 @@ class KidWindow(Window):
             self.last_repaint = True
             self.repaint = True         
         
-        changes += Window.draw(self, screen, frames)
+        changes += gui.Window.draw(self, screen, frames)
     
         if self.balloon:    
             if not self.balloon.visible:
@@ -110,13 +109,13 @@ class KidWindow(Window):
         
         return changes
     
-class ExternalCharacter(Window):
+class ExternalCharacter(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, event):
         
         self.character = pygame.image.load(event.person_path).convert()
         rect.size = self.character.get_size()
         
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "external_character")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "external_character")
         
         self.set_bg_image(self.character)
         
@@ -141,7 +140,7 @@ class ExternalCharacter(Window):
             changes = []
             self.time_span -= 1
             self.repaint = True
-            changes += Window.draw(self, screen, frames)
+            changes += gui.Window.draw(self, screen, frames)
             changes += self.message_balloon.draw(screen, frames)
             return changes
         else:            
@@ -150,14 +149,14 @@ class ExternalCharacter(Window):
             self.dispose()
             return [self.rect, self.message_balloon.rect]         
         
-class MessageBalloon(Window):
+class MessageBalloon(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller):
         
         background = pygame.image.load("assets/events/balloon.png").convert()
         rect.size = background.get_size()
         
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "balloon")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "balloon")
         
         self.bg = (self.windows_controller.screen.subsurface(self.rect).copy())
         
@@ -172,7 +171,7 @@ class MessageBalloon(Window):
         self.visible = False
         
     def set_text(self, text):
-        self.text = utilities.TextBlock(self.rect, 35, 40, 1, text, 18, pygame.Color("black"))
+        self.text = gui.TextBlock(self.rect, 35, 40, 1, text, 18, pygame.Color("black"))
         self.add_child(self.text)
         
     def set_time_span(self, time_span):
@@ -184,9 +183,8 @@ class MessageBalloon(Window):
         if (self.visible):
             self.time_span -= 1
             self.repaint = True
-            return Window.draw(self, screen, frames)
+            return gui.Window.draw(self, screen, frames)
         else:
             screen.blit(self.bg, self.rect)
             self.dispose()
             return [self.rect]
-    

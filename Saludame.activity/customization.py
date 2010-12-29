@@ -2,10 +2,9 @@
 
 import os
 import pygame
-import window
-import widget
 import utilities
 import animation
+import gui
 
 from gettext import gettext as _
 
@@ -50,24 +49,24 @@ TANGO_PALETTE = [
 COLORS_SOCKS = TANGO_PALETTE
 COLORS_SHOES = TANGO_PALETTE
 
-class CustomizationWindow(window.Window):
+class CustomizationWindow(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, character):
-        window.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window")
         self.set_bg_image("assets/windows/window_2.png")
         
         kid_rect = pygame.Rect((20, 20), (1, 1))
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
-        #self.btn_close = utilities.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
+        #self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
         self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
         button_back = pygame.image.load("customization/customization_button.png").convert()
-        self.btn_hair = utilities.TextButton2(self.rect, pygame.Rect((500, 120), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
-        self.btn_skin = utilities.TextButton2(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
-        self.btn_socks = utilities.TextButton2(self.rect, pygame.Rect((500, 280), (70, 30)), 1, _("Socks"), 30, (255, 255, 255), button_back, self._cb_button_socks)
-        self.btn_shoes = utilities.TextButton2(self.rect, pygame.Rect((500, 360), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
+        self.btn_hair = gui.TextButton2(self.rect, pygame.Rect((500, 120), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
+        self.btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
+        self.btn_socks = gui.TextButton2(self.rect, pygame.Rect((500, 280), (70, 30)), 1, _("Socks"), 30, (255, 255, 255), button_back, self._cb_button_socks)
+        self.btn_shoes = gui.TextButton2(self.rect, pygame.Rect((500, 360), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
         self.buttons += [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes]
         self.widgets += [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes]
         
@@ -109,10 +108,10 @@ class CustomizationWindow(window.Window):
 MALE_PATH = os.path.normpath("customization/boy.png")
 FEMALE_PATH = os.path.normpath("customization/girl.png")
 
-class CustomizatedKid(widget.Widget):
+class CustomizatedKid(gui.Widget):
     
     def __init__(self, container, rect, frame_rate, character):
-        widget.Widget.__init__(self, container, rect, frame_rate)
+        gui.Widget.__init__(self, container, rect, frame_rate)
         
         self.character = character
         self.set_gender("male") # Sets the correct picture and applies color mappings
@@ -154,4 +153,4 @@ class CustomizatedKid(widget.Widget):
         if self.dirty:
             self.dirty = False
             self.apply_mappings()
-        return widget.Widget.draw(self, screen)
+        return gui.Widget.draw(self, screen)

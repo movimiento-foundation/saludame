@@ -5,9 +5,7 @@ import os
 
 from gettext import gettext as _
 
-from window import Window
-from widget import Widget
-from utilities import *
+import gui
 
 import animation
 import customization
@@ -19,12 +17,12 @@ WHITE = pygame.Color("white")
 BAR_BACK_COLOR = pygame.Color("#106168")
 BAR_FILL_COLOR = pygame.Color("#a742bd")
 
-class PanelWindow(Window):
+class PanelWindow(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller):
         
         self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando        
-        Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window")
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window")
         
         self.set_bg_image(PANEL_BG_PATH)
         
@@ -43,13 +41,13 @@ class PanelWindow(Window):
         self.active_personal_events = [] # tuple (event, button)
         self.index_personal_event = 0       
         
-        personal_next = ImageButton(self.rect_personal, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
-        personal_back = ImageButton(self.rect_personal, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_personal_back)
+        personal_next = gui.ImageButton(self.rect_personal, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
+        personal_back = gui.ImageButton(self.rect_personal, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_personal_back)
         
         self.add_button(personal_next)
         self.add_button(personal_back)
         
-        self.count_personal_events = Text(self.rect_personal, 50, 82, 1, "%s/%s" % (self.index_personal_event, len(self.active_personal_events)), 20, pygame.Color("black"))
+        self.count_personal_events = gui.Text(self.rect_personal, 50, 82, 1, "%s/%s" % (self.index_personal_event, len(self.active_personal_events)), 20, pygame.Color("black"))
         self.add_child(self.count_personal_events)
         
         self.b_event_personal = None # Visible event at panel
@@ -60,24 +58,24 @@ class PanelWindow(Window):
         self.active_social_events = [] # tuple (event, button)
         self.index_social_event = 0
         
-        social_next = ImageButton(self.rect_social, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_social_next)
-        social_back = ImageButton(self.rect_social, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_social_back)
+        social_next = gui.ImageButton(self.rect_social, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_social_next)
+        social_back = gui.ImageButton(self.rect_social, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_social_back)
         
         self.add_button(social_next)
         self.add_button(social_back)
         
-        self.count_social_events = Text(self.rect_social, 50, 82, 1, "%s/%s" % (self.index_social_event, len(self.active_social_events)), 20, pygame.Color("black"))
+        self.count_social_events = gui.Text(self.rect_social, 50, 82, 1, "%s/%s" % (self.index_social_event, len(self.active_social_events)), 20, pygame.Color("black"))
         self.add_child(self.count_social_events)
         
         self.b_event_social = None # Visible event at panel
         
         # Customization
-        customization_button = ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
+        customization_button = gui.ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
         customization_button.set_tooltip(_("Customization module"))
         self.add_button(customization_button)
         
         # Info
-        info_button = ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action)
+        info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action)
         self.add_button(info_button)
 
         # Environment 
@@ -91,10 +89,10 @@ class PanelWindow(Window):
         
         weather = self.windows_controller.game_man.current_weather
         file_path = "assets/events/weather/" + weather + ".png"
-        self.weather_button = ImageButton(self.rect, pygame.Rect(51, 34, 1, 1), 1, file_path)
+        self.weather_button = gui.ImageButton(self.rect, pygame.Rect(51, 34, 1, 1), 1, file_path)
         self.add_button(self.weather_button)
         
-    ########## Actions ##########    
+    # Actions
     def set_active_action(self, action):
         self.actual_action = action
         if action.window_animation_path:
@@ -123,10 +121,10 @@ class PanelWindow(Window):
             self.action_progress_bar = None
             self.repaint = True
     
-    ########## Events ##########    
+    # Events
     def add_personal_event(self, event):
         if not event in self.active_personal_events:            
-            b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
+            b_event_personal = gui.ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
             
             event_info = "%s \n" % (event.description)
             
@@ -171,7 +169,7 @@ class PanelWindow(Window):
     def add_social_event(self, event):
         if not event in self.active_social_events:
             
-            b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
+            b_event_social = gui.ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
             
             event_info = "%s \n" % (event.description)
             
@@ -236,12 +234,12 @@ class PanelWindow(Window):
                     
         self.timing += 1
         
-        #### Actions ####
+        # Actions
         if self.on_animation and self.actual_animation and self.timing % self.actual_animation.frame_rate == 0:
             if self.timing > 12:
                 self.timing = 0
         
-        #### Events ####
+        # Events
         self.surf_personal.fill(WHITE)
         self.surf_social.fill(WHITE)
         
@@ -251,8 +249,7 @@ class PanelWindow(Window):
 
         return [self.rect]
     
-    ########### Buttons Callbacks ###########
-    
+    # Buttons Callbacks
     def _cb_button_click_personal(self, button):
         if game.set_library_function:
             game.set_library_function("99-Eventos.html") #diarrhea")
@@ -299,7 +296,7 @@ class PanelWindow(Window):
     def _cb_button_click_stop_action(self, nutton):
         self.stop_action_animation()
         
-class ActionProgressBar(Widget):
+class ActionProgressBar(gui.Widget):
     """
     Shows the progress of the active action
     """
@@ -308,7 +305,7 @@ class ActionProgressBar(Widget):
         self.action = action
         surface = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         
-        Widget.__init__(self, container, rect_in_container, frame_rate)
+        gui.Widget.__init__(self, container, rect_in_container, frame_rate)
         
         self.background = surface       # Borders of the bar
         self.surface = surface.copy()   # Actual surface to blit in the screen, _prepare_surface

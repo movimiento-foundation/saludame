@@ -1,165 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Utilitarios: Text, Button (abstract), ImageButton, TextButton
-
-from widget import *
+import gui
 import pygame
 import os
-from game_manager import *
-
-class Text(Widget):
-    
-    ALIGN_LEFT = 0
-    ALIGN_RIGHT = 1
-    ALIGN_CENTER = 2
-    
-    def __init__(self, container_rect, x, y, frame_rate, text, size, color, type="normal", alignment=ALIGN_LEFT, bold=False, italic=False):
-        self.font = get_font(size, bold, italic)
-        self.text = unicode(text)
-        self.color = color
-        
-        # Render the text and calculate the size
-        render = self.font.render(self.text, False, color)
-        if alignment == Text.ALIGN_LEFT:
-            rect = render.get_rect(topleft=(x, y))
-        elif alignment == Text.ALIGN_RIGHT:
-            rect = render.get_rect(topright=(x, y))
-        else:
-            rect = render.get_rect(center=(x, y))
-            
-        if type == "tooltip":
-            rect.bottomleft = (x, y)
-            
-        # Make it fit in the container
-        if rect.right > container_rect.right:
-            rect.right = container_rect.right
-        if rect.bottom > container_rect.bottom:
-            rect.bottom = container_rect.bottom        
-        
-        Widget.__init__(self, container_rect, rect, frame_rate)
-        
-        self.refresh()
-    
-    def refresh(self):
-        background = self.get_background_rect().copy()
-        self.background = self.font.render(self.text, False, self.color)
-    
-    def switch_color_text(self, color):
-        self.color = color
-        self.refresh()
-        return (self)
-    
-class Image(Widget):
-    def __init__(self, container, rect, frame_rate, image):
-        
-        if not isinstance(image, pygame.Surface):
-            image = pygame.image.load(image)
-            if image.get_bitsize() == 8:
-                self.background = image.convert()
-            else:
-                self.background = image.convert_alpha()
-        else:
-            self.background = image
-        Widget.__init__(self, container, pygame.Rect((rect.left, rect.top), self.background.get_rect().size), frame_rate, self.background)                
-
-class Button(Widget):
-    
-    # Clase abstracta que representa un boton
-    
-    def __init__(self, container, rect, frame_rate, surface, cb_click=None, cb_over=None, cb_out=None):
-        
-        Widget.__init__(self, container, rect, frame_rate, surface)
-        
-        self.function_on_mouse_click = cb_click
-        self.function_on_mouse_over = cb_over
-        self.function_on_mouse_out = cb_out
-        
-        self.over = False
-        self.enable = True
-    
-    def set_tooltip(self, text):
-        self.tooltip = text
-        
-    def set_super_tooltip(self, text):
-        self.super_tooltip = text
-    
-    def on_mouse_click(self):
-        if (self.function_on_mouse_click and self.enable): # if there's a callback setted makes the call
-            self.function_on_mouse_click(self)
-        
-    def on_mouse_over(self):
-        if (self.function_on_mouse_over and self.enable): # if there's a callback setted makes the call
-            self.function_on_mouse_over(self)
-    
-    def on_mouse_out(self):
-        if (self.function_on_mouse_out and self.enable): # if there's a callback setted makes the call
-            self.function_on_mouse_out(self)
-            
-    def set_on_mouse_click(self, fn):
-        self.function_on_mouse_click = fn
-   
-    def set_on_mouse_over(self, fn):
-        self.function_on_mouse_over = fn
-
-    def set_on_mouse_out(self, fn):
-        self.function_on_mouse_out = fn      
-
-class ImageButton(Button):
-    
-    def __init__(self, container, rect, frame_rate, image, cb_click=None, cb_over=None, cb_out=None):
-        
-        self.image = image       
-        if not isinstance(image, pygame.Surface):
-            image = pygame.image.load(image)
-            if image.get_bitsize() == 8:
-                self.image = image.convert()
-            else:
-                self.image = image.convert_alpha()
-        
-        rect.size = self.image.get_rect().size
-        Button.__init__(self, container, rect, frame_rate, self.image, cb_click, cb_over, cb_out)
-    
-    def switch_image_background(self, image):
-        if not isinstance(image, pygame.Surface):
-            image = pygame.imaself.text_intro.visible = True
-        self.text_result.visible = Falsege.load(image).convert_alpha()
-        self.background = image
-        
-class TextButton(ImageButton):     
-    def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
-        self.text = Text(container, rect.x, rect.y, frame_rate, text, size, color)
-        ImageButton.__init__(self, container, self.text.rect_in_container, frame_rate, self.text.background, cb_click, cb_over, cb_out)
-        
-    def switch_color_text(self, color):
-        self.background = self.text.switch_color_text(color).background
-    
-class TextButton2(ImageButton):
-    
-    def __init__(self, container, rect, frame_rate, text, size, color, background, cb_click=None, cb_over=None, cb_out=None):
-        self.back = background
-        self.text = text
-        self.size = size
-        self.color = color
-        
-        rect.size = self.back.get_size()
-        surface = self.get_surface()
-        ImageButton.__init__(self, container, rect, frame_rate, surface, cb_click, cb_over, cb_out)
-        
-    def switch_color_text(self, color):
-        self.color = color
-        self.background = self.get_surface()
-    
-    def get_surface(self):
-        font = get_font(self.size)
-        render = font.render(self.text, True, self.color)
-        
-        surface = self.back.copy()
-        surface.blit(render, render.get_rect(center=surface.get_rect().center))
-        return surface
+import effects
 
 def get_accept_button(container, rect, text, cb_click=None, cb_over=None, cb_out=None):
     background = pygame.image.load("assets/windows/dialog_button.png").convert()
-    return TextButton2(container, rect, 1, text, 24, pygame.Color("#397b7e"), background, cb_click, cb_over, cb_out)
+    return gui.TextButton2(container, rect, 1, text, 24, pygame.Color("#397b7e"), background, cb_click, cb_over, cb_out)
     
 def change_color(surface, old_color, new_color):
     # No funciona en pygame 1.8.0
@@ -178,79 +26,11 @@ def get_color_tuple(color):
     else:
         color = pygame.Color(color)
         return get_color_tuple(color)
-    
-class TextBlock(Widget):
-    def __init__(self, container, x, y, frame_rate, text, size, color, type="normal", fill=True):    
-            
-        Widget.__init__(self, container, pygame.Rect(x, y, 0, 0), frame_rate)
-        
-        self.lines = []
-        self.font = get_font(size)
-        self.color = color
-        self.parse_lines(text)
-        self.size = size
-        self.prepare_text_block()
-        self.fill = fill
-        
-        if type == "tooltip":
-            self.rect_absolute.bottomleft = (x, y)
-        
-    def parse_lines(self, text):
-        self.lines = []
-        if isinstance(text, unicode):
-            eol = u"\n"
-        else:
-            eol = "\n"            
-        (b, _, a) = text.partition(eol)
-        self.lines.append(b)
-        while(a != ''):
-            (b, _, a) = a.partition(eol)
-            self.lines.append(b)
 
-    def prepare_text_block(self):
-        number_of_lines = 0
-        for l in self.lines:
-            number_of_lines += 1           
-            r = self.font.render(l, False, self.color)
-            if (r.get_rect().width > self.rect_absolute.width):
-                self.rect_absolute.width = r.get_rect().width
-            self.rect_absolute.height += r.get_rect().height 
-        
-        # Make it fit in the container
-        if self.rect_absolute.right > self.container.right:
-            self.rect_absolute.right = self.container.right
-        if self.rect_absolute.bottom > self.container.bottom:
-            self.rect_absolute.bottom = self.container.bottom                  
-        
-    def draw(self, screen):
-        if self.visible:
-            number_of_lines = 0
-            if self.fill:
-                screen.fill((255, 255, 255), (self.rect_absolute))
-            for l in self.lines:          
-                r = self.font.render(l, False, self.color)
-                screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines))
-                number_of_lines += 1
+# Fonts - creates an alias for the get_font function
+get_font = gui.get_font
 
-font_dict = {}  # Chaches created font instances
-def get_font(size, bold=False, italic=False):
-    key = (size, bold, italic)
-    if key in font_dict:
-        return font_dict[key]
-    
-    if bold:
-        font = pygame.font.Font("assets/fonts/DroidSans-Bold.ttf", size)
-    else:
-        font = pygame.font.Font("assets/fonts/DroidSans.ttf", size)
-    
-    if italic:
-        font.set_italic(True)
-    
-    font_dict[key] = font
-    
-    return font
-
-#### Paths controls ####
+# Paths controls
 def check_directory(directory):
     try:
         print directory
