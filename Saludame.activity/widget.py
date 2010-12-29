@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pygame
-import utilities
 
 class Widget:
     

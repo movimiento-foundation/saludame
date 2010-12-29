@@ -166,7 +166,7 @@ class BarSection(Window):
         self.fixed_widgets = [label_widget, self.root_bar_display]
         
         if icon_path:
-            icon = pygame.image.load(icon_path).convert_alpha()
+            icon = pygame.image.load(icon_path).convert()
             self.icon = Widget(self.rect, pygame.Rect((0, 0), icon.get_size()), 1, icon)
             self.fixed_widgets.append(self.icon)
         else:
@@ -267,8 +267,8 @@ class BarDisplay(Widget):
         self.color_partitions = color_partitions
         self.position = position
         if isinstance(self.status_bar, WeightBar):
-            self.background = pygame.image.load("assets/layout/weight_bar_back.png").convert_alpha()
-            self.arrow = pygame.image.load("assets/layout/weight_bar_arrow.png").convert_alpha()
+            self.background = pygame.image.load("assets/layout/weight_bar_back.png").convert()
+            self.arrow = pygame.image.load("assets/layout/weight_bar_arrow.png").convert()
         else:
             self.background = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         self.surface = self.background.copy()   # The actual surface to be blitted

@@ -5,19 +5,12 @@ import os
 import utilities
 from window import *
 
-KID_PREFIX, KID_SUFIX = "character1_", ".png"
+COLORS_HAIR = (pygame.Color("#00ffff"), pygame.Color("#009f9f"))
+COLORS_SKIN = (pygame.Color("#ffccc7"), pygame.Color("#cba5a0"))
+COLORS_SOCKS = (pygame.Color("#fd8255"), pygame.Color("#db601f"))
+COLORS_SHOES = (pygame.Color("#eeea00"), pygame.Color("#938200"))
 
-COLORS_HAIR = ("#00ffff", "#009f9f")
-COLORS_HAIR_NEW = [("#000000", "#191919"), ("#FFFF10", "#DDDD10"), ("#803310", "#552210")]
-
-COLORS_SKIN = ("#ffccc7", "#cba5a0")
-COLORS_SKIN_NEW = [("#ffccc7", "#f3b9b6"), ("#694321", "#5b3a1c"), ("#f6d04e", "#eeca4c")]
-
-COLORS_SOCKS = ("#fd8255", "#db601f")
-COLORS_SOCKS_NEW = [("#fd8255", "#db601f"), ("#FFFF00", "#DDDD00"), ("#803300", "#552200")]
-
-COLORS_SHOES = ("#eeea00", "#938200")
-COLORS_SHOES_NEW = [("#00B000", "#006000"), ("#2222FF", "#5522FF"), ("#AA00AA", "#AA44AA")]
+COLORS_TO_MAP = map(utilities.get_color_tuple, COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES)
 
 GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")
@@ -84,11 +77,10 @@ class Kid(Window):
     ##### Draw #####
     def pre_draw(self, screen):
         filename = self.file_list[self.index]
-        #self.sprite = pygame.image.load(file)
         self.sprite = load_animation(self.sprite, filename)
         
         maps = self.character.mappings
-        self.change_color(COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
         
         screen.blit(self.bg_image, self.rect)
         screen.blit(self.sprite, self.rect)
@@ -100,8 +92,7 @@ class Kid(Window):
     ##### Colors #####    
     def change_color(self, old, new):
         index = 0
-        for old_color_text in old:
-            old_color = pygame.Color(old_color_text)
+        for old_color in old:
             new_color = new[index]
             utilities.change_color(self.sprite, old_color, new_color)
             
@@ -127,7 +118,7 @@ class ActionAnimation(Widget):
         
     def draw(self, screen):
         file = self.file_list[self.index]
-        self.sprite = pygame.image.load(file).convert_alpha()
+        self.sprite = pygame.image.load(file)
         rect = self.sprite.get_rect()
         rect.center = self.rect_absolute.center
         
@@ -159,16 +150,27 @@ class FPS:
 def get_image_list(directory):
     dirList = os.listdir(directory)
     dirList.sort()
-    return [os.path.join(directory, fname) for fname in dirList if fname.endswith('.png') or fname.endswith('.diff.gz')]
+    return [os.path.join(directory, fname) for fname in dirList if fname.endswith('.png') or fname.endswith('.diff.gz') or fname.endswith('.diff.zlib')]
     
-import gzip
+import zlib
 import imagepatch
 def load_animation(last_image, new_filename):
     if new_filename.endswith('.png'):
         new = pygame.image.load(new_filename)
-    else:
-        f = gzip.open(new_filename, 'r')
-        diff = f.read()
+        
+    #elif new_filename.endswith('.diff.gz'):
+        #f = gzip.open(new_filename, 'r')
+        #diff = f.read()
+        #f.close()
+        
+        #new_buffer = imagepatch.patch(last_image.get_buffer().raw, diff)
+        
+        #new = last_image                        # both point to the same surface
+        #new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
+        
+    elif new_filename.endswith('.diff.zlib'):
+        f = open(new_filename, 'r')
+        diff = zlib.decompress(f.read())
         f.close()
         
         new_buffer = imagepatch.patch(last_image.get_buffer().raw, diff)

@@ -6,7 +6,7 @@ Challenges module
 
 import pygame
 import os
-from utilities import *
+import utilities
 from window import *
 from gettext import gettext as _
 

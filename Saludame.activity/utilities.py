@@ -53,7 +53,11 @@ class Image(Widget):
     def __init__(self, container, rect, frame_rate, image):
         
         if not isinstance(image, pygame.Surface):
-            self.background = pygame.image.load(image).convert_alpha()
+            image = pygame.image.load(image)
+            if image.get_bitsize() == 8:
+                self.background = image.convert()
+            else:
+                self.background = image.convert_alpha()
         else:
             self.background = image
         Widget.__init__(self, container, pygame.Rect((rect.left, rect.top), self.background.get_rect().size), frame_rate, self.background)                
@@ -106,7 +110,11 @@ class ImageButton(Button):
         
         self.image = image       
         if not isinstance(image, pygame.Surface):
-            self.image = pygame.image.load(image).convert_alpha()
+            image = pygame.image.load(image)
+            if image.get_bitsize() == 8:
+                self.image = image.convert()
+            else:
+                self.image = image.convert_alpha()
         
         rect.size = self.image.get_rect().size
         Button.__init__(self, container, rect, frame_rate, self.image, cb_click, cb_over, cb_out)
@@ -150,27 +158,23 @@ class TextButton2(ImageButton):
         return surface
 
 def get_accept_button(container, rect, text, cb_click=None, cb_over=None, cb_out=None):
-    background = pygame.image.load("assets/windows/dialog_button.png").convert_alpha()
+    background = pygame.image.load("assets/windows/dialog_button.png").convert()
     return TextButton2(container, rect, 1, text, 24, pygame.Color("#397b7e"), background, cb_click, cb_over, cb_out)
     
 def change_color(surface, old_color, new_color):
     # No funciona en pygame 1.8.0
     i = 0
-    indexes = []
     palette = surface.get_palette()
     for color in palette:
-        if get_color_tuple(color) == get_color_tuple(old_color):
-            indexes += [i]
-        i += 1
-    
-    for i in indexes:
-        surface.set_palette_at(i, get_color_tuple(new_color))
+       if color == old_color:
+           surface.set_palette_at(i, get_color_tuple(new_color))
+       i += 1
 
 def get_color_tuple(color):
     if isinstance(color, tuple):
         return color[0:3]
     elif isinstance(color, pygame.Color):
-        return (color.r, color.g, color.b, color.a)[0:3]
+        return (color.r, color.g, color.b)
     else:
         color = pygame.Color(color)
         return get_color_tuple(color)

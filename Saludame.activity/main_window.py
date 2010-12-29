@@ -3,12 +3,12 @@
 import pygame
 from gettext import gettext as _
 
-import utilities
-
 from window import *
 from panel_window import PanelWindow
 from kid_window import KidWindow
 import status_bars
+import animation
+import utilities
 
 class MainWindow(Window):
     
@@ -52,7 +52,7 @@ class MainWindow(Window):
         challenges_button4.set_tooltip(_("Cooking"))
         self.add_button(challenges_button4)
         
-        button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
+        button_back = pygame.image.load("customization/customization_button.png").convert()
         btn_reset = utilities.TextButton2(self.rect, pygame.Rect((1000, 20), (70, 30)), 1, _("Reset"), 30, (255, 255, 255), button_back, self._cb_reset_game)
         self.add_button(btn_reset)
         #stop_animation_button = TextButton(self.rect, pygame.Rect((800, 550), (30, 30)), 1, "Stop animation", 38, (255, 0, 0), self._cb_button_click_stop_animation)
@@ -95,7 +95,7 @@ class MainWindow(Window):
 class Clock(Widget):
     
     def __init__(self, container, rect_in_container, frame_rate, game_manager):
-        background = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
+        background = pygame.image.load("assets/layout/clock_background.png").convert()
         rect_in_container.size = background.get_size()
         Widget.__init__(self, container, rect_in_container, frame_rate)
         
@@ -112,7 +112,7 @@ class Clock(Widget):
         self.set_frame()
     
     def set_frame(self):
-        self.frame = pygame.image.load(self.frame_paths[self.frame_index]).convert_alpha()
+        self.frame = pygame.image.load(self.frame_paths[self.frame_index]).convert()
         
     def draw(self, screen):
         change = Widget.draw(self, screen)

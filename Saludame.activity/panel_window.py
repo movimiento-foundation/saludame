@@ -126,7 +126,7 @@ class PanelWindow(Window):
     ########## Events ##########    
     def add_personal_event(self, event):
         if not event in self.active_personal_events:            
-            b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
+            b_event_personal = ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
             
             event_info = "%s \n" % (event.description)
             
@@ -171,7 +171,7 @@ class PanelWindow(Window):
     def add_social_event(self, event):
         if not event in self.active_social_events:
             
-            b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert_alpha())
+            b_event_social = ImageButton(self.rect_social, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
             
             event_info = "%s \n" % (event.description)
             

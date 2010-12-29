@@ -19,17 +19,7 @@ if __name__ == "__main__":
     gettext.gettext = _
 
 from gettext import gettext as _
-import animation
-from utilities import *
-
-from windows_controller import *
-import window
-import main_window
-import customization
-import app_init
-import challenges_creator
 import os
-import sound_manager
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -60,6 +50,12 @@ class Main():
         if from_sugar:
                 import gtk
 
+        import app_init
+        import challenges_creator
+        import customization
+        import sound_manager
+        import windows_controller
+        
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
         pygame.mixer.pre_init(22050, -16, 1, 512)
@@ -70,7 +66,7 @@ class Main():
         pygame.init()
         
         if not from_sugar:
-            target_size = (1000, 650)   # In regular computers the native resolution is too high (5/6)
+            target_size = (1200, 800)#(1000, 650)   # In regular computers the native resolution is too high (5/6)
             screen = pygame.display.set_mode(target_size)
         
         screen = pygame.display.get_surface()
@@ -82,7 +78,7 @@ class Main():
         clock = pygame.time.Clock()
         
         # windows_controller asociado al screen
-        self.windows_controller = WindowsController(screen, None)   
+        self.windows_controller = windows_controller.WindowsController(screen, None)   
         
         # Initialize sound_manager, game_manager, character, actions and menu.    
         sound_manager.SoundManager()

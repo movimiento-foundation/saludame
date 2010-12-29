@@ -113,7 +113,7 @@ class KidWindow(Window):
 class ExternalCharacter(Window):
     def __init__(self, container, rect, frame_rate, windows_controller, event):
         
-        self.character = pygame.image.load(event.person_path).convert_alpha()
+        self.character = pygame.image.load(event.person_path).convert()
         rect.size = self.character.get_size()
         
         Window.__init__(self, container, rect, frame_rate, windows_controller, "external_character")
@@ -154,7 +154,7 @@ class MessageBalloon(Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller):
         
-        background = pygame.image.load("assets/events/balloon.png").convert_alpha()
+        background = pygame.image.load("assets/events/balloon.png").convert()
         rect.size = background.get_size()
         
         Window.__init__(self, container, rect, frame_rate, windows_controller, "balloon")

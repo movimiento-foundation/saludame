@@ -5,6 +5,7 @@ import pygame
 import window
 import widget
 import utilities
+import animation
 
 from gettext import gettext as _
 
@@ -43,7 +44,7 @@ TANGO_PALETTE = [
     
     # Original design (not tango)
     ("#fd8255", "#db601f"), # Orange
-    ("#eeea00", "#938200")      # Yellow
+    ("#eeea00", "#938200")  # Yellow
 ]
 
 COLORS_SOCKS = TANGO_PALETTE
@@ -62,7 +63,7 @@ class CustomizationWindow(window.Window):
         #self.btn_close = utilities.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
         self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
-        button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
+        button_back = pygame.image.load("customization/customization_button.png").convert()
         self.btn_hair = utilities.TextButton2(self.rect, pygame.Rect((500, 120), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
         self.btn_skin = utilities.TextButton2(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
         self.btn_socks = utilities.TextButton2(self.rect, pygame.Rect((500, 280), (70, 30)), 1, _("Socks"), 30, (255, 255, 255), button_back, self._cb_button_socks)
@@ -110,14 +111,6 @@ FEMALE_PATH = os.path.normpath("customization/girl.png")
 
 class CustomizatedKid(widget.Widget):
     
-    # Base colors for each part of the picture
-    COLOR_MAP = {
-        "hair": (pygame.Color("#00ffff"), pygame.Color("#009f9f")),
-        "skin": (pygame.Color("#ffccc7"), pygame.Color("#cba5a0")),
-        "socks": (pygame.Color("#fd8255"), pygame.Color("#db601f")),
-        "shoes": (pygame.Color("#eeea00"), pygame.Color("#938200"))
-    }
-    
     def __init__(self, container, rect, frame_rate, character):
         widget.Widget.__init__(self, container, rect, frame_rate)
         
@@ -132,12 +125,16 @@ class CustomizatedKid(widget.Widget):
         
     def apply_mappings(self):
         self.background = self.kid.copy()
-        for key in CustomizatedKid.COLOR_MAP:
-            origin_colors = CustomizatedKid.COLOR_MAP[key]
-            mapped_colors = self.character.mappings[key]
-            utilities.change_color(self.background, origin_colors[0], mapped_colors[0])
-            utilities.change_color(self.background, origin_colors[1], mapped_colors[1])
+        maps = self.character.mappings
+        self.change_color(animation.COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
         
+    def change_color(self, old, new):
+        index = 0
+        for old_color in old:
+            new_color = new[index]
+            utilities.change_color(self.background, old_color, new_color)
+            index += 1
+            
     def set_gender(self, gender):
         path = None
         
