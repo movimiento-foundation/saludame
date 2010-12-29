@@ -37,16 +37,6 @@ class Character:
         Get the character current status, and returns
         a dictionary.
         """
-        #status = {"hair_color" : self.hair_color,
-        #          "socks_color" : self.socks_color,
-        #          "skin_color" : self.skin_color,
-        #          "shoes_color" : self.shoes_color,
-        #          "current_place" : self.current_place,
-        #          "name" : self.name,
-        #          "level" : self.level,
-        #          "grade" : self.grade,
-        #          "clothes" : self.clothes
-        #          }
         status = {"character_colors" : self.mappings, # add by CustomizatedKid in module customization.
                   "current_place" : self.current_place,
                   "name" : self.name,
@@ -126,4 +116,5 @@ class Clothes:
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)
+
 

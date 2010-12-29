@@ -22,7 +22,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_list, environments_dictionary, moods_list, windows_controller):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, environments_dictionary, weather_effects, moods_list, windows_controller):
         """
         Constructor de la clase
         """
@@ -52,7 +52,7 @@ class GameManager:
         self.active_mood = None
         self.__check_active_mood() # sets active_mood
         
-        self.places_list = places_list
+        self.places_dictionary = places_dictionary
         
         #for events handling:
         self.events_interval = EVENTS_OCCURRENCE_INTERVAL
@@ -74,7 +74,9 @@ class GameManager:
         
         #for weather
         self.p_i = 0
-
+        self.weather_effects = weather_effects
+        self.environment_effect = None  # this is an Effect that represents the effect on the character by the environment: weather + place + clothes
+        self.update_environment_effect()
 # management
 
     def pause_game(self):
@@ -97,6 +99,11 @@ class GameManager:
                 self.__check_active_mood() # check if the active character mood
                 self.__handle_time()
                 
+                if self.environment_effect:
+                    self.environment_effect.activate()
+                else:
+                    self.update_environment_effect()
+                
                 self.count = 0
     
 ## Environment handling
@@ -110,6 +117,18 @@ class GameManager:
         self.environment = self.environments_dictionary[environment_id]
         
         self.windows_controller.set_environment(self.environment)
+    
+    def update_environment_effect(self):
+        """
+        Create and action with the effect on the character by the environment, taking current_place + 
+        clothes + current_weather.
+        """
+        outdoor = self.places_dictionary[self.character.current_place]["outdoor"]
+        affected_bars = self.weather_effects[(self.character.clothes, self.current_weather, outdoor)]
+        effect = effects.Effect(self.bars_controller, affected_bars)
+        
+        self.environment_effect = effect
+        print "environment effect updated: ", affected_bars
 
 ### time of day
    
@@ -140,6 +159,7 @@ class GameManager:
         Set the current weather.
         """
         self.current_weather = weather
+        self.update_environment_effect()
     
     def get_random_weather(self):
         """
@@ -166,14 +186,13 @@ class GameManager:
         self.character.current_place = place_id
         
         self.update_environment()
+        self.update_environment_effect()
 
     def get_place(self, place_id):
         """
-        Returns the place asociated to the place_id
+        (not implemented) Returns the place asociated to the place_id
         """
-        for place in self.places_list:
-            if(place.id == place_id):
-                return place
+        None
             
 ### Clothes
     def set_character_clothes(self, clothes_id):
@@ -181,8 +200,10 @@ class GameManager:
         Set the character clothes.
         """
         self.character.set_clothes(clothes_id)
-        self.windows_controller.update_clothes()
         print "character's clothes: ", clothes_id
+        
+        self.update_environment_effect()
+        self.windows_controller.update_clothes()
                 
 ## Actions handling
     
@@ -487,10 +508,13 @@ class GameManager:
         # weather
         self.current_weather = "sunny" # default weather
         self.update_environment()
+        self.update_environment_effect()
+        self.windows_controller.update_clothes()
         # hour
         self.hour = 2 
         self.hour_count = HOUR_COUNT_CYCLE 
         self.current_time = self.day_dic[self.hour]
+        print "game reseted successfully... "
 
     def save_game(self):
         """
@@ -525,10 +549,14 @@ class GameManager:
             
             #load bars status
             self.bars_controller.load_bars_status(game_status)
+            print "status bars loaded..."
             #character properties
             self.character.load_properties(game_status)
-
+            print "character properties loaded..."
+            
             self.update_environment()
+            self.update_environment_effect()
+            self.windows_controller.update_clothes()
             
             print "se cargo la partida con exito. Version ", game_status["version"]
         except:
@@ -559,5 +587,6 @@ class GameManager:
         returns current momento of day.
         """
         return self.current_time
+
 
 
