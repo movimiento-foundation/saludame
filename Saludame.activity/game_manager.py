@@ -41,7 +41,7 @@ class GameManager:
         self.personal_events_list = self.__get_personal_events(events_list)
         self.social_events_list = self.__get_social_events(events_list)
         self.actions_list = actions_list
-        self.moods_list = moods_list        
+        self.moods_list = moods_list
 
         self.background_actions = []
         
@@ -87,11 +87,11 @@ class GameManager:
     
     def signal(self):
         """
-        Increment signal, it means that a main iteration has been completed 
+        Increment signal, it means that a main iteration has been completed
         """
         if not self.pause:
             self.count += 1
-            if(self.count >= CONTROL_INTERVAL):
+            if self.count >= CONTROL_INTERVAL:
                 self.__control_active_actions() # handle active character actions
                 self.bars_controller.calculate_score()  # calculates the score of the score_bar
                 self.__control_level() # Checks if level must be changed
@@ -120,7 +120,7 @@ class GameManager:
     
     def update_environment_effect(self):
         """
-        Create and action with the effect on the character by the environment, taking current_place + 
+        Create and action with the effect on the character by the environment, taking current_place +
         clothes + current_weather.
         """
         outdoor = self.places_dictionary[self.character.current_place]["outdoor"]
@@ -214,15 +214,15 @@ class GameManager:
             if isinstance(action.effect, effects.Effect): #this action affects status bars
                 self.set_active_action(action_id)
             elif isinstance(action.effect, effects.LocationEffect): #this action affects character location
-                if(self.active_char_action):
+                if self.active_char_action:
                     self.interrupt_active_action(None)
                 action.perform()
-                action.reset() 
+                action.reset()
             elif isinstance(action.effect, effects.ClothesEffect): #this action affects character clothes
-                if(self.active_char_action):
+                if self.active_char_action:
                     self.interrupt_active_action(None)
                 action.perform()
-                action.reset()       
+                action.reset()
     
     def interrupt_active_action(self, action_id):
         """
@@ -233,7 +233,7 @@ class GameManager:
         if self.active_char_action:
             self.active_char_action.reset()
             self.active_char_action = None
-            self.windows_controller.stop_actual_action_animation()
+            self.windows_controller.stop_current_action_animation()
         
         if action_id:
             action = self.get_action(action_id)
@@ -258,13 +258,13 @@ class GameManager:
         """
         Set the active char actions
         """
-        #place = get_place(self.character.actual_place) 
-        #if(place.allowed_action(action_id)): #continúa con la acción, solo si es permitida en el lugar
-        if(not self.active_char_action): #Si existe una accion activa no la interrumpe
-            if(True): #dont check char's place yet
+        #place = get_place(self.character.current_place)
+        #if place.allowed_action(action_id): #continúa con la acción, solo si es permitida en el lugar
+        if not self.active_char_action: #Si existe una accion activa no la interrumpe
+            if True: #dont check char's place yet
                 action = self.get_action(action_id)
-                if(action):
-                    action.perform() 
+                if action:
+                    action.perform()
                     self.windows_controller.show_action_animation(action)
                     self.active_char_action = action
             
@@ -273,7 +273,7 @@ class GameManager:
         Returns the action asociated to the id_action
         """
         for action in self.actions_list:
-            if(action.id == action_id):
+            if action.id == action_id:
                 return action
             
     def get_lowest_bar(self):
@@ -287,13 +287,13 @@ class GameManager:
             action.perform()
             action.time_span = -1 #that means background actions never stop
             
-        if self.active_char_action: #if the character is performing an action: 
+        if self.active_char_action: #if the character is performing an action:
             if self.active_char_action.time_left > 0:
                 self.active_char_action.perform()
-            else: #if the action was completed: 
+            else: #if the action was completed:
                 self.active_char_action.reset()
                 self.active_char_action = None
-                self.windows_controller.stop_actual_action_animation()
+                self.windows_controller.stop_current_action_animation()
                 
 ## Moods handling
 
@@ -381,7 +381,7 @@ class GameManager:
             
             if event.time_left:
                 event.perform()
-            else:                
+            else:
                 self.windows_controller.remove_personal_event(event)
                 event.reset()
                 self.active_events.remove(event)
@@ -483,7 +483,7 @@ class GameManager:
         # reach the master challenge again.
           
         #self.windows_controller.show_master_challenge_intro()
-        pass        
+        pass
         
 # Save, load and reset game
 
@@ -511,8 +511,8 @@ class GameManager:
         self.update_environment_effect()
         self.windows_controller.update_clothes()
         # hour
-        self.hour = 2 
-        self.hour_count = HOUR_COUNT_CYCLE 
+        self.hour = 2
+        self.hour_count = HOUR_COUNT_CYCLE
         self.current_time = self.day_dic[self.hour]
         print "game reseted successfully... "
 
@@ -562,7 +562,7 @@ class GameManager:
         except:
             print "no se pudo cargar la partida."
 
-## 
+##
     def get_level(self):
         """
         returns the character's  current level
@@ -587,6 +587,3 @@ class GameManager:
         returns current momento of day.
         """
         return self.current_time
-
-
-

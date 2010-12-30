@@ -46,7 +46,7 @@ class Action:
                 self.time_left = 0
     
     def reset(self):
-        self.time_left = self.time_span    
+        self.time_left = self.time_span
         
 class Mood:
     

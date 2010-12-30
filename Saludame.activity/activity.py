@@ -130,4 +130,3 @@ class SaludameActivity(Activity):
     def set_library(self, link):
         self.toolbox.set_current_toolbar(2)
         self.health_library.set_url(link)
-        

@@ -20,7 +20,7 @@ JUMP_ROPE_PATH = os.path.normpath("assets/kid/actions/ropejump")
 bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spare_time", BARS_DECREASE_RATE), ("physica", BARS_DECREASE_RATE), ("hygiene", BARS_DECREASE_RATE)])
 
 #actions list tuple format:
-#[("action's id","icon_path","picture_path", appereance_probability, time_span, 
+#[("action's id","icon_path","picture_path", appereance_probability, time_span,
 #    kid_animation_frame_rate,kid_animation_loop_times, kid_animation_path, window_animation_frame_rate,
 #    window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, action's effect)]
 
@@ -208,9 +208,9 @@ class ActionsLoader:
     def __init__(self, bar_controller, game_manager):
         self.bar_controller = bar_controller
         self.game_manager = game_manager
-        self.actions_list = self.__load_actions()        
+        self.actions_list = self.__load_actions()
         
-    def get_actions_list(self): 
+    def get_actions_list(self):
         return self.actions_list
     
     def __load_actions(self):
@@ -244,5 +244,3 @@ class ActionsLoader:
             return action[16]
         else:
             return None
-
-

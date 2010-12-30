@@ -43,12 +43,12 @@ class SaludameWindowsController(gui.WindowsController):
     
     # BACKGROUND
     def set_environment(self, environment):
-        self.windows["kid"].set_environment(environment) 
+        self.windows["kid"].set_environment(environment)
     
     
     # CLOTHES
     def update_clothes(self):
-        self.windows["kid"].update_clothes() 
+        self.windows["kid"].update_clothes()
     
     
     # Actions
@@ -59,8 +59,8 @@ class SaludameWindowsController(gui.WindowsController):
         self.windows["panel_window"].play_action_animation(action)
         self.windows["kid"].play_action_animation(action)
         
-    def stop_actual_action_animation(self):
-        self.windows["panel_window"].stop_action_animation() 
+    def stop_current_action_animation(self):
+        self.windows["panel_window"].stop_action_animation()
         self.windows["kid"].stop_action_animation()
     
     
@@ -72,7 +72,7 @@ class SaludameWindowsController(gui.WindowsController):
             self.show_kid_message(event.kid_message, event.message_time_span)
     
     def remove_personal_event(self, event):
-        self.windows["panel_window"].remove_personal_event(event) 
+        self.windows["panel_window"].remove_personal_event(event)
         
     def add_social_event(self, event):
         self.windows["panel_window"].add_social_event(event)
@@ -81,7 +81,7 @@ class SaludameWindowsController(gui.WindowsController):
             self.windows["kid"].add_social_event(event)
         
     def remove_social_event(self, event):
-        self.windows["panel_window"].remove_social_event(event) 
+        self.windows["panel_window"].remove_social_event(event)
     
     
     # Messages at ballon
@@ -92,5 +92,4 @@ class SaludameWindowsController(gui.WindowsController):
     # Moods
     def set_mood(self, mood):
         if self.windows:
-            self.windows["kid"].set_mood(mood)               
-    
+            self.windows["kid"].set_mood(mood)

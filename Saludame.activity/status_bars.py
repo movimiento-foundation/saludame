@@ -96,7 +96,7 @@ class BarsWindow(gui.Window):
     
 class Accordeon:
     """
-    Clase encargada de realizar los calculos para expandir y 
+    Clase encargada de realizar los calculos para expandir y
     contraer las secciones.
     """
     
@@ -116,7 +116,7 @@ class Accordeon:
         self.compress_sections()
         for i in range(0, len(self.sections_list)):
             
-            if(self.sections_list[i] == section):
+            if self.sections_list[i] == section:
                 
                 self.sections_list[i].expand()
                 offset = self.sections_list[i].max_expand
@@ -376,7 +376,7 @@ class BarsController:
             
     def increase_bar(self, bar_id, increase_rate):
         for bar in self.bars:
-            if(bar.id == bar_id):
+            if bar.id == bar_id:
                 bar.increase(increase_rate)
                 break
     
@@ -386,7 +386,7 @@ class BarsController:
                 self.score_bar.increase(3)
             else: #more than a half.
                 self.score_bar.increase(1)
-        else: 
+        else:
             if self.overall_bar.value < (self.overall_bar.max / 2) - (self.overall_bar.max / 4): #less than 1/4
                 self.score_bar.increase(-3)
             else: # less than 1/2
@@ -404,7 +404,7 @@ class BarsController:
     
     def get_bars_status(self):
         """
-        Generates a dictionary {bar_id : actual_bar_value} and
+        Generates a dictionary {bar_id : bar_value} and
         returns it.
         """
         bars_state = {}
@@ -424,11 +424,11 @@ class BarsController:
     def get_lowest_bar(self):
         value = self.bars[0].value
         lowest_bar = None
-        for bar in self.bars[0:4]: # bars in second_level (section bars) are self.bars[0:4] 
+        for bar in self.bars[0:4]: # bars in second_level (section bars) are self.bars[0:4]
             if bar.value <= value:
                 value = bar.value
                 lowest_bar = bar
-        return lowest_bar            
+        return lowest_bar
     
     def reset(self):
         """
@@ -512,4 +512,3 @@ class WeightBar(StatusBar):
             return self.value * 2.0
         else:
             return self.max - 2.0 * self.value
-

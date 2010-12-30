@@ -35,13 +35,13 @@ class WindowsController:
         self.windows_stack[-1].repaint = True
         # Solo puede ser llamado por la ventana activa e implica
         # hacer un pop del stack
-        self.windows_stack.pop()  
+        self.windows_stack.pop()
         
         self.show_window_hierarchy(self.windows_stack[-1])
                
-        if (self.windows_stack[-1].get_register_id() == "main_window"):
+        if self.windows_stack[-1].get_register_id() == "main_window":
             self.game_man.continue_game()
-            self.reload_main = True 
+            self.reload_main = True
             for win in self.windows_stack[-1].windows:
                 if isinstance(win, Window):
                     win.enable_repaint()
@@ -50,11 +50,11 @@ class WindowsController:
         if window_key <> "main_window":
             self.game_man.pause_game()
         
-        self.windows_stack.append(self.windows[window_key])        
-        self.show_window_hierarchy(self.windows_stack[-1])     
+        self.windows_stack.append(self.windows[window_key])
+        self.show_window_hierarchy(self.windows_stack[-1])
         
     def register_new_window(self, id, window):
-        self.windows[id] = window  
+        self.windows[id] = window
         
     def unregister_window(self, window):
         try:
@@ -67,7 +67,7 @@ class WindowsController:
         W = []
         for win in window.windows:
             W.append(win.register_id)
-        print(" (%s)" % (W))    
+        print(" (%s)" % (W))
     
     
     # Events handlers
@@ -93,14 +93,14 @@ class WindowsController:
         self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
         
         # Necesitamos guardar lo que esta atras del tooltip para cuando lo querramos esconder
-        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
+        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute)
         self.showing_tooltip = True
         
     def show_super_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
         self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
         
-        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute) 
+        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute)
         self.showing_tooltip = True
     
     def hide_active_tooltip(self):
@@ -108,8 +108,8 @@ class WindowsController:
         if self.showing_tooltip:
             # Hacemos un blit con lo que tenia atras el tooltip
             self.screen.blit(self.active_tooltip_bg[0], self.active_tooltip_bg[1])
-            # Lo guardamos en la lista de las proximas actualizaciones 
-            self.next_update(self.active_tooltip_bg[1])      
+            # Lo guardamos en la lista de las proximas actualizaciones
+            self.next_update(self.active_tooltip_bg[1])
             self.showing_tooltip = False
     
     
@@ -122,24 +122,24 @@ class WindowsController:
     
     def update(self, frames):
         """
-        Updates GUI 
-        """    
+        Updates GUI
+        """
         # Cada vez que "volvamos" a la ventana principal es necesario
         # repintar el fondo para que no queden rastros de la ventana anterior
         if self.reload_main:
             pygame.display.flip() # Actualizamos el screen para hacer visibles los efectos
-            self.reload_main = False       
+            self.reload_main = False
         
         changes = []
         if frames % self.windows_stack[-1].frame_rate == 0:
-            changes.extend(self.windows_stack[-1].draw(self.screen, frames))   
+            changes.extend(self.windows_stack[-1].draw(self.screen, frames))
         
         if changes:
             if self.next_update_list:
                 changes.extend(self.next_update_list)
                 self.next_update_list = [] # Vaciamos la lista
         
-        # Tooltips        
+        # Tooltips
         if self.showing_tooltip:
             if isinstance(self.active_tooltip, Text):
                 self.screen.fill((255, 255, 255), self.active_tooltip.rect_in_container)

@@ -43,7 +43,7 @@ items = [
             (_("Leche chocolatada"), "assets/icons/icon.png", "leche_chocolatada", None),
             (_("Café con leche"), "assets/icons/icon.png", "leche_cafe", None),
             (_("Leche"), "assets/icons/icon.png", "leche", None),
-            (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None)], 
+            (_("Leche con cereales"), "assets/icons/icon.png", "leche_cereales", None)],
             ["schoolyard", "home"], ["morning", "afternoon"]
         ),
         
@@ -126,5 +126,3 @@ def create_item(item_tuple, a_menu, container, font):
     elif lenght == 6: # the item has time restrictions
         item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], item_tuple[1], item_tuple[2], subitems, a_menu, font, item_tuple[4], item_tuple[5])
     return item
-
-

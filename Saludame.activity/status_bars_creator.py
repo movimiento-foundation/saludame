@@ -31,13 +31,13 @@ class BarsLoader:
         hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar
 
-        ### nutrition 
+        ### nutrition
         nutrition_children_id = [("c_leguminosas", _("Cereales y leguminosas")), ("v_frutas", _("Verduras y frutas")), ("c_huevos", _("Carnes y huevos")), ("dulces", _("Dulces")), ("g_aceites", _("Grasas y aceites")), ("l_quesos", _("Leches y quesos")), ("agua", _("Agua"))]
         nutrition = status_bars.StatusBar("nutrition", _("Alimentation"), self.overall_bar, [], hard_level[0], hard_level[1])
         nutrition_children_bar = [status_bars.StatusBar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
         nutrition.children_list = nutrition_children_bar
         
-        ### fun 
+        ### fun
         fun_children_id = [("sports", _("Deportes")), ("fun", _(u"Diversión")), ("relaxing", _("Descanso")), ("responsability", _("Responsabilidad"))]
         fun = status_bars.StatusBar("spare_time", _("Tiempo Libre"), self.overall_bar, [], hard_level[0], hard_level[1])
         fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
@@ -66,4 +66,3 @@ class BarsLoader:
     
     def get_score_bar(self):
         return self.score_bar
-

@@ -21,7 +21,7 @@ class PanelWindow(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller):
         
-        self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando        
+        self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window")
         
         self.set_bg_image(PANEL_BG_PATH)
@@ -30,16 +30,16 @@ class PanelWindow(gui.Window):
         self.rect_action = pygame.Rect((560, 36), (310, 124))
         
         self.on_animation = False
-        self.actual_action = None
-        self.actual_animation = None
+        self.current_action = None
+        self.current_animation = None
         
-        self.action_progress_bar = None        
+        self.action_progress_bar = None
         
         # Personal
         self.surf_personal = pygame.Surface((130, 110))
         self.rect_personal = pygame.Rect((410, 652), self.surf_personal.get_rect().size)
         self.active_personal_events = [] # tuple (event, button)
-        self.index_personal_event = 0       
+        self.index_personal_event = 0
         
         personal_next = gui.ImageButton(self.rect_personal, pygame.Rect(105, 80, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
         personal_back = gui.ImageButton(self.rect_personal, pygame.Rect(0, 80, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_personal_back)
@@ -78,7 +78,7 @@ class PanelWindow(gui.Window):
         info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action)
         self.add_button(info_button)
 
-        # Environment 
+        # Environment
         self.weather_button = None
         self.set_weather()
     
@@ -94,10 +94,10 @@ class PanelWindow(gui.Window):
         
     # Actions
     def set_active_action(self, action):
-        self.actual_action = action
+        self.current_action = action
         if action.window_animation_path:
-            self.actual_animation = animation.ActionAnimation(self.rect, self.rect_action, 10, action.window_animation_path, action.sound_path)
-            self.add_child(self.actual_animation)
+            self.current_animation = animation.ActionAnimation(self.rect, self.rect_action, 10, action.window_animation_path, action.sound_path)
+            self.add_child(self.current_animation)
         else:
             rect_progress = self.rect_action.move(65, 45)
             rect_progress.size = (182, 26)
@@ -110,10 +110,10 @@ class PanelWindow(gui.Window):
         
     def stop_action_animation(self):
         self.on_animation = False
-        self.actual_action = None
-        if self.actual_animation:
-            self.remove_child(self.actual_animation)
-            self.actual_animation = None
+        self.current_action = None
+        if self.current_animation:
+            self.remove_child(self.current_animation)
+            self.current_animation = None
             self.repaint = True
         
         if self.action_progress_bar:
@@ -123,7 +123,7 @@ class PanelWindow(gui.Window):
     
     # Events
     def add_personal_event(self, event):
-        if not event in self.active_personal_events:            
+        if not event in self.active_personal_events:
             b_event_personal = gui.ImageButton(self.rect_personal, pygame.Rect(23, 3, 100, 100), 1, pygame.image.load("assets/events/%s" % (event.picture)).convert())
             
             event_info = "%s \n" % (event.description)
@@ -131,7 +131,7 @@ class PanelWindow(gui.Window):
             if event.effect:
                 for eff in event.effect.effect_status_list:
                     bar_label = event.effect.bars_controller.get_bar_label(eff[0])
-                    if (eff[1] > 0):
+                    if eff[1] > 0:
                         event_info += "+ %s \n" % (bar_label)
                     else:
                         event_info += "- %s \n" % (bar_label)
@@ -164,7 +164,7 @@ class PanelWindow(gui.Window):
         
         self.windows_controller.hide_active_tooltip()
         
-        self.refresh_count_personal_events()        
+        self.refresh_count_personal_events()
         
     def add_social_event(self, event):
         if not event in self.active_social_events:
@@ -176,7 +176,7 @@ class PanelWindow(gui.Window):
             if event.effect:
                 for eff in event.effect.effect_status_list:
                     bar_label = event.effect.bars_controller.get_bar_label(eff[0])
-                    if (eff[1] > 0):
+                    if eff[1] > 0:
                         event_info += "+ %s \n" % (bar_label)
                     else:
                         event_info += "- %s \n" % (bar_label)
@@ -235,7 +235,7 @@ class PanelWindow(gui.Window):
         self.timing += 1
         
         # Actions
-        if self.on_animation and self.actual_animation and self.timing % self.actual_animation.frame_rate == 0:
+        if self.on_animation and self.current_animation and self.timing % self.current_animation.frame_rate == 0:
             if self.timing > 12:
                 self.timing = 0
         
@@ -258,7 +258,7 @@ class PanelWindow(gui.Window):
         if game.set_library_function:
             game.set_library_function("99-Eventos.html") #diarrhea")
     
-    def _cb_button_click_personal_next(self, button):        
+    def _cb_button_click_personal_next(self, button):
         if self.index_personal_event < len (self.active_personal_events) - 1:
             self.remove_button(self.b_event_personal)
             self.index_personal_event += 1
@@ -269,12 +269,12 @@ class PanelWindow(gui.Window):
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
             self.remove_button(self.b_event_personal)
-            self.index_personal_event -= 1 
-            self.refresh_count_personal_events() 
+            self.index_personal_event -= 1
+            self.refresh_count_personal_events()
             self.b_event_personal = self.active_personal_events[self.index_personal_event][1]
             self.add_button(self.b_event_personal)
             
-    def _cb_button_click_social_next(self, button):        
+    def _cb_button_click_social_next(self, button):
         if self.index_social_event < len (self.active_social_events) - 1:
             self.remove_button(self.b_event_social)
             self.index_social_event += 1
@@ -286,9 +286,9 @@ class PanelWindow(gui.Window):
         if self.index_social_event > 0:
             self.remove_button(self.b_event_social)
             self.index_social_event -= 1
-            self.refresh_count_social_events() 
+            self.refresh_count_social_events()
             self.b_event_social = self.active_social_events[self.index_social_event][1]
-            self.add_button(self.b_event_social)        
+            self.add_button(self.b_event_social)
 
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization_window")
@@ -328,7 +328,7 @@ class ActionProgressBar(gui.Widget):
         """
         Draw the progress bar (if the action is still active), override widget draw
         """
-        if (self.decrease > 0):        
-            self._prepare_surface()            
-            screen.blit(self.surface, self.rect_absolute)            
+        if self.decrease > 0:
+            self._prepare_surface()
+            screen.blit(self.surface, self.rect_absolute)
             return self.rect_absolute

@@ -13,15 +13,15 @@ class KidWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, game_man):
         
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "kid")
-        self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())   
+        self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())
         
-        self.kid_rect = pygame.Rect((280, 70), (350, 480))  
-        self.mood = "normal" 
+        self.kid_rect = pygame.Rect((280, 70), (350, 480))
+        self.mood = "normal"
             
         self.kid = animation.Kid(rect, self.kid_rect, 1, windows_controller, game_man, self.mood)
         
         self.add_window(self.kid)
-        self.kid.set_bg_image(self.bg_image.subsurface(self.kid_rect))          
+        self.kid.set_bg_image(self.bg_image.subsurface(self.kid_rect))
 
         self.balloon = None
         
@@ -39,7 +39,7 @@ class KidWindow(gui.Window):
         
     ##### Environment #####
     def set_environment(self, environment):
-        self.set_bg_image(pygame.image.load(environment.background_path).convert())  
+        self.set_bg_image(pygame.image.load(environment.background_path).convert())
         self.kid.set_bg_image(self.bg_image.subsurface(self.kid_rect))
         self.repaint = True
         
@@ -47,7 +47,7 @@ class KidWindow(gui.Window):
     def update_clothes(self):
         self.kid.update_clothes()
         
-    ##### Moods #####    
+    ##### Moods #####
     def change_mood(self):
         self.kid.change_mood()
         
@@ -95,15 +95,15 @@ class KidWindow(gui.Window):
         # If the menu is showing repaint the whole window
         if self.menu.show:
             self.last_repaint = True
-            self.repaint = True         
+            self.repaint = True
         
         changes += gui.Window.draw(self, screen, frames)
     
-        if self.balloon:    
+        if self.balloon:
             if not self.balloon.visible:
                 self.remove_kid_balloon()
                 
-        if self.external_character:    
+        if self.external_character:
             if not self.external_character.visible:
                 self.remove_social_event()
         
@@ -122,32 +122,32 @@ class ExternalCharacter(gui.Window):
         self.visible = True
         self.time_span = event.message_time_span
         
-        self.message_balloon = MessageBalloon(self.container, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller)  
+        self.message_balloon = MessageBalloon(self.container, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller)
         self.message_balloon.set_text(event.person_message)
         self.message_balloon.set_time_span(self.time_span) # same time_span as character
         
         self.bg1 = (self.windows_controller.screen.subsurface(self.rect).copy())
         self.bg2 = (self.windows_controller.screen.subsurface(self.message_balloon.rect).copy())
         
-    # Override handle_mouse_down    
+    # Override handle_mouse_down
     def handle_mouse_down(self, (x, y)):
         self.visible = False
         
     def draw(self, screen, frames):
-        if (not self.time_span):
+        if not self.time_span:
             self.visible = False
-        if (self.visible):
+        if self.visible:
             changes = []
             self.time_span -= 1
             self.repaint = True
             changes += gui.Window.draw(self, screen, frames)
             changes += self.message_balloon.draw(screen, frames)
             return changes
-        else:            
+        else:
             screen.blit(self.bg1, self.rect)
             screen.blit(self.bg2, self.message_balloon.rect)
             self.dispose()
-            return [self.rect, self.message_balloon.rect]         
+            return [self.rect, self.message_balloon.rect]
         
 class MessageBalloon(gui.Window):
     
@@ -166,7 +166,7 @@ class MessageBalloon(gui.Window):
         
         self.visible = True
     
-    # Override handle_mouse_down    
+    # Override handle_mouse_down
     def handle_mouse_down(self, (x, y)):
         self.visible = False
         
@@ -178,9 +178,9 @@ class MessageBalloon(gui.Window):
         self.time_span = time_span
     
     def draw(self, screen, frames):
-        if (not self.time_span):
+        if not self.time_span:
             self.visible = False
-        if (self.visible):
+        if self.visible:
             self.time_span -= 1
             self.repaint = True
             return gui.Window.draw(self, screen, frames)

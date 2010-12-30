@@ -30,7 +30,7 @@ class Window:
         return self.register_id
     
     def set_bg_image(self, image):
-        if (not isinstance(image, pygame.Surface)):
+        if not isinstance(image, pygame.Surface):
             # Is a path, convert it to a surface
             self.bg_image = pygame.image.load(image).convert_alpha()
         else:
@@ -42,11 +42,11 @@ class Window:
     def dispose(self):
         self.windows_controller.unregister_window(self)
     
-    # Abstract function.    
+    # Abstract function.
     def pre_draw(self, screen):
         return []
     
-    # Logica de pintado de cualquier ventana    
+    # Logica de pintado de cualquier ventana
     def draw(self, screen, frames):
         
         changes = []
@@ -54,7 +54,7 @@ class Window:
         changes += self.pre_draw(screen)
         
         if self.repaint:    # Solo actualizamos el fondo de la ventana cuando hagamos un 'repaint'
-                            # De otra forma solo actualizamos los widgets y subventanas                
+                            # De otra forma solo actualizamos los widgets y subventanas
             
             if self.bg_image != None:
                 screen.blit(self.bg_image, self.rect) # Pintamos el "fondo" de la ventana
@@ -67,11 +67,11 @@ class Window:
             self.repaint = False
         
         for win in self.windows:
-            if (frames % win.frame_rate == 0):
+            if frames % win.frame_rate == 0:
                 changes.extend(win.draw(screen, frames)) # Le decimos a cada ventana que se pinte
         
         for widget in self.widgets:
-            if (frames % widget.frame_rate == 0):
+            if frames % widget.frame_rate == 0:
                 changes.append(widget.draw(screen)) # Pintamos los widgets que "contiene" la ventana
         
         return changes
@@ -130,7 +130,7 @@ class Window:
        
         for button in buttons:
             if button.contains_point(x, y):
-                if(not button.over):
+                if not button.over:
                     # Tooltips
                     if button.tooltip: # Si el boton tiene tooltip entonces lo mostramos
                         self.windows_controller.hide_active_tooltip()
@@ -141,7 +141,7 @@ class Window:
                         self.windows_controller.show_super_tooltip(button.super_tooltip)
                         button.showing_tooltip = True
                     button.on_mouse_over()
-                    button.over = True 
+                    button.over = True
                     return # No seguimos buscando el botón
             else:
                 # Ineficiente! Por ahora lo dejo asi para PROBAR
@@ -153,11 +153,11 @@ class Window:
                 button.over = False
                 button.on_mouse_out()
     
-    # It will be overridden by cooking challenge or other D&D challenge           
+    # It will be overridden by cooking challenge or other D&D challenge
     def handle_mouse_motion(self, (x, y)):
         pass
 
-    # It will be overridden by cooking challenge or other D&D challenge           
+    # It will be overridden by cooking challenge or other D&D challenge
     def handle_mouse_up(self, pos):
         pass
     
@@ -185,4 +185,3 @@ class Window:
     
     def get_background(self):
         return self.get_background_and_owner()[0]
-

@@ -72,15 +72,15 @@ class Main():
         screen = pygame.display.get_surface()
         assert screen, "No screen"
         
-        pygame.display.update()  
+        pygame.display.update()
         
         # This clock is used to keep the game at the desired FPS.
         clock = pygame.time.Clock()
         
         # windows_controller asociado al screen
-        self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, None)   
+        self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, None)
         
-        # Initialize sound_manager, game_manager, character, actions and menu.    
+        # Initialize sound_manager, game_manager, character, actions and menu.
         sound_manager.SoundManager()
         
         app_loader = app_init.AppLoader(self.windows_controller)
@@ -143,5 +143,3 @@ class Main():
 
 if __name__ == "__main__":
     Main().main(False)
-
-

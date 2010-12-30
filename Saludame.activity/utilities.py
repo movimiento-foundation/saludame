@@ -43,7 +43,7 @@ def check_image(image_path):
     try:
         print image_path
         pygame.image.load(image_path)
-        return True        
+        return True
     except:
         return False
     
@@ -58,6 +58,6 @@ def verify_path(action, game_manager):
         return check_directory("%s/%s/%s" % (game_manager.character.mood.kid_animation_path, game_manager.character.sex, action.effect.clothes_id))
         
     if isinstance(action.effect, effects.LocationEffect): # If the action has location effects
-        return check_image(game_manager.environments_dictionary[action.effect.place_id + "_" + game_manager.current_weather].background_path)        
+        return check_image(game_manager.environments_dictionary[action.effect.place_id + "_" + game_manager.current_weather].background_path)
         
     return True

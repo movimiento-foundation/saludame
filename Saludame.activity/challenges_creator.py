@@ -24,10 +24,10 @@ class ChallengesCreator:
         # True or False window
         self.tf_challenge = challenges.TrueOrFalse(self.container, self.rect, self.frame_rate, self.windows_controller, self, "tf_challenge_window", self.bg_color)
         
-        # Cooking window 
-        self.cooking_challenge = challenges.Cooking(self.container, self.rect, self.frame_rate, self.windows_controller, "cooking_challenge_window", self.bg_color)    
+        # Cooking window
+        self.cooking_challenge = challenges.Cooking(self.container, self.rect, self.frame_rate, self.windows_controller, "cooking_challenge_window", self.bg_color)
         
-        # Tuples of mc_challenges   
+        # Tuples of mc_challenges
         self.mc_challenges = []
         
         # Tuples of tf_challenges
@@ -70,14 +70,14 @@ class ChallengesCreator:
         """
         Create a new mc_challenge (tuple)
         """
-        challenge = (question, answers, correct_answer, win_points, lose_points, image) 
+        challenge = (question, answers, correct_answer, win_points, lose_points, image)
         self.mc_challenges.append(challenge)
         
     def _create_tf_challenge(self, question, correct_answer, win_points, lose_points, image=None):
         """
         Create a new tf_challenge (tuple)
         """
-        challenge = (question, ["False", "True"], correct_answer, win_points, lose_points, image) 
+        challenge = (question, ["False", "True"], correct_answer, win_points, lose_points, image)
         return challenge
     
     def get_challenge(self, kind):
@@ -97,12 +97,12 @@ class ChallengesCreator:
             
             # If challenge has an image
             if c[5]:
-                self.mc_challenge.set_image(c[5])  
+                self.mc_challenge.set_image(c[5])
                 
-            return self.mc_challenge          
+            return self.mc_challenge
             
-        elif kind == "tf":   
-            self.tf_challenge.kind = "normal"     
+        elif kind == "tf":
+            self.tf_challenge.kind = "normal"
             bar = self.game_man.get_lowest_bar()
             if bar.id == "physica":
                 r = random.randrange(0, len(self.tf_challenges_physica))
@@ -115,7 +115,7 @@ class ChallengesCreator:
                 c = self.tf_challenges_nutrition[r]
             elif bar.id == "spare_time":
                 r = random.randrange(0, len(self.tf_challenges_spare_time))
-                c = self.tf_challenges_spare_time[r]   
+                c = self.tf_challenges_spare_time[r]
                 
             # Set challenge attributes
             self.tf_challenge.set_question(c[0])
@@ -126,7 +126,7 @@ class ChallengesCreator:
             
             # If challenge has an image
             if c[5]:
-                self.tf_challenge.set_image(c[5])  
+                self.tf_challenge.set_image(c[5])
                 
             return self.tf_challenge
                 
@@ -152,7 +152,6 @@ class ChallengesCreator:
             
             # If challenge has an image
             if c[5]:
-                self.tf_challenge.set_image(c[5])  
+                self.tf_challenge.set_image(c[5])
                 
             return self.tf_challenge
-            

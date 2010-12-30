@@ -16,7 +16,7 @@ class AppLoader:
         ### loaders
         self.bars_loader = status_bars_creator.BarsLoader()
         
-        ### status bars 
+        ### status bars
         self.status_bars_controller = self.bars_loader.get_bar_controller()
         self.character_bars = self.bars_loader.get_third_level_bars() #the third level status bars
         
@@ -35,7 +35,7 @@ class AppLoader:
         
         self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, character_loader.get_places(), character_loader.get_environments_dictionary(), character_loader.get_weather_effects(), self.moods_list, windows_controller)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
-        self.actions_list = actions_loader.get_actions_list() 
+        self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
         self.game_man.add_background_action("BARS_DEC") #acción de decrementar las barras
         
@@ -68,7 +68,7 @@ class AppLoader:
     
     def __load_events(self, bars_controller):
         #Events constructor params:
-        #picture, kid_animation_path, id, description, appereance_probability, time_span, kind, event_status, effect, kid_message, 
+        #picture, kid_animation_path, id, description, appereance_probability, time_span, kind, event_status, effect, kid_message,
         #preferred_mood=9, message_time_span = time_span)
         
         _events = []

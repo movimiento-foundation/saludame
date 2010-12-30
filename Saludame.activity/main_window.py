@@ -33,7 +33,7 @@ class MainWindow(gui.Window):
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
-        # Challenges        
+        # Challenges
         challenges_button = gui.ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
         challenges_button.set_tooltip(_("Multiple choice"))
         self.add_button(challenges_button)

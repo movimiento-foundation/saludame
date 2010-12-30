@@ -83,15 +83,15 @@ class Button(Widget):
         self.super_tooltip = text
     
     def on_mouse_click(self):
-        if (self.function_on_mouse_click and self.enable): # if there's a callback setted makes the call
+        if self.function_on_mouse_click and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_click(self)
         
     def on_mouse_over(self):
-        if (self.function_on_mouse_over and self.enable): # if there's a callback setted makes the call
+        if self.function_on_mouse_over and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_over(self)
     
     def on_mouse_out(self):
-        if (self.function_on_mouse_out and self.enable): # if there's a callback setted makes the call
+        if self.function_on_mouse_out and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_out(self)
             
     def set_on_mouse_click(self, fn):
@@ -189,7 +189,7 @@ class TextBlock(Widget):
         for l in self.lines:
             number_of_lines += 1           
             r = self.font.render(l, False, self.color)
-            if (r.get_rect().width > self.rect_absolute.width):
+            if r.get_rect().width > self.rect_absolute.width:
                 self.rect_absolute.width = r.get_rect().width
             self.rect_absolute.height += r.get_rect().height 
         

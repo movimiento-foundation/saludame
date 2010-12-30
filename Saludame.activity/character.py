@@ -30,7 +30,7 @@ class Character:
         self.clothes = clothes
         
     def set_place(self, place_id):
-        self.actual_place = place_id
+        self.current_place = place_id
 
     def get_status(self):
         """
@@ -98,7 +98,7 @@ class Place:
         Verify if the action is allowed in this place
         """
         for id in self.allowed_actions_list:
-            if(id == action_id):
+            if id == action_id:
                 return True
         return False
 
@@ -116,5 +116,3 @@ class Clothes:
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)
-
-

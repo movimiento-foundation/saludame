@@ -57,7 +57,7 @@ class Menu(gui.Window):
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         
-        self.actual_selection = self.item_list  #list of actual subitems selection
+        self.current_selection = self.item_list  #list of current subitems selection
         
         self.radius = RADIUS
         self.show = False
@@ -79,11 +79,11 @@ class Menu(gui.Window):
             if self.on_expansion:
                 if self.radius < 90:
                     self.radius += EXP_SPEED
-                    self.__calculate_items_position(self.actual_selection)
+                    self.__calculate_items_position(self.current_selection)
                 else:
                     self.on_expansion = False
     
-            for item in self.actual_selection:
+            for item in self.current_selection:
                 item.draw_item(screen)
                 changes.append(item.rect_absolute)
             
@@ -109,24 +109,24 @@ class Menu(gui.Window):
             self.game_manager.execute_action(action_id)
             self.close()
     
-    def set_actual_selection(self, items_list):
+    def set_current_selection(self, items_list):
         """
-        Set the actual items selection.
+        Set the current items selection.
         """
-        if(not self.on_expansion):
-            actual_selection = self.get_allowed_items(items_list) # gets some allowed items, fewer than nine
-            if len(actual_selection) > MAX_ITEMS:
-                actual_selection = random.sample(actual_selection, MAX_ITEMS)
+        if not self.on_expansion:
+            current_selection = self.get_allowed_items(items_list) # gets some allowed items, fewer than nine
+            if len(current_selection) > MAX_ITEMS:
+                current_selection = random.sample(current_selection, MAX_ITEMS)
             
-            self.actual_selection = actual_selection
+            self.current_selection = current_selection
             #
             self.on_expansion = True #if the selection changes, display the animation
             self.radius = 0
     
     def get_allowed_items(self, items_list):
         """
-        Verifies wich items are allowed to perform its actions 
-        for currently character's properties.  
+        Verifies wich items are allowed to perform its actions
+        for currently character's properties.
         """
         allowed_items = []
         for item in items_list:
@@ -217,7 +217,7 @@ class Menu(gui.Window):
         self.show = False
         self.depth = 0
         self.previous_items = []
-        self.actual_selection = []
+        self.current_selection = []
         self.game_manager.menu_active = False
 
     def back_to_previous_selection(self):
@@ -225,7 +225,7 @@ class Menu(gui.Window):
         comes back to a previous items selection.
         """
         self.depth -= 1
-        self.set_actual_selection(self.previous_items[self.depth])
+        self.set_current_selection(self.previous_items[self.depth])
         if self.depth == 0:
             self.previous_items = []
 
@@ -233,26 +233,26 @@ class Menu(gui.Window):
         """
         shows the recive items
         """
-        self.previous_items.append(self.actual_selection)
+        self.previous_items.append(self.current_selection)
         self.depth += 1
-        self.set_actual_selection(subitems_list)
+        self.set_current_selection(subitems_list)
 
     
     #handlers
     def handle_mouse_down(self, coord):
         if self.show and not self.on_expansion:
             if self.exit.rect_absolute.collidepoint(coord) and self.depth == 0:
-                self.close()                
+                self.close()
             elif self.exit.rect_absolute.collidepoint(coord) and self.depth > 0: #click on back item, it's in the same position of exit item
                 self.back_to_previous_selection()
             else:
-                for item in self.actual_selection:
+                for item in self.current_selection:
                     if item.rect_absolute.collidepoint(coord):
                         item.on_mouse_click()
                         break
 
         else:
-            self.set_actual_selection(self.item_list)
+            self.set_current_selection(self.item_list)
             self.show = True
             self.game_manager.menu_active = True
 
@@ -260,9 +260,9 @@ class Menu(gui.Window):
     
     def calculate(self):
         """
-            Calculate the position for each menu's actual selection.
+            Calculate the position for each menu's current selection.
         """
-        self.__calculate_items_position(self.actual_selection)
+        self.__calculate_items_position(self.current_selection)
         
     def __calculate_items_position(self, item_list):
         if len(item_list) > 0:
@@ -280,7 +280,7 @@ class Menu(gui.Window):
         """
         coord = int(self.center[0] + math.cos(angle) * self.radius), int(self.center[1] + math.sin(angle) * self.radius)
         rect = item.rect_in_container
-        if coord[0] < self.center[0]: 
+        if coord[0] < self.center[0]:
             if coord[1] > self.center[1]: #third quadrant
                 rect.topright = coord
             elif coord[1] < self.center[1]: #second quadrant

@@ -30,7 +30,7 @@ class CharacterLoader:
     def __init__(self):
         self.character = self.__load_character(SEX, NAME, LEVEL, SCORE, "school")
         self.environments_dictionary = self.__load_environments()
-        self.places = self.__load_places()     
+        self.places = self.__load_places()
         self.weather_effects = self.__load_weather_effects()
         
     def get_character(self):
@@ -130,4 +130,3 @@ class CharacterLoader:
                         }
         
         return environments
-

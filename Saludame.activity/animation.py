@@ -22,7 +22,7 @@ class Kid(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, game_man, mood):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
         
-        self.character = game_man.character 
+        self.character = game_man.character
         
         self.moods = game_man.moods_list
         
@@ -30,12 +30,12 @@ class Kid(gui.Window):
         self.mood = self.moods[9] # Default mood (normal)
         
         self.action_index = -1 # Default action_index (no-action)
-        self.action = None           
+        self.action = None
         
         self.sprite = None
         self.set_animation()
             
-    ##### Moods #####    
+    ##### Moods #####
     def change_mood(self):
         self.mood_index += 1
         if self.mood_index == len(self.moods):
@@ -44,7 +44,7 @@ class Kid(gui.Window):
         self.index = 0
         
     def set_mood(self, mood):
-        self.mood_index = self.moods.index(mood) 
+        self.mood_index = self.moods.index(mood)
         self.mood = self.moods[self.mood_index]
         self.set_animation()
         
@@ -89,7 +89,7 @@ class Kid(gui.Window):
         
         return [self.rect]
     
-    ##### Colors #####    
+    ##### Colors #####
     def change_color(self, old, new):
         index = 0
         for old_color in old:
@@ -130,7 +130,7 @@ class ActionAnimation(gui.Widget):
         
         return self.rect_absolute
 
-class FPS:  
+class FPS:
     def __init__(self, container, rect, frame_rate, clock):
         self.register_id = ""
         self.buttons = []

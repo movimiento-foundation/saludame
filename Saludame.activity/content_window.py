@@ -17,12 +17,10 @@ HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción.html')
 hulahop_ok = True
 try:
     import hulahop
-    hulahop.startup( STARTUP_DIR )
+    hulahop.startup(STARTUP_DIR)
     from hulahop.webview import WebView
 except:
     hulahop_ok = False
-
-import content_parser
 
 gobject.threads_init()
 
