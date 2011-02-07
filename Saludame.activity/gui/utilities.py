@@ -42,7 +42,8 @@ class Text(Widget):
     def refresh(self):
         background = self.get_background_rect().copy()
         self.background = self.font.render(self.text, False, self.color)
-    
+        self.set_dirty()
+        
     def switch_color_text(self, color):
         self.color = color
         self.refresh()
@@ -73,27 +74,31 @@ class Button(Widget):
         self.function_on_mouse_over = cb_over
         self.function_on_mouse_out = cb_out
         
-        self.over = False
         self.enable = True
-    
-    def set_tooltip(self, text):
-        self.tooltip = text
         
-    def set_super_tooltip(self, text):
-        self.super_tooltip = text
+        self.set_click_sound_path("assets/sound/click.ogg")
     
+    # Override
     def on_mouse_click(self):
+        Widget.on_mouse_click(self)    # Super
+        
         if self.function_on_mouse_click and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_click(self)
-        
+    
+    # Override
     def on_mouse_over(self):
+        self.over = True
+        self.set_dirty()
         if self.function_on_mouse_over and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_over(self)
     
+    # Override
     def on_mouse_out(self):
+        self.over = False
+        self.set_dirty()
         if self.function_on_mouse_out and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_out(self)
-            
+    
     def set_on_mouse_click(self, fn):
         self.function_on_mouse_click = fn
    
@@ -101,13 +106,20 @@ class Button(Widget):
         self.function_on_mouse_over = fn
 
     def set_on_mouse_out(self, fn):
-        self.function_on_mouse_out = fn      
-
+        self.function_on_mouse_out = fn
+    
+    def draw(self, screen):
+        updates = Widget.draw(self, screen)
+        if self.visible and self.background and self.over:
+            copy = self.background.convert_alpha()
+            copy.fill((40,40,40), None, pygame.BLEND_ADD)       # Makes the widget brighter
+            screen.blit(copy, self.rect_absolute)
+        return updates
+        
 class ImageButton(Button):
     
     def __init__(self, container, rect, frame_rate, image, cb_click=None, cb_over=None, cb_out=None):
         
-        self.image = image       
         if not isinstance(image, pygame.Surface):
             image = pygame.image.load(image)
             if image.get_bitsize() == 8:
@@ -115,14 +127,21 @@ class ImageButton(Button):
             else:
                 self.image = image.convert_alpha()
         
-        rect.size = self.image.get_rect().size
-        Button.__init__(self, container, rect, frame_rate, self.image, cb_click, cb_over, cb_out)
+        rect.size = image.get_rect().size
+        Button.__init__(self, container, rect, frame_rate, image, cb_click, cb_over, cb_out)
     
     def switch_image_background(self, image):
         if not isinstance(image, pygame.Surface):
-            image = pygame.imaself.text_intro.visible = True
-        self.text_result.visible = Falsege.load(image).convert_alpha()
+            image = pygame.image.load(image).convert_alpha()
+            if image.get_bitsize() == 8:
+                image = image.convert()
+            else:
+                image = image.convert_alpha()
+            self.text_intro.visible = True
+            
+        self.text_result.visible = False
         self.background = image
+        self.set_dirty()
         
 class TextButton(ImageButton):     
     def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
@@ -131,6 +150,7 @@ class TextButton(ImageButton):
         
     def switch_color_text(self, color):
         self.background = self.text.switch_color_text(color).background
+        self.set_dirty()
     
 class TextButton2(ImageButton):
     
@@ -147,6 +167,7 @@ class TextButton2(ImageButton):
     def switch_color_text(self, color):
         self.color = color
         self.background = self.get_surface()
+        self.set_dirty()
     
     def get_surface(self):
         font = get_font(self.size)

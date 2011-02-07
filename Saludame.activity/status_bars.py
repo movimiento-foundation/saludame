@@ -18,7 +18,7 @@ SECTION_TOP_PADDING = 18
 
 BAR_OFFSET_X = 30
 BAR_WIDTH = 182
-BAR_HEIGHT = 26
+BAR_HEIGHT = 24
 
 SCORE_BAR_HEIGHT = 36
 SCORE_BAR_WIDTH = 118
@@ -49,34 +49,40 @@ class BarsWindow(gui.Window):
         self.rect.size = (227, 590)
         
         # game bars
-        self.bars = bars_loader.get_second_level_bars()
+        bars = bars_loader.get_second_level_bars()
         
         # sections
         score_section_width = SECTION_WIDTH - 20
-        self.score_section = ScoreSection(bars_loader.get_score_bar(), self.rect, (score_section_width, 40), (SECTION_OFFSET_X + 25, 4), 1)
+        score_section = ScoreSection(bars_loader.get_score_bar(), self.rect, (score_section_width, 40), (SECTION_OFFSET_X + 25, 4), 1)
         
         y = 50
-        self.overall_section = BarSection(windows_controller, self.rect, _(u"TOTAL"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_total.png")
+        overall_section = BarSection(windows_controller, self.rect, _(u"TOTAL"), bars_loader.get_overall_bar(), [] , (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_total.png")
         
         y = 110
-        self.physica_section = BarSection(windows_controller, self.rect, _(u"ESTADO FÍSICO"), self.bars[0], self.bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_physica.png")
+        physica_section = BarSection(windows_controller, self.rect, _(u"ESTADO FÍSICO"), bars[0], bars[0].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_physica.png")
         
         y += SECTION_MIN_HEIGHT
-        self.hygiene_section = BarSection(windows_controller, self.rect, _(u"HIGIENE"), self.bars[1], self.bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_hygiene.png")
+        hygiene_section = BarSection(windows_controller, self.rect, _(u"HIGIENE"), bars[1], bars[1].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_hygiene.png")
         
         y += SECTION_MIN_HEIGHT
-        self.nutrition_section = BarSection(windows_controller, self.rect, _(u"ALIMENTACIÓN"), self.bars[2], self.bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_nutrition.png")
+        nutrition_section = BarSection(windows_controller, self.rect, _(u"ALIMENTACIÓN"), bars[2], bars[2].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_nutrition.png")
         
         y += SECTION_MIN_HEIGHT
-        self.spare_time_section = BarSection(windows_controller, self.rect, _(u"TIEMPO LIBRE"), self.bars[3], self.bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_spare_time.png")
+        spare_time_section = BarSection(windows_controller, self.rect, _(u"TIEMPO LIBRE"), bars[3], bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_spare_time.png")
         
-        self.sections_list = [self.score_section, self.overall_section, self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section]
-        self.accordeon = Accordeon([self.physica_section, self.hygiene_section, self.nutrition_section, self.spare_time_section])
+        y += SECTION_MIN_HEIGHT
+        farm_section = BarSection(windows_controller, self.rect, _(u"HUERTA"), bars[4], bars[4].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_nutrition.png")
+        
+        self.sections_list = [score_section, overall_section, physica_section, hygiene_section, nutrition_section, spare_time_section, farm_section]
+        self.accordeon = Accordeon([physica_section, hygiene_section, nutrition_section, spare_time_section, farm_section])
         
         self.set_bg_image("assets/layout/status.png")
         
-        self.windows += [section for section in self.sections_list if section != self.score_section]    # Score section no va porque no está convertida a window
-        self.add_child(self.score_section)
+        for section in self.sections_list:
+            if section != score_section:   # Score section no va porque es Widget
+                self.add_window(section)
+                
+        self.add_child(score_section)
     
     def on_mouse_over(self):
         return
@@ -91,8 +97,9 @@ class BarsWindow(gui.Window):
                     self.accordeon.compress_sections()
                 else:
                     self.accordeon.expand_section(section)
+                pygame.mixer.Sound("assets/sound/open_bars.ogg").play()
+                self.set_dirty_background()        # Makes the window repaint its background
                 break
-        self.repaint = True     # Makes the window repaint its background
     
 class Accordeon:
     """
@@ -133,6 +140,7 @@ class Accordeon:
         for section in self.sections_list: # move up the sections
             section.move_up()
             section.compress()
+            section.set_dirty()
 
 class BarSection(gui.Window):
     """
@@ -169,15 +177,15 @@ class BarSection(gui.Window):
         if icon_path:
             icon = pygame.image.load(icon_path).convert()
             self.icon = gui.Widget(self.rect, pygame.Rect((0, 0), icon.get_size()), 1, icon)
+            self.icon.keep_dirty = True
             self.fixed_widgets.append(self.icon)
         else:
             self.icon = None
         
-        
         # visuals constant
         self.init_top = self.rect[1]
         self.init_height = size[1]
-        self.max_expand = len(children_bar) * (BAR_HEIGHT + 1)
+        self.max_expand = len(children_bar) * BAR_HEIGHT
         
         self.expanded = False   # Este flag se activa cuando se están mostrando las sub-barras
         self.__calculate()      # calculo la posición de cada barra en la sección
@@ -225,19 +233,20 @@ class BarSection(gui.Window):
         self.root_bar_display.container = self.rect
         self.root_bar_display.set_rect_in_container(self.root_bar_display.rect_in_container)
         
-        self.widgets = []
-        self.widgets.extend(self.fixed_widgets)
+        self.clear_childs()
+        for widget in self.fixed_widgets:
+            self.add_child(widget)
         
         if self.expanded:
             y = SECTION_TOP_PADDING
             for display in self.displays_list:
-                y += (BAR_HEIGHT + 1)
+                y += BAR_HEIGHT
                 display.container = self.rect
                 
                 display.rect_in_container.top = y
                 display.set_rect_in_container(display.rect_in_container)
                 
-                self.widgets.append(display)
+                self.add_child(display)
         
     def __get_displays(self):
         """
@@ -281,29 +290,35 @@ class BarDisplay(gui.Widget):
         
         self.show_name = True
         
+    def update(self, frames):
+        if self.last_value != self.status_bar.value:
+            self.set_dirty()
+            
     def draw(self, screen):
         
-        if self.last_value != self.status_bar.value:
-            if isinstance(self.status_bar, WeightBar):
-                position = self.status_bar.value * (self.rect_in_container.width) / (BAR_WIDTH)
-                arrow_position = min([position, BAR_WIDTH + BAR_OFFSET_X])
-                self.surface.blit(self.background, (0, 0))
-                self.surface.blit(self.arrow, (arrow_position, 14))
-            elif isinstance(self.status_bar, StatusBar):
-                rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
-                charged_rect = pygame.Rect(rect)  # create a copy
-                charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
-                
-                color = self.get_color()
-                
-                self.surface.fill(BAR_BACK_COLOR, rect)
-                self.surface.fill(color, charged_rect)
-                self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
+        if isinstance(self.status_bar, WeightBar):
+            position = self.status_bar.value * (self.rect_in_container.width) / (BAR_WIDTH)
+            arrow_position = min([position, BAR_WIDTH + BAR_OFFSET_X])
+            self.surface.blit(self.background, (0, 0))
+            self.surface.blit(self.arrow, (arrow_position, 14))
             
-            if self.show_name:
-                self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 4))
+        elif isinstance(self.status_bar, StatusBar):
+            rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
+            charged_rect = pygame.Rect(rect)  # create a copy
+            charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
+            
+            color = self.get_color()
+            
+            self.surface.fill(BAR_BACK_COLOR, rect)
+            self.surface.fill(color, charged_rect)
+            self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
         
+        if self.show_name:
+            self.surface.blit(self.font.render(self.label, 1, pygame.Color(SUB_BAR_TEXT_COLOR)), (8, 4))
+    
         screen.blit(self.surface, self.rect_absolute)
+        
+        self.dirty = False
         
         return self.rect_absolute
 
@@ -331,7 +346,6 @@ class ScoreSection(gui.Widget):
         self.score_bar_display = BarDisplay(score_background.get_height(), score_background.get_width(), (SCORE_BAR_X_OFFSET, 12), self.score_bar, SCORE_BAR_PARTITIONS)
         self.score_bar_display.background = score_background
         
-        #self.surface = self.get_background().subsurface(self.rect_in_container)
         self.surface = pygame.Surface(self.rect_in_container.size)
         self.surface.set_alpha(255)
         

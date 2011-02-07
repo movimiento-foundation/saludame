@@ -4,32 +4,52 @@ import pygame
 
 class Widget:
     
-    # Un widget representa cualquier cosa "pintable"
+    """ A widget represents anything drawable on the screen """
     
     def __init__(self, container, rect_in_container, frame_rate, surface=None, tooltip=None):
-        self.container = container # Ventana (Rect) que "contiene" al widget
+        self.container = container # Rect, containing the widget
         self.set_rect_in_container(rect_in_container)
         self.frame_rate = frame_rate
         self.background = surface
         self.parent = None
         
-        # El widget puede (opcionalmente) tener un tooltip
+        # Tooltip
         self.tooltip = tooltip
         self.super_tooltip = None
         self.showing_tooltip = False
         
+        # Click Sound
+        self.click_sound_path = None
+        
         self.visible = True
+        
+        self.over = False
+        
+        # A widget it's dirty when it changes somehow, for example an animation will be dirty after every new sprite
+        # A widget should change in the update method (before draw)
+        self.dirty = True
+        
+        # When this flag it's on, the widget it's always dirty, unless the update method is overriden
+        self.keep_dirty = False
+    
+    def update(self, frames):
+        """ Abstract. This method is called before draw, the purpose is to override it to alter the widget and let
+            know the application that the widget became dirty, for example when an animation changes its image or its position."""
+        if self.keep_dirty:
+            self.set_dirty()
     
     def draw(self, screen):
+        self.dirty = False
         if self.visible:
             if self.background:
                 screen.blit(self.background, self.rect_absolute)
                 return self.rect_absolute
     
-    def force_update(self): # Forzamos la actualizacion del widget independientemente del frame_rate
-        #screen.blit(self.background, self.rect_in_container)
-        #pygame.display.update(self.rect_in_container)
-        pass
+    def set_image(self, image):
+        self.background = image
+    
+    def get_image(self):
+        return self.background
     
     def set_rect_in_container(self, rect):
         # Rect del widget (relativo al container)
@@ -44,7 +64,35 @@ class Widget:
         
         # Rect del widget (absoluto al screen)
         self.rect_absolute.size = size
-           
+    
+    def set_click_sound_path(self, path):
+        self.click_sound_path = path
+    
+    def set_tooltip(self, text):
+        self.tooltip = text
+        
+    def set_super_tooltip(self, text):
+        self.super_tooltip = text
+        
+    def handle_mouse_down(self, (x, y)):
+        self.on_mouse_click()
+        
+    def on_mouse_click(self):
+        if self.click_sound_path:
+            sound = pygame.mixer.Sound(self.click_sound_path)
+            sound.play()
+    
+    def on_mouse_over(self):
+        self.over = True
+    
+    def on_mouse_out(self):
+        self.over = False
+    
+    def set_dirty(self):
+        self.dirty = True
+        if self.parent:
+            self.parent.set_dirty()
+            
     def get_background_and_owner(self):
         if self.background:
             return (self.background, self)

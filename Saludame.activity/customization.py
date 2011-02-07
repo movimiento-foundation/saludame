@@ -59,7 +59,6 @@ class CustomizationWindow(gui.Window):
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
-        #self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 2), (30, 30)), 1, "X", 30, (0, 0, 0), self._cb_button_click_close)
         self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
         button_back = pygame.image.load("customization/customization_button.png").convert()
@@ -67,8 +66,7 @@ class CustomizationWindow(gui.Window):
         self.btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
         self.btn_socks = gui.TextButton2(self.rect, pygame.Rect((500, 280), (70, 30)), 1, _("Socks"), 30, (255, 255, 255), button_back, self._cb_button_socks)
         self.btn_shoes = gui.TextButton2(self.rect, pygame.Rect((500, 360), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
-        self.buttons += [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes]
-        self.widgets += [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes]
+        map(self.add_button, [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes])
         
         self.hair_color_index = 0
         self.skin_color_index = 0
@@ -116,7 +114,7 @@ class CustomizatedKid(gui.Widget):
         self.character = character
         self.set_gender("male") # Sets the correct picture and applies color mappings
         
-        self.dirty = True
+        self.dirty_mappings = True      # Only for the first update
     
     def set_mapping(self, key, colors):
         self.character.mappings[key] = tuple(colors)
@@ -126,6 +124,7 @@ class CustomizatedKid(gui.Widget):
         self.background = self.kid.copy()
         maps = self.character.mappings
         self.change_color(animation.COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        self.set_dirty()
         
     def change_color(self, old, new):
         index = 0
@@ -148,9 +147,9 @@ class CustomizatedKid(gui.Widget):
             self.set_rect_size(self.kid.get_size())
             self.apply_mappings()
     
-    # Override
-    def draw(self, screen):
-        if self.dirty:
-            self.dirty = False
+    def update(self, frames):
+        if self.dirty_mappings:
+            self.dirty_mappings = False
             self.apply_mappings()
-        return gui.Widget.draw(self, screen)
+            self.set_dirty()
+    

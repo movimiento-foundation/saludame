@@ -31,14 +31,20 @@ class AppLoader:
         #moods
         self.moods_list = self.__load_moods()
         
+        # Environments
+        self.places = self.__load_places()
+        self.weathers = ["rainy", "sunny", "cold", "windy"]
+        self.environments_dictionary = self.__load_environments()
+        self.weather_effects = self.__load_weather_effects()
+        
         ### game manager
         
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, character_loader.get_places(), character_loader.get_environments_dictionary(), character_loader.get_weather_effects(), self.moods_list, windows_controller)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, windows_controller)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
         self.game_man.add_background_action("BARS_DEC") #acción de decrementar las barras
-        
+
         ### menu
         #self.menu = menu_creator.load_menu(self.character, (100, 100))
         ### visuals
@@ -65,6 +71,14 @@ class AppLoader:
     def get_events(self):
         return self.events_list
 
+    def get_environments_dictionary(self):
+        return self.environments_dictionary
+        
+    def get_places(self):
+        return self.places
+        
+    def get_weather_effects(self):
+        return self.weather_effects
     
     def __load_events(self, bars_controller):
         #Events constructor params:
@@ -105,15 +119,15 @@ class AppLoader:
         probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
         
         #editar parametros:
-        event = events.SocialEvent("caries.jpg", "assets/characters/teacher.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", None, 100)
+        event = events.SocialEvent("caries.jpg", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", None, 100)
         _events.append(event)
 
         probability = [("responsability", "indirect", 60.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", None, 100)
+        event = events.SocialEvent("unkown.png", "assets/characters/father.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", None, 100)
         _events.append(event)
 
         probability = [("responsability", "indirect", 70.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/teacher.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", None, 100)
+        event = events.SocialEvent("unkown.png", "assets/characters/doctor.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", None, 100)
         _events.append(event)
 
         return _events
@@ -149,3 +163,89 @@ class AppLoader:
         
         return moods_list
 
+    def __load_weather_effects(self):
+        weather_effects = {
+                   # (clothes_id, weather_id, boolean indoor outdoor) : list of tuples [(id_bar, rate)]
+                    #school clothes
+                   ("school", "sunny", True) : [("fun", 1.0)],
+                   ("school", "sunny", False) : [("physica", 1.0)],
+                   ("school", "rainy", True) : [("physica", 1.0)],
+                   ("school", "rainy", False) : [("physica", 1.0)],
+                   ("school", "windy", True) : [("physica", 1.0)],
+                   ("school", "windy", False) : [("physica", 1.0)],
+                   ("school", "cold", True) : [("physica", 1.0)],
+                   ("school", "cold", False) : [("physica", 1.0)],
+                   #sunny clothes
+                   ("sunny", "sunny", True) : [("physica", 1.0)],
+                   ("sunny", "sunny", False) : [("physica", 1.0)],
+                   ("sunny", "rainy", True) : [("physica", 1.0)],
+                   ("sunny", "rainy", False) : [("physica", 1.0)],
+                   ("sunny", "windy", True) : [("physica", 1.0)],
+                   ("sunny", "windy", False) : [("physica", 1.0)],
+                   ("sunny", "cold", True) : [("physica", 1.0)],
+                   ("sunny", "cold", False) : [("physica", 1.0)],
+                   #rainy clothes
+                   ("rainy", "sunny", True) : [("physica", 1.0)],
+                   ("rainy", "sunny", False) : [("physica", 1.0)],
+                   ("rainy", "rainy", True) : [("physica", 1.0)],
+                   ("rainy", "rainy", False) : [("physica", 1.0)],
+                   ("rainy", "windy", True) : [("physica", 1.0)],
+                   ("rainy", "windy", False) : [("physica", 1.0)],
+                   ("rainy", "cold", True) : [("physica", 1.0)],
+                   ("rainy", "cold", False) : [("physica", 1.0)],
+                   }
+        return weather_effects
+    
+    def __load_places(self):
+        places = {  #schoolyard
+                    "schoolyard" : {"outdoor": True},
+                    #square
+                    "square" : {"outdoor": True},
+                    #classroom
+                    "classroom" : {"outdoor": False},
+                    #home
+                    "home": {"outdoor": False},
+                    #country
+                    "country": {"outdoor": True}
+                 }
+        return places
+    
+    
+    def __load_environments(self):
+        environments = {#schoolyard
+                        ("schoolyard", "sunny") : Environment("assets/background/schoolyard_sunny.png"),
+                        ("schoolyard", "rainy") : Environment("assets/background/schoolyard_rainy.png"),
+                        ("schoolyard", "windy") : Environment("assets/background/schoolyard_windy.png"),
+                        ("schoolyard", "cold") : Environment("assets/background/schoolyard_cold.png"),
+                        #square
+                        ("square", "sunny") : Environment("assets/background/square_sunny.png"),
+                        ("square", "rainy") : Environment("assets/background/square_rainy.png"),
+                        ("square", "windy") : Environment("assets/background/square_windy.png"),
+                        ("square", "cold") : Environment("assets/background/square_cold.png"),
+                        #classroom
+                        ("classroom", "sunny") : Environment("assets/background/classroom_sunny.png"),
+                        ("classroom", "rainy") : Environment("assets/background/classroom_rainy.png"),
+                        ("classroom", "windy") : Environment("assets/background/classroom_windy.png"),
+                        ("classroom", "cold") : Environment("assets/background/classroom_cold.png"),
+                        #home
+                        ("home", "sunny") : Environment("assets/background/home_sunny.png"),
+                        ("home", "rainy") : Environment("assets/background/home_rainy.png"),
+                        ("home", "windy") : Environment("assets/background/home_windy.png"),
+                        ("home", "cold") : Environment("assets/background/home_cold.png"),
+                        #country
+                        ("country", "sunny") : Environment("assets/background/country_sunny.png"),
+                        ("country", "rainy") : Environment("assets/background/country_rainy.png"),
+                        ("country", "windy") : Environment("assets/background/country_windy.png"),
+                        ("country", "cold") : Environment("assets/background/country_cold.png"),
+                        }
+        
+        return environments
+
+class Environment:
+    
+    def __init__(self, background_path):
+        self.background_path = background_path
+    
+    def get_background_path(self):
+        return self.background_path
+        

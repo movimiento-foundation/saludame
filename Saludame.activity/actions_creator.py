@@ -6,8 +6,12 @@ import os
 
 BARS_DECREASE_RATE = -0.1
 
-#ANIMATIONS
+#SOUNDS
 BLIP_PATH = os.path.normpath("assets/sound/blip.ogg")
+CHANGE_PLACE_PATH = os.path.normpath("assets/sound/place_change.ogg")
+CHANGE_CLOTHES_PATH = os.path.normpath("assets/sound/clothes_change.ogg")
+
+#ANIMATIONS
 APPLE_PATH = os.path.normpath("assets/food/apple")
 STEW_PATH = os.path.normpath("assets/food/stew")
 CHEW_PATH = os.path.normpath("assets/kid/actions/eat")
@@ -127,53 +131,53 @@ actions_list = [
     ),
     
     # Sports
-    ("sport_football", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sport_football", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
 
-    ("sport_run", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sport_run", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
     
-    ("sport_hide_seek", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sport_hide_seek", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
     
-    ("sport_jump", 0.3, 8, 0, 0, JUMP_ROPE_PATH, 3, 1, None, 4, "sound_path",
+    ("sport_jump", 0.3, 8, 0, 0, JUMP_ROPE_PATH, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
     
     # Tiempo Libre
-    ("sp_sleep", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sp_sleep", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 1.0), ("relaxing", 2.0)]), None, None, None
     ),
 
-    ("sp_talk", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sp_talk", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 0.5)]), None, None, None
     ),
     
-    ("sp_study", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sp_study", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
     
-    ("sp_clean", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("sp_clean", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
     
     # Higiene
-    ("shower", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("shower", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("shower", 5.0)]), None, None, None
     ),
 
-    ("brush_teeth", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("brush_teeth", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("b_teeth", 0.5)]), None, None, None, 1, "un link"
     ),
     
-    ("wash_hands", 0.3, 8, 0, 0, None, 3, 1, None, 4, "sound_path",
+    ("wash_hands", 0.3, 8, 0, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("w_hands", 3.0)]), None, None, None
     ),
     
-    ("toilet", 0.3, 1.9, 0, 1, "assets/kid/actions/toilet", 3, 1, None, 4, "sound_path",
+    ("toilet", 0.3, 1.9, 0, 1, "assets/kid/actions/toilet", 3, 1, None, 4, None,
         effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "un link"
     ),
     
@@ -183,21 +187,21 @@ actions_list = [
 
 ### ACTIONS THAT SET CHARACTER LOCATION
 
-locations_ac_list = [("goto_schoolyard", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "schoolyard"), None, None, None),
-                     ("goto_country", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "country"), None, None, None),
-                     ("goto_classroom", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "classroom"), None, None, None),
-                     ("goto_square", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "square"), None, None, None),
-                     ("goto_living", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home"), None, None, None),
-                     ("goto_bedroom", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home"), None, None, None),
-                     ("goto_kitchen", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home"), None, None, None),
-                     ("goto_bathroom", None, 1, None, None, None, None, None, None, None, None, effects.LocationEffect(None, "home"), None, None, None)
+locations_ac_list = [("goto_schoolyard", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "schoolyard"), None, None, None),
+                     ("goto_country", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "country"), None, None, None),
+                     ("goto_classroom", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "classroom"), None, None, None),
+                     ("goto_square", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "square"), None, None, None),
+                     ("goto_living", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None),
+                     ("goto_bedroom", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None),
+                     ("goto_kitchen", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None),
+                     ("goto_bathroom", None, 1, None, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None)
                     ]
 
 
 ### ACTIONS THAT SET CHARACTER CLOTHES
-clothes_ac_list = [("change_school_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "school"), None, None, None),
-                     ("change_sunny_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "sunny"), None, None, None),
-                     ("change_rainy_clothes", None, 1, None, None, None, None, None, None, None, None, effects.ClothesEffect(None, "rainy"), None, None, None),
+clothes_ac_list = [("change_school_clothes", None, 1, None, None, None, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "school"), None, None, None),
+                     ("change_sunny_clothes", None, 1, None, None, None, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "sunny"), None, None, None),
+                     ("change_rainy_clothes", None, 1, None, None, None, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "rainy"), None, None, None),
                   ]
 
 class ActionsLoader:

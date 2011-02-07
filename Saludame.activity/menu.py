@@ -15,13 +15,14 @@ import effects
 import random
 from gettext import gettext as _
 
-SIZE = 600, 280
+SIZE = 700, 300
 EXP_SPEED = 15.0 #expansion speed, in pixels per frame
 MAX_ITEMS = 8 #max items quantity per selection
 RADIUS = 90.0
 
 #fonts
-LARGE_TEXT = 10 #fewer mean small text
+LARGE_TEXT = 10 # larger than this will use large button
+
 #buttons
 SMALL_BUTTON = "assets/menu/A.png"
 LARGE_BUTTON = "assets/menu/B.png"
@@ -37,8 +38,8 @@ class Menu(gui.Window):
         
         rect = pygame.Rect((0, 0), SIZE)
         rect.center = center
-        self.windows_controller = windows_controller
         self.game_manager = game_manager
+        
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "menu_window")
 
         self.depth = 0 #it means we are in the root of the menu, mayor values means we are not.
@@ -60,7 +61,7 @@ class Menu(gui.Window):
         self.current_selection = self.item_list  #list of current subitems selection
         
         self.radius = RADIUS
-        self.show = False
+        self.hide()
 
         self.on_expansion = False
         self.calculate()
@@ -73,28 +74,16 @@ class Menu(gui.Window):
         self.item_list = items_list
     
     
-    def pre_draw(self, screen):
-        changes = []
-        if self.show:
-            if self.on_expansion:
-                if self.radius < 90:
-                    self.radius += EXP_SPEED
-                    self.__calculate_items_position(self.current_selection)
-                else:
-                    self.on_expansion = False
-    
-            for item in self.current_selection:
-                item.draw_item(screen)
-                changes.append(item.rect_absolute)
-            
-            if self.depth == 0:
-                self.exit.draw_item(screen)
-                changes.append(self.exit.rect_absolute)
+    def update(self, frames):
+        if self.visible and self.on_expansion:
+            if self.radius < 90:
+                self.radius += EXP_SPEED
+                self.__calculate_items_position(self.current_selection)
             else:
-                self.back.draw_item(screen)
-                changes.append(self.back.rect_absolute)
+                self.on_expansion = False
         
-        return changes
+        if self.visible:
+            self.set_dirty_background() # Sets the background as dirty, cause the menú is animated
     
     def send_action(self, action_id):
         """
@@ -122,6 +111,15 @@ class Menu(gui.Window):
             #
             self.on_expansion = True #if the selection changes, display the animation
             self.radius = 0
+            
+            self.clear_childs()
+            map(self.add_button, self.current_selection)
+
+            if self.depth == 0:
+                self.add_button(self.exit)
+            else:
+                self.add_button(self.back)
+
     
     def get_allowed_items(self, items_list):
         """
@@ -214,10 +212,11 @@ class Menu(gui.Window):
         """
         Close the Menu Window
         """
-        self.show = False
+        self.hide()
         self.depth = 0
         self.previous_items = []
         self.current_selection = []
+        self.clear_childs()
         self.game_manager.menu_active = False
 
     def back_to_previous_selection(self):
@@ -240,7 +239,7 @@ class Menu(gui.Window):
     
     #handlers
     def handle_mouse_down(self, coord):
-        if self.show and not self.on_expansion:
+        if self.visible and not self.on_expansion:
             if self.exit.rect_absolute.collidepoint(coord) and self.depth == 0:
                 self.close()
             elif self.exit.rect_absolute.collidepoint(coord) and self.depth > 0: #click on back item, it's in the same position of exit item
@@ -253,7 +252,7 @@ class Menu(gui.Window):
 
         else:
             self.set_current_selection(self.item_list)
-            self.show = True
+            self.show()
             self.game_manager.menu_active = True
 
     #privates
@@ -302,7 +301,7 @@ class Menu(gui.Window):
         item.set_rect_in_container(rect)   # Recalculates the absolute coordinates
         
 
-class Item(gui.Widget):
+class Item(gui.Button):
     """
     Entity that represent an item
     """
@@ -332,11 +331,11 @@ class Item(gui.Widget):
                 self.help_image = pygame.image.load(HELP_BUTTON).convert()
                 self.help_rect = self.help_image.get_rect()
                 
-        size_and_surface = self.get_surface(20, self.name, self.bg_image, self.help_image)
+        size, surface = self.get_surface(20, self.name, self.bg_image, self.help_image)
         
-        self.rect = pygame.Rect((0, 0), size_and_surface[0])
+        self.rect = pygame.Rect((0, 0), size)
         
-        gui.Widget.__init__(self, container, self.rect, frame_rate, size_and_surface[1])
+        gui.Button.__init__(self, container, self.rect, frame_rate, surface)
 
     def get_surface(self, font_size, text, bg_image, help_image):
         font = utilities.get_font(font_size)
@@ -359,19 +358,6 @@ class Item(gui.Widget):
         Append a subitem to the item list
         """
         self.subitems_list.append(item)
-    
-    
-    def draw_item(self, screen):
-        """
-        draw the item in the screen
-        """
-        screen.blit(self.background, self.rect_absolute)
-    
-    def on_mouse_over(self):
-        return
-    
-    def on_mouse_out(self):
-        return
     
     def on_mouse_click(self):
         """

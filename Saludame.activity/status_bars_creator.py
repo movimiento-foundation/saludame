@@ -37,14 +37,20 @@ class BarsLoader:
         nutrition_children_bar = [status_bars.StatusBar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
         nutrition.children_list = nutrition_children_bar
         
-        ### fun
+        ### spare time
         fun_children_id = [("sports", _("Deportes")), ("fun", _(u"Diversión")), ("relaxing", _("Descanso")), ("responsability", _("Responsabilidad"))]
         fun = status_bars.StatusBar("spare_time", _("Tiempo Libre"), self.overall_bar, [], hard_level[0], hard_level[1])
         fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar
-        
-        self.second_level = [physica, hygiene, nutrition, fun]
-        self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list
+
+        ### farm
+        farm_children_id = [("riego", _("Riego")), ("siembra", _(u"Siembra")), ("cosecha", _("Cosecha"))]
+        farm = status_bars.StatusBar("farm", _("Huerta"), self.overall_bar, [], hard_level[0], hard_level[1])
+        farm_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in farm_children_id]
+        farm.children_list = farm_children_bar
+
+        self.second_level = [physica, hygiene, nutrition, fun, farm]
+        self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list + farm.children_list
         
         self.overall_bar.children_list = self.second_level
         

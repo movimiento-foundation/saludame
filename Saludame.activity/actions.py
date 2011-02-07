@@ -2,6 +2,7 @@
 
 import status_bars
 import events
+import pygame
 
 class Action:
     
@@ -34,6 +35,9 @@ class Action:
         self.sound_loop_times = sound_loop_times
         
     def perform(self):
+        if self.sound_path:
+            pygame.mixer.Sound(self.sound_path).play()
+            
         if self.time_span == -1:
             # Perpetual
             self.effect.activate()

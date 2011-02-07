@@ -22,7 +22,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, environments_dictionary, weather_effects, moods_list, windows_controller):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, windows_controller):
         """
         Constructor de la clase
         """
@@ -50,9 +50,10 @@ class GameManager:
         self.active_events = []
         self.active_social_events = []
         self.active_mood = None
-        self.__check_active_mood() # sets active_mood
+        #self.__check_active_mood() # sets active_mood -> doesn't work because status bars aren't ready
         
         self.places_dictionary = places_dictionary
+        self.weathers = weathers
         
         #for events handling:
         self.events_interval = EVENTS_OCCURRENCE_INTERVAL
@@ -72,8 +73,7 @@ class GameManager:
         # menu handling
         self.menu_active = False
         
-        #for weather
-        self.p_i = 0
+        # weather
         self.weather_effects = weather_effects
         self.environment_effect = None  # this is an Effect that represents the effect on the character by the environment: weather + place + clothes
         self.update_environment_effect()
@@ -113,10 +113,10 @@ class GameManager:
         Sets the character environment and send a message to the
         windows_controller
         """
-        environment_id = self.character.current_place + "_" + self.current_weather
+        environment_id = (self.character.current_place, self.current_weather)
         self.environment = self.environments_dictionary[environment_id]
         
-        self.windows_controller.set_environment(self.environment)
+        self.windows_controller.set_environment(self.environment, self.current_time)
     
     def update_environment_effect(self):
         """
@@ -134,6 +134,8 @@ class GameManager:
    
     def __handle_time(self):
         if not self.hour_count:
+            sound_manager.instance.play_time_change()
+            
             self.hour_count = HOUR_COUNT_CYCLE
             
             self.hour += 1
@@ -165,16 +167,12 @@ class GameManager:
         """
         Returns a random weather, never returns the previous weather.
         """
-        l = ["rainy", "sunny", "cold", "normal"]
-        i = random.randint(0, 3)
-        if i == self.p_i:
-            return self.get_random_weather()
-        else:
-           self.p_i = i
+        random_weather = self.current_weather
+        while random_weather == self.current_weather:
+            random_weather = random.choice(self.weathers)
         
-        print "se genero el clima: ", l[i]
-        
-        return l[i]
+        print "se genero el clima: ", random_weather
+        return random_weather
         
 ### location
 
@@ -311,15 +309,15 @@ class GameManager:
         elif overall_bar_percent > 0.66:
             overall_bar_mood = 10 #set mood in happy 3
         
+        mood = self.moods_list[overall_bar_mood]
+        
         event_preferred_moods = [event.preferred_mood for event in self.active_events]
         #event_preferred_moods += [event.preferred_mood for event in self.active_social_events]
         if event_preferred_moods:
             event_preferred_mood = min(event_preferred_moods)
         
-        if event_preferred_mood <= overall_bar_mood: # choose the lowest value
-            mood = self.moods_list[event_preferred_mood]
-        else:
-            mood = self.moods_list[overall_bar_mood]
+            if event_preferred_mood <= overall_bar_mood: # choose the lowest value
+                mood = self.moods_list[event_preferred_mood]
         
         if mood <> self.active_mood:
             self.active_mood = mood

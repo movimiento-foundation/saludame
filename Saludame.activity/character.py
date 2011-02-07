@@ -69,18 +69,6 @@ class Character:
         self.clothes = 'school'
         self.current_place = 'schoolyard'
         self.mappings = DEFAULT_MAPPINGS.copy()
-
-class Environment:
-    
-    def __init__(self, background_path, background_music):
-        self.background_path = background_path
-        self.background_music = background_music
-    
-    def get_background_path(self):
-        return self.background_path
-    
-    def get_background_music(self):
-        return self.background_music
         
 class Place:
     

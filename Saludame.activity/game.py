@@ -48,7 +48,7 @@ class Main():
         global running, pauses
         
         if from_sugar:
-                import gtk
+            import gtk
 
         import app_init
         import challenges_creator
@@ -66,7 +66,7 @@ class Main():
         pygame.init()
         
         if not from_sugar:
-            target_size = (1200, 800)#(1000, 650)   # In regular computers the native resolution is too high (5/6)
+            target_size = (1000, 650) #(1200, 800)  # In regular computers the native resolution is too high (5/6)
             screen = pygame.display.set_mode(target_size)
         
         screen = pygame.display.get_surface()

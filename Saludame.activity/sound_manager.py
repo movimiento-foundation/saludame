@@ -37,6 +37,7 @@ class SoundManager:
             if name <> self.current_music_name:
                 self.state = SoundManager.FADE_OUT
                 self.next_music_name = name
+                pygame.mixer.music.fadeout(1000)
             
         elif self.state == SoundManager.FADE_OUT:
             if name == self.current_music_name:
@@ -52,6 +53,15 @@ class SoundManager:
 
     def start_playing(self):
         global music
+        
+        if self.next_music_name:
+            self.current_music_name = self.next_music_name
+            self.next_music_name = None
+            
         path = music[self.current_music_name]
         pygame.mixer.music.load(path)
         pygame.mixer.music.play()
+
+    # Sounds
+    def play_time_change(self):
+        pygame.mixer.Sound("assets/sound/time_change.ogg").play()

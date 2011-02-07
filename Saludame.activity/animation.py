@@ -17,10 +17,10 @@ BLACK = pygame.Color("black")
 BLUE = pygame.Color("blue")
 WHITE = pygame.Color("white")
 
-class Kid(gui.Window):
+class Kid(gui.Widget):
     
     def __init__(self, container, rect, frame_rate, windows_controller, game_man, mood):
-        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "character_window")
+        gui.Widget.__init__(self, container, rect, frame_rate, windows_controller)
         
         self.character = game_man.character
         
@@ -74,27 +74,41 @@ class Kid(gui.Window):
             directory = "%s/%s/%s" % (self.mood.kid_animation_path, sex, clothes)
             self.file_list = get_image_list(directory)
     
+    
     ##### Draw #####
-    def pre_draw(self, screen):
+    def update(self, frames):
         filename = self.file_list[self.index]
         self.sprite = load_animation(self.sprite, filename)
         
+        self.background = self.sprite.copy()
         maps = self.character.mappings
         self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
         
-        screen.blit(self.bg_image, self.rect)
-        screen.blit(self.sprite, self.rect)
-        
         self.index = (self.index + 1) % len(self.file_list)
         
-        return [self.rect]
+        self.set_dirty()
+        
+    ###### Draw #####
+    #def pre_draw(self, screen):
+        #filename = self.file_list[self.index]
+        #self.sprite = load_animation(self.sprite, filename)
+        
+        #maps = self.character.mappings
+        #self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        
+        ##screen.blit(self.bg_image, self.rect)
+        #screen.blit(self.sprite, self.rect)
+        
+        #self.index = (self.index + 1) % len(self.file_list)
+        
+        #return [self.rect]
     
     ##### Colors #####
     def change_color(self, old, new):
         index = 0
         for old_color in old:
             new_color = new[index]
-            utilities.change_color(self.sprite, old_color, new_color)
+            utilities.change_color(self.background, old_color, new_color)
             
             index += 1
             
@@ -114,59 +128,40 @@ class ActionAnimation(gui.Widget):
         
         self.index = 0
         
-        self.blip = pygame.mixer.Sound(sound_path)
-        
-    def draw(self, screen):
-        file = self.file_list[self.index]
-        self.sprite = pygame.image.load(file)
-        rect = self.sprite.get_rect()
-        rect.center = self.rect_absolute.center
-        
-        screen.fill(WHITE, rect)
-        screen.blit(self.sprite, rect)
-        
-        self.index = (self.index + 1) % len(self.file_list)
-        self.blip.play()
-        
-        return self.rect_absolute
+    def update(self, frames):
+        if frames % self.frame_rate == 0:
+            filename = self.file_list[self.index]
+            self.background = pygame.image.load(filename)
+            self.index = (self.index + 1) % len(self.file_list)
+            self.set_dirty()
 
-class FPS:
+class FPS(gui.Widget):
     def __init__(self, container, rect, frame_rate, clock):
-        self.register_id = ""
-        self.buttons = []
-        self.rect = rect
-        self.frame_rate = frame_rate
+        
+        gui.Widget.__init__(self, container, rect, frame_rate)
+        
         self.clock = clock
-
+        
         self.font = pygame.font.Font(None, 16)
   
-    def draw(self, screen, frames):
-        screen.fill(BLACK, self.rect)
+    def draw(self, screen):
+        screen.fill(BLACK, self.rect_absolute)
         text = str(round(self.clock.get_fps()))
         text_surf = self.font.render(text, False, (255, 255, 255))
-        screen.blit(text_surf, self.rect)
-        return [self.rect]
+        screen.blit(text_surf, self.rect_absolute)
+        return self.rect_absolute
 
 def get_image_list(directory):
     dirList = os.listdir(directory)
     dirList.sort()
     return [os.path.join(directory, fname) for fname in dirList if fname.endswith('.png') or fname.endswith('.diff.gz') or fname.endswith('.diff.zlib')]
-    
+
+
 import zlib
 import imagepatch
 def load_animation(last_image, new_filename):
     if new_filename.endswith('.png'):
         new = pygame.image.load(new_filename)
-        
-    #elif new_filename.endswith('.diff.gz'):
-        #f = gzip.open(new_filename, 'r')
-        #diff = f.read()
-        #f.close()
-        
-        #new_buffer = imagepatch.patch(last_image.get_buffer().raw, diff)
-        
-        #new = last_image                        # both point to the same surface
-        #new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
         
     elif new_filename.endswith('.diff.zlib'):
         f = open(new_filename, 'r')

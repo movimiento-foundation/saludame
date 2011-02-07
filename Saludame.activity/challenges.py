@@ -77,8 +77,7 @@ class MultipleChoice(gui.Window):
             y += 30
             b = gui.TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
-            self.buttons.append(b)
-            self.add_child(b)
+            self.add_button(b)
     
     def set_image(self, image):
         if  not isinstance(image, pygame.Surface):
@@ -122,13 +121,11 @@ class MultipleChoice(gui.Window):
     def _cb_button_over_choice(self, button):
         if not FIN_MC:
             button.switch_color_text(MOUSE_OVER_COLOR)
-            button.force_update()
             self.s_over.play()
             
     def _cb_button_out_choice(self, button):
         if not FIN_MC:
             button.switch_color_text(ANSWER_COLOR)
-            button.force_update()
 
     def _cb_button_click_close(self, button):
         self.windows_controller.close_active_window()
@@ -140,9 +137,9 @@ class MultipleChoice(gui.Window):
         Delete question and answers and repaint. Set FIN_MC false
         """
         self.choices = []
-        self.widgets = [self.btn_close] #, self.btn_view_answer]
-        self.buttons = [self.btn_close] #, self.btn_view_answer]
-        self.repaint = True
+        self.clear_childs()
+        self.add_button(self.btn_close)
+        self.set_dirty_background()
         self.wait = 0
         global FIN_MC
         FIN_MC = False

@@ -24,7 +24,7 @@ class PanelWindow(gui.Window):
         self.timing = 1 # la idea de timing es llevar una cuenta adentro, de los frames que fueron pasando
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "panel_window")
         
-        self.set_bg_image(PANEL_BG_PATH)
+        self.set_bg_image(PANEL_BG_PATH, False)
         
         # Actions
         self.rect_action = pygame.Rect((560, 36), (310, 124))
@@ -79,18 +79,31 @@ class PanelWindow(gui.Window):
         self.add_button(info_button)
 
         # Environment
-        self.weather_button = None
+        self.weather_widget = None
         self.set_weather()
     
     def set_weather(self):
-        if self.weather_button:
-            self.buttons.remove(self.weather_button)
-            self.widgets.remove(self.weather_button)
+        if self.weather_widget:
+            self.remove_child(self.weather_widget)
         
         weather = self.windows_controller.game_man.current_weather
         file_path = "assets/events/weather/" + weather + ".png"
-        self.weather_button = gui.ImageButton(self.rect, pygame.Rect(51, 34, 1, 1), 1, file_path)
-        self.add_button(self.weather_button)
+        self.weather_widget = gui.Image(self.rect, pygame.Rect(51, 34, 1, 1), 1, file_path)
+        self.add_child(self.weather_widget)
+        self.weather_widget.set_dirty()
+        
+        info = "%s \n" % (weather)
+        
+        effect = self.windows_controller.game_man.environment_effect
+        if effect:
+            for eff in effect.effect_status_list:
+                bar_label = effect.bars_controller.get_bar_label(eff[0])
+                if eff[1] > 0:
+                    info += "+ %s \n" % (bar_label)
+                else:
+                    info += "- %s \n" % (bar_label)
+        
+        self.weather_widget.set_super_tooltip(info)
         
     # Actions
     def set_active_action(self, action):
@@ -144,6 +157,7 @@ class PanelWindow(gui.Window):
                 self.remove_button(self.b_event_personal)
             self.b_event_personal = b_event_personal
             self.add_button(self.b_event_personal)
+            self.b_event_personal.set_dirty()
             self.index_personal_event = len(self.active_personal_events) - 1
             
             self.refresh_count_personal_events()
@@ -189,6 +203,7 @@ class PanelWindow(gui.Window):
                 self.remove_button(self.b_event_social)
             self.b_event_social = b_event_social
             self.add_button(self.b_event_social)
+            self.b_event_social.set_dirty()
             self.index_social_event = len(self.active_social_events) - 1
             
             self.refresh_count_social_events()
@@ -230,25 +245,17 @@ class PanelWindow(gui.Window):
             self.count_social_events.text = "0/0"
             self.count_social_events.refresh()
         
-    def pre_draw(self, screen):
-                    
+    def update(self, frames):
+             
         self.timing += 1
         
         # Actions
         if self.on_animation and self.current_animation and self.timing % self.current_animation.frame_rate == 0:
             if self.timing > 12:
                 self.timing = 0
-        
-        # Events
-        self.surf_personal.fill(WHITE)
-        self.surf_social.fill(WHITE)
-        
-        # Blit the personal and social surfaces with screen
-        screen.blit(self.surf_personal, self.rect_personal)
-        screen.blit(self.surf_social, self.rect_social)
-
-        return [self.rect]
     
+        gui.Window.update(self, frames)
+        
     # Buttons Callbacks
     def _cb_button_click_personal(self, button):
         if game.set_library_function:
@@ -307,8 +314,8 @@ class ActionProgressBar(gui.Widget):
         
         gui.Widget.__init__(self, container, rect_in_container, frame_rate)
         
-        self.background = surface       # Borders of the bar
-        self.surface = surface.copy()   # Actual surface to blit in the screen, _prepare_surface
+        self.borders = surface       # Borders of the bar
+        self.background = surface.copy()   # Actual surface to blit in the screen, _prepare_surface
         self.decrease = action.time_span
         self._prepare_surface()
         
@@ -318,17 +325,16 @@ class ActionProgressBar(gui.Widget):
         
         charged_rect.width = ((float)(self.decrease) / self.action.time_span) * rect.width
         
-        self.surface.fill(BAR_BACK_COLOR, rect)
-        self.surface.fill(BAR_FILL_COLOR, charged_rect)
-        self.surface.blit(self.background, (0, 0)) # Background blits over the charge, because it has the propper alpha
+        self.background.fill(BAR_BACK_COLOR, rect)
+        self.background.fill(BAR_FILL_COLOR, charged_rect)
+        self.background.blit(self.borders, (0, 0)) # Background blits over the charge, because it has the propper alpha
         
         self.decrease = self.action.time_left
-        
-    def draw(self, screen):
+        self.set_dirty()
+    
+    def update(self, frames):
         """
-        Draw the progress bar (if the action is still active), override widget draw
+        Updates the progress bar (if the action is still active)
         """
         if self.decrease > 0:
             self._prepare_surface()
-            screen.blit(self.surface, self.rect_absolute)
-            return self.rect_absolute

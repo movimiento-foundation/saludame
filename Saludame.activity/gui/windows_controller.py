@@ -130,6 +130,8 @@ class WindowsController:
             pygame.display.flip() # Actualizamos el screen para hacer visibles los efectos
             self.reload_main = False
         
+        self.windows_stack[-1].update(frames)
+        
         changes = []
         if frames % self.windows_stack[-1].frame_rate == 0:
             changes.extend(self.windows_stack[-1].draw(self.screen, frames))
