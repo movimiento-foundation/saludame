@@ -70,7 +70,16 @@ items = [
         (_("Go to sleep"), "assets/icons/icon.png", "sp_sleep", None),
         (_("Talk with a friend"), "assets/icons/icon.png", "sp_talk", None),
         (_("Do homework"), "assets/icons/icon.png", "sp_study", None),
-        (_("Clean up the bedroom"), "assets/icons/icon.png", "sp_clean", None)
+        (_("Clean up the bedroom"), "assets/icons/icon.png", "sp_clean", None),
+        
+        (_("Diversión..."), "assets/icons/icon_parent.png", None, [
+            (_("Locuras"), "assets/icons/icon.png", "crazy", None),
+            (_("Bailar"), "assets/icons/icon.png", "dance", None),
+            (_("Escondida"), "assets/icons/icon.png", "hidenseek", None),
+            (_("Jugar XO"), "assets/icons/icon.png", "playXO", None),
+            (_("Leer"), "assets/icons/icon.png", "read", None),
+        ]),
+        
     ]),
     
     (_("Ir a..."), "assets/icons/icon_parent.png", None, [
@@ -96,7 +105,8 @@ items = [
        (_("Lavarse los dientes"), "assets/icons/icon.png", "brush_teeth", None),
        (_("Lavarse las manos"), "assets/icons/icon.png", "wash_hands", None),
        (_("Ir al baño"), "assets/icons/icon.png", "toilet", None),
-   ])
+   ]),
+   
 ]
 
 MENU_FRAME_RATE = 1

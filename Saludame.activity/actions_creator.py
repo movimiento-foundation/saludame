@@ -181,6 +181,27 @@ actions_list = [
         effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "un link"
     ),
     
+    # Diversión
+    ("crazy", 0.3, 4, 0, 0, "assets/kid/actions/crazy", 3, 1, None, 4, None,
+        effects.Effect(None, [("fun", 5.0)]), None, None, None
+    ),
+
+    ("dance", 0.3, 6, 0, 0, "assets/kid/actions/dance", 3, 1, None, 4, None,
+        effects.Effect(None, [("fun", 0.5)]), None, None, None, 1, "un link"
+    ),
+    
+    ("hidenseek", 0.3, 6, 0, 0, "assets/kid/actions/hidenseek", 3, 1, None, 4, None,
+        effects.Effect(None, [("fun", 3.0)]), None, None, None
+    ),
+    
+    ("playXO", 0.3, 4, 0, 1, "assets/kid/actions/playXO", 3, 1, None, 4, None,
+        effects.Effect(None, [("fun", 4.0)]), None, None, None, 1, "un link"
+    ),
+    
+    ("read", 0.3, 4, 0, 1, "assets/kid/actions/read", 3, 1, None, 4, None,
+        effects.Effect(None, [("fun", 4.0)]), None, None, None, 1, "un link"
+    ),
+    
     # Default action - affects the bars continuously
     ("BARS_DEC", 1.0, -1, 0, 0, None, 0, 0, None, 0, None, bar_dec_effect, None, None, None)
 ]

@@ -60,6 +60,7 @@ class SoundManager:
             
         path = music[self.current_music_name]
         pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(0.6)
         pygame.mixer.music.play()
 
     # Sounds
