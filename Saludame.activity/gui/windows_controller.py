@@ -25,12 +25,18 @@ class WindowsController:
         self.showing_tooltip = False
         self.active_tooltip_bg = None
         self.active_tooltip = None
+        
+        self.mouse_on_window = None
     
     def get_screen(self):
-        return self.screen
-    
+        return self.scree
     
     # Windows
+    def set_mouse_on_window(self, register_id):
+        if (self.mouse_on_window != register_id and self.showing_tooltip):
+            self.hide_active_tooltip()
+        self.mouse_on_window = register_id
+    
     def close_active_window(self):
         self.windows_stack[-1].repaint = True
         # Solo puede ser llamado por la ventana activa e implica
