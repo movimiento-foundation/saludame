@@ -29,7 +29,7 @@ class WindowsController:
         self.mouse_on_window = None
     
     def get_screen(self):
-        return self.scree
+        return self.screen
     
     # Windows
     def set_mouse_on_window(self, register_id):
@@ -110,14 +110,12 @@ class WindowsController:
         self.showing_tooltip = True
     
     def hide_active_tooltip(self):
-        # Solo se ejecuta si se esta mostrando algun tooltip en la pantalla
-        if self.showing_tooltip:
-            # Hacemos un blit con lo que tenia atras el tooltip
-            self.screen.blit(self.active_tooltip_bg[0], self.active_tooltip_bg[1])
-            # Lo guardamos en la lista de las proximas actualizaciones
-            self.next_update(self.active_tooltip_bg[1])
+        if self.showing_tooltip:            
+            for win in self.windows_stack[-1].windows:
+                if win.rect.colliderect(self.active_tooltip_bg[1]):
+                    win.dirty_background = True
+                    
             self.showing_tooltip = False
-    
     
     # Updates to the screen
     def next_update(self, rect):
