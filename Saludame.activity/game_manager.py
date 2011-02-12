@@ -92,8 +92,8 @@ class GameManager:
         if not self.pause:
             self.count += 1
             if self.count >= CONTROL_INTERVAL:
-                self.__control_active_actions() # handle active character actions
                 self.bars_controller.calculate_score()  # calculates the score of the score_bar
+                self.__control_background_actions() # background actions
                 self.__control_level() # Checks if level must be changed
                 self.__control_active_events() # handle active events
                 self.__check_active_mood() # check if the active character mood
@@ -105,7 +105,10 @@ class GameManager:
                     self.update_environment_effect()
                 
                 self.count = 0
-    
+
+            #handle actions.
+            self.__control_active_character_action() # handle active character actions
+
 ## Environment handling
    
     def update_environment(self):
@@ -256,15 +259,13 @@ class GameManager:
         """
         Set the active char actions
         """
-        #place = get_place(self.character.current_place)
-        #if place.allowed_action(action_id): #continúa con la acción, solo si es permitida en el lugar
-        if not self.active_char_action: #Si existe una accion activa no la interrumpe
-            if True: #dont check char's place yet
-                action = self.get_action(action_id)
-                if action:
-                    action.perform()
-                    self.windows_controller.show_action_animation(action)
-                    self.active_char_action = action
+        
+        if not self.active_char_action: #if there is not an active character action
+            action = self.get_action(action_id)
+            if action:
+                action.perform()
+                self.windows_controller.show_action_animation(action)
+                self.active_char_action = action
             
     def get_action(self, action_id):
         """
@@ -277,14 +278,10 @@ class GameManager:
     def get_lowest_bar(self):
         return self.bars_controller.get_lowest_bar()
     
-    def __control_active_actions(self):
+    def __control_active_character_action(self):
         """
         Controls active game actions.
         """
-        for action in self.background_actions:
-            action.perform()
-            action.time_span = -1 #that means background actions never stop
-            
         if self.active_char_action: #if the character is performing an action:
             if self.active_char_action.time_left > 0:
                 self.active_char_action.perform()
@@ -292,7 +289,15 @@ class GameManager:
                 self.active_char_action.reset()
                 self.active_char_action = None
                 self.windows_controller.stop_current_action_animation()
-                
+    
+    def __control_background_actions(self):
+        """
+        Controls active background actions.
+        """
+        for action in self.background_actions:
+            action.perform()
+            action.time_span = -1 #that means background actions never stop
+            
 ## Moods handling
 
     def __check_active_mood(self):
