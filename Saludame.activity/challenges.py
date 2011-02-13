@@ -312,6 +312,8 @@ class Cooking(gui.Window):
         # Mouse mode (1 - left button pressed)
         self.mouse_mode = 0
         
+        self.widget_selected = None
+        
     def handle_mouse_down(self, (x, y)):
         gui.Window.handle_mouse_down(self, (x, y))
         self.mouse_mode = 1
@@ -322,15 +324,21 @@ class Cooking(gui.Window):
             if self.trash.contains_point(widget.rect_absolute.centerx, widget.rect_absolute.centery):
                 self.remove_child(widget)
         self.mouse_mode = 0
+        self.widget_selected = None
     
     def handle_mouse_motion(self, pos):
         if pos[0] < self.rect.right - 70 and pos[0] > self.rect.left + 70 and pos[1] < self.rect.bottom - 70 and pos[1] > self.rect.top + 120:
-            if self.mouse_mode == 1:
+            if self.mouse_mode == 1 and not self.widget_selected:
                 for widget in self.dnd:
                     if widget.contains_point(pos[0], pos[1]):
+                        self.widget_selected = widget
                         widget.rect_absolute.centerx = pos[0]
                         widget.rect_absolute.centery = pos[1]
                         self.repaint = True
+            elif self.mouse_mode == 1:
+                self.widget_selected.rect_absolute.centerx = pos[0]
+                self.widget_selected.rect_absolute.centery = pos[1]
+                self.repaint = True
         
     def _cb_button_click_close(self, button):
         self.windows_controller.close_active_window()
