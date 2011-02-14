@@ -102,8 +102,9 @@ class Main():
             if from_sugar:
                 # Pump GTK messages.
                 while gtk.events_pending():
-                    gtk.main_iteration()
-    
+                    block = pause
+                    gtk.main_iteration(block)
+            
             if not pause:
                 # Waits for events, if none the game pauses:
                 # http://wiki.laptop.org/go/Game_development_HOWTO#Reducing_CPU_Load
