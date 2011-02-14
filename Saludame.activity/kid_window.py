@@ -155,6 +155,8 @@ class ExternalCharacter(gui.Window):
         rect = pygame.Rect((0,0), (300, 559))
         rect.bottomleft = left_bottom
         
+        self.visible = True
+        
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "external_character")
         
         self.time_span = event.message_time_span
@@ -206,7 +208,11 @@ class MessageBalloon(gui.Window):
     
     # Override handle_mouse_down
     def handle_mouse_down(self, (x, y)):
-        self.hide()
+        if self.visible:
+            self.hide()
+            return True
+        else:
+            return False
         
     def set_text(self, text):
         if self.b_type == 'A':
