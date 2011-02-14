@@ -50,11 +50,11 @@ class Menu(gui.Window):
         self.item_list = item_list # item's list that going to be displayed, root items
         self.previous_items = []
         
-        self.exit = Item(container, frame_rate, _("exit"), CENTER_BUTTON, CLOSE_MENU, [], self, font, None, None, True)
+        self.exit = Item(container, frame_rate, _("exit"), CENTER_BUTTON, CLOSE_MENU, None, [], self, font, None, None, True)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
         
-        self.back = Item(container, frame_rate, _("back"), CENTER_BUTTON, BACK_MENU, [], self, font, None, None, True)
+        self.back = Item(container, frame_rate, _("back"), CENTER_BUTTON, BACK_MENU, None, [], self, font, None, None, True)
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         
@@ -268,7 +268,7 @@ class Menu(gui.Window):
             angle = (2.0 * math.pi) / len(item_list)
         else:
             angle = 0.0
-        current_angle = - math.pi / 2.0 - angle / 2.0
+        current_angle = -math.pi / 2.0 - angle / 2.0
         for item in item_list:
             self.__calculate_item_position(item, current_angle) #calculate the position for each item
             current_angle += angle
@@ -305,7 +305,7 @@ class Item(gui.Button):
     """
     Entity that represent an item
     """
-    def __init__(self, container, frame_rate, name, icon_path, action_id, subitems_list, menu, font, allowed_places = None, allowed_hours = None,  center_item=False):
+    def __init__(self, container, frame_rate, name, icon_path, action_id, super_tooltip, subitems_list, menu, font, allowed_places=None, allowed_hours=None, center_item=False):
         
         self.name = name
         self.subitems_list = subitems_list
@@ -326,6 +326,7 @@ class Item(gui.Button):
         self.bg_rect = self.bg_image.get_rect()
         
         action = self.menu.game_manager.get_action(self.action_id)
+
         if action:
             if action.link: #has to show help button
                 self.help_image = pygame.image.load(HELP_BUTTON).convert()
@@ -336,6 +337,9 @@ class Item(gui.Button):
         self.rect = pygame.Rect((0, 0), size)
         
         gui.Button.__init__(self, container, self.rect, frame_rate, surface)
+        
+        if super_tooltip:
+            self.set_super_tooltip(super_tooltip)
 
     def get_surface(self, font_size, text, bg_image, help_image):
         font = utilities.get_font(font_size)

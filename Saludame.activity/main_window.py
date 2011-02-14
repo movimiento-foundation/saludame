@@ -25,34 +25,13 @@ class MainWindow(gui.Window):
         self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller)
         self.add_window(self.panel_win)
         
-        self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, game_man)
+        self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, cha_loader, game_man)
         self.add_window(self.kidW)
         
         self.add_child(animation.FPS(container, pygame.Rect((1150, 0), (50, 20)), 15, self.clock))
         self.add_window(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 5, windows_controller, bars_loader))
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
-        
-        # Challenges
-        challenges_button = gui.ImageButton(self.rect, pygame.Rect((1120, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
-        challenges_button.set_tooltip(_("Multiple choice"))
-        challenges_button.keep_dirty = True
-        self.add_button(challenges_button)
-        
-        challenges_button2 = gui.ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_tf_challenges)
-        challenges_button2.set_tooltip(_("True or false"))
-        challenges_button2.keep_dirty = True
-        self.add_button(challenges_button2)
-        
-        challenges_button3 = gui.ImageButton(self.rect, pygame.Rect((1120, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_master_challenge)
-        challenges_button3.set_tooltip(_("Master challenge"))
-        challenges_button3.keep_dirty = True
-        self.add_button(challenges_button3)
-        
-        challenges_button4 = gui.ImageButton(self.rect, pygame.Rect((1120, 200), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_cooking_challenge)
-        challenges_button4.set_tooltip(_("Cooking"))
-        challenges_button4.keep_dirty = True
-        self.add_button(challenges_button4)
         
         button_back = pygame.image.load("customization/customization_button.png").convert()
         btn_reset = gui.TextButton2(self.rect, pygame.Rect((1000, 20), (70, 30)), 1, _("Reset"), 30, (255, 255, 255), button_back, self._cb_reset_game)
@@ -62,28 +41,7 @@ class MainWindow(gui.Window):
         #btn_change_mood = gui.ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
         #self.add_button(btn_change_mood)
     
-    # Callbacks
-    def _cb_button_click_mc_challenges(self, button):
-        self.cha_loader.get_challenge("mc")
-        self.windows_controller.set_active_window("mc_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" %(self.cha_loader.game_man.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
-        self.windows_controller.set_active_window("info_challenge_window")
-        
-    def _cb_button_click_tf_challenges(self, button):
-        self.cha_loader.get_challenge("tf")
-        self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Flaso: %s" %(self.cha_loader.game_man.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
-        self.windows_controller.set_active_window("info_challenge_window")
-        
-    def _cb_button_click_master_challenge(self, button):
-        self.cha_loader.get_challenge("master")
-        self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estas por pasar de nivel! \nPara superarlo tienes que responder \ncorrecto a 3 de las 5 preguntas \nque siguen \n\n¡Suerte!")
-        self.windows_controller.set_active_window("info_challenge_window")
-        
-    def _cb_button_click_cooking_challenge(self, button):
-        self.windows_controller.set_active_window("cooking_challenge_window")
-        
+    # Callbacks        
     def _cb_button_click_stop_animation(self, button):
         self.panel_win.stop_animation()
         

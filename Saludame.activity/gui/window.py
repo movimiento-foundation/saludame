@@ -217,8 +217,10 @@ class Window:
         
         for win in self.windows:
             if win.rect.collidepoint(x, y):
-                self.windows_controller.set_mouse_on_window(win.register_id)
                 win.handle_mouse_over((x,y))
+                return
+        
+        self.windows_controller.set_mouse_on_window(self.register_id)
         
         for widget in self.widgets:
             if widget.contains_point(x, y):
