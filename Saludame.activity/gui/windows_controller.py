@@ -23,14 +23,19 @@ class WindowsController:
         
         # Tooltips
         self.showing_tooltip = False
-        self.active_tooltip_bg = None
         self.active_tooltip = None
+        
+        self.mouse_on_window = None
     
     def get_screen(self):
         return self.screen
     
-    
     # Windows
+    def set_mouse_on_window(self, register_id):
+        if (self.mouse_on_window != register_id and self.showing_tooltip):
+            self.hide_active_tooltip()
+        self.mouse_on_window = register_id
+    
     def close_active_window(self):
         self.windows_stack[-1].repaint = True
         # Solo puede ser llamado por la ventana activa e implica
@@ -92,26 +97,21 @@ class WindowsController:
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
         self.active_tooltip = Text(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
         
-        # Necesitamos guardar lo que esta atras del tooltip para cuando lo querramos esconder
-        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute)
         self.showing_tooltip = True
         
     def show_super_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
         self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('red'), "tooltip")
         
-        self.active_tooltip_bg = (self.screen.subsurface(self.active_tooltip.rect_absolute).copy(), self.active_tooltip.rect_absolute)
         self.showing_tooltip = True
     
     def hide_active_tooltip(self):
-        # Solo se ejecuta si se esta mostrando algun tooltip en la pantalla
-        if self.showing_tooltip:
-            # Hacemos un blit con lo que tenia atras el tooltip
-            self.screen.blit(self.active_tooltip_bg[0], self.active_tooltip_bg[1])
-            # Lo guardamos en la lista de las proximas actualizaciones
-            self.next_update(self.active_tooltip_bg[1])
+        if self.showing_tooltip:            
+            for win in self.windows_stack[-1].windows:
+                if win.rect.colliderect(self.active_tooltip.rect_absolute):
+                    win.dirty_background = True
+                    
             self.showing_tooltip = False
-    
     
     # Updates to the screen
     def next_update(self, rect):
@@ -147,7 +147,7 @@ class WindowsController:
                 self.screen.fill((255, 255, 255), self.active_tooltip.rect_in_container)
             # Le decimos al tooltip (widget) que se dibuje
             self.active_tooltip.draw(self.screen)
-            changes.append(self.active_tooltip_bg[1])
+            changes.append(self.active_tooltip.rect_absolute)
         
         self.scaled_game.update_screen(changes)
         #self.scaled_game.flip()

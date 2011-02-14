@@ -124,7 +124,6 @@ class ExternalCharacter(gui.Window):
     # Override handle_mouse_down
     def handle_mouse_down(self, (x, y)):
         self.hide()
-        return True
         
     def update(self, frames):
         self.time_span -= 1
@@ -162,7 +161,6 @@ class MessageBalloon(gui.Window):
     # Override handle_mouse_down
     def handle_mouse_down(self, (x, y)):
         self.hide()
-        return True
         
     def set_text(self, text):
         if self.b_type == 'A':
