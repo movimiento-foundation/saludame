@@ -10,6 +10,107 @@ import effects
 
 from gettext import gettext as _
 
+CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 2
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 3
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 4
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 5
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 6
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 7
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 8
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             },
+                             {# LEVEL 9
+                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
+                             "multiple_choice_vector" : (10, 5, -10),
+                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "slide" : "assets/slides/history1.png",
+                             "events_qty" : 3,
+                             "events_qty_personal" : 2,
+                             "events_qty_social" : 2,
+                             "time_between_events" : 5
+                             }]
+                              
+
 class AppLoader:
 
     def __init__(self, windows_controller):
@@ -37,9 +138,12 @@ class AppLoader:
         self.environments_dictionary = self.__load_environments()
         self.weather_effects = self.__load_weather_effects()
         
+        # Level list
+        self.level_conf = CONFIGURATION_LEVEL_LIST
+        
         ### game manager
         
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, windows_controller)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, windows_controller, self.level_conf)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
@@ -52,6 +156,9 @@ class AppLoader:
     
     def get_game_manager(self):
         return self.game_man
+
+    def get_configuration_level_list(self):
+        return self.level_conf
         
     def get_character(self):
         return self.character

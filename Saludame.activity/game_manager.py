@@ -22,12 +22,15 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, windows_controller):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, windows_controller, level_conf):
         """
         Constructor de la clase
         """
         global instance
         instance = self
+
+        #level configuration list
+        self.level_conf = level_conf
         
         self.character = character
         self.bars_controller = bars_controller
@@ -77,6 +80,7 @@ class GameManager:
         self.weather_effects = weather_effects
         self.environment_effect = None  # this is an Effect that represents the effect on the character by the environment: weather + place + clothes
         self.update_environment_effect()
+
 # management
 
     def pause_game(self):
@@ -110,6 +114,13 @@ class GameManager:
 
             #handle actions.
             self.__control_active_character_action_animation() # handle active character action's animation
+
+    def get_current_level_conf(self):
+        """
+        returns the current level configuration dictionary
+        """
+        assert self.character.level > 0
+        return self.level_conf[self.character.level -1]
 
 ## Environment handling
    
