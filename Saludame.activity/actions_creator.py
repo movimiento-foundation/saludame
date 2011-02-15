@@ -34,171 +34,171 @@ actions_list = [
     #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
     
     # Fruit
-    ("eat_apple", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
+    ("eat_apple", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)]), None, None, None
     ),
     
-    ("eat_orange", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
+    ("eat_orange", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)]), None, None, None
     ),
 
-    ("eat_banana", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
+    ("eat_banana", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)]), None, None, None
     ),
 
-    ("eat_kiwi", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
+    ("eat_kiwi", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)]), None, None, None
     ),
 
     # Meals
-    ("eat_stew", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("eat_stew", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 1.0), ("c_huevos", 0.5), ("g_aceites", 1.0), ("agua", 1.0), ("weight", 1.0)]), None, None, None
     ),
-    ("eat_churrasco", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("eat_churrasco", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 1.0), ("c_huevos", 0.5), ("g_aceites", 1.0), ("agua", 1.0), ("weight", 1.0)]), None, None, None
     ),
-    ("eat_beaver", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("eat_beaver", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_huevos", 3.0), ("g_aceites", 2.0), ("weight", 1.0)]), None, None, None
     ),
-    ("eat_milanesa", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("eat_milanesa", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_huevos", 3.0), ("g_aceites", 2.0), ("weight", 2.0)]), None, None, None
     ),
-    ("eat_torta_frita", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("eat_torta_frita", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_huevos", 3.0), ("weight", 1.0)]), None, None, None
     ),
-    ("salad", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("salad", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 2.0), ("weight", 0.5)]), None, None, None
     ),
-    ("pascualina", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("pascualina", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 2.0), ("c_leguminosas", 1.0), ("weight", 1.0)]), None, None, None
     ),
-    ("tortilla_verdura", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("tortilla_verdura", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("v_frutas", 2.0), ("g_aceites", 1.0), ("weight", 1.0)]), None, None, None
     ),
     
     # Breakfast
-    ("tostadas_membrillo", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("tostadas_membrillo", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 1.5), ("dulces", 1.5), ("weight", 1.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("tostadas_queso", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("tostadas_queso", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 1.5), ("l_quesos", 1.5), ("weight", 1.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("galletitas_saladas", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("galletitas_saladas", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 2.0), ("weight", 1.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("galletitas_dulces", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("galletitas_dulces", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 2.0), ("weight", 1.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("galletitas_dulce_leche", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("galletitas_dulce_leche", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_leguminosas", 2.0), ("dulces", 2.0), ("weight", 1.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("leche_chocolatada", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("leche_chocolatada", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("l_quesos", 2.0), ("dulces", 2.0), ("agua", 1.0), ("weight", 2.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("leche_cafe", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("leche_cafe", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("l_quesos", 2.0), ("agua", 1.0), ("weight", 2.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("leche", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("leche", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("l_quesos", 2.0), ("agua", 1.0), ("weight", 2.0)]), None, ["morning", "afternoon"], None
     ),
     
-    ("leche_cereales", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+    ("leche_cereales", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("l_quesos", 2.0), ("c_leguminosas", 1.0), ("agua", 1.0), ("weight", 2.0)]), None, ["morning", "afternoon"], None
     ),
     
     # Líquidos
-    ("agua", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+    ("agua", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
         effects.Effect(None, [("agua", 1.0)]), None, None, None
     ),
-    ("limonada", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+    ("limonada", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
         effects.Effect(None, [("agua", 1.0)]), None, None, None
     ),
-    ("jugo_naranja", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+    ("jugo_naranja", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
         effects.Effect(None, [("agua", 1.0)]), None, None, None
     ),
-    ("jugo_peras", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+    ("jugo_peras", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
         effects.Effect(None, [("agua", 1.0)]), None, None, None
     ),
-    ("jugo_zanahorias", 0.3, 45, 3, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
+    ("jugo_zanahorias", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, None, 4, BLIP_PATH,
         effects.Effect(None, [("agua", 1.0)]), None, None, None
     ),
     
     # Sports
-    ("sport_football", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sport_football", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
 
-    ("sport_run", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sport_run", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
     
-    ("sport_hide_seek", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sport_hide_seek", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
     
-    ("sport_jump", 0.3, 45, 0, 0, JUMP_ROPE_PATH, 3, 1, None, 4, None,
+    ("sport_jump", 0.3, 5, 70, 0, JUMP_ROPE_PATH, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 0.5), ("sports", 2.0), ("shower", -0.5), ("fun", 2.0)]), None, None, None
     ),
     
     # Tiempo Libre
-    ("sp_sleep", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sp_sleep", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 1.0), ("relaxing", 2.0)]), None, None, None
     ),
 
-    ("sp_talk", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sp_talk", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 0.5)]), None, None, None
     ),
     
-    ("sp_study", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sp_study", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
     
-    ("sp_clean", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("sp_clean", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
     
     # Higiene
-    ("shower", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("shower", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("shower", 5.0)]), None, None, None
     ),
 
-    ("brush_teeth", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("brush_teeth", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("b_teeth", 0.5)]), None, None, None, 1, "un link"
     ),
     
-    ("wash_hands", 0.3, 45, 0, 0, None, 3, 1, None, 4, None,
+    ("wash_hands", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
         effects.Effect(None, [("w_hands", 3.0)]), None, None, None
     ),
     
-    ("toilet", 0.3, 35, 0, 3, "assets/kid/actions/toilet", 3, 1, None, 4, None,
+    ("toilet", 0.3, 3, 35, 3, "assets/kid/actions/toilet", 3, 1, None, 4, None,
         effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
     ),
     
     # Diversión
-    ("crazy", 0.3, 45, 0, 0, "assets/kid/actions/crazy", 3, 1, None, 4, None,
+    ("crazy", 0.3, 5, 70, 0, "assets/kid/actions/crazy", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 5.0)]), None, None, None
     ),
 
-    ("dance", 0.3, 45, 0, 0, "assets/kid/actions/dance", 3, 1, None, 4, None,
+    ("dance", 0.3, 5, 70, 0, "assets/kid/actions/dance", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 0.5)]), None, None, None, 1, "un link"
     ),
     
-    ("hidenseek", 0.3, 45, 0, 0, "assets/kid/actions/hidenseek", 3, 1, None, 4, None,
+    ("hidenseek", 0.3, 5, 70, 0, "assets/kid/actions/hidenseek", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 3.0)]), None, None, None
     ),
     
-    ("playXO", 0.3, 45, 0, 1, "assets/kid/actions/playXO", 3, 1, None, 4, None,
+    ("playXO", 0.3, 5, 70, 1, "assets/kid/actions/playXO", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 4.0)]), None, None, None, 1, "un link"
     ),
     
-    ("read", 0.3, 45, 0, 1, "assets/kid/actions/read", 3, 1, None, 4, None,
+    ("read", 0.3, 5, 70, 1, "assets/kid/actions/read", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 4.0)]), None, None, None, 1, "un link"
     ),
     

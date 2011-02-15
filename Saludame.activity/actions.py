@@ -6,7 +6,7 @@ import pygame
 
 class Action:
     
-    def __init__(self, action_id, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect, allowed_places, allowed_hours, allowed_events, level=1, link=None):
+    def __init__(self, action_id, appereance_probability, time_span, kid_animation_frames, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect, allowed_places, allowed_hours, allowed_events, level=1, link=None):
         
         self.id = action_id
         self.appereance_probability = appereance_probability
@@ -25,7 +25,8 @@ class Action:
         # animations
         self.kid_animation_path = kid_animation_path
         self.kid_loop_times = kid_animation_loop_times
-        self.kid_frame_rate = kid_animation_frame_rate
+        self.kid_frames = kid_animation_frames
+        self.kid_frames_left = kid_animation_frames
         
         self.window_animation_path = window_animation_path
         self.window_window_loop_times = window_animation_loop_times
@@ -49,8 +50,12 @@ class Action:
             else:
                 self.time_left = 0
     
+    def decrease_frames_left(self):
+        self.kid_frames_left -= 1
+    
     def reset(self):
         self.time_left = self.time_span
+        self.kid_frames_left = self.kid_frames
         
 class Mood:
     

@@ -94,10 +94,12 @@ class GameManager:
             if self.count >= CONTROL_INTERVAL:
                 self.bars_controller.calculate_score()  # calculates the score of the score_bar
                 self.__control_background_actions() # background actions
+                self.__control_active_character_action_performing() # handle active character action effects 
                 self.__control_level() # Checks if level must be changed
                 self.__control_active_events() # handle active events
                 self.__check_active_mood() # check if the active character mood
                 self.__handle_time()
+                
                 
                 if self.environment_effect:
                     self.environment_effect.activate()
@@ -107,7 +109,7 @@ class GameManager:
                 self.count = 0
 
             #handle actions.
-            self.__control_active_character_action() # handle active character actions
+            self.__control_active_character_action_animation() # handle active character action's animation
 
 ## Environment handling
    
@@ -277,19 +279,24 @@ class GameManager:
             
     def get_lowest_bar(self):
         return self.bars_controller.get_lowest_bar()
-    
-    def __control_active_character_action(self):
+
+    def __control_active_character_action_performing(self):
+        if self.active_char_action:
+            if self.active_char_action.time_left > 0:
+                self.active_char_action.perform()   
+
+    def __control_active_character_action_animation(self):
         """
         Controls active game actions.
         """
-        if self.active_char_action: #if the character is performing an action:
-            if self.active_char_action.time_left > 0:
-                self.active_char_action.perform()
-            else: #if the action was completed:
+        if self.active_char_action: #the character active action was completed
+            if self.active_char_action.kid_frames_left > 0:
+                self.active_char_action.decrease_frames_left()
+            else:
+                self.windows_controller.stop_current_action_animation()
                 self.active_char_action.reset()
                 self.active_char_action = None
-                self.windows_controller.stop_current_action_animation()
-    
+
     def __control_background_actions(self):
         """
         Controls active background actions.
