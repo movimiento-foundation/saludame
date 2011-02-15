@@ -178,7 +178,7 @@ actions_list = [
     ),
     
     ("toilet", 0.3, 35, 0, 3, "assets/kid/actions/toilet", 3, 1, None, 4, None,
-        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "un link"
+        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
     ),
     
     # Diversión

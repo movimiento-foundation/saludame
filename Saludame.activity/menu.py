@@ -238,16 +238,16 @@ class Menu(gui.Window):
 
     
     #handlers
-    def handle_mouse_down(self, coord):
+    def handle_mouse_down(self, (x, y)):
         if self.visible and not self.on_expansion:
-            if self.exit.rect_absolute.collidepoint(coord) and self.depth == 0:
+            if self.exit.rect_absolute.collidepoint((x, y)) and self.depth == 0:
                 self.close()
-            elif self.exit.rect_absolute.collidepoint(coord) and self.depth > 0: #click on back item, it's in the same position of exit item
+            elif self.exit.rect_absolute.collidepoint((x, y)) and self.depth > 0: #click on back item, it's in the same position of exit item
                 self.back_to_previous_selection()
             else:
                 for item in self.current_selection:
-                    if item.rect_absolute.collidepoint(coord):
-                        item.on_mouse_click()
+                    if item.rect_absolute.collidepoint((x, y)):
+                        item.on_mouse_click((x, y))
                         break
 
         else:
@@ -310,6 +310,8 @@ class Item(gui.Button):
         self.name = name
         self.subitems_list = subitems_list
         self.action_id = action_id
+        self.action_link = None
+        self.help_rect = None
         self.menu = menu
         self.allowed_places = allowed_places
         self.allowed_hours = allowed_hours
@@ -331,6 +333,7 @@ class Item(gui.Button):
             if action.link: #has to show help button
                 self.help_image = pygame.image.load(HELP_BUTTON).convert()
                 self.help_rect = self.help_image.get_rect()
+                self.action_link = action.link
                 
         size, surface = self.get_surface(20, self.name, self.bg_image, self.help_image)
         
@@ -363,14 +366,18 @@ class Item(gui.Button):
         """
         self.subitems_list.append(item)
     
-    def on_mouse_click(self):
+    def on_mouse_click(self, (x, y)):
         """
         Handle mouse click
         """
-        if len(self.subitems_list) > 0:
-            self.menu.show_items(self.subitems_list)
+        if self.action_link and (self.bg_rect.right + self.rect_absolute.left < x) :# the items has help_button and the "click" is on the help image
+            print "*Link de la accion: ", self.action_link
+            self.menu.send_action(CLOSE_MENU)
         else:
-            if self.action_id != None:
-                self.menu.send_action(self.action_id)
+            if len(self.subitems_list) > 0:
+                self.menu.show_items(self.subitems_list)
             else:
-                self.menu.send_action(CLOSE_MENU) # if the item have not children and have not an action_id, close the menu
+                if self.action_id != None:
+                    self.menu.send_action(self.action_id)
+                else:
+                    self.menu.send_action(CLOSE_MENU) # if the item have not children and have not an action_id, close the menu
