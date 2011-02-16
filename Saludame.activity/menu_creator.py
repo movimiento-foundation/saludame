@@ -64,7 +64,6 @@ items = [
         (_("Run"), "assets/icons/icon.png", "sport_run", None, None),
         (_("Jump the rope"), "assets/icons/icon.png", "sport_jump", None, None),
         (_("Play footbal"), "assets/icons/icon.png", "sport_football", None, None),
-        (_("Hide and Seek"), "assets/icons/icon.png", "sport_hide_seek", None, None)
     ]),
     
     (_("Tiempo libre..."), "assets/icons/icon_parent.png", None, None, [
@@ -79,6 +78,7 @@ items = [
             (_("Escondida"), "assets/icons/icon.png", "hidenseek", None, None),
             (_("Jugar XO"), "assets/icons/icon.png", "playXO", None, None),
             (_("Leer"), "assets/icons/icon.png", "read", None, None),
+            (_("Cantar"), "assets/icons/icon.png", "sing", None, None),
         ]),
         
     ]),
