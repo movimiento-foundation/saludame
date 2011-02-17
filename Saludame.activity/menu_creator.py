@@ -71,7 +71,14 @@ items = [
         (_("Talk with a friend"), "assets/icons/icon.png", "sp_talk", None, None),
         (_("Do homework"), "assets/icons/icon.png", "sp_study", None, None),
         (_("Clean up the bedroom"), "assets/icons/icon.png", "sp_clean", None, None),
-        
+        (_("Cocinar"), "assets/icons/icon.png", "sp_cook", None, None),
+        (_("Huerta..."), "assets/icons/icon_parent.png", None, None, [
+            (_("Arar"), "assets/icons/icon.png", "sp_plow", None, None),
+            (_("Cosechar"), "assets/icons/icon.png", "sp_harvest", None, None),
+            (_("Regar"), "assets/icons/icon.png", "sp_irrigate", None, None),
+            (_("Sembrar"), "assets/icons/icon.png", "sp_sow", None, None),
+            (_("Limpiar"), "assets/icons/icon.png", "sp_clean_earth", None, None),
+        ]),
         (_("Diversión..."), "assets/icons/icon_parent.png", None, None, [
             (_("Locuras"), "assets/icons/icon.png", "crazy", None, None),
             (_("Bailar"), "assets/icons/icon.png", "dance", None, None),
@@ -106,6 +113,8 @@ items = [
        (_("Lavarse los dientes"), "assets/icons/icon.png", "brush_teeth", None, None),
        (_("Lavarse las manos"), "assets/icons/icon.png", "wash_hands", None, None),
        (_("Ir al baño"), "assets/icons/icon.png", "toilet", None, None),
+       (_("Ir al Dentista"), "assets/icons/icon.png", "dentist", None, None),
+       (_("Ir al Doctor"), "assets/icons/icon.png", "doctor", None, None),
    ]),
    
 ]

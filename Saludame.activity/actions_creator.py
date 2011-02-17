@@ -149,20 +149,34 @@ actions_list = [
     ("sp_sleep", 0.3, 5, 70, 0, "assets/kid/actions/sleep", 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 1.0), ("relaxing", 2.0)]), None, None, None
     ),
-
     ("sp_rest", 0.3, 5, 70, 0, "assets/kid/actions/rest", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 0.5)]), None, None, None
     ),
-
-    ("sp_talk", 0.3, 5, 70, 0, None, 3, 1, None, 4, None,
+    ("sp_talk", 0.3, 5, 70, 0, None, 3, 1, "assets/action-icons/talktofriend", 4, None,
         effects.Effect(None, [("fun", 0.5)]), None, None, None
     ),
-    
     ("sp_study", 0.3, 5, 70, 0, "assets/kid/actions/studyXO", 3, 1, None, 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
-    
-    ("sp_clean", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, None, 4, None,
+    ("sp_clean", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/clean", 4, None,
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+    ),
+    ("sp_cook", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/cook", 4, None,
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+    ),
+    ("sp_harvest", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/harvest", 4, None,
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+    ),
+    ("sp_irrigate", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/irrigate", 4, None,
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+    ),
+    ("sp_sow", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 4, None,
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+    ),
+    ("sp_plow", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/trident", 4, None,
+        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+    ),
+    ("sp_clean", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
     
@@ -170,16 +184,19 @@ actions_list = [
     ("shower", 0.3, 5, 70, 0, "assets/kid/actions/shower", 3, 1, None, 4, None,
         effects.Effect(None, [("shower", 5.0)]), None, None, None
     ),
-
     ("brush_teeth", 0.3, 5, 70, 0, "assets/kid/actions/brushteeth", 3, 1, None, 4, None,
         effects.Effect(None, [("b_teeth", 0.5)]), None, None, None, 1, "un link"
     ),
-    
-    ("wash_hands", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, None, 4, None,
+    ("wash_hands", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/washhands", 4, None,
         effects.Effect(None, [("w_hands", 3.0)]), None, None, None
     ),
-    
     ("toilet", 0.3, 3, 35, 3, "assets/kid/actions/toilet", 3, 1, None, 4, None,
+        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
+    ),
+    ("dentist", 0.3, 3, 35, 3, "assets/kid/actions/twister", 3, 1, "assets/action-icons/dentist", 4, None,
+        effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
+    ),
+    ("doctor", 0.3, 3, 35, 3, "assets/kid/actions/twister", 3, 1, "assets/action-icons/doctor", 4, None,
         effects.Effect(None, [("toilet", 4.0)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
     ),
     
