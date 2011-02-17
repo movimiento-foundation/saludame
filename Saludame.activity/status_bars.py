@@ -354,6 +354,9 @@ class ScoreSection(gui.Widget):
         self.number_font = utilities.get_font(32, True, True)
         
         self.text_color = pygame.Color(TEXT_COLOR)
+
+        self.left_arrow = pygame.image.load("assets/events/go-back-s.png")
+        self.right_arrow = pygame.image.load("assets/events/go-next-s.png") 
         
     def draw(self, screen):
         self.surface.blit(self.get_background().subsurface(self.rect_in_container), (0, 0))
@@ -370,6 +373,21 @@ class ScoreSection(gui.Widget):
         
         self.surface.blit(level_text_surface, (0, 34 - level_text_surface.get_height()))
         self.surface.blit(level_number_surface, (level_text_surface.get_width(), 40 - level_number_surface.get_height()))
+        
+        # arrows
+        l_increase = self.score_bar.last_increase
+        if l_increase < 0:
+            if l_increase <= -3: # two left arrows:
+                 self.surface.blit(self.left_arrow, (125, 0))
+                 self.surface.blit(self.left_arrow, (115, 0))
+            else: # one left arrow
+                 self.surface.blit(self.left_arrow, (125, 0))
+        else:
+            if l_increase >= 3: # two right arrows:
+                self.surface.blit(self.right_arrow, (155, 0))
+                self.surface.blit(self.right_arrow, (165, 0))
+            elif l_increase > 0: # one right arrow
+                self.surface.blit(self.right_arrow, (155, 0))
         
         screen.blit(self.surface, self.rect_absolute)
         return self.rect_absolute
@@ -466,6 +484,8 @@ class StatusBar:
         self.value = init_value
         self.parent = parent_bar # Barra padre
         self.children_list = children_list # conjunto de barras hijas
+
+        self.last_increase = 0.0
         
     def get_score(self):
         return self.value
@@ -474,7 +494,7 @@ class StatusBar:
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
         """
-        
+        self.last_increase = increase_rate
         if self.children_list:
             # Increments childrens
             for child in self.children_list:
@@ -500,11 +520,12 @@ class StatusBar:
                 self.value = value
                 if self.parent:
                     self.parent.recalculate()
-        
+
     def increase_from_parent(self, increase_rate):
         """
         Incrementa el valor de la barra y repercute en los hijos.
         """
+        self.last_increase = increase_rate
         if len(self.children_list) > 0:
             for child in self.children_list:
                 child.increase_from_parent(increase_rate)
