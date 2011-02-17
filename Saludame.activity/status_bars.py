@@ -16,6 +16,8 @@ SECTION_WIDTH = 220
 SECTION_MIN_HEIGHT = 50
 SECTION_TOP_PADDING = 18
 
+ADJ = 14
+
 BAR_OFFSET_X = 30
 BAR_WIDTH = 182
 BAR_HEIGHT = 24
@@ -295,17 +297,23 @@ class BarDisplay(gui.Widget):
             self.set_dirty()
             
     def draw(self, screen):
-        
         if isinstance(self.status_bar, WeightBar):
-            position = self.status_bar.value * (self.rect_in_container.width) / (BAR_WIDTH)
-            arrow_position = min([position, BAR_WIDTH + BAR_OFFSET_X])
-            self.surface.blit(self.background, (0, 0))
-            self.surface.blit(self.arrow, (arrow_position, 14))
+            position = (self.status_bar.value * (self.rect_in_container.width) / self.status_bar.max ) - ADJ
+            if position < BAR_OFFSET_X - ADJ:
+                position = BAR_OFFSET_X - ADJ
+            elif position > BAR_WIDTH - ADJ:
+                position = BAR_WIDTH - ADJ
+                
+            rect = self.arrow.get_rect()         #
+            rect.midbottom = position , 23 #para posicionar la imagen de la flecha en el centro del valor de posicion hallado
             
+            self.surface.blit(self.background, (0, 0))   # Background blits over the charge, because it has the propper alpha
+            self.surface.blit(self.arrow, rect)
+
         elif isinstance(self.status_bar, StatusBar):
-            rect = pygame.Rect((1, 2), (self.rect_in_container.width - 2, self.rect_in_container.height - 4))
-            charged_rect = pygame.Rect(rect)  # create a copy
-            charged_rect.width = self.status_bar.value * rect.width / self.status_bar.max
+            rect = pygame.Rect((1, 2), (self.rect_absolute.width - 2, self.rect_absolute.height - 4))
+            charged_rect = pygame.Rect((1,2), (0, rect.height))  # create a copy
+            charged_rect.width = (self.status_bar.value * rect.width / self.status_bar.max) - ADJ #el ADJ (adjustment) a es para corregir un desfasaje de pixeles entre el valor real y el que se ve
             
             color = self.get_color()
             
@@ -419,6 +427,7 @@ class BarsController:
         score_level_vector = game_manager.instance.get_current_level_conf()["score_vector"]
         interval = self.overall_bar.max / len(score_level_vector) # parte la barra en intervalos iguales según la cantidad de valores del score_vector
         value = self.overall_bar.value # overall_bar's current charge
+
         index = 0 #index to de position in the score_vector
         while value > interval:
             interval += self.overall_bar.max / len(score_level_vector)
@@ -544,7 +553,4 @@ class WeightBar(StatusBar):
         StatusBar.__init__(self, id, label, parent_bar, children_list, max_value, init_value)
     
     def get_score(self):
-        if self.value < 50:
-            return self.value * 2.0
-        else:
-            return self.max - 2.0 * self.value
+        return self.max - abs(2 * self.value - self.max)

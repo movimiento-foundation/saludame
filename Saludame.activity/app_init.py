@@ -108,8 +108,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty_personal" : 2,
                              "events_qty_social" : 2,
                              "time_between_events" : 5
-                             }]
-                              
+                             }]                              
 
 class AppLoader:
 
