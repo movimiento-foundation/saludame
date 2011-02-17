@@ -35,7 +35,7 @@ actions_list = [
     
     # Fruit
     ("eat_apple", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas", 3.0), ("weight", 0.5)]), None, None, None
+        effects.Effect(None, [("v_frutas", 3.0), ("weight", 20)]), None, None, None
     ),
     
     ("eat_orange", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
