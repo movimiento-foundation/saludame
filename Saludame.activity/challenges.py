@@ -244,7 +244,7 @@ class TrueOrFalse(MultipleChoice):
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
             else:
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Ganaste", u"¡Pasaste de nivel! \nBusca las nuevas acciones en tu menú")
+                self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.level_conf[self.challenges_creator.game_man.character.level - 1]["master_challenge_text"])
         self.windows_controller.set_active_window("info_challenge_window")
         
         self.n_tf = N_TF
