@@ -14,7 +14,7 @@ S_CORRECT_PATH = os.path.normpath("assets/sound/correct.ogg")
 S_OVER_PATH = os.path.normpath("assets/sound/over.ogg")
 S_INCORRECT_PATH = os.path.normpath("assets/sound/incorrect.ogg")
 
-N_TF = 4
+N_TF = 5
 
 FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
@@ -205,10 +205,12 @@ class TrueOrFalse(MultipleChoice):
         if button == self.choices[self.correct]:
             self.s_correct.play()
             self.windows_controller.game_man.add_points(self.win_points)
-            if self.n_tf:
-                # Correct answer
-                self.answers[self.question_number] = "correct"
-                self.n_tf -= 1
+            
+            # Correct answer
+            self.answers[self.question_number] = "correct"
+            self.n_tf -= 1
+            
+            if self.n_tf > 0:
                 if self.kind == "master":
                     self.challenges_creator.get_challenge("master")
                 elif self.kind == "normal":
@@ -220,10 +222,12 @@ class TrueOrFalse(MultipleChoice):
         else:
             self.windows_controller.game_man.add_points(-self.lose_points)
             self.s_incorrect.play()
-            if self.n_tf and not self.perdio:
-                # Incorrect answer
-                self.answers[self.question_number] = "incorrect"
-                self.n_tf -= 1
+            
+            # Incorrect answer
+            self.answers[self.question_number] = "incorrect"
+            self.n_tf -= 1
+            
+            if self.n_tf > 0 and not self.perdio:
                                 
                 if self.kind == "master":
                     if self.answers.count("incorrect") == 5 - self.limit:
@@ -233,18 +237,20 @@ class TrueOrFalse(MultipleChoice):
                 if self.kind == "normal":
                     self.challenges_creator.get_challenge("tf")
                 self.question_number += 1
+                
             else:
                 self.windows_controller.close_active_window()
                 self.result_and_reset()
 
     def result_and_reset(self):
-        if self.kind == "normal":
-            self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct") + 1), u"Ganaste %s puntos para tu \nbarra %s" % ("[ver puntos]", self.challenges_creator.game_man.get_lowest_bar().label))
+
+        if self.kind == "normal": 
+            self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Ganaste %s puntos para tu \nbarra %s" % (self.challenges_creator.game_man.get_current_level_conf()["true_or_false_vector"][self.answers.count("correct")], self.challenges_creator.game_man.get_lowest_bar().label))
         if self.kind == "master":
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
             else:
-                self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.level_conf[self.challenges_creator.game_man.character.level - 1]["master_challenge_text"])
+                self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.get_current_level_conf()["master_challenge_text"])
         self.windows_controller.set_active_window("info_challenge_window")
         
         self.n_tf = N_TF
