@@ -37,10 +37,12 @@ class MultipleChoice(gui.Window):
         self.s_incorrect = pygame.mixer.Sound(S_INCORRECT_PATH)
         ####################
         
+        self.topic = None # The topic is the bar whose we are playing
+        
         self.choices = []
         self.correct = 0
         
-        self.opportinities = 1
+        self.tries = 0
         
         self.challenges_creator = challenges_creator
         
@@ -58,6 +60,9 @@ class MultipleChoice(gui.Window):
         
     ####### Set attributes #######
     def set_question(self, question):
+        
+        self.topic = self.challenges_creator.game_man.get_lowest_bar()
+        
         if self.question:
             self.erase()
         
@@ -96,23 +101,23 @@ class MultipleChoice(gui.Window):
     def _cb_button_click_choice(self, button):
         if button == self.choices[self.correct]:
             self.s_correct.play()
-            self.windows_controller.game_man.add_points(self.win_points)
+            self.windows_controller.game_man.bars_controller.increase_bar(self.topic.id, self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][self.tries])
             
             self.windows_controller.close_active_window()
-            self.windows_controller.windows["info_challenge_window"].update_content(u"¡Respuesta correcta!", u"Muy bien, \nganaste %s puntos para tu barra %s" % (self.win_points, self.challenges_creator.game_man.get_lowest_bar().label))
+            self.windows_controller.windows["info_challenge_window"].update_content(u"¡Respuesta correcta!", u"Muy bien, \nganaste %s puntos para tu barra %s" % (self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][self.tries], self.topic.label))
             self.windows_controller.set_active_window("info_challenge_window")
-            self.opportinities = 1
+            self.tries = 0
         else:
-            self.windows_controller.game_man.add_points(-self.lose_points)
             self.s_incorrect.play()
             self.windows_controller.close_active_window()
             
-            if self.opportinities == 0:
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \nperdiste %s puntos en tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.lose_points, self.challenges_creator.game_man.get_lowest_bar().label))
+            if self.tries == 1:
+                self.challenges_creator.game_man.bars_controller.increase_bar(self.topic.id, self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2])
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \n %s puntos para tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2], self.topic.label))
                 self.windows_controller.set_active_window("info_challenge_window")
-                self.opportinities = 1
+                self.tries = 0
             else:
-                self.opportinities -= 1
+                self.tries += 1
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Respuseta incorrecta", u"La respuesta no esta correcta, intenta otra vez")
                 self.windows_controller.set_active_window("mc_challenge_window")
                 self.windows_controller.set_active_window("info_challenge_window")
@@ -204,7 +209,6 @@ class TrueOrFalse(MultipleChoice):
     def _cb_button_click_choice(self, button):
         if button == self.choices[self.correct]:
             self.s_correct.play()
-            self.windows_controller.game_man.add_points(self.win_points)
             
             # Correct answer
             self.answers[self.question_number] = "correct"
@@ -245,7 +249,8 @@ class TrueOrFalse(MultipleChoice):
     def result_and_reset(self):
 
         if self.kind == "normal": 
-            self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Ganaste %s puntos para tu \nbarra %s" % (self.challenges_creator.game_man.get_current_level_conf()["true_or_false_vector"][self.answers.count("correct")], self.challenges_creator.game_man.get_lowest_bar().label))
+            self.challenges_creator.game_man.bars_controller.increase_bar(self.topic.id, self.challenges_creator.game_man.get_current_level_conf()["true_or_false_vector"][self.answers.count("correct")])
+            self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Ganaste %s puntos para tu \nbarra %s" % (self.challenges_creator.game_man.get_current_level_conf()["true_or_false_vector"][self.answers.count("correct")], self.topic.label))
         if self.kind == "master":
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
