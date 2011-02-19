@@ -466,7 +466,7 @@ class BarsController:
     def get_lowest_bar(self):
         value = self.bars[0].value
         lowest_bar = None
-        for bar in self.bars[0:5]: # bars in second_level (section bars) are self.bars[0:4]
+        for bar in self.bars[0:5]: # bars in second_level (section bars) are self.bars[0:5]
             if bar.value <= value:
                 value = bar.value
                 lowest_bar = bar
