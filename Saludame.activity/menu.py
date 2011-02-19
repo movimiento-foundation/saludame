@@ -133,8 +133,9 @@ class Menu(gui.Window):
                 #verifies item's action conditions
                 if item.action_id: #the item hasn't sub items
                     action = self.game_manager.get_action(item.action_id)
-                    if self.verify_action(action, self.game_manager):
-                        allowed_items.append(item)
+                    if action:
+                        if self.verify_action(action, self.game_manager):
+                            allowed_items.append(item)
                 else:
                     allowed_items.append(item)
         return allowed_items
