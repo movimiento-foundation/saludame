@@ -4,7 +4,10 @@ INSTANCE_FILE_PATH = "game.save"
 GAME_VERSION = "1.0"
 
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
-EVENTS_OCCURRENCE_INTERVAL = 5 #per control interval after an event
+EVENTS_OCCURRENCE_INTERVAL = 15 #per control interval after an event
+
+MAX_IDLE_TIME = 5 # Qty of control intervals until the kid executes an action.
+ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
 HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
 
@@ -39,6 +42,8 @@ class GameManager:
         #management
         self.count = 0 #sirve como 'clock' interno, para mantener un orden de tiempo dentro de la clase.
         self.pause = False
+        
+        self.idle_time = 0
         
         #events, actions, moods
         self.personal_events_list = self.__get_personal_events(events_list)
@@ -103,8 +108,7 @@ class GameManager:
                 self.__control_active_events() # handle active events
                 self.__check_active_mood() # check if the active character mood
                 self.__handle_time()
-                
-                
+                self.__check_idle_time()
                 if self.environment_effect:
                     self.environment_effect.activate()
                 else:
@@ -121,6 +125,19 @@ class GameManager:
         """
         assert self.character.level > 0
         return self.level_conf[self.character.level -1]
+
+    def __check_idle_time(self):
+        """ checks if the kid is idle for so much time (more than MAX_IDLE_TIME). If he is, then
+        plays an attention action.
+        """
+        if self.active_char_action:
+            self.idle_time = 0
+        elif self.idle_time <= MAX_IDLE_TIME:
+            self.idle_time += 1
+        else:
+            self.idle_time = 0
+            self.execute_action(ATTENTION_ACTION)
+            
 
 ## Environment handling
    

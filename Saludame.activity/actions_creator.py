@@ -34,6 +34,11 @@ bar_dec_effect = effects.Effect(None, [("nutrition", BARS_DECREASE_RATE), ("spar
 
 actions_list = [
     #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
+
+    #atention
+    ("attention", 0.3, 5, 40, 0, "assets/kid/actions/crazy", 3, 1, None, 4, None,
+        effects.Effect(None, [("fun", 5.0)]), None, None, None
+    ),
     
     # Fruit
     ("eat_apple", 0.3, 5, 70, 3, CHEW_PATH, 3, 1, APPLE_PATH, 4, BLIP_PATH,
@@ -271,7 +276,8 @@ class ActionsLoader:
         return status_actions + location_actions + clothes_actions
         
     def __set_bar_controller(self, effect):
-        effect.set_bar_controller(self.bar_controller)
+        if effect:
+            effect.set_bar_controller(self.bar_controller)
         return effect
     
     def __set_game_manager(self, effect):
