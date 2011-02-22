@@ -27,7 +27,7 @@ class KidWindow(gui.Window):
         self.balloon = None
         
         ### Events ###
-    
+        
         # Socials
         self.social_event = None
         self.external_character = None
@@ -83,8 +83,9 @@ class KidWindow(gui.Window):
         
     ##### Environment #####
     def set_environment(self, environment, time):
-        image = pygame.image.load(environment.background_path).convert(24)
+        image = pygame.image.load(environment.background_path)
         if time == "night":
+            image = image.convert(24)
             _filter = pygame.Surface(image.get_size())
             _filter.fill((30, 30, 100))
             _filter.set_alpha(50)
@@ -112,6 +113,7 @@ class KidWindow(gui.Window):
         
     ##### Events #####
     def add_social_event(self, event):
+        self.remove_social_event()
         self.social_event = event
         self.external_character = ExternalCharacter(self.rect, (30, 609), 1, self.windows_controller, event)
         self.add_window(self.external_character)
@@ -121,10 +123,10 @@ class KidWindow(gui.Window):
         if self.external_character:
             self.remove_window(self.external_character)
         self.external_character = None
-        self.set_dirty_background()
     
     ##### Kid ballon #####
     def show_kid_balloon(self, message, time_span):
+        self.remove_kid_balloon()
         self.balloon = MessageBalloon(self.rect, pygame.Rect(580, 80, 1, 1), 1, self.windows_controller, 'A')
         self.balloon.set_text(message)
         self.balloon.set_time_span(time_span)
@@ -134,7 +136,7 @@ class KidWindow(gui.Window):
         if self.balloon:
             self.remove_window(self.balloon)
         self.balloon = None
-
+    
     def update(self, frames):
         
         gui.Window.update(self, frames)
@@ -210,6 +212,7 @@ class MessageBalloon(gui.Window):
     def handle_mouse_down(self, (x, y)):
         if self.visible:
             self.hide()
+            self.dispose()
             return True
         else:
             return False
@@ -226,6 +229,7 @@ class MessageBalloon(gui.Window):
         self.time_span = time_span
     
     def update(self, frames):
+        self.time_span -= 1
         if self.time_span == 0:
             self.hide()
             self.dispose()

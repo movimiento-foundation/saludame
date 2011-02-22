@@ -87,7 +87,6 @@ class SaludameWindowsController(gui.WindowsController):
     
     # Messages at ballon
     def show_kid_message(self, message, message_time_span):
-        print "mostrar mensaje: ", message, " durante: ", message_time_span
         self.windows["kid"].show_kid_balloon(message, message_time_span)
     
     # Moods

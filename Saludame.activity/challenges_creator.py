@@ -47,29 +47,42 @@ class ChallengesCreator:
         # True or false
         # 0 = False | 1 = True
         
-        ## Physica
-        self.tf_challenges_physica.append(self._create_tf_challenge(_("La alimentación adecuada previene muchas enfermedades \nimportantes"), 1, 10, 10))
-        self.tf_challenges_physica.append(self._create_tf_challenge(_("Si no nos vacunamos con las vacunas obligatorias podemos \nenfermarnos"), 1, 10, 10))
-        self.tf_challenges_physica.append(self._create_tf_challenge(_("Cuando estamos ingiriendo alimentos en menor proporción \na lo que necesitamos, podemos volvernos más \nsusceptibles a las infecciones "), 1, 10, 10))
+        self.tf_challenges = {}
         
-        ## Hygiene
-        self.tf_challenges_hygiene.append(self._create_tf_challenge(_("Muchos alimentos pueden estar contaminados con agroquímicos, \ny pesticidas porque son frecuentemente usados"), 1, 10, 10))
-        self.tf_challenges_hygiene.append(self._create_tf_challenge(_("Si no voy a comer no necesito lavarme las manos "), 0, 10, 10))
-        self.tf_challenges_hygiene.append(self._create_tf_challenge(_("Lo primero que hay que hay que hacer cuando vamos a lavarnos \nlas manos es ponernos jabón"), 0, 10, 10))
+        # Physica
+        self.tf_challenges["physica"] = [
+            self._create_tf_challenge(_("La alimentación adecuada previene muchas enfermedades \nimportantes"), 1, 10, 10),
+            self._create_tf_challenge(_("Si no nos vacunamos con las vacunas obligatorias podemos \nenfermarnos"), 1, 10, 10),
+            self._create_tf_challenge(_("Cuando estamos ingiriendo alimentos en menor proporción \na lo que necesitamos, podemos volvernos más \nsusceptibles a las infecciones "), 1, 10, 10),
+        ]
         
-        ## Nutrition
-        self.tf_challenges_nutrition.append(self._create_tf_challenge(_("Cuando aprendemos hábitos saludables estamos cuidando nuestra \nsalud"), 1, 10, 10))
-        self.tf_challenges_nutrition.append(self._create_tf_challenge(_("Tomar mucha agua, hacer ejercicio y comer frutas y verduras \nayuda a mover el intestino sin dificultad"), 1, 10, 10))
-        self.tf_challenges_nutrition.append(self._create_tf_challenge(_("El desayuno no es importante en nuestra alimentación"), 0, 10, 10))
+        # Hygiene
+        self.tf_challenges["hygiene"] = [
+            self._create_tf_challenge(_("Muchos alimentos pueden estar contaminados con agroquímicos, \ny pesticidas porque son frecuentemente usados"), 1, 10, 10),
+            self._create_tf_challenge(_("Si no voy a comer no necesito lavarme las manos "), 0, 10, 10),
+            self._create_tf_challenge(_("Lo primero que hay que hay que hacer cuando vamos a lavarnos \nlas manos es ponernos jabón"), 0, 10, 10),
+        ]
         
-        ## Spare time
-        self.tf_challenges_spare_time.append(self._create_tf_challenge(_("La actividad física mejora nuestra imagen"), 1, 10, 10))
-        self.tf_challenges_spare_time.append(self._create_tf_challenge(_("La actividad física  no nos ayuda prevenir enfermedades \ncomo el sobrepeso y la obesidad "), 0, 10, 10))
-        self.tf_challenges_spare_time.append(self._create_tf_challenge(_("Ser sedentarios no tiene importancia y no afecta nuestra \nsalud"), 0, 10, 10))
+        # Nutrition
+        self.tf_challenges["nutrition"] = [
+            self._create_tf_challenge(_("Cuando aprendemos hábitos saludables estamos cuidando nuestra \nsalud"), 1, 10, 10),
+            self._create_tf_challenge(_("Tomar mucha agua, hacer ejercicio y comer frutas y verduras \nayuda a mover el intestino sin dificultad"), 1, 10, 10),
+            self._create_tf_challenge(_("El desayuno no es importante en nuestra alimentación"), 0, 10, 10),
+        ]
         
-        ## Farm
-        self.tf_challenges_farm.append(self._create_tf_challenge(_("La actividad física mejora nuestra imagen"), 1, 10, 10))
-
+        # Spare time
+        self.tf_challenges["spare_time"] = [
+            self._create_tf_challenge(_("La actividad física mejora nuestra imagen"), 1, 10, 10),
+            self._create_tf_challenge(_("La actividad física  no nos ayuda prevenir enfermedades \ncomo el sobrepeso y la obesidad "), 0, 10, 10),
+            self._create_tf_challenge(_("Ser sedentarios no tiene importancia y no afecta nuestra \nsalud"), 0, 10, 10),
+        ]
+        
+        # Spare time
+        self.tf_challenges["responsability"] = [
+            self._create_tf_challenge(_("Hay que hacer los deberes en la escuela"), 1, 10, 10),
+            self._create_tf_challenge(_("Es bueno ayudar en las tareas domésticas"), 0, 10, 10),
+        ]
+    
     def _create_mc_challenge(self, question, answers, correct_answer, win_points, lose_points, image=None):
         """
         Create a new mc_challenge (tuple)
@@ -108,22 +121,12 @@ class ChallengesCreator:
         elif kind == "tf":
             self.tf_challenge.kind = "normal"
             bar = self.game_man.get_lowest_bar()
-            if bar.id == "physica":
-                r = random.randrange(0, len(self.tf_challenges_physica))
-                c = self.tf_challenges_physica[r]
-            elif bar.id == "hygiene":
-                r = random.randrange(0, len(self.tf_challenges_hygiene))
-                c = self.tf_challenges_hygiene[r]
-            elif bar.id == "nutrition":
-                r = random.randrange(0, len(self.tf_challenges_nutrition))
-                c = self.tf_challenges_nutrition[r]
-            elif bar.id == "spare_time":
-                r = random.randrange(0, len(self.tf_challenges_spare_time))
-                c = self.tf_challenges_spare_time[r]
-            elif bar.id == "farm":
-                r = random.randrange(0, len(self.tf_challenges_farm))
-                c = self.tf_challenges_farm[r]
-                
+            
+            challenges = self.tf_challenges[bar.id]
+            
+            r = random.randrange(0, len(challenges))
+            c = challenges[r]
+            
             # Set challenge attributes
             self.tf_challenge.set_question(c[0])
             self.tf_challenge.set_answers(c[1])
