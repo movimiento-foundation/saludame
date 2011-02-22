@@ -133,7 +133,7 @@ class AppLoader:
         
         # Environments
         self.places = self.__load_places()
-        self.weathers = ["rainy", "sunny", "cold", "windy"]
+        self.weathers = self.get_weather_list()
         self.environments_dictionary = self.__load_environments()
         self.weather_effects = self.__load_weather_effects()
         
@@ -182,6 +182,14 @@ class AppLoader:
         
     def get_places(self):
         return self.places
+
+    def get_weather_list(self):
+        weather = [("hot", _("Hot"), 0.25, "assets/events/weather/sunny.png"),
+                   ("rainy", _("Rainy"), 0.25, "assets/events/weather/rainy.png"),
+                   ("cold", _("Cold"), 0.25, "assets/events/weather/cold.png"),
+                   ("warm", _("Warm"), 0.25, "assets/events/weather/sunny.png")]
+        return weather
+
         
     def get_weather_effects(self):
         return self.weather_effects
@@ -273,30 +281,30 @@ class AppLoader:
         weather_effects = {
                    # (clothes_id, weather_id, boolean indoor outdoor) : list of tuples [(id_bar, rate)]
                     #school clothes
-                   ("school", "sunny", True) : [("fun", 1.0)],
-                   ("school", "sunny", False) : [("physica", 1.0)],
+                   ("school", "hot", True) : [("fun", 1.0)],
+                   ("school", "hot", False) : [("physica", 1.0)],
                    ("school", "rainy", True) : [("physica", 1.0)],
                    ("school", "rainy", False) : [("physica", 1.0)],
-                   ("school", "windy", True) : [("physica", 1.0)],
-                   ("school", "windy", False) : [("physica", 1.0)],
+                   ("school", "warm", True) : [("physica", 1.0)],
+                   ("school", "warm", False) : [("physica", 1.0)],
                    ("school", "cold", True) : [("physica", 1.0)],
                    ("school", "cold", False) : [("physica", 1.0)],
                    #sunny clothes
-                   ("sunny", "sunny", True) : [("physica", 1.0)],
-                   ("sunny", "sunny", False) : [("physica", 1.0)],
+                   ("sunny", "hot", True) : [("physica", 1.0)],
+                   ("sunny", "hot", False) : [("physica", 1.0)],
                    ("sunny", "rainy", True) : [("physica", 1.0)],
                    ("sunny", "rainy", False) : [("physica", 1.0)],
-                   ("sunny", "windy", True) : [("physica", 1.0)],
-                   ("sunny", "windy", False) : [("physica", 1.0)],
+                   ("sunny", "warm", True) : [("physica", 1.0)],
+                   ("sunny", "warm", False) : [("physica", 1.0)],
                    ("sunny", "cold", True) : [("physica", 1.0)],
                    ("sunny", "cold", False) : [("physica", 1.0)],
                    #rainy clothes
-                   ("rainy", "sunny", True) : [("physica", 1.0)],
-                   ("rainy", "sunny", False) : [("physica", 1.0)],
+                   ("rainy", "hot", True) : [("physica", 1.0)],
+                   ("rainy", "hot", False) : [("physica", 1.0)],
                    ("rainy", "rainy", True) : [("physica", 1.0)],
                    ("rainy", "rainy", False) : [("physica", 1.0)],
-                   ("rainy", "windy", True) : [("physica", 1.0)],
-                   ("rainy", "windy", False) : [("physica", 1.0)],
+                   ("rainy", "warm", True) : [("physica", 1.0)],
+                   ("rainy", "warm", False) : [("physica", 1.0)],
                    ("rainy", "cold", True) : [("physica", 1.0)],
                    ("rainy", "cold", False) : [("physica", 1.0)],
                    }
@@ -319,29 +327,29 @@ class AppLoader:
     
     def __load_environments(self):
         environments = {#schoolyard
-                        ("schoolyard", "sunny") : Environment("assets/background/schoolyard_sunny.png"),
+                        ("schoolyard", "hot") : Environment("assets/background/schoolyard_sunny.png"),
                         ("schoolyard", "rainy") : Environment("assets/background/schoolyard_rainy.png"),
-                        ("schoolyard", "windy") : Environment("assets/background/schoolyard_windy.png"),
+                        ("schoolyard", "warm") : Environment("assets/background/schoolyard_windy.png"),
                         ("schoolyard", "cold") : Environment("assets/background/schoolyard_cold.png"),
                         #square
-                        ("square", "sunny") : Environment("assets/background/square_sunny.png"),
+                        ("square", "hot") : Environment("assets/background/square_sunny.png"),
                         ("square", "rainy") : Environment("assets/background/square_rainy.png"),
-                        ("square", "windy") : Environment("assets/background/square_windy.png"),
+                        ("square", "warm") : Environment("assets/background/square_windy.png"),
                         ("square", "cold") : Environment("assets/background/square_cold.png"),
                         #classroom
-                        ("classroom", "sunny") : Environment("assets/background/classroom_sunny.png"),
+                        ("classroom", "hot") : Environment("assets/background/classroom_sunny.png"),
                         ("classroom", "rainy") : Environment("assets/background/classroom_rainy.png"),
-                        ("classroom", "windy") : Environment("assets/background/classroom_windy.png"),
+                        ("classroom", "warm") : Environment("assets/background/classroom_windy.png"),
                         ("classroom", "cold") : Environment("assets/background/classroom_cold.png"),
                         #home
-                        ("home", "sunny") : Environment("assets/background/home_sunny.png"),
+                        ("home", "hot") : Environment("assets/background/home_sunny.png"),
                         ("home", "rainy") : Environment("assets/background/home_rainy.png"),
-                        ("home", "windy") : Environment("assets/background/home_windy.png"),
+                        ("home", "warm") : Environment("assets/background/home_windy.png"),
                         ("home", "cold") : Environment("assets/background/home_cold.png"),
                         #country
-                        ("country", "sunny") : Environment("assets/background/country_sunny.png"),
+                        ("country", "hot") : Environment("assets/background/country_sunny.png"),
                         ("country", "rainy") : Environment("assets/background/country_rainy.png"),
-                        ("country", "windy") : Environment("assets/background/country_windy.png"),
+                        ("country", "warm") : Environment("assets/background/country_windy.png"),
                         ("country", "cold") : Environment("assets/background/country_cold.png"),
                         }
         
