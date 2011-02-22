@@ -210,6 +210,7 @@ class Window:
                 stop = child.handle_mouse_down((x, y))
                 if stop:
                     break
+                return # No seguimos buscando el botón
             
         return stop
         

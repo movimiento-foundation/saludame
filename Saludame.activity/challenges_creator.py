@@ -35,6 +35,7 @@ class ChallengesCreator:
         self.tf_challenges_hygiene = []
         self.tf_challenges_nutrition = []
         self.tf_challenges_spare_time = []
+        self.tf_challenges_farm = []
         
     def create_challenges(self):
         # Common multiple choice
@@ -65,6 +66,9 @@ class ChallengesCreator:
         self.tf_challenges_spare_time.append(self._create_tf_challenge(_("La actividad física mejora nuestra imagen"), 1, 10, 10))
         self.tf_challenges_spare_time.append(self._create_tf_challenge(_("La actividad física  no nos ayuda prevenir enfermedades \ncomo el sobrepeso y la obesidad "), 0, 10, 10))
         self.tf_challenges_spare_time.append(self._create_tf_challenge(_("Ser sedentarios no tiene importancia y no afecta nuestra \nsalud"), 0, 10, 10))
+        
+        ## Farm
+        self.tf_challenges_farm.append(self._create_tf_challenge(_("La actividad física mejora nuestra imagen"), 1, 10, 10))
 
     def _create_mc_challenge(self, question, answers, correct_answer, win_points, lose_points, image=None):
         """
@@ -116,6 +120,9 @@ class ChallengesCreator:
             elif bar.id == "spare_time":
                 r = random.randrange(0, len(self.tf_challenges_spare_time))
                 c = self.tf_challenges_spare_time[r]
+            elif bar.id == "farm":
+                r = random.randrange(0, len(self.tf_challenges_farm))
+                c = self.tf_challenges_farm[r]
                 
             # Set challenge attributes
             self.tf_challenge.set_question(c[0])
