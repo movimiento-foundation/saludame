@@ -36,7 +36,7 @@ actions_list = [
     #id, icon, picture, appereance_probability, time_span, kid_animation_frame_rate, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect
 
     #atention
-    ("attention", 0.3, 5, 40, 0, "assets/kid/actions/crazy", 3, 1, None, 4, None,
+    ("attention", 0.3, 5, 40, 0, "assets/kid/actions/atention", 3, 1, None, 4, None,
         effects.Effect(None, [("fun", 5.0)]), None, None, None
     ),
     

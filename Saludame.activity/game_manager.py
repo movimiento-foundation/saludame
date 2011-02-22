@@ -9,7 +9,7 @@ EVENTS_OCCURRENCE_INTERVAL = 15 #per control interval after an event
 MAX_IDLE_TIME = 5 # Qty of control intervals until the kid executes an action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
-HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
+HOUR_COUNT_CYCLE = 6 #control intevals that have to pass to management the time of day
 
 import random
 import effects
@@ -68,7 +68,7 @@ class GameManager:
         
         #environment
         self.environments_dictionary = environments_dictionary
-        self.current_weather = "sunny" # default weather
+        self.current_weather = self.weathers[0] # default weather
         self.environment = None
         
         # time of day
@@ -146,7 +146,7 @@ class GameManager:
         Sets the character environment and send a message to the
         windows_controller
         """
-        environment_id = (self.character.current_place, self.current_weather)
+        environment_id = (self.character.current_place, self.current_weather[0])
         self.environment = self.environments_dictionary[environment_id]
         
         self.windows_controller.set_environment(self.environment, self.current_time)
@@ -157,7 +157,7 @@ class GameManager:
         clothes + current_weather.
         """
         outdoor = self.places_dictionary[self.character.current_place]["outdoor"]
-        affected_bars = self.weather_effects[(self.character.clothes, self.current_weather, outdoor)]
+        affected_bars = self.weather_effects[(self.character.clothes, self.current_weather[0], outdoor)]
         effect = effects.Effect(self.bars_controller, affected_bars)
         
         self.environment_effect = effect
@@ -544,7 +544,7 @@ class GameManager:
         # bars
         self.bars_controller.reset()
         # weather
-        self.current_weather = "sunny" # default weather
+        self.current_weather = self.weathers[0] # default weather
         self.update_environment()
         self.update_environment_effect()
         self.windows_controller.update_clothes()

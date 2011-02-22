@@ -61,14 +61,14 @@ class PanelWindow(gui.Window):
     def set_weather(self):
         if self.weather_widget:
             self.remove_child(self.weather_widget)
-        
-        weather = self.windows_controller.game_man.current_weather
-        file_path = "assets/events/weather/" + weather + ".png"
+
+        current_weather = self.windows_controller.game_man.current_weather
+        file_path = current_weather[3]
         self.weather_widget = gui.Image(self.rect, pygame.Rect(51, 34, 1, 1), 1, file_path)
         self.add_child(self.weather_widget)
         self.weather_widget.set_dirty()
         
-        info = "%s \n" % (weather)
+        info = "%s \n" % (current_weather[1])
         
         effect = self.windows_controller.game_man.environment_effect
         if effect:
