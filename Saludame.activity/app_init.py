@@ -188,8 +188,7 @@ class AppLoader:
     
     def __load_events(self, bars_controller):
         #Events constructor params:
-        #picture, kid_animation_path, id, description, appereance_probability, time_span, kind, event_status, effect, kid_message,
-        #preferred_mood=9, message_time_span = time_span)
+        #(directory_path, kid_animation_path, id, description, appereance_probability, time_span, kind, event_status, effect, kid_message, preferred_mood=9, message_time_span = time_span)
         
         _events = []
         
@@ -197,43 +196,43 @@ class AppLoader:
         # probabiliy configuration: (bar, type, threshold, probability_percentaje)
         probability = [("v_frutas", "indirect", 10.0, 30.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5)])
-        event = events.PersonalEvent("ill.jpg", None, "constipation", _("Constipation"), 5, 15, "personal", probability, effect, u"Me duele la panza y no \n puedo ir al baño", 2, 50)
+        event = events.PersonalEvent("assets/events/personal/headache", None, "constipation", _("Constipation"), 5, 15, "personal", probability, effect, u"Me duele la panza y no \n puedo ir al baño", 2, 50)
         _events.append(event)
         
         probability = [("w_hands", "indirect", 25.0, 30.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5), ("agua", -1.0), ("defenses", -0.5)])
-        event = events.PersonalEvent("ill.jpg", None, "diarrhea", _("Diarrhea"), 5, 15, "personal", probability, effect, "Tengo diarrea", 2, 50)
+        event = events.PersonalEvent("assets/events/personal/headache", None, "diarrhea", _("Diarrhea"), 5, 15, "personal", probability, effect, "Tengo diarrea", 2, 50)
         _events.append(event)
         
         probability = [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5), ("relaxing", -0.5)])
-        event = events.PersonalEvent("ill.jpg", None, "headache", _("Headache"), 5, 15, "personal", probability, effect, "Me duele la cabeza", 2, 50)
+        event = events.PersonalEvent("assets/events/personal/headache", None, "assets/events/personal/headache", _("assets/events/personal/headache"), 5, 15, "personal", probability, effect, "Me duele la cabeza", 2, 50)
         _events.append(event)
         
         probability = [("b_teeth", "indirect", 25.0, 50.0), ("dulces", "direct", 75.0, 20.0)]
         effect = effects.Effect(bars_controller, [("energy", -1.0), ("defenses", -1.0), ("fun", -1.0), ("relaxing", -1.0)])
-        event = events.PersonalEvent("caries.jpg", None, "caries", _("Caries"), 5, 15, "personal", probability, effect, "Me duele una muela", 5, 50)
+        event = events.PersonalEvent("assets/events/personal/headache", None, "caries", _("Caries"), 5, 15, "personal", probability, effect, "Me duele una muela", 5, 50)
         _events.append(event)
         
         probability = [("overall_bar", "constant", 100.0, 15.0)]
         effect = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.0), ("resistencia", -0.9), ("fat", -0.5)])
-        event = events.PersonalEvent("ill.jpg", "assets/events/stomach_ache", "stomach_ache", _("Stomach ache"), 5, 15, "personal", probability, effect, "Me duele la panza! :(", 2, 50)
+        event = events.PersonalEvent("assets/events/personal/headache", "assets/events/stomach_ache", "stomach_ache", _("Stomach ache"), 5, 15, "personal", probability, effect, "Me duele la panza! :(", 2, 50)
         _events.append(event)
         
         #Social events
-        #(picture, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, message_time_span)
+        #(directory_path, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, message_time_span)
         probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
         
         #editar parametros:
-        event = events.SocialEvent("caries.jpg", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", None, 100)
+        event = events.SocialEvent("assets/events/personal/headache", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", None, 100)
         _events.append(event)
 
         probability = [("responsability", "indirect", 60.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/father.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", None, 100)
+        event = events.SocialEvent("assets/events/personal/headache", "assets/characters/father.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Hiciste los deberes?", None, 100)
         _events.append(event)
 
         probability = [("responsability", "indirect", 70.0, 70.0)]
-        event = events.SocialEvent("unkown.png", "assets/characters/doctor.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", None, 100)
+        event = events.SocialEvent("assets/events/personal/headache", "assets/characters/doctor.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", None, 100)
         _events.append(event)
 
         return _events

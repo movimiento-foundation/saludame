@@ -75,7 +75,7 @@ class Kid(gui.Widget):
             self.file_list = get_image_list(directory)
     
     
-    ##### Draw #####
+    ##### update #####
     def update(self, frames):
         filename = self.file_list[self.index]
         self.sprite = load_animation(self.sprite, filename)
@@ -116,7 +116,7 @@ class ActionAnimation(gui.Widget):
     """
     An action animation to show at panel
     """
-    def __init__(self, container, rect, frame_rate, animation_path, sound_path):
+    def __init__(self, container, rect, frame_rate, animation_path, sound_path=None):
         gui.Widget.__init__(self, container, rect, frame_rate)
         
         self.path = animation_path
