@@ -5,9 +5,9 @@ MAX_BAR_VALUE = 100.0 #maximo valor que puede alcanzar una barra
 
 class Event:
     
-    def __init__(self, picture, name, description, appereance_probability, time_span, condicioned_bars):
+    def __init__(self, directory_path, name, description, appereance_probability, time_span, condicioned_bars):
         
-        self.picture = picture
+        self.directory_path = directory_path
         self.name = name
         self.description = description
         self.appereance_probability = appereance_probability
@@ -60,7 +60,7 @@ class PersonalEvent(Event):
         
         self.preferred_mood = preferred_mood #set as normal by default
          
-        self.picture = picture
+        self.directory_path = picture
         
         self.name = name
         self.description = description
@@ -89,7 +89,7 @@ class SocialEvent(Event):
         self.person_message = message
         self.message_time_span = message_time_span
         
-        self.picture = picture
+        self.directory_path = picture
         
         self.name = name
         self.description = description
