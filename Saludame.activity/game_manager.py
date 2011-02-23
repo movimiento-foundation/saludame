@@ -198,15 +198,25 @@ class GameManager:
     
     def get_random_weather(self):
         """
-        Returns a random weather, never returns the previous weather.
+        Returns a random weather, based on the appearance 
+        probability of each one.
         """
-        random_weather = self.current_weather
-        while random_weather == self.current_weather:
-            random_weather = random.choice(self.weathers)
+        aux = 0
+        ranges = [(0, self.weathers[0][2]), 
+                  (self.weathers[0][2], self.weathers[1][2] + self.weathers[0][2]),
+                  (self.weathers[1][2] + self.weathers[0][2], self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2]),
+                  (self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2], self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2] + self.weathers[3][2])]
         
-        print "se genero el clima: ", random_weather
-        return random_weather
-        
+        max_rand = ranges[-1][1]
+        if max_rand == 0:
+            #if they havent probabilities, then it returns default.
+            return self.weathers[0]
+        else:
+            rand = random.random()*max_rand
+            for i in range(0, len(ranges)):
+                if rand >= ranges[i][0] and rand <= ranges[i][1]:
+                    return self.weathers[i]
+    
 ### location
 
     def set_character_location(self, place_id):
@@ -429,9 +439,6 @@ class GameManager:
         Get a random event
         """
         self.__update_events_probability(events_list) # it updates the probabilities of the list's events
-        
-        #max_rand = self.__calculate_max_rand(events_list) # get the max_rand for the events_list
-        
         probability_ranges = self.__calculate_ranges(events_list) # calculate the ranges for these events
         max_rand = probability_ranges[-1][1]    # Second member of last event
         
