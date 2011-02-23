@@ -163,7 +163,7 @@ class SocialWindow(gui.Window):
         if self.active_social_events:
             self.index_social_event = 0
             self.current_animation = self.active_social_events[0][1]
-            self.add_cbild(self.current_animation)
+            self.add_child(self.current_animation)
             
         self.windows_controller.hide_active_tooltip()
         self.refresh_count_social_events()
