@@ -227,7 +227,7 @@ class Window:
             if widget.contains_point(x, y):
                 if not widget.over:
                     # Tooltips
-                    if widget.tooltip: # Si el boton tiene tooltip entonces lo mostramos
+                    if widget.tooltip: # Si el widget tiene tooltip entonces lo mostramos
                         self.windows_controller.hide_active_tooltip()
                         self.windows_controller.show_tooltip(widget.tooltip)
                         widget.showing_tooltip = True

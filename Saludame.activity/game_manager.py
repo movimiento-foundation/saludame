@@ -198,15 +198,39 @@ class GameManager:
     
     def get_random_weather(self):
         """
-        Returns a random weather, never returns the previous weather.
+        Returns a random weather, based on the appearance 
+        probability of each one, and in the current character
+        level.
         """
-        random_weather = self.current_weather
-        while random_weather == self.current_weather:
-            random_weather = random.choice(self.weathers)
-        
-        print "se genero el clima: ", random_weather
-        return random_weather
-        
+        aux = 0
+        allowed_weathers = [weather for weather in self.weathers if weather[4] <= self.character.level]
+        ranges = self.get_weather_prob_ranges(allowed_weathers)
+ 
+        max_rand = ranges[-1][1]
+        if max_rand == 0:
+            #if they havent probabilities, then it returns default.
+            return self.weathers[0]
+        else:
+            rand = random.random()*max_rand
+            for i in range(0, len(ranges)):
+                if rand >= ranges[i][0] and rand <= ranges[i][1]:
+                    return self.weathers[i]
+     
+    def get_weather_prob_ranges(self, weather_list):
+        """ maps the probability_appreance of each weather to a range.
+        """
+        if len(weather_list) > 0:    
+            previous = 0
+            ranges = []
+            for weath in weather_list:
+                ranges += [(previous, previous + weath[2])]
+                previous += weath[2]
+            return ranges
+        else:
+            return None
+            
+    
+    
 ### location
 
     def set_character_location(self, place_id):
@@ -429,9 +453,6 @@ class GameManager:
         Get a random event
         """
         self.__update_events_probability(events_list) # it updates the probabilities of the list's events
-        
-        #max_rand = self.__calculate_max_rand(events_list) # get the max_rand for the events_list
-        
         probability_ranges = self.__calculate_ranges(events_list) # calculate the ranges for these events
         max_rand = probability_ranges[-1][1]    # Second member of last event
         
