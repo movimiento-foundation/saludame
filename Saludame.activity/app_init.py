@@ -184,10 +184,13 @@ class AppLoader:
         return self.places
 
     def get_weather_list(self):
-        weather = [("hot", _("Hot"), 25.0, "assets/events/weather/sunny.png"),
-                   ("rainy", _("Rainy"), 25.0, "assets/events/weather/rainy.png"),
-                   ("cold", _("Cold"), 25.0, "assets/events/weather/cold.png"),
-                   ("warm", _("Warm"), 35.0, "assets/events/weather/sunny.png")]
+        """returns the weather list.
+        (weather_id, weather_label, probabilitie_appereance, icon_path, level).
+        """
+        weather = [("hot", _("Hot"), 25.0, "assets/events/weather/sunny.png", 1),
+                   ("rainy", _("Rainy"), 25.0, "assets/events/weather/rainy.png", 1),
+                   ("cold", _("Cold"), 25.0, "assets/events/weather/cold.png", 1),
+                   ("warm", _("Warm"), 35.0, "assets/events/weather/sunny.png", 1)]
         return weather
 
         

@@ -199,14 +199,13 @@ class GameManager:
     def get_random_weather(self):
         """
         Returns a random weather, based on the appearance 
-        probability of each one.
+        probability of each one, and in the current character
+        level.
         """
         aux = 0
-        ranges = [(0, self.weathers[0][2]), 
-                  (self.weathers[0][2], self.weathers[1][2] + self.weathers[0][2]),
-                  (self.weathers[1][2] + self.weathers[0][2], self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2]),
-                  (self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2], self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2] + self.weathers[3][2])]
-        
+        allowed_weathers = [weather for weather in self.weathers if weather[4] <= self.character.level]
+        ranges = self.get_weather_prob_ranges(allowed_weathers)
+ 
         max_rand = ranges[-1][1]
         if max_rand == 0:
             #if they havent probabilities, then it returns default.
@@ -216,6 +215,21 @@ class GameManager:
             for i in range(0, len(ranges)):
                 if rand >= ranges[i][0] and rand <= ranges[i][1]:
                     return self.weathers[i]
+     
+    def get_weather_prob_ranges(self, weather_list):
+        """ maps the probability_appreance of each weather to a range.
+        """
+        if len(weather_list) > 0:    
+            previous = 0
+            ranges = []
+            for weath in weather_list:
+                ranges += [(previous, previous + weath[2])]
+                previous += weath[2]
+            return ranges
+        else:
+            return None
+            
+    
     
 ### location
 
