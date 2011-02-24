@@ -5,7 +5,7 @@ MAX_BAR_VALUE = 100.0 #maximo valor que puede alcanzar una barra
 
 class Event:
     
-    def __init__(self, directory_path, name, description, appereance_probability, time_span, condicioned_bars):
+    def __init__(self, directory_path, name, description, appereance_probability, time_span, condicioned_bars, level=1):
         
         self.directory_path = directory_path
         self.name = name
@@ -13,7 +13,8 @@ class Event:
         self.appereance_probability = appereance_probability
         self.time_span = time_span
         self.condicioned_bars = condicioned_bars
-        self.condicioned_probability = 0.0 #starts in 0.0
+        self.condicioned_probability = 0.0 # starts in 0.0
+        self.level = level
 
     def update_probability(self, bars_value_dic):
         """
@@ -46,8 +47,8 @@ class Event:
         
 class PersonalEvent(Event):
     
-    def __init__(self, picture, kid_animation_path, name, description, appereance_probability, time_span, kind, condicioned_bars, effect, kid_message, preferred_mood=9, message_time_span=5):
-        Event.__init__(self, picture, name, description, appereance_probability, time_span, condicioned_bars)
+    def __init__(self, picture, kid_animation_path, name, description, appereance_probability, time_span, kind, condicioned_bars, effect, kid_message, level=1, preferred_mood=9, message_time_span=5):
+        Event.__init__(self, picture, name, description, appereance_probability, time_span, condicioned_bars, level)
 
         self.time_span = time_span
         self.time_left = time_span
@@ -78,8 +79,8 @@ class PersonalEvent(Event):
 
 class SocialEvent(Event):
     
-    def __init__(self, picture, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, effect, message_time_span=5):
-        Event.__init__(self, picture, name, description, appereance_probability, time_span, condicioned_bars)
+    def __init__(self, picture, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, effect, level=1, message_time_span=5):
+        Event.__init__(self, picture, name, description, appereance_probability, time_span, condicioned_bars, level)
         
         self.time_span = time_span
         self.time_left = time_span
