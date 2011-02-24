@@ -16,12 +16,12 @@ class KidWindow(gui.Window):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "kid")
         self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())
         
-        self.kid_rect = pygame.Rect((280, 70), (350, 480))
+        kid_rect = pygame.Rect((280, 70), (400, 500))
         self.mood = "normal"
         
         self.cha_loader = cha_loader
             
-        self.kid = animation.Kid(rect, self.kid_rect, 1, windows_controller, game_man, self.mood)
+        self.kid = animation.Kid(rect, kid_rect, 1, windows_controller, game_man, self.mood)
         self.add_child(self.kid)
         
         self.balloon = None

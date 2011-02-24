@@ -26,7 +26,7 @@ class BarsLoader:
         physica.children_list = physica_children_bar
         
         ### hygiene
-        hygiene_children_id = [("shower", _("Ducharse")), ("w_hands", _("Lavarse Manos")), ("b_teeth", _("Lavarse Dientes")), ("toilet", _(u"Ir al Baño"))]
+        hygiene_children_id = [("shower", _("Ducharse")), ("w_hands", _("Lavarse Manos")), ("b_teeth", _("Cepillarse Dientes")), ("toilet", _(u"Ir al Baño"))]
         hygiene = status_bars.StatusBar("hygiene", "Hygiene", self.overall_bar, [], hard_level[0], hard_level[1])
         hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar

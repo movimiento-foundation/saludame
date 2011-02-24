@@ -166,7 +166,7 @@ class BarSection(gui.Window):
         #label_rect = pygame.Rect((0,0), label_render.get_size())
         #label_rect.right = self.rect.right - 8
         pos = self.rect.right - 8, 0
-        label_widget = gui.Text(self.rect, pos[0], pos[1], 1, self.name, 16, pygame.Color(TEXT_COLOR), gui.Text.ALIGN_RIGHT, True, True)
+        label_widget = gui.Text(self.rect, pos[0], pos[1], 1, self.name, 16, pygame.Color(TEXT_COLOR), "normal", gui.Text.ALIGN_RIGHT, True, True)
         
         # visuals
         self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_PARTITIONS)

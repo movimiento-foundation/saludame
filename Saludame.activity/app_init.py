@@ -233,7 +233,7 @@ class AppLoader:
         #Social events
         #(directory_path, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, message_time_span)
         probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
-        event = events.SocialEvent("assets/events/personal/headache", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías lavarte los \ndientes", None, 150)
+        event = events.SocialEvent("assets/events/personal/headache", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías cepillarte los \ndientes", None, 150)
         _events.append(event)
 
         probability = [("responsability", "indirect", 60.0, 70.0)]
