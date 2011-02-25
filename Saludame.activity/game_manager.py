@@ -6,7 +6,7 @@ GAME_VERSION = "1.0"
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
 EVENTS_OCCURRENCE_INTERVAL = 15 #per control interval after an event
 
-MAX_IDLE_TIME = 5 # Qty of control intervals until the kid executes an action.
+MAX_IDLE_TIME = 10 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
 HOUR_COUNT_CYCLE = 6 #control intevals that have to pass to management the time of day
@@ -199,23 +199,38 @@ class GameManager:
     def get_random_weather(self):
         """
         Returns a random weather, based on the appearance 
-        probability of each one.
+        probability of each one, and in the current character
+        level.
         """
         aux = 0
-        ranges = [(0, self.weathers[0][2]), 
-                  (self.weathers[0][2], self.weathers[1][2] + self.weathers[0][2]),
-                  (self.weathers[1][2] + self.weathers[0][2], self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2]),
-                  (self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2], self.weathers[1][2] + self.weathers[0][2] + self.weathers[2][2] + self.weathers[3][2])]
-        
-        max_rand = ranges[-1][1]
-        if max_rand == 0:
-            #if they havent probabilities, then it returns default.
-            return self.weathers[0]
+        allowed_weathers = [weather for weather in self.weathers if weather[4] <= self.character.level]
+        ranges = self.get_weather_prob_ranges(allowed_weathers)
+        if ranges:
+            max_rand = ranges[-1][1]
+            if max_rand == 0:
+                #if they havent probabilities, then it returns default.
+                return self.weathers[0]
+            else:
+                rand = random.random()*max_rand
+                for i in range(0, len(ranges)):
+                    if rand >= ranges[i][0] and rand <= ranges[i][1]:
+                        return self.weathers[i]
         else:
-            rand = random.random()*max_rand
-            for i in range(0, len(ranges)):
-                if rand >= ranges[i][0] and rand <= ranges[i][1]:
-                    return self.weathers[i]
+            return self.weathers[0] #default weather
+    def get_weather_prob_ranges(self, weather_list):
+        """ maps the probability_appreance of each weather to a range.
+        """
+        if len(weather_list) > 0:    
+            previous = 0
+            ranges = []
+            for weath in weather_list:
+                ranges += [(previous, previous + weath[2])]
+                previous += weath[2]
+            return ranges
+        else:
+            return None
+            
+    
     
 ### location
 
@@ -439,19 +454,19 @@ class GameManager:
         Get a random event
         """
         self.__update_events_probability(events_list) # it updates the probabilities of the list's events
-        probability_ranges = self.__calculate_ranges(events_list) # calculate the ranges for these events
-        max_rand = probability_ranges[-1][1]    # Second member of last event
-        
-        print probability_ranges
-        
-        if max_rand == 0:
-            # There aren't events with probability
-            return None
-        else:
-            rand = random.random()*max_rand
-            for i in range(0, len(probability_ranges)):
-                if rand >= probability_ranges[i][0] and rand <= probability_ranges[i][1]:
-                    return events_list[i]
+        allowed_events = [evt for evt in events_list if evt.level <= self.character.level]#verify wich events are allowed in the current level.
+        if len(allowed_events) > 0:
+            probability_ranges = self.__calculate_ranges(allowed_events) # calculate the ranges for these events
+            max_rand = probability_ranges[-1][1]    # Second member of last event
+
+            if max_rand == 0:
+                # There aren't events with probability
+                return None
+            else:
+                rand = random.random()*max_rand
+                for i in range(0, len(probability_ranges)):
+                    if rand >= probability_ranges[i][0] and rand <= probability_ranges[i][1]:
+                        return allowed_events[i]
     
     def __update_events_probability(self, events_list):
         """
