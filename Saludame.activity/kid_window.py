@@ -69,7 +69,7 @@ class KidWindow(gui.Window):
     def _cb_button_click_tf_challenges(self, button):
         self.cha_loader.get_challenge("tf")
         self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Flaso: %s" %(self.cha_loader.game_man.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Falso: %s" %(self.cha_loader.game_man.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
         self.windows_controller.set_active_window("info_challenge_window")
         
     def _cb_button_click_master_challenge(self, button):

@@ -4,7 +4,6 @@ import gui
 import pygame
 import game
 import animation
-
 class PersonalWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
         
@@ -48,7 +47,7 @@ class PersonalWindow(gui.Window):
                 self.remove_child(self.current_animation)
                 
             self.current_animation = temp_animation
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
             
             self.current_animation.set_dirty()
             self.index_personal_event = len(self.active_personal_events) - 1
@@ -66,7 +65,7 @@ class PersonalWindow(gui.Window):
         if self.active_personal_events:
             self.index_personal_event = 0
             self.current_animation = self.active_personal_events[0][1]
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
         
         self.windows_controller.hide_active_tooltip()
         
@@ -93,7 +92,7 @@ class PersonalWindow(gui.Window):
             self.index_personal_event += 1
             self.refresh_count_personal_events()
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
             
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
@@ -101,7 +100,7 @@ class PersonalWindow(gui.Window):
             self.index_personal_event -= 1
             self.refresh_count_personal_events()
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
             
 class SocialWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
@@ -144,7 +143,7 @@ class SocialWindow(gui.Window):
             if self.current_animation:
                 self.remove_child(self.current_animation)
             self.current_animation = temp_animation
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
             
             self.current_animation.set_dirty()
             self.index_social_event = len(self.active_social_events) - 1
@@ -163,7 +162,7 @@ class SocialWindow(gui.Window):
         if self.active_social_events:
             self.index_social_event = 0
             self.current_animation = self.active_social_events[0][1]
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
             
         self.windows_controller.hide_active_tooltip()
         self.refresh_count_social_events()
@@ -189,7 +188,7 @@ class SocialWindow(gui.Window):
             self.index_social_event += 1
             self.refresh_count_social_events()
             self.current_animation = self.active_social_events[self.index_social_event][1]
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
             
     def _cb_button_click_social_back(self, button):
         if self.index_social_event > 0:
@@ -197,5 +196,5 @@ class SocialWindow(gui.Window):
             self.index_social_event -= 1
             self.refresh_count_social_events()
             self.current_animation = self.active_social_events[self.index_social_event][1]
-            self.add_child(self.current_animation)
+            self.add_child(self.current_animation, 0)
         
