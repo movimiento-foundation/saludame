@@ -376,6 +376,7 @@ class Item(gui.Button):
         """
         Handle mouse click
         """
+        self.menu.windows_controller.hide_active_tooltip()
         if self.action_link and (self.bg_rect.right + self.rect_absolute.left < x) :# the items has help_button and the "click" is on the help image
             print "*Link de la accion: ", self.action_link
             self.menu.send_action(CLOSE_MENU)

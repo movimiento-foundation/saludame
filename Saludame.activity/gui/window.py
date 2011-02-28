@@ -144,9 +144,14 @@ class Window:
     def show(self):
         self.visible = True
         
-    def add_child(self, widget):
-        self.widgets.append(widget)
-        self.childs.append(widget)
+    def add_child(self, widget, pos=None):
+        if pos != None:
+            print pos
+            self.widgets.insert(pos, widget)
+            self.childs.insert(pos, widget)
+        else:
+            self.widgets.append(widget)
+            self.childs.append(widget)
         widget.parent = self
         
     def remove_child(self, widget):
@@ -155,9 +160,13 @@ class Window:
             self.childs.remove(widget)
             self.set_dirty_background()
         
-    def add_button(self, button):
-        self.add_child(button)
-        self.buttons.append(button)
+    def add_button(self, button, pos=None):
+        if pos != None:
+            self.add_child(pos, button)
+            self.buttons.insert(pos, button)
+        else:
+            self.add_child(button)
+            self.buttons.append(button)
         button.parent = self
         
     def remove_button(self, button):
@@ -194,7 +203,7 @@ class Window:
         return (self.bg_image or self.bg_color)
         
     def contains_point(self, x, y):
-        return self.rect.collidepoint(x,y)
+        return self.rect.collidepoint(x, y)
     
     def handle_mouse_down(self, (x, y)):
         stop = False
@@ -218,7 +227,7 @@ class Window:
         
         for win in self.windows:
             if win.rect.collidepoint(x, y):
-                win.handle_mouse_over((x,y))
+                win.handle_mouse_over((x, y))
                 return
         
         self.windows_controller.set_mouse_on_window(self.register_id)
