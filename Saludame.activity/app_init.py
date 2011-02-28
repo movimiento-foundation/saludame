@@ -279,25 +279,25 @@ class AppLoader:
 
     def __load_weather_effects(self):
         weather_effects = {
-                   # (clothes_id, weather_id, boolean indoor outdoor) : list of tuples [(id_bar, rate)]
+                   # (clothes_id, weather_id, boolean outdoor) : list of tuples [(id_bar, rate)]
                    # school clothes
-                   ("school", "hot", True) : [("fun", 1.0)],
-                   ("school", "hot", False) : [("physica", 1.0)],
-                   ("school", "rainy", True) : [("physica", 1.0)],
-                   ("school", "rainy", False) : [("physica", 1.0)],
-                   ("school", "warm", True) : [("physica", 1.0)],
-                   ("school", "warm", False) : [("physica", 1.0)],
-                   ("school", "cold", True) : [("physica", 1.0)],
-                   ("school", "cold", False) : [("physica", 1.0)],
+                   ("school", "hot", True) : [("fun", 0.5)],
+                   ("school", "hot", False) : [("fun", -0.05)],
+                   ("school", "rainy", True) : [("fun", 0.05), ("defenses", -1.0)],
+                   ("school", "rainy", False) : [("fun", 0.05)],
+                   ("school", "warm", True) : [("fun", 0.05)],
+                   ("school", "warm", False) : [("fun", 0.05)],
+                   ("school", "cold", True) : [("fun", -0.05), ("defenses", -1.0)],
+                   ("school", "cold", False) : [("fun", 0.05)],
                    # regular clothes
-                   ("regular", "hot", True) : [("physica", 1.0)],
-                   ("regular", "hot", False) : [("physica", 1.0)],
-                   ("regular", "rainy", True) : [("physica", 1.0)],
-                   ("regular", "rainy", False) : [("physica", 1.0)],
-                   ("regular", "warm", True) : [("physica", 1.0)],
-                   ("regular", "warm", False) : [("physica", 1.0)],
-                   ("regular", "cold", True) : [("physica", 1.0)],
-                   ("regular", "cold", False) : [("physica", 1.0)],
+                   ("regular", "hot", True) : [("fun", 0.5)],
+                   ("regular", "hot", False) : [("fun", 0.05)],
+                   ("regular", "rainy", True) : [("defenses", -1.0), ("fun", 0.05)],
+                   ("regular", "rainy", False) : [("fun", 0.05)],
+                   ("regular", "warm", True) : [("fun", 0.5)],
+                   ("regular", "warm", False) : [("fun", 0.05)],
+                   ("regular", "cold", True) : [("fun", -0.05), ("defenses", -1.0)],
+                   ("regular", "cold", False) : [("fun", 0.02)],
         }
         return weather_effects
     

@@ -170,16 +170,16 @@ actions_list = [
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
     ),
     ("sp_harvest", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/harvest", 4, None,
-        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+        effects.Effect(None, [("energy", -0.5), ("farm",2.0)]), None, None, None
     ),
     ("sp_irrigate", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/irrigate", 4, None,
-        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+        effects.Effect(None, [("energy", -0.5), ("farm", 2.0)]), None, None, None
     ),
     ("sp_sow", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 4, None,
-        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+        effects.Effect(None, [("energy", -0.5), ("farm", 2.0)]), None, None, None
     ),
     ("sp_plow", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/trident", 4, None,
-        effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
+        effects.Effect(None, [("energy", -0.5), ("farm", 2.0)]), None, None, None
     ),
     ("sp_clean", 0.3, 5, 28, 0, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 4, None,
         effects.Effect(None, [("energy", -0.5), ("responsability", 2.0)]), None, None, None
