@@ -7,7 +7,7 @@ import menu_creator
 import animation
 from gettext import gettext as _
 
-BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_sunny.png")
+BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_normal.png")
 
 class KidWindow(gui.Window):
 
@@ -83,14 +83,17 @@ class KidWindow(gui.Window):
         
     ##### Environment #####
     def set_environment(self, environment, time):
-        image = pygame.image.load(environment.background_path)
+        sky = pygame.image.load("assets/background/sky/" + time + ".png").convert_alpha()
+        
+        image = pygame.image.load(environment.background_path).convert_alpha()
         if time == "night":
-            image = image.convert(24)
+            #image = image.convert(24)
             _filter = pygame.Surface(image.get_size())
             _filter.fill((30, 30, 100))
             _filter.set_alpha(50)
             image.blit(_filter, (0,0))
-        self.set_bg_image(image.convert())
+        sky.blit(image, (0,0))
+        self.set_bg_image(sky.convert())
         self.set_dirty_background()
         
     ##### Clothes #####

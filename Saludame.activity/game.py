@@ -32,7 +32,8 @@ running = True
 
 main_class = None
 
-set_library_function = None
+def set_library_function(link):
+    print library
 
 class Main():
     def __init__(self):

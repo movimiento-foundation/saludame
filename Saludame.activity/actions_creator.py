@@ -186,7 +186,7 @@ actions_list = [
     ),
     
     # Higiene
-    ("shower", 0.3, 5, 70, 0, "assets/kid/actions/shower", 3, 1, None, 4, None,
+    ("shower", 0.3, 5, 70, 0, "assets/kid/actions/twister", 3, 1, None, 4, None,
         effects.Effect(None, [("shower", 5.0)]), None, None, None
     ),
     ("brush_teeth", 0.3, 5, 70, 0, "assets/kid/actions/brushteeth", 3, 1, None, 4, None,
@@ -237,20 +237,16 @@ actions_list = [
 ### ACTIONS THAT SET CHARACTER LOCATION
 
 locations_ac_list = [("goto_schoolyard", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "schoolyard"), None, None, None),
-                     ("goto_country", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "country"), None, None, None),
                      ("goto_classroom", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "classroom"), None, None, None),
                      ("goto_square", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "square"), None, None, None),
-                     ("goto_living", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None),
-                     ("goto_bedroom", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None),
-                     ("goto_kitchen", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None),
-                     ("goto_bathroom", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "home"), None, None, None)
+                     ("goto_bedroom", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "bedroom"), None, None, None),
+                     ("goto_livingroom", None, 1, 28, None, None, None, None, None, None, CHANGE_PLACE_PATH, effects.LocationEffect(None, "livingroom"), None, None, None),
                     ]
 
 
 ### ACTIONS THAT SET CHARACTER CLOTHES
 clothes_ac_list = [("change_school_clothes", None, 1, 28, None, CHANGE_CLOTHES_ANIMATION_PATH, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "school"), None, None, None),
-                     ("change_sunny_clothes", None, 1, 28, None, CHANGE_CLOTHES_ANIMATION_PATH, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "sunny"), None, None, None),
-                     ("change_rainy_clothes", None, 1, 28, None, CHANGE_CLOTHES_ANIMATION_PATH, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "rainy"), None, None, None),
+                   ("change_regular_clothes", None, 1, 28, None, CHANGE_CLOTHES_ANIMATION_PATH, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect(None, "regular"), None, None, None),
                   ]
 
 class ActionsLoader:

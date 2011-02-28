@@ -96,16 +96,14 @@ items = [
        (_("Classroom"), "goto_classroom", None, None),
        (_("Square"), "goto_square", None, None),
        (_("Home..."), None, None, [
-            (_("Living room"), "goto_living", None, None),
+            (_("Living room"), "goto_livingroom", None, None),
             (_("Bedroom"), "goto_bedroom", None, None),
-            (_("Kitchen"), "goto_kitchen", None, None),
         ])
    ]),
    
     (_("Cambiar de ropa..."), None, None, [
         (_("School"), "change_school_clothes", None, None),
-        (_("Sunny"), "change_sunny_clothes", None, None),
-        (_("Rainy"), "change_rainy_clothes", None, None),
+        (_("Normal"), "change_regular_clothes", None, None),
     ]),
    
    (_("Higiene..."), None, None, [

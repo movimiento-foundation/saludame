@@ -31,14 +31,6 @@ def get_color_tuple(color):
 get_font = gui.get_font
 
 # Paths controls
-def check_directory(directory):
-    try:
-        print directory
-        os.listdir(directory)
-        return True
-    except OSError:
-        return False
-    
 def check_image(image_path):
     try:
         print image_path
@@ -50,14 +42,14 @@ def check_image(image_path):
 def verify_path(action, game_manager):
     if isinstance(action.effect, effects.Effect): # If the action has effects on bars
         if action.kid_animation_path: # and has a kid animation path
-            return check_directory("%s/%s/%s" % (action.kid_animation_path, game_manager.character.sex, game_manager.character.clothes)) # check animation directory (action_path/sex/clothes)
+            return os.path.isdir("%s/%s/%s" % (action.kid_animation_path, game_manager.character.sex, game_manager.character.clothes)) # check animation directory (action_path/sex/clothes)
         else:
             return True
             
     if isinstance(action.effect, effects.ClothesEffect): # If the action has clothes effects
-        return check_directory("%s/%s/%s" % (game_manager.character.mood.kid_animation_path, game_manager.character.sex, action.effect.clothes_id))
+        return os.path.isdir("%s/%s/%s" % (game_manager.character.mood.kid_animation_path, game_manager.character.sex, action.effect.clothes_id))
         
     if isinstance(action.effect, effects.LocationEffect): # If the action has location effects
-        return check_image(game_manager.environments_dictionary[(action.effect.place_id, game_manager.current_weather)].background_path)
+        return os.path.isfile(game_manager.environments_dictionary[(action.effect.place_id, game_manager.current_weather[0])].background_path)
         
     return True

@@ -27,6 +27,8 @@ LARGE_TEXT = 10 # larger than this will use large button
 SMALL_BUTTON = "assets/menu/A.png"
 LARGE_BUTTON = "assets/menu/B.png"
 CENTER_BUTTON = "assets/menu/center.png"
+BACK_BUTTON = "assets/menu/back.png"
+QUIT_BUTTON = "assets/menu/quit.png"
 HELP_BUTTON = "assets/menu/menu_help.png"
 
 CLOSE_MENU = "close_menu"
@@ -50,11 +52,11 @@ class Menu(gui.Window):
         self.item_list = item_list # item's list that going to be displayed, root items
         self.previous_items = []
         
-        self.exit = Item(container, frame_rate, _("exit"), CENTER_BUTTON, CLOSE_MENU, None, [], self, font, None, None, True)
+        self.exit = Item(container, frame_rate, _("exit"), QUIT_BUTTON, CLOSE_MENU, None, [], self, font, None, None, True)
         self.exit.rect_in_container.center = center
         self.exit.set_rect_in_container(self.exit.rect_in_container)
         
-        self.back = Item(container, frame_rate, _("back"), CENTER_BUTTON, BACK_MENU, None, [], self, font, None, None, True)
+        self.back = Item(container, frame_rate, _("back"), BACK_BUTTON, BACK_MENU, None, [], self, font, None, None, True)
         self.back.rect_in_container.center = center
         self.back.set_rect_in_container(self.back.rect_in_container)
         
@@ -319,8 +321,9 @@ class Item(gui.Button):
         
         self.help_image = None
         self.bg_image = None
+        self.center_item = center_item
         if center_item:
-            self.bg_image = pygame.image.load(CENTER_BUTTON).convert()
+            self.bg_image = pygame.image.load(icon_path).convert()
         else:
             if len(self.name) > LARGE_TEXT:
                 self.bg_image = pygame.image.load(LARGE_BUTTON).convert()
@@ -345,10 +348,7 @@ class Item(gui.Button):
         if super_tooltip:
             self.set_super_tooltip(super_tooltip)
 
-    def get_surface(self, font_size, text, bg_image, help_image):
-        font = utilities.get_font(font_size)
-        render = font.render(text, True, (255, 255, 255))
-        
+    def get_surface(self, font_size, text, bg_image, help_image):        
         if help_image:
             full_size = self.help_rect.width + self.bg_rect.width - 4, self.help_rect.height
             surface = pygame.Surface(full_size)
@@ -358,7 +358,12 @@ class Item(gui.Button):
         else:
             full_size = bg_image.get_rect().size
             surface = bg_image.copy()
-        surface.blit(render, render.get_rect(center=self.bg_rect.center))
+            
+        if not self.center_item:
+            font = utilities.get_font(font_size)
+            render = font.render(text, True, (255, 255, 255))
+            surface.blit(render, render.get_rect(center=self.bg_rect.center))
+            
         return full_size, surface
         
     def add_subitem(self, item):
