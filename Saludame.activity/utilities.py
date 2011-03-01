@@ -14,9 +14,9 @@ def change_color(surface, old_color, new_color):
     i = 0
     palette = surface.get_palette()
     for color in palette:
-       if color == old_color:
-           surface.set_palette_at(i, get_color_tuple(new_color))
-       i += 1
+        if color == old_color:
+            surface.set_palette_at(i, get_color_tuple(new_color))
+        i += 1
 
 def get_color_tuple(color):
     if isinstance(color, tuple):

@@ -5,6 +5,8 @@ import pygame
 import gui
 import menu_creator
 import animation
+import utilities
+from character import *
 from gettext import gettext as _
 
 BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_sunny.png")
@@ -18,6 +20,8 @@ class KidWindow(gui.Window):
         
         self.kid_rect = pygame.Rect((280, 70), (350, 480))
         self.mood = "normal"
+        
+        self.game_man = game_man
         
         self.cha_loader = cha_loader
             
@@ -115,7 +119,7 @@ class KidWindow(gui.Window):
     def add_social_event(self, event):
         self.remove_social_event()
         self.social_event = event
-        self.external_character = ExternalCharacter(self.rect, (30, 609), 1, self.windows_controller, event)
+        self.external_character = ExternalCharacter(self.rect, (30, 609), 1, self.windows_controller, event, self.game_man.character)
         self.add_window(self.external_character)
                 
     def remove_social_event(self):
@@ -152,7 +156,7 @@ class KidWindow(gui.Window):
 
 class ExternalCharacter(gui.Window):
     
-    def __init__(self, container, left_bottom, frame_rate, windows_controller, event):
+    def __init__(self, container, left_bottom, frame_rate, windows_controller, event, character):
 
         rect = pygame.Rect((0,0), (300, 559))
         rect.bottomleft = left_bottom
@@ -163,13 +167,44 @@ class ExternalCharacter(gui.Window):
         
         self.time_span = event.message_time_span
                 
-        character = gui.Image(self.rect, pygame.Rect((13, 179), (273, 380)), 1, event.person_path)
-        character.keep_dirty = True
-        self.add_child(character)
+        self.character = character # Main character (Kid)        
+        self.mappings = DEFAULT_MAPPINGS.copy()
+        
+        self.external_character = gui.Image(self.rect, pygame.Rect((13, 179), (273, 380)), 1, event.person_path)
+        
+        if (event.person_path == "assets/characters/mother.png" or event.person_path == "assets/characters/father.png"):
+            #new_colors = [pygame.Color(color) for color in ("#000000", "#191919")]
+            #self.set_mapping("hair", new_colors)
+            pass
+        
+        self.external_character.keep_dirty = True
+        self.add_child(self.external_character)
         
         message_balloon = MessageBalloon(self.rect, pygame.Rect(0, 0, 1, 1), 1, self.windows_controller, 'B')
         message_balloon.set_text(event.person_message)
         self.add_window(message_balloon)
+      
+    ###########################################   
+    
+    def set_mapping(self, key, colors):
+        self.mappings[key] = tuple(colors)
+        self.apply_mappings()
+        
+    def apply_mappings(self):
+        self.external_character.background = self.external_character.background.copy()
+        self.external_character.background = self.background.convert(8)
+        maps = self.mappings
+        self.change_color(animation.COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        self.set_dirty()
+        
+    def change_color(self, old, new):
+        index = 0
+        for old_color in old:
+            new_color = new[index]
+            utilities.change_color(self.external_character.background, old_color, new_color)
+            index += 1
+            
+    ###########################################
     
     # Override handle_mouse_down
     def handle_mouse_down(self, (x, y)):
