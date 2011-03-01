@@ -11,10 +11,11 @@ import effects
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
-                             "score_vector" : (-3, -1, 10, 1, 3), # incremento central en 10 por motivos de testeo
+                             "score_vector" : (-8, -4, 0 , 5, 10), # incremento central en 10 por motivos de testeo
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "multiple_choice_vector" : (12, 7, -5),
+                             "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
+                             "min_qty_correct_ans" : 3, #min qty of corrent answers to pass master challenge.
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -22,10 +23,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 2
-                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "multiple_choice_vector" : (12, 7, -5),
+                             "master_challenge_text" : "Vas muy bien! Cuando llueva recuerda ponerte bajo techo.",
+                             "min_qty_correct_ans" : 3,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -33,10 +35,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 3
-                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
+                             "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "min_qty_correct_ans" : 3,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -44,10 +47,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 4
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
+                             "multiple_choice_vector" : (10, 5, -7),
+                             "master_challenge_text" : "Vas muy bien! ¿Has visitado la plaza?",
+                             "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -55,10 +59,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 5
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
+                             "multiple_choice_vector" : (10, 5, -7),
+                             "master_challenge_text" : u"Muy bien! Recuerda que el clima frio puede hacer que pierdas más energía.",
+                             "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -66,10 +71,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 6
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
+                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
+                             "multiple_choice_vector" : (10, 5, -7),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -77,10 +83,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 7
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
+                             "multiple_choice_vector" : (8, 3, -9),
+                             "master_challenge_text" : u"Estás muy cerca de ganar el campeonato.",
+                             "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -88,10 +95,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 8
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
+                             "multiple_choice_vector" : (8, 3, -9),
+                             "master_challenge_text" : u"Llegaste al último nivel, si continúas saludable ganarás el campeonato.",
+                             "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
@@ -99,10 +107,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 5
                              },
                              {# LEVEL 9
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
+                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
+                             "multiple_choice_vector" : (8, 3, -9),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
