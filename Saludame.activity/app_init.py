@@ -11,103 +11,112 @@ import effects
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
-                             "score_vector" : (-3, -1, 10, 1, 3), # incremento central en 10 por motivos de testeo
+                             "score_vector" : (-8, -4, 0 , 5, 10), # incremento central en 10 por motivos de testeo
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "multiple_choice_vector" : (12, 7, -5),
+                             "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
+                             "min_qty_correct_ans" : 3, #min qty of corrent answers to pass master challenge.
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty" : 1,
+                             "events_qty_personal" : 1,
+                             "events_qty_social" : 1,
+                             "time_between_events" : 175 #three minutes aprox.
                              },
                              {# LEVEL 2
-                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "multiple_choice_vector" : (12, 7, -5),
+                             "master_challenge_text" : "Vas muy bien! Cuando llueva recuerda ponerte bajo techo.",
+                             "min_qty_correct_ans" : 3,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty" : 2,
+                             "events_qty_personal" : 1,
+                             "events_qty_social" : 1,
+                             "time_between_events" : 160
                              },
                              {# LEVEL 3
-                             "score_vector" : (-3, -1, 0, 1, 3),
+                             "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
+                             "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "min_qty_correct_ans" : 3,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
+                             "events_qty" : 2,
+                             "events_qty_personal" : 1,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 145
                              },
                              {# LEVEL 4
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
+                             "multiple_choice_vector" : (10, 5, -7),
+                             "master_challenge_text" : "Vas muy bien! ¿Has visitado la plaza?",
+                             "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
+                             "events_qty" : 2,
                              "events_qty_personal" : 2,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 130
                              },
                              {# LEVEL 5
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
+                             "multiple_choice_vector" : (10, 5, -7),
+                             "master_challenge_text" : u"Muy bien! Recuerda que el clima frio puede hacer que pierdas más energía.",
+                             "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
-                             "events_qty_personal" : 2,
+                             "events_qty_personal" : 1,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 115
                              },
                              {# LEVEL 6
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
+                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
+                             "multiple_choice_vector" : (10, 5, -7),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 100
                              },
                              {# LEVEL 7
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
+                             "multiple_choice_vector" : (8, 3, -9),
+                             "master_challenge_text" : u"Estás muy cerca de ganar el campeonato.",
+                             "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty_personal" : 3,
+                             "events_qty_social" : 3,
+                             "time_between_events" : 85
                              },
                              {# LEVEL 8
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
+                             "multiple_choice_vector" : (8, 3, -9),
+                             "master_challenge_text" : u"Llegaste al último nivel, si continúas saludable ganarás el campeonato.",
+                             "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
+                             "events_qty" : 4,
                              "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty_social" : 3,
+                             "time_between_events" : 70
                              },
                              {# LEVEL 9
-                             "score_vector" : (-3, -1, 0, 1, 3),
-                             "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
-                             "multiple_choice_vector" : (10, 5, -10),
+                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
+                             "multiple_choice_vector" : (8, 3, -9),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty" : 4,
+                             "events_qty_personal" : 3,
+                             "events_qty_social" : 3,
+                             "time_between_events" : 55
                              }]                              
 
 class AppLoader:
@@ -283,25 +292,25 @@ class AppLoader:
 
     def __load_weather_effects(self):
         weather_effects = {
-                   # (clothes_id, weather_id, boolean indoor outdoor) : list of tuples [(id_bar, rate)]
+                   # (clothes_id, weather_id, boolean outdoor) : list of tuples [(id_bar, rate)]
                    # school clothes
-                   ("school", "hot", True) : [("fun", 1.0)],
-                   ("school", "hot", False) : [("physica", 1.0)],
-                   ("school", "rainy", True) : [("physica", 1.0)],
-                   ("school", "rainy", False) : [("physica", 1.0)],
-                   ("school", "warm", True) : [("physica", 1.0)],
-                   ("school", "warm", False) : [("physica", 1.0)],
-                   ("school", "cold", True) : [("physica", 1.0)],
-                   ("school", "cold", False) : [("physica", 1.0)],
+                   ("school", "hot", True) : [("fun", 0.5)],
+                   ("school", "hot", False) : [("fun", -0.05)],
+                   ("school", "rainy", True) : [("fun", 0.05), ("defenses", -1.0)],
+                   ("school", "rainy", False) : [("fun", 0.05)],
+                   ("school", "warm", True) : [("fun", 0.05)],
+                   ("school", "warm", False) : [("fun", 0.05)],
+                   ("school", "cold", True) : [("fun", -0.05), ("defenses", -1.0)],
+                   ("school", "cold", False) : [("fun", 0.05)],
                    # regular clothes
-                   ("regular", "hot", True) : [("physica", 1.0)],
-                   ("regular", "hot", False) : [("physica", 1.0)],
-                   ("regular", "rainy", True) : [("physica", 1.0)],
-                   ("regular", "rainy", False) : [("physica", 1.0)],
-                   ("regular", "warm", True) : [("physica", 1.0)],
-                   ("regular", "warm", False) : [("physica", 1.0)],
-                   ("regular", "cold", True) : [("physica", 1.0)],
-                   ("regular", "cold", False) : [("physica", 1.0)],
+                   ("regular", "hot", True) : [("fun", 0.5)],
+                   ("regular", "hot", False) : [("fun", 0.05)],
+                   ("regular", "rainy", True) : [("defenses", -1.0), ("fun", 0.05)],
+                   ("regular", "rainy", False) : [("fun", 0.05)],
+                   ("regular", "warm", True) : [("fun", 0.5)],
+                   ("regular", "warm", False) : [("fun", 0.05)],
+                   ("regular", "cold", True) : [("fun", -0.05), ("defenses", -1.0)],
+                   ("regular", "cold", False) : [("fun", 0.02)],
         }
         return weather_effects
     

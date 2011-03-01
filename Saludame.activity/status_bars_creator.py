@@ -47,8 +47,10 @@ class BarsLoader:
         resp_children_id = [("homework", _(u"Homework")), ("housekeeping", _("Housekeeping")), ("farm", _("Huerta")), ("h_check", _("Health Check"))]
         resp = status_bars.StatusBar("responsability", _("Responsabilidad"), self.overall_bar, [], hard_level[0], hard_level[1])
         resp_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in resp_children_id]
+        farm_bar = status_bars.FarmBar("farm", _("Huerta"), resp, [], hard_level[0], hard_level[1])
+        resp_children_bar.append(farm_bar)
         resp.children_list = resp_children_bar
-
+        
         self.second_level = [physica, hygiene, nutrition, fun, resp]
         self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list + resp.children_list
         
