@@ -28,26 +28,22 @@ COLORS_SKIN = [
     ("#4a311b", "#3b2614"),
 ]
 
-TANGO_PALETTE = [
-    ("#edd400", "#c4a000"), # Yellow
-    ("#f57700", "#ce5c00"), # Orange
-    ("#c17d11", "#8f5902"), # Brown
-    ("#73d216", "#4e9a06"), # Green
-    ("#3465a4", "#204a87"), # Blue
-    ("#75507b", "#5c3566"), # Plum
-    ("#cc0000", "#a40000"), # Red
-    ("#ffffff", "#d3d7cf"), # White
-    ("#d3d7cf", "#babdb6"), # Aluminium light
-    ("#555753", "#2e3436"), # Aluminium dark
-    ("#000000", "#2e3436"), # Black
-    
-    # Original design (not tango)
-    ("#fd8255", "#db601f"), # Orange
-    ("#eeea00", "#938200")  # Yellow
+COLORS_CLOTHES = [
+    ("#ff9900", "#d37e00", "#b06800", "#b06800"),  # orange
+    ("#00d69f", "#00b07e", "#008c64", "#008c64"),  # green
+    ("#00dcff", "#00b7d3", "#0099b0", "#0099b0"),  # skyblue
+    ("#d61ccb", "#a60e9d", "#6f0269", "#6f0269"),  # violet
+    ("#ff0083", "#d3006e", "#b0005c", "#b0005c"),  # lila
+    ("#0090d6", "#007ab0", "#00628c", "#00628c"),  # blue
+    ("#eeea00", "#c7b700", "#98a600", "#98a600"),  # yellow
+    ("#ab7013", "#784c07", "#3d2602", "#3d2602"),  # brown
+    ("#4b4b4b", "#282828", "#000000", "#000000"),  # black
+    ("#ab7013", "#784c07", "#3d2602", "#3d2602"),  # brown
 ]
 
-COLORS_SOCKS = TANGO_PALETTE
-COLORS_SHOES = TANGO_PALETTE
+COLORS_SWEATER = COLORS_CLOTHES
+COLORS_PANTS = COLORS_CLOTHES
+COLORS_SHOES = COLORS_CLOTHES
 
 class CustomizationWindow(gui.Window):
     
@@ -55,22 +51,24 @@ class CustomizationWindow(gui.Window):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "customization_window")
         self.set_bg_image("assets/windows/window_2.png")
         
-        kid_rect = pygame.Rect((20, 20), (1, 1))
+        kid_rect = pygame.Rect((20, 10), (1, 1))
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
-        self.btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
+        btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
         button_back = pygame.image.load("customization/customization_button.png").convert()
-        self.btn_hair = gui.TextButton2(self.rect, pygame.Rect((500, 120), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
-        self.btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 200), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
-        self.btn_socks = gui.TextButton2(self.rect, pygame.Rect((500, 280), (70, 30)), 1, _("Socks"), 30, (255, 255, 255), button_back, self._cb_button_socks)
-        self.btn_shoes = gui.TextButton2(self.rect, pygame.Rect((500, 360), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
-        map(self.add_button, [self.btn_close, self.btn_hair, self.btn_skin, self.btn_socks, self.btn_shoes])
+        btn_hair = gui.TextButton2(self.rect, pygame.Rect((500, 100), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
+        btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 170), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
+        btn_sweater = gui.TextButton2(self.rect, pygame.Rect((500, 240), (70, 30)), 1, _("Sweater"), 30, (255, 255, 255), button_back, self._cb_button_sweater)
+        btn_pants = gui.TextButton2(self.rect, pygame.Rect((500, 310), (70, 30)), 1, _("Pants"), 30, (255, 255, 255), button_back, self._cb_button_pants)
+        btn_shoes = gui.TextButton2(self.rect, pygame.Rect((500, 380), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
+        map(self.add_button, [btn_close, btn_hair, btn_skin, btn_sweater, btn_pants, btn_shoes])
         
         self.hair_color_index = 0
         self.skin_color_index = 0
-        self.socks_color_index = 0
+        self.sweater_color_index = 0
+        self.pants_color_index = 0
         self.shoes_color_index = 0
     
     def get_windows(self):
@@ -87,12 +85,18 @@ class CustomizationWindow(gui.Window):
         self.skin_color_index %= len(COLORS_SKIN)
         new_colors = [pygame.Color(color) for color in COLORS_SKIN[self.skin_color_index]]
         self.kid.set_mapping("skin", new_colors)
-
-    def _cb_button_socks(self, button):
-        self.socks_color_index += 1
-        self.socks_color_index %= len(COLORS_SOCKS)
-        new_colors = [pygame.Color(color) for color in COLORS_SOCKS[self.socks_color_index]]
-        self.kid.set_mapping("socks", new_colors)
+    
+    def _cb_button_sweater(self, button):
+        self.sweater_color_index += 1
+        self.sweater_color_index %= len(COLORS_SWEATER)
+        new_colors = [pygame.Color(color) for color in COLORS_SWEATER[self.sweater_color_index]]
+        self.kid.set_mapping("sweater", new_colors)
+    
+    def _cb_button_pants(self, button):
+        self.pants_color_index += 1
+        self.pants_color_index %= len(COLORS_PANTS)
+        new_colors = [pygame.Color(color) for color in COLORS_PANTS[self.pants_color_index]]
+        self.kid.set_mapping("pants", new_colors)
         
     def _cb_button_shoes(self, button):
         self.shoes_color_index += 1
@@ -117,13 +121,14 @@ class CustomizatedKid(gui.Widget):
         self.dirty_mappings = True      # Only for the first update
     
     def set_mapping(self, key, colors):
-        self.character.mappings[key] = tuple(colors)
+        mapping = self.character.mappings[key]
+        self.character.mappings[key] = tuple(colors[0:len(mapping)])
         self.apply_mappings()
         
     def apply_mappings(self):
         self.background = self.kid.copy()
         maps = self.character.mappings
-        self.change_color(animation.COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        self.change_color(animation.COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["sweater"] + maps["pants"] + maps["shoes"])
         self.set_dirty()
         
     def change_color(self, old, new):

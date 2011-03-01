@@ -9,7 +9,7 @@ import utilities
 from character import *
 from gettext import gettext as _
 
-BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_sunny.png")
+BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_normal.png")
 
 class KidWindow(gui.Window):
 
@@ -18,14 +18,14 @@ class KidWindow(gui.Window):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "kid")
         self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())
         
-        self.kid_rect = pygame.Rect((280, 70), (350, 480))
+        kid_rect = pygame.Rect((280, 70), (400, 500))
         self.mood = "normal"
         
         self.game_man = game_man
         
         self.cha_loader = cha_loader
             
-        self.kid = animation.Kid(rect, self.kid_rect, 1, windows_controller, game_man, self.mood)
+        self.kid = animation.Kid(rect, kid_rect, 1, windows_controller, game_man, self.mood)
         self.add_child(self.kid)
         
         self.balloon = None
@@ -87,14 +87,17 @@ class KidWindow(gui.Window):
         
     ##### Environment #####
     def set_environment(self, environment, time):
-        image = pygame.image.load(environment.background_path)
+        sky = pygame.image.load("assets/background/sky/" + time + ".png").convert_alpha()
+        
+        image = pygame.image.load(environment.background_path).convert_alpha()
         if time == "night":
-            image = image.convert(24)
+            #image = image.convert(24)
             _filter = pygame.Surface(image.get_size())
             _filter.fill((30, 30, 100))
             _filter.set_alpha(50)
             image.blit(_filter, (0,0))
-        self.set_bg_image(image.convert())
+        sky.blit(image, (0,0))
+        self.set_bg_image(sky.convert())
         self.set_dirty_background()
         
     ##### Clothes #####

@@ -36,6 +36,20 @@ class PanelWindow(gui.Window):
         
         self.action_progress_bar = None
         
+        TEXT_COLOR = pygame.Color("#0f5e65")
+        
+        text = gui.Text(self.rect, 145, 22, 1, _("Clima"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
+        self.add_child(text)
+        
+        text = gui.Text(self.rect, 300, 22, 1, _("Personal"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
+        self.add_child(text)
+        
+        text = gui.Text(self.rect, 465, 22, 1, _("Social"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
+        self.add_child(text)
+        
+        text = gui.Text(self.rect, 705, 22, 1, _("Acción"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
+        self.add_child(text)
+        
         ### Events ###
         # Personal
         self.personal_window = PersonalWindow(self.rect, pygame.Rect((224, 35), (130, 110)), 1, self.windows_controller)
@@ -53,7 +67,7 @@ class PanelWindow(gui.Window):
         # Info
         info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action)
         self.add_button(info_button)
-
+        
         # Environment
         self.weather_widget = None
         self.set_weather()

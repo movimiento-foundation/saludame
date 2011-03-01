@@ -2,16 +2,18 @@
 
 import pygame
 
+# DEFAULT_MAPPINGS are used when creating a new character
 DEFAULT_MAPPINGS = {
     "hair": (pygame.Color("#000000"), pygame.Color("#191919")),
     "skin": (pygame.Color("#ffccc7"), pygame.Color("#cba5a0")),
-    "socks": (pygame.Color("#fd8255"), pygame.Color("#db601f")),
+    "sweater": (pygame.Color("#00d69f"), pygame.Color("#00b07e")),
+    "pants": (pygame.Color("#ff9900"), pygame.Color("#d37e00"), pygame.Color("#b06800"), pygame.Color("#b06800")),
     "shoes": (pygame.Color("#eeea00"), pygame.Color("#938200"))
 }
 
 class Character:
     
-    def __init__(self, sex, name, level, score, hair_color, socks_color, skin_color, shoes_color, clothes):
+    def __init__(self, sex, name, level, score, clothes):
         
         self.sex = sex
         self.name = name
@@ -50,10 +52,6 @@ class Character:
         """
         Load the character properties from previous data
         """
-        #self.hair_color = game_status["hair_color"]
-        #self.socks_color = game_status["socks_color"]
-        #self.skin_color = game_status["skin_color"]
-        #self.shoes_color = game_status["shoes_color"]
         self.mappings = game_status["character_colors"]
         self.name = game_status["name"]
         self.clothes = game_status["clothes"]

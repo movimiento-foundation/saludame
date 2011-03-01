@@ -26,7 +26,7 @@ class BarsLoader:
         physica.children_list = physica_children_bar
         
         ### hygiene
-        hygiene_children_id = [("shower", _("Ducharse")), ("w_hands", _("Lavarse Manos")), ("b_teeth", _("Lavarse Dientes")), ("toilet", _(u"Ir al Baño"))]
+        hygiene_children_id = [("shower", _("Ducharse")), ("w_hands", _("Lavarse Manos")), ("b_teeth", _("Cepillarse Dientes")), ("toilet", _(u"Ir al Baño"))]
         hygiene = status_bars.StatusBar("hygiene", "Hygiene", self.overall_bar, [], hard_level[0], hard_level[1])
         hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar
@@ -43,14 +43,16 @@ class BarsLoader:
         fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar
 
-        ### farm
-        farm_children_id = [("homework", _(u"Deberes")), ("domestic", _("Tareas domésticas")), ("farm", _("Huerta"))]
-        farm = status_bars.StatusBar("responsability", _("Responsabilidad"), self.overall_bar, [], hard_level[0], hard_level[1])
-        farm_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in farm_children_id]
-        farm.children_list = farm_children_bar
-
-        self.second_level = [physica, hygiene, nutrition, fun, farm]
-        self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list + farm.children_list
+        ### responsability
+        resp_children_id = [("homework", _(u"Deberes")), ("domestic", _("Tareas domésticas"))]
+        resp = status_bars.StatusBar("responsability", _("Responsabilidad"), self.overall_bar, [], hard_level[0], hard_level[1])
+        resp_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in resp_children_id]
+        farm_bar = status_bars.FarmBar("farm", _("Huerta"), resp, [], hard_level[0], hard_level[1])
+        resp_children_bar.append(farm_bar)
+        resp.children_list = resp_children_bar
+        
+        self.second_level = [physica, hygiene, nutrition, fun, resp]
+        self.third_level = physica.children_list + hygiene.children_list + nutrition.children_list + fun.children_list + resp.children_list
         
         self.overall_bar.children_list = self.second_level
         

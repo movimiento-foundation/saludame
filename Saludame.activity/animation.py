@@ -7,10 +7,11 @@ import gui
 
 COLORS_HAIR = (pygame.Color("#00ffff"), pygame.Color("#009f9f"))
 COLORS_SKIN = (pygame.Color("#ffccc7"), pygame.Color("#cba5a0"))
-COLORS_SOCKS = (pygame.Color("#fd8255"), pygame.Color("#db601f"))
-COLORS_SHOES = (pygame.Color("#eeea00"), pygame.Color("#938200"))
+COLORS_SWEATER = (pygame.Color("#00d69f"), pygame.Color("#00b07e"))
+COLORS_PANTS = (pygame.Color("#ff9900"), pygame.Color("#d37e00"), pygame.Color("#b06800"), pygame.Color("#d47f00"))
+COLORS_SHOES = (pygame.Color("#eeea00"), pygame.Color("#98a600"))
 
-COLORS_TO_MAP = map(utilities.get_color_tuple, COLORS_HAIR + COLORS_SKIN + COLORS_SOCKS + COLORS_SHOES)
+COLORS_TO_MAP = map(utilities.get_color_tuple, COLORS_HAIR + COLORS_SKIN + COLORS_SWEATER + COLORS_PANTS + COLORS_SHOES)
 
 GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")
@@ -82,27 +83,12 @@ class Kid(gui.Widget):
         
         self.background = self.sprite.copy()
         maps = self.character.mappings
-        self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["sweater"] + maps["pants"] + maps["shoes"])
         
         self.index = (self.index + 1) % len(self.file_list)
         
         self.set_dirty()
         
-    ###### Draw #####
-    #def pre_draw(self, screen):
-        #filename = self.file_list[self.index]
-        #self.sprite = load_animation(self.sprite, filename)
-        
-        #maps = self.character.mappings
-        #self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
-        
-        ##screen.blit(self.bg_image, self.rect)
-        #screen.blit(self.sprite, self.rect)
-        
-        #self.index = (self.index + 1) % len(self.file_list)
-        
-        #return [self.rect]
-    
     ##### Colors #####
     def change_color(self, old, new):
         index = 0
