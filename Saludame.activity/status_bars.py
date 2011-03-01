@@ -554,3 +554,11 @@ class WeightBar(StatusBar):
     
     def get_score(self):
         return self.max - abs(2 * self.value - self.max)
+
+class FarmBar(StatusBar):
+    
+    def __init__(self, id, label, parent_bar, children_list, max_value, init_value):
+        StatusBar.__init__(self, id, label, parent_bar, children_list, max_value, init_value)
+    
+    def get_score(self):
+        return self.max
