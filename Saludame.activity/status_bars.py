@@ -73,7 +73,7 @@ class BarsWindow(gui.Window):
         spare_time_section = BarSection(windows_controller, self.rect, _(u"TIEMPO LIBRE"), bars[3], bars[3].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_spare_time.png")
         
         y += SECTION_MIN_HEIGHT
-        farm_section = BarSection(windows_controller, self.rect, _(u"RESPONSABILIDAD"), bars[4], bars[4].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_nutrition.png")
+        farm_section = BarSection(windows_controller, self.rect, _(u"RESPONSABILIDAD"), bars[4], bars[4].children_list, (SECTION_WIDTH, SECTION_MIN_HEIGHT), (SECTION_OFFSET_X, y), "assets/layout/icon_responsability.png")
         
         self.sections_list = [score_section, overall_section, physica_section, hygiene_section, nutrition_section, spare_time_section, farm_section]
         self.accordeon = Accordeon([physica_section, hygiene_section, nutrition_section, spare_time_section, farm_section])

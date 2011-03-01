@@ -6,7 +6,7 @@ GAME_VERSION = "1.0"
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
 EVENTS_OCCURRENCE_INTERVAL = 15 #per control interval after an event
 
-MAX_IDLE_TIME = 10 # Qty of control intervals until the kid executes an attention action.
+MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
 HOUR_COUNT_CYCLE = 6 #control intevals that have to pass to management the time of day

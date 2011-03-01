@@ -52,10 +52,10 @@ class KidWindow(gui.Window):
         challenges_button3.keep_dirty = True
         self.add_button(challenges_button3)
         
-        challenges_button4 = gui.ImageButton(self.rect, pygame.Rect((900, 200), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_cooking_challenge)
-        challenges_button4.set_tooltip(_("Cooking"))
-        challenges_button4.keep_dirty = True
-        self.add_button(challenges_button4)
+        #challenges_button4 = gui.ImageButton(self.rect, pygame.Rect((900, 200), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_cooking_challenge)
+        #challenges_button4.set_tooltip(_("Cooking"))
+        #challenges_button4.keep_dirty = True
+        #self.add_button(challenges_button4)
         
         self.last_repaint = False
         

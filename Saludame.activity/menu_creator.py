@@ -9,7 +9,7 @@ import gui
 items = [
     # ("display_name", "action_id", "super_tooltip", [Children], place_restrictions, time_restrictions),
     
-    (_("Eat..."), None, None, [
+    (_("Alimentarse..."), None, None, [
         
         (_("Comidas completas..."), None, None, [
             
@@ -60,18 +60,24 @@ items = [
         
     ]),
     
-    (_("Deportes..."), None, None, [
-        (_("Run"), "sport_run", None, None),
-        (_("Jump the rope"), "sport_jump", None, None),
-        (_("Play footbal"), "sport_football", None, None),
+    (_("Diversión..."), None, None, [
+        (_("Jugar XO"), "playXO", None, None),
+        (_("Escondida"), "hidenseek", None, None),
+        #(_("Jugar con Amigo"), "play_friend", None, None),
+        (_("Rayuela"), "hopscotch", None, None),
+        (_("Ver televisión"), "tv", None, None),
+        (_("Leer"), "read", None, None),
+        (_("Escuchar música"), "music", None, None),
+        (_("Locuras"), "crazy", None, None),
+        (_("Bailar"), "dance", None, None),
+        (_("Cantar"), "sing", None, None),
     ]),
     
-    (_("Tiempo libre..."), None, None, [
-        (_("Go to sleep"), "sp_sleep", None, None),
-        (_("Talk with a friend"), "sp_talk", None, None),
-        (_("Do homework"), "sp_study", None, None),
-        (_("Clean up the bedroom"), "sp_clean", None, None),
-        (_("Cocinar"), "sp_cook", None, None),
+    (_("Hacer..."), None, None, [
+        (_("Talk with a friend"), "talk", None, None),
+        (_("Do homework"), "study", None, None),
+        (_("Clean up the bedroom"), "clean", None, None),
+        (_("Cocinar"), "help_cook", None, None),
         (_("Huerta..."), None, None, [
             (_("Arar"), "sp_plow", None, None),
             (_("Cosechar"), "sp_harvest", None, None),
@@ -79,42 +85,49 @@ items = [
             (_("Sembrar"), "sp_sow", None, None),
             (_("Limpiar"), "sp_clean_earth", None, None),
         ]),
-        (_("Diversión..."), None, None, [
-            (_("Locuras"), "crazy", None, None),
-            (_("Bailar"), "dance", None, None),
-            (_("Escondida"), "hidenseek", None, None),
-            (_("Jugar XO"), "playXO", None, None),
-            (_("Leer"), "read", None, None),
-            (_("Cantar"), "sing", None, None),
+        (_("Cambiar de ropa..."), None, None, [
+            (_("School"), "change_school_clothes", None, None),
+            (_("Normal"), "change_regular_clothes", None, None),
         ]),
-        
+        (_("Deporte..."), None, None, [
+            (_("Run"), "sport_run", None, None),
+            (_("Jump the rope"), "sport_jump", None, None),
+            (_("Play footbal"), "sport_football", None, None),
+        ]),
     ]),
     
     (_("Ir a..."), None, None, [
-       (_("Schoolyard"), "goto_schoolyard", None, None),
-       (_("Country"), "goto_country", None, None),
-       (_("Classroom"), "goto_classroom", None, None),
-       (_("Square"), "goto_square", None, None),
-       (_("Home..."), None, None, [
+        (_("Schoolyard"), "goto_schoolyard", None, None),
+        (_("Classroom"), "goto_classroom", None, None),
+        (_("Square"), "goto_square", None, None),
+        (_("Home..."), None, None, [
             (_("Living room"), "goto_livingroom", None, None),
             (_("Bedroom"), "goto_bedroom", None, None),
+        ]),
+        (_("Ir al baño"), "toilet", None, None),
+        (_("Go to sleep"), "sleep", None, None),
+        (_("Ir al médico..."), None, None, [
+            (_("Dentista"), "dentist", None, None),
+            (_("Doctor"), "doctor", None, None),
         ])
    ]),
-   
-    (_("Cambiar de ropa..."), None, None, [
-        (_("School"), "change_school_clothes", None, None),
-        (_("Normal"), "change_regular_clothes", None, None),
-    ]),
    
    (_("Higiene..."), None, None, [
        (_("Bañarse"), "shower", None, None),
        (_("Cepillarse los dientes"), "brush_teeth", None, None),
        (_("Lavarse las manos"), "wash_hands", None, None),
-       (_("Ir al baño"), "toilet", None, None),
-       (_("Ir al Dentista"), "dentist", None, None),
-       (_("Ir al Doctor"), "doctor", None, None),
    ]),
    
+   (_("Huerta..."), None, None, [
+       (_("Preparar tierra"), "farm_plow", None, None),
+       (_("Sembrar"), "farm_sow", None, None),
+       (_("Mantener"), None , None, [
+           (_("Regar"), "farm_irrigate", None, None),
+           (_("Fumigar"), "farm_fumigate", None, None),
+           (_("Limpiar"), "farm_clean", None, None),
+       ]),
+       (_("Cocechar"), "farm_harvest", None, None),
+   ]),
 ]
 
 MENU_FRAME_RATE = 1
