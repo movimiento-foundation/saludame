@@ -4,12 +4,11 @@ INSTANCE_FILE_PATH = "game.save"
 GAME_VERSION = "1.0"
 
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
-EVENTS_OCCURRENCE_INTERVAL = 15 #per control interval after an event
 
 MAX_IDLE_TIME = 10 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
-HOUR_COUNT_CYCLE = 6 #control intevals that have to pass to management the time of day
+HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
 
 import random
 import effects
@@ -64,8 +63,8 @@ class GameManager:
         self.weathers = weathers
         
         #for events handling:
-        self.events_interval = EVENTS_OCCURRENCE_INTERVAL
-        
+        self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
+
         #environment
         self.environments_dictionary = environments_dictionary
         self.current_weather = self.weathers[0] # default weather
@@ -418,7 +417,7 @@ class GameManager:
                         self.windows_controller.add_social_event(event)
                         print "se disparó el evento: ", event.name
             
-            self.events_interval = EVENTS_OCCURRENCE_INTERVAL
+            self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
         elif self.events_interval > 0:
             self.events_interval -= 1
         
@@ -560,7 +559,7 @@ class GameManager:
             self.windows_controller.remove_social_event(social_event)
         self.active_events = []
         self.active_social_events = []
-        self.events_interval = EVENTS_OCCURRENCE_INTERVAL
+        self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
         # character
         self.character.reset()
         # bars

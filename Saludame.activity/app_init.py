@@ -17,10 +17,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
                              "min_qty_correct_ans" : 3, #min qty of corrent answers to pass master challenge.
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty" : 1,
+                             "events_qty_personal" : 1,
+                             "events_qty_social" : 1,
+                             "time_between_events" : 175 #three minutes aprox.
                              },
                              {# LEVEL 2
                              "score_vector" : (-8, -4, 0 , 5, 10),
@@ -29,10 +29,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : "Vas muy bien! Cuando llueva recuerda ponerte bajo techo.",
                              "min_qty_correct_ans" : 3,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty" : 2,
+                             "events_qty_personal" : 1,
+                             "events_qty_social" : 1,
+                             "time_between_events" : 160
                              },
                              {# LEVEL 3
                              "score_vector" : (-8, -4, 0 , 5, 10),
@@ -41,10 +41,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
                              "min_qty_correct_ans" : 3,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
+                             "events_qty" : 2,
+                             "events_qty_personal" : 1,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 145
                              },
                              {# LEVEL 4
                              "score_vector" : (-10, -6, 0 , 3, 7),
@@ -53,10 +53,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : "Vas muy bien! ¿Has visitado la plaza?",
                              "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
+                             "events_qty" : 2,
                              "events_qty_personal" : 2,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 130
                              },
                              {# LEVEL 5
                              "score_vector" : (-10, -6, 0 , 3, 7),
@@ -66,9 +66,9 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "min_qty_correct_ans" : 4,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
-                             "events_qty_personal" : 2,
+                             "events_qty_personal" : 1,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 115
                              },
                              {# LEVEL 6
                              "score_vector" : (-10, -6, 0 , 3, 7),
@@ -80,7 +80,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty" : 3,
                              "events_qty_personal" : 2,
                              "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "time_between_events" : 100
                              },
                              {# LEVEL 7
                              "score_vector" : (-12, -8, 0 , 2, 5),
@@ -90,9 +90,9 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
                              "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty_personal" : 3,
+                             "events_qty_social" : 3,
+                             "time_between_events" : 85
                              },
                              {# LEVEL 8
                              "score_vector" : (-12, -8, 0 , 2, 5),
@@ -101,10 +101,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : u"Llegaste al último nivel, si continúas saludable ganarás el campeonato.",
                              "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
+                             "events_qty" : 4,
                              "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty_social" : 3,
+                             "time_between_events" : 70
                              },
                              {# LEVEL 9
                              "score_vector" : (-12, -8, 0 , 2, 5),
@@ -113,10 +113,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
                              "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 3,
-                             "events_qty_personal" : 2,
-                             "events_qty_social" : 2,
-                             "time_between_events" : 5
+                             "events_qty" : 4,
+                             "events_qty_personal" : 3,
+                             "events_qty_social" : 3,
+                             "time_between_events" : 55
                              }]                              
 
 class AppLoader:
