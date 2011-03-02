@@ -166,7 +166,7 @@ actions_list = [
     ("relax", 0.3, 5, 70, 0, "assets/kid/actions/rest", 3, 1, None, 4, None,
         effects.Effect(None, [("energy", 4.0), ("defenses", 1.0), ("fun", 1.0), ("relaxing", 5.0)]), None, None, None
     ),
-<<<<<<< HEAD
+
     ("talk", 0.3, 5, 70, 0, None, 3, 1, "assets/action-icons/talktofriend", 4, None,
         effects.Effect(None, [("fun", 3.0)]), None, None, None
     ),
