@@ -3,6 +3,8 @@
 from game_manager import GameManager
 import pygame
 import logging
+import hotkeys
+
 
 if __name__ == "__main__":
     import gettext
@@ -88,6 +90,7 @@ class Main():
         bars_loader = app_loader.get_status_bars_loader()
         game_man = app_loader.get_game_manager()
         
+        self.hotkeys_handler = hotkeys.HotKeyHandler()
         self.windows_controller.game_man = game_man
         self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
 
@@ -131,6 +134,11 @@ class Main():
                             self.windows_controller.reload_main = True
                         elif event.type == pygame.USEREVENT and event.code == 0: # Music ended
                             sound_manager.instance.start_playing()
+                        elif event.type == pygame.KEYDOWN:
+                            self.hotkeys_handler.handle_keydown(event)
+                        elif event.type == pygame.KEYUP:
+                            self.hotkeys_handler.handle_keyup(event)
+                            
                             
                 self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 
