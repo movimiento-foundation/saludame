@@ -170,15 +170,12 @@ class ExternalCharacter(gui.Window):
         
         self.time_span = event.message_time_span
                 
-        self.character = character # Main character (Kid)        
-        self.mappings = DEFAULT_MAPPINGS.copy()
+        self.character = character # Main character (Kid)
         
-        self.external_character = gui.Image(self.rect, pygame.Rect((13, 179), (273, 380)), 1, event.person_path)
+        self.external_character = gui.Image(self.rect, pygame.Rect((13, 179), (273, 380)), 1, event.person_path, True)
         
         if (event.person_path == "assets/characters/mother.png" or event.person_path == "assets/characters/father.png"):
-            #new_colors = [pygame.Color(color) for color in ("#000000", "#191919")]
-            #self.set_mapping("hair", new_colors)
-            pass
+            self.apply_mappings()
         
         self.external_character.keep_dirty = True
         self.add_child(self.external_character)
@@ -186,18 +183,10 @@ class ExternalCharacter(gui.Window):
         message_balloon = MessageBalloon(self.rect, pygame.Rect(0, 0, 1, 1), 1, self.windows_controller, 'B')
         message_balloon.set_text(event.person_message)
         self.add_window(message_balloon)
-      
-    ###########################################   
-    
-    def set_mapping(self, key, colors):
-        self.mappings[key] = tuple(colors)
-        self.apply_mappings()
         
     def apply_mappings(self):
-        self.external_character.background = self.external_character.background.copy()
-        self.external_character.background = self.background.convert(8)
-        maps = self.mappings
-        self.change_color(animation.COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["socks"] + maps["shoes"])
+        maps = self.character.mappings
+        self.change_color(animation.PARENTS_COLORS_TO_MAP, maps["hair"] + maps["skin"])
         self.set_dirty()
         
     def change_color(self, old, new):

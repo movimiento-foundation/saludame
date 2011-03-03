@@ -12,6 +12,7 @@ COLORS_PANTS = (pygame.Color("#ff9900"), pygame.Color("#d37e00"), pygame.Color("
 COLORS_SHOES = (pygame.Color("#eeea00"), pygame.Color("#98a600"))
 
 COLORS_TO_MAP = map(utilities.get_color_tuple, COLORS_HAIR + COLORS_SKIN + COLORS_SWEATER + COLORS_PANTS + COLORS_SHOES)
+PARENTS_COLORS_TO_MAP = map(utilities.get_color_tuple, COLORS_HAIR + COLORS_SKIN)
 
 GRAY = pygame.Color("gray")
 BLACK = pygame.Color("black")

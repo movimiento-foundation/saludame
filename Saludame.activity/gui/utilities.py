@@ -50,14 +50,17 @@ class Text(Widget):
         return (self)
     
 class Image(Widget):
-    def __init__(self, container, rect, frame_rate, image):
+    def __init__(self, container, rect, frame_rate, image, keep_format=False):
         
         if not isinstance(image, pygame.Surface):
             image = pygame.image.load(image)
-            if image.get_bitsize() == 8:
-                self.background = image.convert()
+            if keep_format:
+                self.background = image
             else:
-                self.background = image.convert_alpha()
+                if image.get_bitsize() == 8:
+                    self.background = image.convert()
+                else:
+                    self.background = image.convert_alpha()
         else:
             self.background = image
         Widget.__init__(self, container, pygame.Rect((rect.left, rect.top), self.background.get_rect().size), frame_rate, self.background)                

@@ -11,41 +11,94 @@ items = [
     
     (_("Alimentarse..."), None, None, [
         
-        (_("Comidas completas..."), None, None, [
+        (_("Almuerzo..."), None, None, [
+            (_("Comidas completas..."), None, None, [
+                
+                (_("Stew"), "eat_stew", "Eat a stew with \nfrench fries", None),
+                (_("Currasco"), "eat_churrasco", "Eat a churrasco with \nfrench fries", None),
+                #(_("Carpincho"), "eat_beaver", None),
+                (_("Milanesa"), "eat_milanesa", None, None),
+                (_("Torta frita"), "eat_torta_frita", None, None),
+                (_("Ensalada"), "salad", None, None),
+                (_("Pascualina"), "pascualina", None, None),
+                #(_("Tortilla de verdura"), "tortilla_verdura", None),
+                
+            ]),
             
-            (_("Stew"), "eat_stew", "Eat a stew with \nfrench fries", None),
-            (_("Currasco"), "eat_churrasco", "Eat a churrasco with \nfrench fries", None),
-            #(_("Carpincho"), "eat_beaver", None),
-            (_("Milanesa"), "eat_milanesa", None, None),
-            (_("Torta frita"), "eat_torta_frita", None, None),
-            (_("Ensalada"), "salad", None, None),
-            (_("Pascualina"), "pascualina", None, None),
-            #(_("Tortilla de verdura"), "tortilla_verdura", None),
-            
-        ]),
-        
-        (_("Fruta..."), None, None, [
-            
-            (_("Manzana"), "eat_apple", None, None),
-            (_("Naranja"), "eat_orange", None, None),
-
-            (_("Banana"), "eat_banana", None, None),
-            (_("Kiwi"), "eat_kiwi", None, None),
-            
+            (_("Frutas..."), None, None, [
+                (_("Manzana"), "manzana", None, None),
+                (_("Naranja"), "naranja", None, None),
+                (_("Banana"), "banana", None, None),
+                (_("Ciruelas"), "ciruelas", None, None),
+                (_("Pelón"), "pelon", None, None),
+                (_("Ciruelas"), "ciruelas", None, None),
+                (_("Frutillas"), "frutillas", None, None),
+                (_("Durazno"), "durazno", None, None),
+                (_("Mandarina"), "mandarina", None, None),
+            ]),
         ]),
         
         (_("Desayuno y merienda..."), None, None, [
             
-            (_("Tostadas con membrillo"), "tostadas_membrillo", None, None),
-            (_("Queso"), "tostadas_queso", None, None),
-            (_("Galletitas saladas"), "galletitas_saladas", None, None),
-            (_("Galletitas dulces"), "galletitas_dulces", None, None),
-            (_("Galletitas con dulce de leche"), "galletitas_dulce_leche", None, None),
-            (_("Leche chocolatada"), "leche_chocolatada", None, None),
-            (_("Café con leche"), "leche_cafe", None, None),
-            (_("Leche"), "leche", None, None),
-            (_("Leche con cereales"), "leche_cereales", None, None)],
-            ["schoolyard", "home"], ["morning", "afternoon"]
+            (_("Bebidas..."), None, None, [
+                (_("Leche"), "leche", None, None),
+                (_("Leche Chocolatada"), "leche_chocolatada", None, None),
+                (_("Café con leche"), "leche_cafe", None, None),
+                (_("Yogur"), "yogur", None, None),
+                (_("Jugo Natural"), "jugo_natural", None, None),
+                (_("Licuado con Leche"), "licuado", None, None),
+                (_("refresco"), "refresco", None, None),
+                (_("Mate"), "mate", None, None),
+                (_("Café"), "cafe", None, None),
+            ]),
+            
+            (_("Platos..."), None, None, [
+                (_("Pan con queso"), "pan_queso", None, None),
+                (_("Pan con manteca"), "pan_manteca", None, None),
+                (_("Galletas con dulce"), "galletas_dulce", None, None),
+                (_("Torta frita"), "torta_frita", None, None),
+                (_("Refuerzo fiambre"), "refuerzo_fiambre", None, None),
+                (_("Bizcochos"), "bizcochos", None, None),
+                (_("Torta"), "torta", None, None),
+                (_("Rosca Chicharrones"), "rosca_chicharrones", None, None),
+            ]),
+            
+            (_("Frutas..."), None, None, [
+                (_("Manzana"), "manzana", None, None),
+                (_("Naranja"), "naranja", None, None),
+                (_("Banana"), "banana", None, None),
+                (_("Ciruelas"), "ciruelas", None, None),
+                (_("Pelón"), "pelon", None, None),
+                (_("Ciruelas"), "ciruelas", None, None),
+                (_("Frutillas"), "frutillas", None, None),
+                (_("Durazno"), "durazno", None, None),
+                (_("Mandarina"), "mandarina", None, None),
+            ]),
+            
+            (_("Golosinas y Snacks..."), None, None, [
+                (_("Papas chips"), "papas_chips", None, None),
+                (_("Ticholos"), "ticholos", None, None),
+                (_("Rapadura"), "rapadura", None, None),
+                (_("Caramelo"), "caramelo", None, None),
+                (_("Galletitas dulces"), "galletitas_dulces", None, None),
+                (_("Alfajor"), "alfajor", None, None),
+                (_("Chicle"), "chicle", None, None),
+                (_("Chupetin"), "chupetin", None, None),
+                (_("Chocolate"), "chocolate", None, None),
+            ]),
+            
+            (_("Otros..."), None, None, [
+                (_("Pan con queso"), "pan_queso", None, None),
+                (_("Pan con manteca"), "pan_manteca", None, None),
+                (_("Galletas con dulce"), "galletas_dulce", None, None),
+                (_("Torta frita"), "torta_frita", None, None),
+                (_("Refuerzo fiambre"), "refuerzo_fiambre", None, None),
+                (_("Bizcochos"), "bizcochos", None, None),
+                (_("Torta"), "torta", None, None),
+                (_("Rosca Chicharrones"), "rosca_chicharrones", None, None),
+            ])
+        ],
+        None, ["morning", "afternoon"]
         ),
         
         (_("Líquidos..."), None, None, [

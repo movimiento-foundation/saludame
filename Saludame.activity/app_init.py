@@ -17,10 +17,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
                              "min_qty_correct_ans" : 3, #min qty of corrent answers to pass master challenge.
                              "slide" : "assets/slides/history1.png",
-                             "events_qty" : 1,
+                             "events_qty" : 2,
                              "events_qty_personal" : 1,
                              "events_qty_social" : 1,
-                             "time_between_events" : 175 #three minutes aprox.
+                             "time_between_events" : 30 #menos tiempo para probar más fácil 175 #three minutes aprox.
                              },
                              {# LEVEL 2
                              "score_vector" : (-8, -4, 0 , 5, 10),
@@ -32,7 +32,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty" : 2,
                              "events_qty_personal" : 1,
                              "events_qty_social" : 1,
-                             "time_between_events" : 160
+                             "time_between_events" : 120 #menos tiempo para probar más fácil 160
                              },
                              {# LEVEL 3
                              "score_vector" : (-8, -4, 0 , 5, 10),
@@ -44,7 +44,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty" : 2,
                              "events_qty_personal" : 1,
                              "events_qty_social" : 2,
-                             "time_between_events" : 145
+                             "time_between_events" : 120 #menos tiempo para probar más fácil 145
                              },
                              {# LEVEL 4
                              "score_vector" : (-10, -6, 0 , 3, 7),

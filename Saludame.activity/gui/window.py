@@ -110,7 +110,7 @@ class Window:
                         # No need to restore the screen, the subwindow will be redrawn over it
                         pass
                     
-                    elif win.visible and (win.dirty or win.dirty_background):
+                    elif win.visible and win.dirty_background: #(win.dirty or win.dirty_background):
                         relative_rect = win.rect.move([-coord for coord in self.rect.topleft])
                         screen.blit(self.bg_image, win.rect.topleft, relative_rect)
                         
@@ -146,7 +146,6 @@ class Window:
         
     def add_child(self, widget, pos=None):
         if pos != None:
-            print pos
             self.widgets.insert(pos, widget)
             self.childs.insert(pos, widget)
         else:

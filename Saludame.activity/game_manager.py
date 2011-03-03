@@ -8,7 +8,7 @@ CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
-HOUR_COUNT_CYCLE = 10 #control intevals that have to pass to management the time of day
+HOUR_COUNT_CYCLE = 30 #control intevals that have to pass to management the time of day
 
 import random
 import effects

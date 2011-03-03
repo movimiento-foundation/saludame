@@ -124,10 +124,11 @@ class WindowsController:
         """
         Updates GUI
         """
+
         # Cada vez que "volvamos" a la ventana principal es necesario
         # repintar el fondo para que no queden rastros de la ventana anterior
         if self.reload_main:
-            pygame.display.flip() # Actualizamos el screen para hacer visibles los efectos
+            self.scaled_game.flip() # Actualizamos el screen para hacer visibles los efectos
             self.reload_main = False
         
         self.windows_stack[-1].update(frames)
@@ -139,7 +140,7 @@ class WindowsController:
         if changes:
             if self.next_update_list:
                 changes.extend(self.next_update_list)
-                self.next_update_list = [] # Vaciamos la lista
+                self.next_update_list = []
         
         # Tooltips
         if self.showing_tooltip:
