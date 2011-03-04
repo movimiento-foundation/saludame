@@ -3,6 +3,8 @@
 INSTANCE_FILE_PATH = "game.save"
 GAME_VERSION = "1.0"
 
+MAX_LEVEL = 9 #max qty of game levels
+
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.)
 
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
@@ -177,16 +179,20 @@ class GameManager:
             
             self.current_time = self.day_dic[self.hour]
             print "cambio el momento del día a: ", self.current_time
+            self.update_environment()
             
             if self.hour == 1: #temporal para cambiar el clima
-                self.set_current_weather(self.get_random_weather())
-            
-            self.update_environment()
+                self.change_current_weather()
         else:
             self.hour_count -= 1
         
         
 ### weather
+    
+    def change_current_weather(self):
+        """changes the current weather
+        """
+        self.set_current_weather(self.get_random_weather())
 
     def set_current_weather(self, weather):
         """
@@ -194,6 +200,7 @@ class GameManager:
         """
         self.current_weather = weather
         self.update_environment_effect()
+        self.update_environment()
     
     def get_random_weather(self):
         """
@@ -392,6 +399,20 @@ class GameManager:
 
 ## Events handling
 
+    def add_random_personal_event(self):
+        event = self.__get_random_event(self.personal_events_list) #get a new random event
+        if event and not (event in self.active_events):
+            self.active_events.append(event)
+            self.windows_controller.add_personal_event(event) #notify windows controller
+            print "se disparó el evento: ", event.name
+
+    def add_random_social_event(self):
+        event = self.__get_random_event(self.social_events_list)
+        if event and not (event in self.active_social_events):
+            self.active_social_events.append(event)
+            self.windows_controller.add_social_event(event)
+            print "se disparó el evento: ", event.name
+
     def __control_active_events(self):
         """
         Active events handler
@@ -402,20 +423,12 @@ class GameManager:
         if self.events_interval == 0 and not self.menu_active and not self.active_char_action:
             if random.randint(0, 1):
                 # add personal
-                if len(self.active_events) <= 1:
-                    event = self.__get_random_event(self.personal_events_list) #get a new random event
-                    if event and not (event in self.active_events):
-                        self.active_events.append(event)
-                        self.windows_controller.add_personal_event(event) #notify windows controller
-                        print "se disparó el evento: ", event.name
+                if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
+                    self.add_random_personal_event()
             else:
                 # add social
-                if len(self.active_social_events) <= 1:
-                    event = self.__get_random_event(self.social_events_list)
-                    if event and not (event in self.active_social_events):
-                        self.active_social_events.append(event)
-                        self.windows_controller.add_social_event(event)
-                        print "se disparó el evento: ", event.name
+                if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
+                    self.add_random_social_event()
             
             self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
         elif self.events_interval > 0:
@@ -514,26 +527,41 @@ class GameManager:
                 personal_events.append(evt)
                 
         return personal_events
-    
-# Score handling
-    def add_points(self, points):
-        score_bar = self.bars_controller.score_bar
-        score_bar.value += points
-        self.character.score = score_bar.value
-        
+
+# level handling
+
+    def next_level(self):
+        """pass to the next level
+        """
+        if self.character.level < MAX_LEVEL:
+            self.character.level += 1
+            self.bars_controller.score_bar.value = 1
+
+    def previous_level(self):
+        """comes back to the preivous level
+        """
+        if self.character.level > 1:
+            self.character.level -= 1
+            self.bars_controller.score_bar.value = self.bars_controller.score_bar.max - 1
+        else:
+            self.bars_controller.score_bar.value = 1
+
     def __control_level(self):
         score_bar = self.bars_controller.score_bar
-        if score_bar.value == 100:
+        if score_bar.value == score_bar.max:
             # sets master challenge
-            self.character.level += 1
-            score_bar.value = 1
+            self.next_level()
             self.set_master_challenge()
             
         if score_bar.value == 0:
             # falls back to previous level
-            if self.character.level > 1:
-                self.character.level -= 1
-                score_bar.value = 99
+            self.previous_level()
+    
+# Score handling
+    def add_points(self, points):
+        score_bar = self.bars_controller.score_bar
+        score_bar.increase(points)
+        self.character.score = score_bar.value
 
     def set_master_challenge(self):
         # The master challenge occurs when the player completed a level.

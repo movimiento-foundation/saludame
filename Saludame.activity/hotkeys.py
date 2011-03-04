@@ -1,36 +1,55 @@
 # -*- coding: utf-8 -*-
 
-from game_manager import GameManager
+import game_manager
 import pygame
 
 ##HOTKEYS HANDLERS
 
 def alt_l_plus_handling():
     print "SUBIR DE NIVEL"
+    if game_manager.instance:
+        game_manager.instance.next_level()
 
 def alt_l_minus_handling():
     print "BAJAR DE NIVEL"
+    if game_manager.instance:
+        game_manager.instance.previous_level()
 
 def alt_c_1_handling():
-    print u"SUPER DESAFÍO"
-
+    print u"MULTIPLE CHOICE"
+    if game_manager.instance:
+        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_mc_challenges(None)
+        
+    
 def alt_c_2_handling():
     print "MASTER CHALLENGE"
+    if game_manager.instance:
+        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_master_challenge(None)
 
 def alt_c_3_handling():
     print "TRUE OR FALSE"
+    if game_manager.instance:
+        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_tf_challenges(None)
 
 def alt_c_4_handling():
     print "COOKING"
+    if game_manager.instance:
+        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_cooking_challenge(None)
 
 def alt_shift_s_handling():
     print "ADD SOCIAL EVENT"
+    if game_manager.instance:
+        game_manager.instance.add_random_social_event()
 
 def alt_shift_p_handling():
     print "ADD PERSONAL EVENT"
+    if game_manager.instance:
+        game_manager.instance.add_random_personal_event()
 
 def alt_shift_w_handling():
     print "GET NEW WEATHER"
+    if game_manager.instance:
+        game_manager.instance.change_current_weather()
 
 ## HOTKEYS DEF
 ALT_L_PLUS = (pygame.K_LALT, pygame.K_l, pygame.K_PLUS)

@@ -33,7 +33,7 @@ class SaludameWindowsController(gui.WindowsController):
         
         # Main Window
         main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha_creator, bars_loader, self.game_man)
-        
+        self.main_window = main_win
         # Activate Main window
         self.set_active_window("main_window")
         self.update(0)
