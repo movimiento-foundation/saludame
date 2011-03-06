@@ -550,27 +550,27 @@ class GameManager:
         score_bar = self.bars_controller.score_bar
         if score_bar.value == score_bar.max:
             # sets master challenge
-            self.next_level()
             self.set_master_challenge()
+            self.next_level()
             
         if score_bar.value == 0:
             # falls back to previous level
             self.previous_level()
-    
-# Score handling
-    def add_points(self, points):
-        score_bar = self.bars_controller.score_bar
-        score_bar.increase(points)
-        self.character.score = score_bar.value
 
     def set_master_challenge(self):
         # The master challenge occurs when the player completed a level.
         # If it is answered correctly the player wins some points, so he starts the new level with these points
         # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
         # reach the master challenge again.
-          
+        
         #self.windows_controller.show_master_challenge_intro()
-        pass
+        self.windows_controller.main_window.kidW._cb_button_click_master_challenge(None)
+    
+# Score handling
+    def add_points(self, points):
+        score_bar = self.bars_controller.score_bar
+        score_bar.increase(points)
+        self.character.score = score_bar.value
         
 # Save, load and reset game
 
