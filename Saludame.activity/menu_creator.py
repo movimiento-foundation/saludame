@@ -131,13 +131,6 @@ items = [
         (_("Do homework"), "study", None, None),
         (_("Clean up the bedroom"), "clean", None, None),
         (_("Cocinar"), "help_cook", None, None),
-        (_("Huerta..."), None, None, [
-            (_("Arar"), "sp_plow", None, None),
-            (_("Cosechar"), "sp_harvest", None, None),
-            (_("Regar"), "sp_irrigate", None, None),
-            (_("Sembrar"), "sp_sow", None, None),
-            (_("Limpiar"), "sp_clean_earth", None, None),
-        ]),
         (_("Cambiar de ropa..."), None, None, [
             (_("School"), "change_school_clothes", None, None),
             (_("Normal"), "change_regular_clothes", None, None),

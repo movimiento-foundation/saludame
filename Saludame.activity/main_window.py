@@ -33,10 +33,10 @@ class MainWindow(gui.Window):
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))
         
-        button_back = pygame.image.load("customization/customization_button.png").convert()
-        btn_reset = gui.TextButton2(self.rect, pygame.Rect((1000, 20), (70, 30)), 1, _("Reset"), 30, (255, 255, 255), button_back, self._cb_reset_game)
-        btn_reset.keep_dirty = True
-        self.add_button(btn_reset)
+        #button_image = pygame.image.load("customization/customization_button.png").convert()
+        #btn_reset = gui.TextButton2(self.rect, pygame.Rect((1000, 20), (70, 30)), 1, _("Reset"), 30, (255, 255, 255), button_image, self._cb_reset_game)
+        #btn_reset.keep_dirty = True
+        #self.add_button(btn_reset)
         
         #btn_change_mood = gui.ImageButton(self.rect, pygame.Rect((1120, 500), (60, 60)), 1, "assets/icons/change.png", self._cb_button_click_change_mood)
         #self.add_button(btn_change_mood)

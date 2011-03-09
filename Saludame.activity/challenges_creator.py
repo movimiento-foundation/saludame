@@ -94,7 +94,7 @@ class ChallengesCreator:
         """
         Create a new tf_challenge (tuple)
         """
-        challenge = (question, ["False", "True"], correct_answer, win_points, lose_points, image)
+        challenge = (question, [_("False"), _("True")], correct_answer, win_points, lose_points, image)
         return challenge
     
     def get_challenge(self, kind):

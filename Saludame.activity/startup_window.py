@@ -36,62 +36,54 @@ class StartupWindow(gtk.VBox):
         
         self.add(Introduction(self.start_cb))
 
-class Welcome(gtk.VBox):
+class Welcome(gtk.Fixed):
     
     def __init__(self, start_cb, new_game_cb, load_last_game_cb, load_game_cb):
-        gtk.VBox.__init__(self, False)
-        
+        gtk.Fixed.__init__(self)
+
         self.start_cb = start_cb
         
         image = gtk.Image()
-        image.set_from_file("credits/welcome.png")
-        self.pack_start(image)
-        
-        buttons = gtk.HBox(False)
+        image.set_from_file("assets/slides/screen_mainmenu.jpg")
+        self.put(image, 0, 0)
         
         btn_new = gtk.Button(_("New game"))
         btn_new.connect("clicked", new_game_cb)
-        buttons.add(btn_new)
+        self.put(btn_new, 490, 386)
         
         btn_last_game = gtk.Button(_("Load last game"))
         btn_last_game.connect("clicked", load_last_game_cb)
-        buttons.add(btn_last_game)
+        self.put(btn_last_game, 490, 500)
         
         btn_load_game = gtk.Button(_("Load game from journal"))
         btn_load_game.connect("clicked", load_game_cb)
-        buttons.add(btn_load_game)
-        
-        self.pack_start(buttons)
-        
+        self.put(btn_load_game, 490, 620)
+
         self.show_all()
-    
-    
-class SelectGenderAndName(gtk.VBox):
+
+class SelectGenderAndName(gtk.Fixed):
     
     def __init__(self, callback):
-        gtk.VBox.__init__(self, True)
+        gtk.Fixed.__init__(self)
         
         self.callback = callback
         
-        hbox = gtk.HBox(False)
-        
-        label = gtk.Label(_("Name"))
-        hbox.pack_start(label, False, False)
-        
+        image = gtk.Image()
+        image.set_from_file("assets/slides/screen_name_and_gender.jpg")
+        self.put(image, 0, 0)
+
         self.kid_name = gtk.Entry()
-        hbox.pack_start(self.kid_name, True, True)
-        
-        self.pack_start(hbox, False, False)
+        self.put(self.kid_name, 225, 150)
         
         btn_boy = gtk.Button(_("Boy"))
         btn_boy.connect("clicked", self._boy)
         btn_boy.set_size_request(-1, 24)
-        self.add(btn_boy)
+        self.put(btn_boy, 220, 285)
         
         btn_girl = gtk.Button(_("Girl"))
         btn_girl.connect("clicked", self._girl)
         btn_girl.set_size_request(-1, 24)
-        self.add(btn_girl)
+        self.put(btn_girl, 750, 285)
         
         self.show_all()
         
@@ -106,34 +98,28 @@ story = [
     
     #Slide1
     {
-        "image": "customization/boy.png",
-        "text": "En la escuela los niños están esperando la gran competencia de deportes anual.\nTodos saben que para ganar la competencia es necesario estar sanos."
+        "image": "assets/slides/history1.jpg",
+        "text": None
     },
     
     #Slide2
     {
-        "image": "customization/boy.png",
-        "text": "Para estar preparados física y mentalmente, deberás mantener altas las barras de Estado físico, Higiene, Alimentación y Tiempo Libre.\nCuanto más altas estén las barras, más puntos ganarás y así podrás avanzar de nivel."
+        "image": "assets/slides/history2.jpg",
+        "text": None
     },
 
     #Slide3
     {
-        "image": "customization/girl.png",
-        "text": "Ten cuidado con eventos que aparecerán en el juego, cuando un evento esté activo tus barras bajarán más rápido, por eso es importante investigar y encontrar la forma de solucionarlo."
+        "image": "assets/slides/help.png",
+        "text": None
     },
-
-    #Slide4
-    {
-        "image": "customization/girl.png",
-        "text": "Para estar sano es importante alimentarse correctamente, estar limpios, hacer ejercicio y divertirse! Cuando quieras hacer estas cosas, haz click en el personaje.\n¿Estás listo?"
-    }
     
 ]
 
-class Introduction(gtk.VBox):
+class Introduction(gtk.Fixed):
     
     def __init__(self, callback):
-        gtk.VBox.__init__(self, False)
+        gtk.Fixed.__init__(self)
         
         self.callback = callback
         
@@ -152,14 +138,15 @@ class Introduction(gtk.VBox):
         # Image
         image = gtk.Image()
         image.set_from_file(slide["image"])
-        self.pack_start(image)
+        self.put(image, 0, 0)
         
         # Text
-        text_view = gtk.TextView()
-        text_buffer = text_view.get_buffer()
-        text_buffer.set_text(slide["text"])
-        text_view.set_wrap_mode(gtk.WRAP_WORD)
-        self.pack_start(text_view, False, False)
+        if slide["text"]:
+            text_view = gtk.TextView()
+            text_buffer = text_view.get_buffer()
+            text_buffer.set_text(slide["text"])
+            text_view.set_wrap_mode(gtk.WRAP_WORD)
+            self.pack_start(text_view, False, False)
         
         # HBox with buttons
         hbox = gtk.HBox(False)
@@ -174,7 +161,7 @@ class Introduction(gtk.VBox):
         btn_next.connect("clicked", self._next)
         btn_next.set_size_request(-1, 24)
         hbox.pack_start(btn_next)
-        self.pack_start(hbox)
+        self.put(hbox, 0, 0)
         
         self.show_all()
         
