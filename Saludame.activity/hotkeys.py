@@ -51,6 +51,17 @@ def alt_shift_w_handling():
     if game_manager.instance:
         game_manager.instance.change_current_weather()
 
+def alt_shift_r_handling():
+    print "RESET GAME"
+    if game_manager.instance:
+        game_manager.instance.reset_game()
+
+def alt_shift_a_handling():
+    print "10 POINTS"
+    if game_manager.instance: 
+        game_manager.instance.add_points(10)
+
+
 ## HOTKEYS DEF
 ALT_L_PLUS = (pygame.K_LALT, pygame.K_l, pygame.K_PLUS)
 ALT_L_MINUS = (pygame.K_LALT, pygame.K_l, pygame.K_MINUS)
@@ -61,6 +72,8 @@ ALT_C_4 = (pygame.K_LALT, pygame.K_c, pygame.K_4)
 ALT_SHIFT_S = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_s)
 ALT_SHIFT_P = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_p)
 ALT_SHIFT_W = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_w)
+ALT_SHIFT_R = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_r)
+ALT_SHIFT_A = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_a)
 
 ##HOTKEYS DIC
 hotkeys = {ALT_L_PLUS: alt_l_plus_handling,
@@ -71,7 +84,9 @@ hotkeys = {ALT_L_PLUS: alt_l_plus_handling,
            ALT_C_4: alt_c_4_handling, 
            ALT_SHIFT_S: alt_shift_s_handling, 
            ALT_SHIFT_P: alt_shift_p_handling, 
-           ALT_SHIFT_W: alt_shift_w_handling
+           ALT_SHIFT_W: alt_shift_w_handling,
+           ALT_SHIFT_R: alt_shift_r_handling,
+           ALT_SHIFT_A: alt_shift_a_handling
            }
 
 class HotKeyHandler:

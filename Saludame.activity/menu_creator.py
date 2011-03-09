@@ -128,7 +128,7 @@ items = [
     
     (_("Hacer..."), None, None, [
         (_("Talk with a friend"), "talk", None, None),
-        (_("Do homework"), "study", None, None),
+        (_("Do homework"), "homework", None, None),
         (_("Clean up the bedroom"), "clean", None, None),
         (_("Cocinar"), "help_cook", None, None),
         (_("Cambiar de ropa..."), None, None, [

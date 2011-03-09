@@ -150,8 +150,9 @@ class AppLoader:
         self.level_conf = CONFIGURATION_LEVEL_LIST
         
         ### game manager
+        self.events_actions_res = self.__load_events_actions_resolutions()
         
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, windows_controller, self.level_conf)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, windows_controller, self.level_conf, self.events_actions_res)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
@@ -258,6 +259,13 @@ class AppLoader:
         _events.append(event)
 
         return _events
+
+    def __load_events_actions_resolutions(self):
+        events_actions_res = {("constipation", "arroz_leche") : 70,
+                              ("headache", "sleep") : 60,
+                              ("study", "homework") : 90,
+                              ("p_caries", "brush_teeth") : 60}
+        return events_actions_res
     
     def __load_moods(self):
         
