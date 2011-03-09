@@ -26,7 +26,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, windows_controller, level_conf):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, windows_controller, level_conf, events_actions_res):
         """
         Constructor de la clase
         """
@@ -47,6 +47,7 @@ class GameManager:
         self.idle_time = 0
         
         #events, actions, moods
+        self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
         self.personal_events_list = self.__get_personal_events(events_list)
         self.social_events_list = self.__get_social_events(events_list)
         self.actions_list = actions_list
@@ -56,7 +57,7 @@ class GameManager:
         
         #character states
         self.active_char_action = None #Active character action, Action instance
-        self.active_events = []
+        self.active_events = [] #active personal events
         self.active_social_events = []
         self.active_mood = None
         #self.__check_active_mood() # sets active_mood -> doesn't work because status bars aren't ready
@@ -101,10 +102,11 @@ class GameManager:
         """
         if not self.pause:
             self.count += 1
+            #handle actions.
+            self.__handle_active_character_action() #handle active character action (performing and animation)
             if self.count >= CONTROL_INTERVAL:
                 self.bars_controller.calculate_score()  # calculates the score of the score_bar
                 self.__control_background_actions() # background actions
-                self.__control_active_character_action_performing() # handle active character action effects 
                 self.__control_level() # Checks if level must be changed
                 self.__control_active_events() # handle active events
                 self.__check_active_mood() # check if the active character mood
@@ -116,9 +118,6 @@ class GameManager:
                     self.update_environment_effect()
                 
                 self.count = 0
-
-            #handle actions.
-            self.__control_active_character_action_animation() # handle active character action's animation
 
     def get_current_level_conf(self):
         """
@@ -223,6 +222,7 @@ class GameManager:
                         return self.weathers[i]
         else:
             return self.weathers[0] #default weather
+
     def get_weather_prob_ranges(self, weather_list):
         """ maps the probability_appreance of each weather to a range.
         """
@@ -249,12 +249,6 @@ class GameManager:
         
         self.update_environment()
         self.update_environment_effect()
-
-    def get_place(self, place_id):
-        """
-        (not implemented) Returns the place asociated to the place_id
-        """
-        None
             
 ### Clothes
     def set_character_clothes(self, clothes_id):
@@ -339,20 +333,47 @@ class GameManager:
     def get_lowest_bar(self):
         return self.bars_controller.get_lowest_bar()
 
-    def __control_active_character_action_performing(self):
-        if self.active_char_action:
-            if self.active_char_action.time_left > 0:
-                self.active_char_action.perform()   
+    def __try_solve_events(self, action_id):
+        """Try to solve an active event with the active character
+        action"""
+        for evt in self.active_events:
+            if (evt.name, action_id) in self.events_actions_res:
+                rand = random.randint(0,100)
+                prob = self.events_actions_res[(evt.name, action_id)]
+                print "TRYING SOLVE ", evt.name," performing: ", action_id, " PROBABILITY: ", prob
+                if rand <= prob:
+                    print "EVENT SOLVED "
+                    self.remove_personal_event(evt)
+                else:
+                    print "EVENT NOT SOLVED"
 
-    def __control_active_character_action_animation(self):
-        """
-        Controls active game actions.
-        """
-        if self.active_char_action: #the character active action was completed
+        for evt in self.active_social_events:
+            if (evt.name, action_id) in self.events_actions_res:
+                rand = random.randint(0,100)
+                prob = self.events_actions_res[(evt.name, action_id)]
+                print "TRYING SOLVE ", evt.name," performing: ", action_id, " PROBABILITY: ", prob
+                if rand <= prob:
+                    print "EVENT SOLVED "
+                    self.remove_social_event(evt)
+                else:
+                    print "EVENT NOT SOLVED"
+
+    def __handle_active_character_action(self):
+        if self.active_char_action:
+            #handle performance
+            if self.count >= CONTROL_INTERVAL:
+                if self.active_char_action.time_left > 0:
+                    self.active_char_action.perform()
+ 
+            #handle animation
             if self.active_char_action.kid_frames_left > 0:
                 self.active_char_action.decrease_frames_left()
-            else:
-                self.windows_controller.stop_current_action_animation()
+                if self.active_char_action.kid_frames_left == 0:
+                    self.windows_controller.stop_current_action_animation()
+            
+            #when the action ends to run (animation and performance), tries to solve an event and reset the action
+            if self.active_char_action.kid_frames_left == 0 and self.active_char_action.time_left == 0:
+                self.__try_solve_events(self.active_char_action.id)
                 self.active_char_action.reset()
                 self.active_char_action = None
 
@@ -433,20 +454,30 @@ class GameManager:
             self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
         elif self.events_interval > 0:
             self.events_interval -= 1
-        
-    
+
+    def remove_social_event(self, event):
+        """removes an active social event
+        """
+        self.windows_controller.remove_social_event(event)
+        event.reset()
+        self.active_social_events.remove(event)
+
+    def remove_personal_event(self, event):
+        """removes an active personal event
+        """
+        self.windows_controller.remove_personal_event(event)
+        event.reset()
+        self.active_events.remove(event)
+
     def __handle_social_events(self):
         """
         Handle social events
         """
         for event in self.active_social_events:
-            
             if event.time_left:
                 event.perform()
             else:
-                self.windows_controller.remove_social_event(event)
-                event.reset()
-                self.active_social_events.remove(event)
+                self.remove_social_event(event)
     
     def __handle_personal_events(self):
         """
@@ -457,9 +488,7 @@ class GameManager:
             if event.time_left:
                 event.perform()
             else:
-                self.windows_controller.remove_personal_event(event)
-                event.reset()
-                self.active_events.remove(event)
+                self.remove_personal_event(event)
     
     def __get_random_event(self, events_list):
         """
