@@ -35,30 +35,20 @@ running = True
 main_class = None
 
 def set_library_function(link):
-    print library
+    print link
 
 class Main():
+    
     def __init__(self):
         self.windows_controller = None
         global main_class
         main_class = self
     
     def main(self, from_sugar):
-        """Main function of the game.
+        self.init(from_sugar)
+        self.run(from_sugar)
         
-        This function initializes the game and enters the PyGame main loop.
-        """
-        global running, pauses
-        
-        if from_sugar:
-            import gtk
-
-        import app_init
-        import challenges_creator
-        import customization
-        import sound_manager
-        import saludame_windows_controller
-        
+    def init(self, from_sugar):       
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
         pygame.mixer.pre_init(22050, -16, 1, 512)
@@ -75,7 +65,26 @@ class Main():
         screen = pygame.display.get_surface()
         assert screen, "No screen"
         
-        pygame.display.update()
+        screen.blit(pygame.image.load("assets/slides/screen_loading.jpg"), (0,0))
+        pygame.display.flip()
+        
+    def run(self, from_sugar):
+        """Main function of the game.
+        
+        This function initializes the game and enters the PyGame main loop.
+        """
+        global running, pauses
+        
+        if from_sugar:
+            import gtk
+
+        import app_init
+        import challenges_creator
+        import customization
+        import sound_manager
+        import saludame_windows_controller
+        
+        screen = pygame.display.get_surface()
         
         # This clock is used to keep the game at the desired FPS.
         clock = pygame.time.Clock()
@@ -95,7 +104,7 @@ class Main():
         self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
 
         game_man.load_game()
-          
+        
         frames = 0
         
         # Main loop
@@ -152,4 +161,5 @@ class Main():
         pygame.quit()
 
 if __name__ == "__main__":
-    Main().main(False)
+    m = Main()
+    m.main(False)

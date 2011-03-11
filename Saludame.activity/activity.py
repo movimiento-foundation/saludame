@@ -21,6 +21,7 @@ import startup_window
 import game
 import credits
 import content_window
+import guides_window
 
 class SaludameActivity(Activity):
     ''' Clase llamada por sugar cuando se ejecuta la actividad.
@@ -41,6 +42,10 @@ class SaludameActivity(Activity):
         self.health_library_toolbar = gtk.Toolbar()
         toolbox.add_toolbar(_("Health Library"), self.health_library_toolbar)
         self.health_library_toolbar.show()
+
+        self.guides_toolbar = gtk.Toolbar()
+        toolbox.add_toolbar(_("Guides"), self.guides_toolbar)
+        self.guides_toolbar.show()
         
         self.credits_toolbar = gtk.Toolbar()
         toolbox.add_toolbar(_("Credits"), self.credits_toolbar)
@@ -58,6 +63,9 @@ class SaludameActivity(Activity):
         # Create Health Library Window
         self.health_library = content_window.ContentWindow()
         
+        # Create Guides Window
+        self.guides = guides_window.GuidesWindow()
+        
         # Create Credits Window
         self.credits = credits.Credits()
         
@@ -66,6 +74,7 @@ class SaludameActivity(Activity):
         self.items.add(self.pygame_canvas)
         self.items.add(self.credits)
         self.items.add(self.health_library)
+        self.items.add(self.guides)
         
         self.set_canvas(self.items)
         
@@ -90,6 +99,7 @@ class SaludameActivity(Activity):
         self.startup_window.hide()
         self.pygame_canvas.hide()
         self.health_library.ditch()
+        self.guides.ditch()
         self.credits.hide()
         
         if index == 0:
@@ -104,8 +114,11 @@ class SaludameActivity(Activity):
             self.health_library.show()
             
         if index == 3:
+            self.guides.show()
+
+        if index == 4:
             self.credits.show()
-    
+
     #Override activity.Activity's can_close method
     def can_close(self):
         game.running = False

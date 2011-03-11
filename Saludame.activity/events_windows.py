@@ -88,10 +88,8 @@ class PersonalWindow(gui.Window):
     def _cb_button_click_personal(self, button):
         print "personal"
         if game.set_library_function:
-            #game.set_library_function("99-Eventos.html") #diarrhea")
-            #NameError: global name 'library' is not defined
-            pass
-            
+            game.set_library_function("99-Eventos.html")
+        
     def _cb_button_click_personal_next(self, button):
         if self.index_personal_event < len (self.active_personal_events) - 1:
             self.remove_button(self.current_animation)
@@ -108,6 +106,15 @@ class PersonalWindow(gui.Window):
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
             self.add_button(self.current_animation, 0)
             
+    def handle_mouse_down(self, coords):
+        if self.personal_next.rect_absolute.collidepoint(coords):
+            return self.personal_next.handle_mouse_down(coords)
+        elif self.personal_back.rect_absolute.collidepoint(coords):
+            return self.personal_back.handle_mouse_down(coords)
+        elif self.active_personal_events:
+            self._cb_button_click_personal(None)
+        return True
+        
 class SocialWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
         
@@ -191,9 +198,7 @@ class SocialWindow(gui.Window):
     def _cb_button_click_social(self, button):
         print "social"
         if game.set_library_function:
-            #game.set_library_function("99-Eventos.html") #diarrhea")
-            #NameError: global name 'library' is not defined
-            pass
+            game.set_library_function("99-Eventos.html")
             
     def _cb_button_click_social_next(self, button):
         if self.index_social_event < len (self.active_social_events) - 1:
@@ -210,4 +215,3 @@ class SocialWindow(gui.Window):
             self.refresh_count_social_events()
             self.current_animation = self.active_social_events[self.index_social_event][1]
             self.add_button(self.current_animation, 0)
-        

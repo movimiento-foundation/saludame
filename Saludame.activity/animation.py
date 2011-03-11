@@ -36,7 +36,9 @@ class Kid(gui.Widget):
         
         self.sprite = None
         self.set_animation()
-            
+        
+        self.visible = True
+        
     ##### Moods #####
     def change_mood(self):
         self.mood_index += 1
@@ -68,6 +70,8 @@ class Kid(gui.Widget):
         sex = self.character.sex
         clothes = self.character.clothes
         
+        self.loops = 0
+        self.visible = True
         self.index = 0 # Sequence number of the current animation
         if self.action and self.action.kid_animation_path: # An action with animation is enabled
             directory = "%s/%s/%s" % (self.action.kid_animation_path, sex, clothes)
@@ -86,9 +90,20 @@ class Kid(gui.Widget):
         maps = self.character.mappings
         self.change_color(COLORS_TO_MAP, maps["hair"] + maps["skin"] + maps["sweater"] + maps["pants"] + maps["shoes"])
         
-        self.index = (self.index + 1) % len(self.file_list)
-        
+        self.index += 1
+        if self.index >= len(self.file_list):
+            self.index = 0
+            self.loops += 1
+            if self.action and self.action.kid_loop_times > 0 and self.loops == self.action.kid_loop_times:
+                self.visible = False
+
         self.set_dirty()
+    
+    def draw(self, frames):
+        if self.visible:
+            return gui.Widget.draw(self, frames)
+        else:
+            return self.rect_absolute
         
     ##### Colors #####
     def change_color(self, old, new):

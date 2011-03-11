@@ -5,11 +5,11 @@ import os
 from gettext import gettext as _
 
 if __name__ == "__main__":
-    ROOT_PATH = os.path.realpath('content/')
+    ROOT_PATH = os.path.realpath('guides/')
     STARTUP_DIR = os.path.realpath('gecko')
 else:
     from sugar.activity import activity
-    ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
+    ROOT_PATH = os.path.join(activity.get_bundle_path(), 'guides/')
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
 HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción.html')
@@ -24,7 +24,7 @@ except:
 
 gobject.threads_init()
 
-class ContentWindow(gtk.HBox):
+class GuidesWindow(gtk.HBox):
     
     def __init__(self):
         gtk.HBox.__init__(self, False)
@@ -145,7 +145,7 @@ class ContentWindow(gtk.HBox):
             self.web_view.load_uri( self.last_uri )
         
 if __name__ == "__main__":
-    window = ContentWindow()
+    window = GuidesWindow()
     main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
     main_window.add(window)
     main_window.show_all()
