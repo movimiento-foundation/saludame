@@ -161,7 +161,7 @@ class Window:
         
     def add_button(self, button, pos=None):
         if pos != None:
-            self.add_child(pos, button)
+            self.add_child(button, pos)
             self.buttons.insert(pos, button)
         else:
             self.add_child(button)

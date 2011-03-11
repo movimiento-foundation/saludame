@@ -99,12 +99,12 @@ class Kid(gui.Widget):
             
             index += 1
             
-class ActionAnimation(gui.Widget):
+class ActionAnimation(gui.Button):
     """
     An action animation to show at panel
     """
     def __init__(self, container, rect, frame_rate, animation_path, sound_path=None):
-        gui.Widget.__init__(self, container, rect, frame_rate)
+        gui.Button.__init__(self, container, rect, frame_rate, None)
         
         self.path = animation_path
         self.frame_rate = frame_rate

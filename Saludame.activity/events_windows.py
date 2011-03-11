@@ -38,16 +38,18 @@ class PersonalWindow(gui.Window):
                         event_info += "- %s \n" % (bar_label)
             
             ## Animation
-            temp_animation = animation.ActionAnimation(self.rect, pygame.Rect(0, 0, 130, 110), 3, event.directory_path)
+            temp_animation = animation.ActionAnimation(self.rect, pygame.Rect(0, 0, 130, 110), 3, event.directory_path)            
+            temp_animation.set_on_mouse_click(self._cb_button_click_personal)
+            
             temp_animation.set_super_tooltip(event_info)
             
             self.active_personal_events.append((event, temp_animation))
             
             if self.current_animation:
-                self.remove_child(self.current_animation)
+                self.remove_button(self.current_animation)
                 
             self.current_animation = temp_animation
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
             
             self.current_animation.set_dirty()
             self.index_personal_event = len(self.active_personal_events) - 1
@@ -60,16 +62,17 @@ class PersonalWindow(gui.Window):
                 self.active_personal_events.remove(e)             
                 
         if self.current_animation:
-            self.remove_child(self.current_animation)
+            self.remove_button(self.current_animation)
                 
         if self.active_personal_events:
             self.index_personal_event = 0
             self.current_animation = self.active_personal_events[0][1]
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
         
         self.windows_controller.hide_active_tooltip()
         
-        self.refresh_count_personal_events()
+        self.parent.set_dirty_background()       
+        self.refresh_count_personal_events()        
         
     def refresh_count_personal_events(self):
         
@@ -83,24 +86,27 @@ class PersonalWindow(gui.Window):
         
     # Buttons Callbacks
     def _cb_button_click_personal(self, button):
+        print "personal"
         if game.set_library_function:
-            game.set_library_function("99-Eventos.html") #diarrhea")
+            #game.set_library_function("99-Eventos.html") #diarrhea")
+            #NameError: global name 'library' is not defined
+            pass
             
     def _cb_button_click_personal_next(self, button):
         if self.index_personal_event < len (self.active_personal_events) - 1:
-            self.remove_child(self.current_animation)
+            self.remove_button(self.current_animation)
             self.index_personal_event += 1
             self.refresh_count_personal_events()
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
             
     def _cb_button_click_personal_back(self, button):
         if self.index_personal_event > 0:
-            self.remove_child(self.current_animation)
+            self.remove_button(self.current_animation)
             self.index_personal_event -= 1
             self.refresh_count_personal_events()
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
             
 class SocialWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
@@ -135,15 +141,17 @@ class SocialWindow(gui.Window):
                     else:
                         event_info += "- %s \n" % (bar_label)
             
-            temp_animation = animation.ActionAnimation(self.rect, pygame.Rect(0, 0, 0, 0), 3, "assets/events/personal/stomach_ache")
+            temp_animation = animation.ActionAnimation(self.rect, pygame.Rect(0, 0, 130, 110), 3, event.directory_path)
+            temp_animation.set_on_mouse_click(self._cb_button_click_social)
+            
             temp_animation.set_super_tooltip(event_info)
             
             self.active_social_events.append((event, temp_animation))
             
             if self.current_animation:
-                self.remove_child(self.current_animation)
+                self.remove_button(self.current_animation)
             self.current_animation = temp_animation
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
             
             self.current_animation.set_dirty()
             self.index_social_event = len(self.active_social_events) - 1
@@ -157,14 +165,16 @@ class SocialWindow(gui.Window):
                 self.active_social_events.remove(e)
                 
         if self.current_animation:
-            self.remove_child(self.current_animation)
+            self.remove_button(self.current_animation)
                 
         if self.active_social_events:
             self.index_social_event = 0
             self.current_animation = self.active_social_events[0][1]
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
             
         self.windows_controller.hide_active_tooltip()
+        
+        self.parent.set_dirty_background()          
         self.refresh_count_social_events()
             
     def refresh_count_social_events(self):
@@ -179,22 +189,25 @@ class SocialWindow(gui.Window):
             
     ## Buttons callbacks
     def _cb_button_click_social(self, button):
+        print "social"
         if game.set_library_function:
-            game.set_library_function("99-Eventos.html") #diarrhea")
+            #game.set_library_function("99-Eventos.html") #diarrhea")
+            #NameError: global name 'library' is not defined
+            pass
             
     def _cb_button_click_social_next(self, button):
         if self.index_social_event < len (self.active_social_events) - 1:
-            self.remove_child(self.current_animation)
+            self.remove_button(self.current_animation)
             self.index_social_event += 1
             self.refresh_count_social_events()
             self.current_animation = self.active_social_events[self.index_social_event][1]
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
             
     def _cb_button_click_social_back(self, button):
         if self.index_social_event > 0:
-            self.remove_child(self.current_animation)
+            self.remove_button(self.current_animation)
             self.index_social_event -= 1
             self.refresh_count_social_events()
             self.current_animation = self.active_social_events[self.index_social_event][1]
-            self.add_child(self.current_animation, 0)
+            self.add_button(self.current_animation, 0)
         
