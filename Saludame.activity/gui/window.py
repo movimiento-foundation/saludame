@@ -237,7 +237,7 @@ class Window:
                     # Tooltips
                     if widget.tooltip: # Si el widget tiene tooltip entonces lo mostramos
                         self.windows_controller.hide_active_tooltip()
-                        self.windows_controller.show_tooltip(widget.tooltip)
+                        self.windows_controller.show_super_tooltip(widget.tooltip)
                         widget.showing_tooltip = True
                     if widget.super_tooltip:
                         self.windows_controller.hide_active_tooltip()
