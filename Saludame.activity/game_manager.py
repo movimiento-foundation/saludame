@@ -3,7 +3,7 @@
 INSTANCE_FILE_PATH = "game.save"
 GAME_VERSION = "1.0"
 
-MAX_LEVEL = 9 #max qty of game levels
+MAX_LEVEL = 9 #max qty of game levels  
 
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.) 
 
