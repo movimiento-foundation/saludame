@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import game_manager
+import effects
 import status_bars
 import events
 import pygame
@@ -41,11 +43,19 @@ class Action:
             
         if self.time_span == -1:
             # Perpetual
-            self.effect.activate()
+            if isinstance(self.effect, effects.Effect): #this action affects status bars
+                for effect_status in self.effect.effect_status_list:
+                    game_manager.instance.bars_controller.increase_bar(effect_status[0], effect_status[1] / self.time_span)
+            else:
+                self.effect.activate()
         else:
             # Checks time left
             if self.time_left > 0:
-                self.effect.activate()
+                if isinstance(self.effect, effects.Effect): #this action affects status bars
+                    for effect_status in self.effect.effect_status_list:
+                        game_manager.instance.bars_controller.increase_bar(effect_status[0], effect_status[1] / self.time_span)
+                else:                
+                    self.effect.activate()
                 self.time_left -= 1
             else:
                 self.time_left = 0
