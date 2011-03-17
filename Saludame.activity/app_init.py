@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+
 import menu_creator
 import status_bars_creator
 import actions_creator
-import character_creator
+import character
 import game_manager
 import events
 import actions
@@ -121,23 +122,24 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
 
 class AppLoader:
 
-    def __init__(self, windows_controller):
-        ### loaders
+    def __init__(self, windows_controller, gender, name):
+        # loaders
         self.bars_loader = status_bars_creator.BarsLoader()
         
-        ### status bars
+        # status bars
         self.status_bars_controller = self.bars_loader.get_bar_controller()
         self.character_bars = self.bars_loader.get_third_level_bars() #the third level status bars
         
-        ### events
+        # events
         self.events_list = self.__load_events(self.status_bars_controller)
-        ### places
-        character_loader = character_creator.CharacterLoader()
+        
+        # places
         self.places_dictionary = None
         
-        ### character
-        self.character = character_loader.get_character()
-        #moods
+        # character
+        self.character = character.Character(gender, name, 1, 0, "school")
+        
+        # moods
         self.moods_list = self.__load_moods()
         
         # Environments
@@ -149,18 +151,14 @@ class AppLoader:
         # Level list
         self.level_conf = CONFIGURATION_LEVEL_LIST
         
-        ### game manager
+        # game manager
         self.events_actions_res = self.__load_events_actions_resolutions()
         
         self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, windows_controller, self.level_conf, self.events_actions_res)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
-        self.game_man.add_background_action("BARS_DEC") #acción de decrementar las barras
-
-        ### menu
-        #self.menu = menu_creator.load_menu(self.character, (100, 100))
-        ### visuals
+        self.game_man.add_background_action("BARS_DEC") # default effect
         
     
     def get_game_manager(self):

@@ -43,12 +43,15 @@ class Main():
         self.windows_controller = None
         global main_class
         main_class = self
+        self.gender = "boy"
+        self.name = ""
+        self.started = False
     
     def main(self, from_sugar):
         self.init(from_sugar)
-        self.run(from_sugar)
+        self.run(from_sugar, self.gender, self.name)
         
-    def init(self, from_sugar):       
+    def init(self, from_sugar):
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
         pygame.mixer.pre_init(22050, -16, 1, 512)
@@ -68,12 +71,14 @@ class Main():
         screen.blit(pygame.image.load("assets/slides/screen_loading.jpg"), (0,0))
         pygame.display.flip()
         
-    def run(self, from_sugar):
+    def run(self, from_sugar, gender, name):
         """Main function of the game.
         
         This function initializes the game and enters the PyGame main loop.
         """
         global running, pauses
+        
+        self.started = True
         
         if from_sugar:
             import gtk
@@ -95,7 +100,7 @@ class Main():
         # Initialize sound_manager, game_manager, character, actions and menu.
         sound_manager.SoundManager()
         
-        app_loader = app_init.AppLoader(self.windows_controller)
+        app_loader = app_init.AppLoader(self.windows_controller, gender, name)
         bars_loader = app_loader.get_status_bars_loader()
         game_man = app_loader.get_game_manager()
         
@@ -161,5 +166,13 @@ class Main():
         pygame.quit()
 
 if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] in ["boy", "girl"]:
+        gender = sys.argv[1]
+    else:
+        gender = "boy"
+        
     m = Main()
+    m.gender = gender
+    m.name = ""
     m.main(False)

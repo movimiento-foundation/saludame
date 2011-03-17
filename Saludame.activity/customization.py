@@ -35,7 +35,7 @@ COLORS_CLOTHES = [
     ("#d61ccb", "#a60e9d", "#6f0269", "#6f0269"),  # violet
     ("#ff0083", "#d3006e", "#b0005c", "#b0005c"),  # lila
     ("#0090d6", "#007ab0", "#00628c", "#00628c"),  # blue
-    ("#eeea00", "#c7b700", "#98a600", "#98a600"),  # yellow
+    ("#d0dd49", "#c8d539", "#bfcb37", "#bfcb37"),  # yellow
     ("#ab7013", "#784c07", "#3d2602", "#3d2602"),  # brown
     ("#4b4b4b", "#282828", "#000000", "#000000"),  # black
     ("#ab7013", "#784c07", "#3d2602", "#3d2602"),  # brown
@@ -116,7 +116,7 @@ class CustomizatedKid(gui.Widget):
         gui.Widget.__init__(self, container, rect, frame_rate)
         
         self.character = character
-        self.set_gender("male") # Sets the correct picture and applies color mappings
+        self.set_gender(character.sex) # Sets the correct picture and applies color mappings
         
         self.dirty_mappings = True      # Only for the first update
     
@@ -141,10 +141,10 @@ class CustomizatedKid(gui.Widget):
     def set_gender(self, gender):
         path = None
         
-        if gender == "male":
+        if gender == "boy":
             path = MALE_PATH
         
-        if gender == "female":
+        if gender == "girl":
             path = FEMALE_PATH
         
         if path:

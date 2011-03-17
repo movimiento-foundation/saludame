@@ -89,7 +89,7 @@ class SaludameActivity(Activity):
         self.items.show()
         self.show()
         
-        #self.pygame_canvas.run_pygame(lambda:game.Main().main(True))    # Indico que llame a la función local para iniciar el juego pygame
+        self.game = game.Main()
         
     def canvas_resize_cb(self):
         pass
@@ -124,21 +124,23 @@ class SaludameActivity(Activity):
         game.running = False
         return True
     
-    def _start_cb(self):
+    def _start_cb(self, gender, name):
+        self.game.gender = gender
+        self.game.name = name
         game.set_library_function = self.set_library    # Sets the callback to put links in the library
         self.startup_window.set_welcome()
         self.toolbox.set_current_toolbar(1)     # Move to game tab
     
     def show_game(self):
-        if game.main_class:
-            game.main_class.windows_controller.reload_main = True       # Repaints the whole screen
+        if self.game.started:
+            self.game.windows_controller.reload_main = True       # Repaints the whole screen
         
         self.pygame_canvas.show()
         
         if not self.running:
             self.running = True
             # Start pygame
-            self.pygame_canvas.run_pygame(lambda:game.Main().main(True))    # Indico que llame a la función local para iniciar el juego pygame
+            self.pygame_canvas.run_pygame(lambda:self.game.main(True))    # Indico que llame a la función local para iniciar el juego pygame
 
     def set_library(self, link):
         self.toolbox.set_current_toolbar(2)

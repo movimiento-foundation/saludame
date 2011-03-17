@@ -38,7 +38,7 @@ class BarsLoader:
         nutrition.children_list = nutrition_children_bar
         
         ### spare time
-        fun_children_id = [("sports", _("Sports")), ("fun", _(u"Fun")), ("relaxing", _("Relaxing"))]
+        fun_children_id = [("sports", _("Sports")), ("fun", _(u"Fun")), ("relaxing", _("Rest"))]
         fun = status_bars.StatusBar("spare_time", _("Tiempo Libre"), self.overall_bar, [], hard_level[0], hard_level[1])
         fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
         fun.children_list = fun_children_bar

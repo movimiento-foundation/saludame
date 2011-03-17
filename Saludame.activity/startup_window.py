@@ -30,11 +30,12 @@ class StartupWindow(gtk.VBox):
     def _load_game(self, button):
         pass
     
-    def _gender_selected(self, name, gender, grade = 3):
+    def _gender_selected(self, name, gender):
         for child in self.get_children():
             self.remove(child)
         
-        self.add(Introduction(self.start_cb))
+        callback = lambda: self.start_cb(gender, name)
+        self.add(Introduction(callback))
 
 class Welcome(gtk.Fixed):
     
