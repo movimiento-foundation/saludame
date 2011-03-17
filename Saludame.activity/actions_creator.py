@@ -43,7 +43,7 @@ actions_list = [
     ("attention", 0.3, 5, 40, 0, "assets/kid/actions/atention", 3, 1, None, 4, None,
         effects.Effect(None, []), None, None, None
     ),
-    
+######## BREAKFAST
     # Breakfast - drinks
     ("leche", 0.3, 5, 70, 0, DRINK_PATH, 3, 1, HOT_DRINK_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("l_quesos", 2.0), ("agua", 1.0), ("energy", 1.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, ["morning", "afternoon"], None
@@ -112,6 +112,7 @@ actions_list = [
     ("flan", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, BREAKFAST_PATH, 4, BLIP_PATH,
         effects.Effect(None, [("c_huevos", 1.0), ("dulces", 1.0), ("l_quesos", 1.0), ("energy", 1.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, ["morning", "afternoon"], None
     ),
+######## _END_ BREAKFAST
     
     # Fruit
     ("manzana", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, FRUIT_PATH, 4, BLIP_PATH,

@@ -2,8 +2,8 @@
 
 # Utilitarios: Text, Button (abstract), ImageButton, TextButton
 
-from widget import *
 import pygame
+from widget import *
 import os
 
 class Text(Widget):
@@ -17,6 +17,8 @@ class Text(Widget):
         self.text = unicode(text)
         self.color = color
         
+        self.type = type
+        
         # Render the text and calculate the size
         render = self.font.render(self.text, False, color)
         if alignment == Text.ALIGN_LEFT:
@@ -24,19 +26,16 @@ class Text(Widget):
         elif alignment == Text.ALIGN_RIGHT:
             rect = render.get_rect(topright=(x, y))
         else:
-            rect = render.get_rect(center=(x, y))
-            
-        if type == "tooltip":
-            rect.bottomleft = (x, y)
-            
+            rect = render.get_rect(center=(x, y))           
+                    
         # Make it fit in the container
         if rect.right > container_rect.right:
             rect.right = container_rect.right
         if rect.bottom > container_rect.bottom:
-            rect.bottom = container_rect.bottom        
-        
-        Widget.__init__(self, container_rect, rect, frame_rate)
-        
+            rect.bottom = container_rect.bottom    
+            
+        Widget.__init__(self, container_rect, rect, frame_rate)  
+
         self.refresh()
     
     def refresh(self):
@@ -115,7 +114,7 @@ class Button(Widget):
         updates = Widget.draw(self, screen)
         if self.visible and self.background and self.over:
             copy = self.background.convert_alpha()
-            copy.fill((40,40,40), None, pygame.BLEND_ADD)       # Makes the widget brighter
+            copy.fill((40, 40, 40), None, pygame.BLEND_ADD)       # Makes the widget brighter
             screen.blit(copy, self.rect_absolute)
         return updates
         
@@ -185,6 +184,7 @@ class TextBlock(Widget):
             
         Widget.__init__(self, container, pygame.Rect(x, y, 0, 0), frame_rate)
         
+        self.type = type
         self.lines = []
         self.font = get_font(size)
         self.color = color
@@ -216,6 +216,10 @@ class TextBlock(Widget):
             if r.get_rect().width > self.rect_absolute.width:
                 self.rect_absolute.width = r.get_rect().width
             self.rect_absolute.height += r.get_rect().height 
+            
+        if self.type == "tooltip":
+            self.rect_absolute.height += 20
+            self.rect_absolute.width += 20
         
         # Make it fit in the container
         if self.rect_absolute.right > self.container.right:
@@ -226,12 +230,23 @@ class TextBlock(Widget):
     def draw(self, screen):
         if self.visible:
             number_of_lines = 0
+            
             if self.fill:
-                screen.fill((255, 255, 255), (self.rect_absolute))
+                screen.fill((247, 247, 247), (self.rect_absolute))
+                
+            if self.type == "tooltip":
+                top = self.rect_absolute.top + 10
+                left = self.rect_absolute.left + 10
+            else:
+                top = self.rect_absolute.top
+                left = self.rect_absolute.left
+                
             for l in self.lines:          
                 r = self.font.render(l, False, self.color)
-                screen.blit(r, (self.rect_absolute.left, self.rect_absolute.top + r.get_rect().height * number_of_lines))
+                screen.blit(r, (left, top + r.get_rect().height * number_of_lines))
                 number_of_lines += 1
+            if self.type == "tooltip":
+                pygame.draw.rect(screen, pygame.Color("green"), self.rect_absolute, 2)
 
 font_dict = {}  # Chaches created font instances
 def get_font(size, bold=False, italic=False):

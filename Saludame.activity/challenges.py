@@ -66,7 +66,7 @@ class MultipleChoice(gui.Window):
         if self.question:
             self.erase()
         
-        self.question = gui.TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, (0, 0, 0), False)
+        self.question = gui.TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, (0, 0, 0), "normal", False)
         self.add_child(self.question)
         
     def set_correct_answer(self, a):
@@ -291,14 +291,14 @@ class InfoChallenge(gui.Window):
         
         # Texts
         self.title = gui.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, pygame.Color("blue"))
-        self.text = gui.TextBlock(rect, 40, 120, 1, "Texto de prueba", 35, pygame.Color("black"))
+        self.text = gui.TextBlock(rect, 40, 120, 1, "", 35, pygame.Color("black"), "normal", False)
         self.image = gui.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "challenges/ninio_normal.png")
     
         self.add_child(self.title)
         self.add_child(self.text)
         self.add_child(self.image)
         
-    def update_content(self, title="Verdadero o Falso", text="Texto de prueba", image="challenges/ninio_normal.png"):
+    def update_content(self, title="Verdadero o Falso", text="", image="challenges/ninio_normal.png"):
         self.title.text = title
         self.title.refresh()
         self.text.parse_lines(text)
