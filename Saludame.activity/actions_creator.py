@@ -85,6 +85,34 @@ actions_list = [
     ),
 ######## _END_ BREAKFAST
 
+#### PLATOS
+    ("sopa_verduras", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 1.0), ("agua", 0.5), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    
+    ("e_carne_verduras", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 1.0), ("c_huevos", 1.0), ("agua", 0.5), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("g_arroz_carne_lenteja_verdura", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 1.0), ("c_huevos", 1.0), ("agua", 0.5), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("puchero", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 1.0), ("v_frutas", 1.0), ("c_huevos", 1.0), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("milanesa_papas_fritas", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 1.0), ("c_huevos", 1.0), ("g_aceites", 2.0), ("energy", 2.0), ("weight", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("costilla_cordero_huevo", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_huevos", 2.0), ("g_aceites", 2.0), ("energy", 2.0), ("weight", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("cordero_arroz_choclo", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 1.0), ("c_huevos", 1.0), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("churrasco_pure_zapallo", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 1.0), ("agua", 0.5), ("c_huevos", 1.0), ("g_aceites", 2.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("pollo_horno_ensalada", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("v_frutas", 2.0), ("c_huevos", 1.0), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("lengua_polenta", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 0.5), ("c_huevos", 1.0), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("hamburguesa_papas_fritas", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("c_huevos", 1.0), ("g_aceites", 2.0), ("energy", 2.0), ("weight", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    ("albondiga_fideo", 0.3, 5, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
+        effects.Effect(None, [("c_leguminosas", 2.0), ("v_frutas", 0.5), ("c_huevos", 1.0), ("g_aceites", 1.0), ("energy", 2.0), ("toilet", -3.0), ("b_teeth", -3.0)]), None, None, None),
+    
+
 #### DRINKS
 ##### lacteos
    ("leche", 0.3, 5, 70, 0, DRINK_PATH, 3, 1, HOT_DRINK_PATH, 4, BLIP_PATH,
