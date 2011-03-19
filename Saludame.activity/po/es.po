@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-10 00:30-0200\n"
+"POT-Creation-Date: 2011-03-16 23:32-0300\n"
 "PO-Revision-Date: 2010-11-07 20:45-0200\n"
 "Last-Translator: Pablo Moleri <pmoleri@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -21,52 +21,52 @@ msgstr ""
 msgid "Saludame"
 msgstr "Salúdame"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:200
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:198
 msgid "Warm"
 msgstr "Templado"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:201
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:199
 msgid "Rainy"
 msgstr "Luvioso"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:202
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:200
 msgid "Cold"
 msgstr "Frío"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:203
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:201
 msgid "Hot"
 msgstr "Caluroso"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:220
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:218
 msgid "Constipation"
 msgstr "Constipación"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:225
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:223
 msgid "Diarrhea"
 msgstr "Diarrea"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:230
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:228
 msgid "Headache"
 msgstr "Dolor de Cabeza"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:235
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:233
 msgid "Caries"
 msgstr "Caries"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:240
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:238
 msgid "Stomach ache"
 msgstr "Dolor de panza"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:246
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:244
 msgid "Prevenir caries"
 msgstr "Prevenir caries"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:250
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:254
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:248
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:252
 msgid "Estudiar"
 msgstr "Estudiar"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:258
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:256
 msgid "Control médico"
 msgstr "Control médico"
 
@@ -635,31 +635,31 @@ msgstr "Falso"
 msgid "True"
 msgstr "Verdadero"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:50
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:51
 msgid "New game"
 msgstr "Nuevo juego"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:54
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:55
 msgid "Load last game"
 msgstr "Cargar último juego"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:58
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:59
 msgid "Load game from journal"
 msgstr "Cargar juego del diario"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:78
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:79
 msgid "Boy"
 msgstr "Niño"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:83
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:84
 msgid "Girl"
 msgstr "Niña"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:153
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:154
 msgid "< Back"
 msgstr "< Atrás"
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:160
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:161
 msgid "Next >"
 msgstr "Siguiente >"
 
@@ -825,8 +825,8 @@ msgid "Fun"
 msgstr "Diversión"
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:41
-msgid "Relaxing"
-msgstr "Relajarse"
+msgid "Rest"
+msgstr "Descansar"
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:42
 msgid "Tiempo Libre"
@@ -861,6 +861,9 @@ msgstr "Salir"
 msgid "back"
 msgstr "Atrás"
 
+#~ msgid "Relaxing"
+#~ msgstr "Relajarse"
+
 #~ msgid "Kiwi"
 #~ msgstr "Kiwi"
 
@@ -893,9 +896,6 @@ msgstr "Atrás"
 
 #~ msgid "Master challenge"
 #~ msgstr "Gran desafío"
-
-#~ msgid "Reset"
-#~ msgstr "Reiniciar"
 
 #~ msgid "Name"
 #~ msgstr "Nombre"

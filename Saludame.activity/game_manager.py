@@ -50,6 +50,8 @@ class GameManager:
         self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
         self.personal_events_list = self.__get_personal_events(events_list)
         self.social_events_list = self.__get_social_events(events_list)
+        self.events_dict = dict([(e.name, e) for e in events_list])
+        
         self.actions_list = actions_list
         self.moods_list = moods_list
 
@@ -375,8 +377,11 @@ class GameManager:
             if self.active_char_action.kid_frames_left == 0 and self.active_char_action.time_left == 0:
                 self.__try_solve_events(self.active_char_action.id)
                 self.active_char_action.reset()
+                cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status())
                 self.active_char_action = None
-
+                if cons:
+                    self.check_consequence_event(cons)
+    
     def __control_background_actions(self):
         """
         Controls active background actions.
@@ -422,14 +427,21 @@ class GameManager:
 
     def add_random_personal_event(self):
         event = self.__get_random_event(self.personal_events_list) #get a new random event
-        if event and not (event in self.active_events):
-            self.active_events.append(event)
-            self.windows_controller.add_personal_event(event) #notify windows controller
+        if event:
+            self.add_personal_event(event)
+            
+    def add_personal_event(self, event):
+        if not (event in self.active_events):
+            self.windows_controller.add_personal_event(event)   # notify windows controller
             print "se disparó el evento: ", event.name
-
+    
     def add_random_social_event(self):
         event = self.__get_random_event(self.social_events_list)
-        if event and not (event in self.active_social_events):
+        if event:
+            self.add_social_event(event)
+    
+    def add_social_event(self, event):
+        if not (event in self.active_social_events):
             self.active_social_events.append(event)
             self.windows_controller.add_social_event(event)
             print "se disparó el evento: ", event.name
@@ -455,6 +467,15 @@ class GameManager:
         elif self.events_interval > 0:
             self.events_interval -= 1
 
+    def check_consequence_event(self, event):
+        """ Check if an event can be added """
+        if event in self.personal_events_list:
+            if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
+                self.add_personal_event(event)
+        else:
+            if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
+                self.add_social_event(event)
+        
     def remove_social_event(self, event):
         """removes an active social event
         """
@@ -513,9 +534,10 @@ class GameManager:
         """
         Updates events probability
         """
+        bars_status_dict = self.bars_controller.get_bars_status()
         #updates events probability
         for evt in events_list:
-            print evt.name, " prob: ", evt.update_probability(self.bars_controller.get_bars_status())
+            evt.update_probability(bars_status_dict)
             
     def __calculate_max_rand(self, events_list):
         """
@@ -678,7 +700,6 @@ class GameManager:
         except:
             print "no se pudo cargar la partida."
 
-##
     def get_level(self):
         """
         returns the character's  current level

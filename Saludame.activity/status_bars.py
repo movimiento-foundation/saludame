@@ -449,12 +449,7 @@ class BarsController:
         Generates a dictionary {bar_id : bar_value} and
         returns it.
         """
-        bars_state = {}
-        
-        for bar in self.bars:
-            bars_state.update({ bar.id : bar.value })
-        
-        return bars_state
+        return dict([(bar.id, bar.value) for bar in self.bars])
     
     def load_bars_status(self, bars_values):
         """

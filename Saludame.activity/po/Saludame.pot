@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-10 00:30-0200\n"
+"POT-Creation-Date: 2011-03-16 23:32-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,52 +20,52 @@ msgstr ""
 msgid "Saludame"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:200
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:198
 msgid "Warm"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:201
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:199
 msgid "Rainy"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:202
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:200
 msgid "Cold"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:203
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:201
 msgid "Hot"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:220
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:218
 msgid "Constipation"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:225
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:223
 msgid "Diarrhea"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:230
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:228
 msgid "Headache"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:235
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:233
 msgid "Caries"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:240
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:238
 msgid "Stomach ache"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:246
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:244
 msgid "Prevenir caries"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:250
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:254
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:248
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:252
 msgid "Estudiar"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:258
+#: /home/pmoleri/saludame/Saludame.activity/app_init.py:256
 msgid "Control médico"
 msgstr ""
 
@@ -634,31 +634,31 @@ msgstr ""
 msgid "True"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:50
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:51
 msgid "New game"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:54
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:55
 msgid "Load last game"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:58
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:59
 msgid "Load game from journal"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:78
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:79
 msgid "Boy"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:83
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:84
 msgid "Girl"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:153
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:154
 msgid "< Back"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:160
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:161
 msgid "Next >"
 msgstr ""
 
@@ -824,7 +824,7 @@ msgid "Fun"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:41
-msgid "Relaxing"
+msgid "Rest"
 msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:42
