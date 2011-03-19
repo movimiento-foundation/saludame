@@ -25,17 +25,14 @@ class ChallengesCreator:
         self.tf_challenge = challenges.TrueOrFalse(self.container, self.rect, self.frame_rate, self.windows_controller, self, "tf_challenge_window", self.bg_color)
         
         # Cooking window
-        self.cooking_challenge = challenges.Cooking(self.container, self.rect, self.frame_rate, self.windows_controller, "cooking_challenge_window", self.bg_color)
+        #self.cooking_challenge = challenges.Cooking(self.container, self.rect, self.frame_rate, self.windows_controller, "cooking_challenge_window", self.bg_color)
         
         # Tuples of mc_challenges
         self.mc_challenges = []
         
-        # Tuples of tf_challenges
-        self.tf_challenges_physica = []
-        self.tf_challenges_hygiene = []
-        self.tf_challenges_nutrition = []
-        self.tf_challenges_spare_time = []
-        self.tf_challenges_farm = []
+        # Dict of true or false tuples
+        self.tf_challenges = {}
+        
         
     def create_challenges(self):
         # Common multiple choice

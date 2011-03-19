@@ -113,7 +113,6 @@ class GuidesWindow(gtk.HBox):
         self.hide()
         
     def _load_treeview(self):
-        root_iter = self.treestore.append(None, (_("Library"), "ROOT"))
         iters = {ROOT_PATH: root_iter}
         
         for root, dirs, files in os.walk(ROOT_PATH):

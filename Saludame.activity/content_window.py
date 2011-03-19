@@ -113,8 +113,7 @@ class ContentWindow(gtk.HBox):
         self.hide()
         
     def _load_treeview(self):
-        root_iter = self.treestore.append(None, (_("Library"), "ROOT"))
-        iters = {ROOT_PATH: root_iter}
+        iters = {ROOT_PATH: None}
         
         for root, dirs, files in os.walk(ROOT_PATH):
             all = []

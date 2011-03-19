@@ -3,6 +3,13 @@
 import gtk
 from gettext import gettext as _
 
+def get_button(path):
+    img = gtk.Image()
+    img.set_from_file(path)
+    btn = gtk.Button()
+    btn.set_image(img)
+    return btn
+
 class StartupWindow(gtk.VBox):
     
     def __init__(self, start_cb):
@@ -48,15 +55,15 @@ class Welcome(gtk.Fixed):
         image.set_from_file("assets/slides/screen_mainmenu.jpg")
         self.put(image, 0, 0)
         
-        btn_new = gtk.Button(_("New game"))
+        btn_new = get_button("assets/layout/btn_new_game.png")
         btn_new.connect("clicked", new_game_cb)
         self.put(btn_new, 490, 386)
         
-        btn_last_game = gtk.Button(_("Load last game"))
+        btn_last_game = get_button("assets/layout/btn_load_last.png")
         btn_last_game.connect("clicked", load_last_game_cb)
         self.put(btn_last_game, 490, 500)
         
-        btn_load_game = gtk.Button(_("Load game from journal"))
+        btn_load_game = get_button("assets/layout/btn_from_journal.png")
         btn_load_game.connect("clicked", load_game_cb)
         self.put(btn_load_game, 490, 620)
 
@@ -76,15 +83,13 @@ class SelectGenderAndName(gtk.Fixed):
         self.kid_name = gtk.Entry()
         self.put(self.kid_name, 225, 150)
         
-        btn_boy = gtk.Button(_("Boy"))
+        btn_boy = get_button("assets/layout/btn_boy.png")
         btn_boy.connect("clicked", self._boy)
-        btn_boy.set_size_request(-1, 24)
-        self.put(btn_boy, 220, 285)
+        self.put(btn_boy, 210, 260)
         
-        btn_girl = gtk.Button(_("Girl"))
+        btn_girl = get_button("assets/layout/btn_girl.png")
         btn_girl.connect("clicked", self._girl)
-        btn_girl.set_size_request(-1, 24)
-        self.put(btn_girl, 750, 285)
+        self.put(btn_girl, 750, 260)
         
         self.show_all()
         
@@ -149,20 +154,15 @@ class Introduction(gtk.Fixed):
             text_view.set_wrap_mode(gtk.WRAP_WORD)
             self.pack_start(text_view, False, False)
         
-        # HBox with buttons
-        hbox = gtk.HBox(False)
-        btn_back = gtk.Button(_("< Back"))
+        btn_back = get_button("assets/layout/btn_back.png")
         btn_back.connect("clicked", self._back)
-        btn_back.set_size_request(-1, 24)
-        hbox.pack_start(btn_back)
+        self.put(btn_back, 0, 604)
         if self.index == 0:
             btn_back.set_sensitive(False)
         
-        btn_next = gtk.Button(_("Next >"))
+        btn_next = get_button("assets/layout/btn_next.png")
         btn_next.connect("clicked", self._next)
-        btn_next.set_size_request(-1, 24)
-        hbox.pack_start(btn_next)
-        self.put(hbox, 0, 0)
+        self.put(btn_next, 192, 604)
         
         self.show_all()
         

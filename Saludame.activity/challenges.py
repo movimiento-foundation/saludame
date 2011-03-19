@@ -292,13 +292,13 @@ class InfoChallenge(gui.Window):
         # Texts
         self.title = gui.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, pygame.Color("blue"))
         self.text = gui.TextBlock(rect, 40, 120, 1, "", 35, pygame.Color("black"), "normal", False)
-        self.image = gui.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "challenges/ninio_normal.png")
+        self.image = gui.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "assets/challenges/ninio_normal.png")
     
         self.add_child(self.title)
         self.add_child(self.text)
         self.add_child(self.image)
         
-    def update_content(self, title="Verdadero o Falso", text="", image="challenges/ninio_normal.png"):
+    def update_content(self, title="Verdadero o Falso", text="", image="assets/challenges/ninio_normal.png"):
         self.title.text = title
         self.title.refresh()
         self.text.parse_lines(text)
@@ -307,58 +307,58 @@ class InfoChallenge(gui.Window):
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()
 
-class Cooking(gui.Window):
-    def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=(0, 0, 0)):
-        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
+#class Cooking(gui.Window):
+    #def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=(0, 0, 0)):
+        #gui.Window.__init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color)
         
-        self.set_bg_image("assets/windows/window_1.png")
+        #self.set_bg_image("assets/windows/window_1.png")
         
-        # Close Button
-        self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
-        self.add_button(self.btn_close)
+        ## Close Button
+        #self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
+        #self.add_button(self.btn_close)
         
-        # Some widgets to test DnD
-        self.dnd = []
-        self.dnd.append(gui.Image(rect, pygame.Rect(50, 100, 100, 100), 1, "assets/events/ill.jpg"))
-        self.dnd.append(gui.Image(rect, pygame.Rect(50, 250, 100, 100), 1, "assets/events/caries.jpg"))
-        self.dnd.append(gui.Image(rect, pygame.Rect(50, 400, 100, 100), 1, "assets/events/unkown.png"))
+        ## Some widgets to test DnD
+        #self.dnd = []
+        #self.dnd.append(gui.Image(rect, pygame.Rect(50, 100, 100, 100), 1, "assets/events/ill.jpg"))
+        #self.dnd.append(gui.Image(rect, pygame.Rect(50, 250, 100, 100), 1, "assets/events/caries.jpg"))
+        #self.dnd.append(gui.Image(rect, pygame.Rect(50, 400, 100, 100), 1, "assets/events/unkown.png"))
         
-        self.trash = gui.Image(rect, pygame.Rect(500, 200, 200, 200), 1, "assets/challenges/trash.png")
+        #self.trash = gui.Image(rect, pygame.Rect(500, 200, 200, 200), 1, "assets/challenges/trash.png")
 
-        for w in self.dnd:
-            self.add_child(w)
-        self.add_child(self.trash)
+        #for w in self.dnd:
+            #self.add_child(w)
+        #self.add_child(self.trash)
         
-        # Mouse mode (1 - left button pressed)
-        self.mouse_mode = 0
+        ## Mouse mode (1 - left button pressed)
+        #self.mouse_mode = 0
         
-        self.widget_selected = None
+        #self.widget_selected = None
         
-    def handle_mouse_down(self, (x, y)):
-        gui.Window.handle_mouse_down(self, (x, y))
-        self.mouse_mode = 1
+    #def handle_mouse_down(self, (x, y)):
+        #gui.Window.handle_mouse_down(self, (x, y))
+        #self.mouse_mode = 1
         
-    def handle_mouse_up(self, pos):
-        gui.Window.handle_mouse_up(self, pos)
-        for widget in self.dnd:
-            if self.trash.contains_point(widget.rect_absolute.centerx, widget.rect_absolute.centery):
-                self.remove_child(widget)
-        self.mouse_mode = 0
-        self.widget_selected = None
+    #def handle_mouse_up(self, pos):
+        #gui.Window.handle_mouse_up(self, pos)
+        #for widget in self.dnd:
+            #if self.trash.contains_point(widget.rect_absolute.centerx, widget.rect_absolute.centery):
+                #self.remove_child(widget)
+        #self.mouse_mode = 0
+        #self.widget_selected = None
     
-    def handle_mouse_motion(self, pos):
-        if pos[0] < self.rect.right - 70 and pos[0] > self.rect.left + 70 and pos[1] < self.rect.bottom - 70 and pos[1] > self.rect.top + 120:
-            if self.mouse_mode == 1 and not self.widget_selected:
-                for widget in self.dnd:
-                    if widget.contains_point(pos[0], pos[1]):
-                        self.widget_selected = widget
-                        widget.rect_absolute.centerx = pos[0]
-                        widget.rect_absolute.centery = pos[1]
-                        self.repaint = True
-            elif self.mouse_mode == 1:
-                self.widget_selected.rect_absolute.centerx = pos[0]
-                self.widget_selected.rect_absolute.centery = pos[1]
-                self.repaint = True
+    #def handle_mouse_motion(self, pos):
+        #if pos[0] < self.rect.right - 70 and pos[0] > self.rect.left + 70 and pos[1] < self.rect.bottom - 70 and pos[1] > self.rect.top + 120:
+            #if self.mouse_mode == 1 and not self.widget_selected:
+                #for widget in self.dnd:
+                    #if widget.contains_point(pos[0], pos[1]):
+                        #self.widget_selected = widget
+                        #widget.rect_absolute.centerx = pos[0]
+                        #widget.rect_absolute.centery = pos[1]
+                        #self.repaint = True
+            #elif self.mouse_mode == 1:
+                #self.widget_selected.rect_absolute.centerx = pos[0]
+                #self.widget_selected.rect_absolute.centery = pos[1]
+                #self.repaint = True
         
-    def _cb_button_click_close(self, button):
-        self.windows_controller.close_active_window()
+    #def _cb_button_click_close(self, button):
+        #self.windows_controller.close_active_window()
