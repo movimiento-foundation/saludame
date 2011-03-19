@@ -12,7 +12,7 @@ import effects
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
-                             "score_vector" : (-8, -4, 0 , 5, 10), # incremento central en 10 por motivos de testeo
+                             "score_vector" : (0,0,0,0,0),#(-8, -4, 0 , 5, 10), # incremento central en 10 por motivos de testeo
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
