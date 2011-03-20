@@ -10,7 +10,7 @@ CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
-HOUR_COUNT_CYCLE = 30 #control intevals that have to pass to management the time of day
+HOUR_COUNT_CYCLE = 320 #control intevals that have to pass to management the time of day ... 320 = 5 min. apróx
 
 import random
 import effects
@@ -338,9 +338,11 @@ class GameManager:
     def __try_solve_events(self, action_id):
         """Try to solve an active event with the active character
         action"""
+
         for evt in self.active_events:
             if (evt.name, action_id) in self.events_actions_res:
                 rand = random.randint(0,100)
+                print evt.name," ", action_id
                 prob = self.events_actions_res[(evt.name, action_id)]
                 print "TRYING SOLVE ", evt.name," performing: ", action_id, " PROBABILITY: ", prob
                 if rand <= prob:
@@ -372,10 +374,10 @@ class GameManager:
                 self.active_char_action.decrease_frames_left()
                 if self.active_char_action.kid_frames_left == 0:
                     self.windows_controller.stop_current_action_animation()
+                    self.__try_solve_events(self.active_char_action.id)
             
             #when the action ends to run (animation and performance), tries to solve an event and reset the action
             if self.active_char_action.kid_frames_left == 0 and self.active_char_action.time_left == 0:
-                self.__try_solve_events(self.active_char_action.id)
                 self.active_char_action.reset()
                 cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status())
                 self.active_char_action = None
@@ -433,6 +435,7 @@ class GameManager:
     def add_personal_event(self, event):
         if not (event in self.active_events):
             self.windows_controller.add_personal_event(event)   # notify windows controller
+            self.active_events.append(event)
             print "se disparó el evento: ", event.name
     
     def add_random_social_event(self):
