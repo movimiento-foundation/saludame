@@ -2,7 +2,7 @@
 
 import gtk
 from gettext import gettext as _
-
+    
 def get_button(path):
     img = gtk.Image()
     img.set_from_file(path)

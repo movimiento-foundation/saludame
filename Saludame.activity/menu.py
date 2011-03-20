@@ -147,23 +147,18 @@ class Menu(gui.Window):
         if item.allowed_places:
             allowed = False
             current_place = game_manager.get_current_place()
-            for place in item.allowed_places:
-                if current_place == place:
-                    allowed = True
-                    break
-            if not allowed:
+            if current_place in item.allowed_places:
+                allowed = True
+            else:
                 return False
         #verify hour
         if item.allowed_hours:
             allowed = False
             current_hour = game_manager.get_current_hour()
-            for hour in item.allowed_hours:
-                if current_hour == hour:
-                    allowed = True
-                    break
-            if not allowed:
+            if current_hour in item.allowed_hours:
+                allowed = True
+            else:
                 return False
-
         return True
     
     def verify_action(self, action, game_manager):
