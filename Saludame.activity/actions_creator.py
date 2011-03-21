@@ -327,8 +327,8 @@ actions_list = [
     ("clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/clean", 4, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-20), ("shower",-10), ("w_hands",-40), ("sports",10), ("fun",-20), ("relaxing",-20), ("housekeeping",20)]), None, None, None
     ),
-    ("sleep", 0.3, 70, 0, "assets/kid/actions/sleep", 3, 1, None, 4, [None, "assets/sound/sleep.ogg"],
-        effects.Effect(None, [("energy",90), ("defenses",20), ("c_leguminosas",-50), ("v_frutas",-50), ("c_huevos",-30), ("dulces",-40), ("g_aceites",-20), ("l_quesos",-20), ("agua",-70), ("shower",-40), ("w_hands",-40), ("b_teeth",-40), ("toilet",-80), ("sports",-30), ("relaxing",90), ("housekeeping",-30), ("homework",-30)]), None, None, None
+    ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 4, [None, "assets/sound/sleep.ogg"],
+        effects.Effect(None, [("energy",90), ("defenses",20), ("c_leguminosas",-50), ("v_frutas",-50), ("c_huevos",-30), ("dulces",-40), ("g_aceites",-20), ("l_quesos",-20), ("agua",-70), ("shower",-40), ("w_hands",-40), ("b_teeth",-40), ("toilet",-80), ("sports",-30), ("relaxing",90), ("housekeeping",-30), ("homework",-30)]), None, None, None, 1, None, "sleep"
     ),
     
     ("wash_hands", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/washhands", 4, [TWISTER_SOUND, "assets/sound/wash_hands.ogg"],
@@ -434,8 +434,14 @@ class ActionsLoader:
         return self.actions_list
     
     def __load_actions(self):
-        status_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], self.__set_bar_controller(action[10]), action[11], action[12], action[13], self.get_level(action), self.get_link(action)) for action in actions_list]
-        
+        status_actions = []
+
+        for action in actions_list:    
+            if len(action) == 17: # Action changes background
+                status_actions.append(actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], self.__set_bar_controller(action[10]), action[11], action[12], action[13], self.get_level(action), self.get_link(action), action[16]))
+            else:
+                status_actions.append(actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], self.__set_bar_controller(action[10]), action[11], action[12], action[13], self.get_level(action), self.get_link(action)))
+            
         location_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], self.__set_game_manager(action[10]), action[11], action[12], action[13], self.get_level(action), self.get_link(action)) for action in locations_ac_list]
         
         clothes_actions = [actions.Action(action[0], action[1], action[2], action[3], action[4], action[5], action[6], action[7], action[8], action[9], self.__set_game_manager(action[10]), action[11], action[12], action[13], self.get_level(action), self.get_link(action)) for action in clothes_ac_list]

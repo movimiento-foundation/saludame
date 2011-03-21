@@ -87,6 +87,7 @@ class KidWindow(gui.Window):
         
     ##### Environment #####
     def set_environment(self, environment, time):
+      
         sky = pygame.image.load("assets/background/sky/" + time + ".png").convert_alpha()
         
         image = pygame.image.load(environment.background_path).convert_alpha()
@@ -98,6 +99,7 @@ class KidWindow(gui.Window):
             image.blit(_filter, (0,0))
         sky.blit(image, (0,0))
         self.set_bg_image(sky.convert())
+        
         self.set_dirty_background()
         
     ##### Clothes #####

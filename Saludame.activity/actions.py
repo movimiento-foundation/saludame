@@ -6,8 +6,8 @@ import pygame
 
 class Action:
     
-    def __init__(self, action_id, appereance_probability, time_span_in_frames, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect, allowed_places, allowed_hours, allowed_events, level=1, link=None):
-        
+
+    def __init__(self, action_id, appereance_probability, time_span_in_frames, kid_animation_loop_times, kid_animation_path, window_animation_frame_rate, window_animation_loop_times, window_animation_path, sound_loop_times, sound_path, effect, allowed_places, allowed_hours, allowed_events, level=1, link=None, background=None):        
         self.id = action_id
         self.appereance_probability = appereance_probability
         self.time_span = time_span_in_frames
@@ -33,7 +33,12 @@ class Action:
         self.sound_path = sound_path
         self.sound_loop_times = sound_loop_times
         
+        self.background = background
+        
     def perform(self, cicles):
+        if self.background:
+            game_manager.instance.set_character_location(self.background)
+        
         if self.time_span == -1:
             # Perpetual
             self.effect.activate(1)

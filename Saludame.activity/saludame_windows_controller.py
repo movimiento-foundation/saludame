@@ -42,10 +42,9 @@ class SaludameWindowsController(gui.WindowsController):
         self.set_active_window("customization_window")
     
     # BACKGROUND
-    def set_environment(self, environment, time):
+    def set_environment(self, environment, time):       
         self.windows["kid"].set_environment(environment, time)
         self.windows["panel_window"].set_weather()
-    
     
     # CLOTHES
     def update_clothes(self):

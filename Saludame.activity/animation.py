@@ -105,7 +105,9 @@ class Kid(gui.Widget):
         if self.sound_loops == self.loops:
             if isinstance(self.action.sound_path, list):
                 if len(self.action.sound_path) > self.sound_loops:
-                    pygame.mixer.Sound(self.action.sound_path[self.sound_loops]).play()
+                    sound_file = self.action.sound_path[self.sound_loops]
+                    if sound_file:
+                        pygame.mixer.Sound(self.action.sound_path[self.sound_loops]).play()
             else:
                 pygame.mixer.Sound(self.action.sound_path).play()
             self.sound_loops += 1

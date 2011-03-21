@@ -89,6 +89,8 @@ class GameManager:
         self.weather_effects = weather_effects
         self.environment_effect = None  # this is an Effect that represents the effect on the character by the environment: weather + place + clothes
         self.update_environment_effect()
+        
+        self.old_place = None
 
 # management
 
@@ -126,7 +128,7 @@ class GameManager:
         returns the current level configuration dictionary
         """
         assert self.character.level > 0
-        return self.level_conf[self.character.level -1]
+        return self.level_conf[self.character.level - 1]
 
     def __check_idle_time(self):
         """ checks if the kid is idle for so much time (more than MAX_IDLE_TIME). If he is, then
@@ -247,7 +249,7 @@ class GameManager:
     def set_character_location(self, place_id):
         """
         Set the character location.
-        """
+        """                    
         print "character went to: ", place_id
         self.character.current_place = place_id
         
@@ -291,6 +293,8 @@ class GameManager:
         stops the active action.
         """
         if self.active_char_action:
+            if self.active_char_action.background:
+                self.set_character_location(self.old_place)
             self.active_char_action.reset()
             self.active_char_action = None
             self.windows_controller.stop_current_action_animation()
@@ -321,6 +325,8 @@ class GameManager:
         if not self.active_char_action: #if there is not an active character action
             action = self.get_action(action_id)
             if action:
+                self.old_place = self.character.current_place
+                
                 action.perform(0)
                 self.windows_controller.show_action_animation(action)
                 self.active_char_action = action
@@ -342,10 +348,10 @@ class GameManager:
 
         for evt in self.active_events:
             if (evt.name, action_id) in self.events_actions_res:
-                rand = random.randint(0,100)
-                print evt.name," ", action_id
+                rand = random.randint(0, 100)
+                print evt.name, " ", action_id
                 prob = self.events_actions_res[(evt.name, action_id)]
-                print "TRYING SOLVE ", evt.name," performing: ", action_id, " PROBABILITY: ", prob
+                print "TRYING SOLVE ", evt.name, " performing: ", action_id, " PROBABILITY: ", prob
                 if rand <= prob:
                     print "EVENT SOLVED "
                     self.remove_personal_event(evt)
@@ -354,9 +360,9 @@ class GameManager:
 
         for evt in self.active_social_events:
             if (evt.name, action_id) in self.events_actions_res:
-                rand = random.randint(0,100)
+                rand = random.randint(0, 100)
                 prob = self.events_actions_res[(evt.name, action_id)]
-                print "TRYING SOLVE ", evt.name," performing: ", action_id, " PROBABILITY: ", prob
+                print "TRYING SOLVE ", evt.name, " performing: ", action_id, " PROBABILITY: ", prob
                 if rand <= prob:
                     print "EVENT SOLVED "
                     self.remove_social_event(evt)
@@ -369,6 +375,9 @@ class GameManager:
             if self.count >= CONTROL_INTERVAL:
                 if self.active_char_action.time_left > 0:
                     self.active_char_action.perform(CONTROL_INTERVAL)
+                else:
+                    if self.active_char_action.background:
+                        self.set_character_location(self.old_place)
             
             # handle animation - every frame
             if self.active_char_action.time_left > 0:
@@ -382,6 +391,10 @@ class GameManager:
                 # perform missed cicles
                 self.active_char_action.perform(self.count)
                 
+                # restore background
+                if self.active_char_action.background:
+                        self.set_character_location(self.old_place)
+                        
                 # reset the action
                 self.active_char_action.reset()
                 

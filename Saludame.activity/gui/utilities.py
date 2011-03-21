@@ -246,7 +246,7 @@ class TextBlock(Widget):
                 screen.blit(r, (left, top + r.get_rect().height * number_of_lines))
                 number_of_lines += 1
             if self.type == "tooltip":
-                pygame.draw.rect(screen, pygame.Color("green"), self.rect_absolute, 2)
+                pygame.draw.rect(screen, pygame.Color("#7fe115"), self.rect_absolute, 2)
 
 font_dict = {}  # Chaches created font instances
 def get_font(size, bold=False, italic=False):

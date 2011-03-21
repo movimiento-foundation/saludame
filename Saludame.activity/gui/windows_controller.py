@@ -94,7 +94,7 @@ class WindowsController:
     # Tooltips 
     def show_super_tooltip(self, tooltip):
         x, y = self.scaled_game.scale_coordinates(pygame.mouse.get_pos())
-        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18, pygame.Color('blue'), "tooltip")
+        self.active_tooltip = TextBlock(self.screen.get_rect(), x, y, 1, tooltip, 18,  pygame.Color("#0f5e65"), "tooltip")
         
         self.showing_tooltip = True
     
