@@ -292,112 +292,112 @@ actions_list = [
     ),
     
     # Sports
-    ("sport_football", 0.3, 70, 0, "assets/kid/actions/football", 3, 1, None, 4, "assets/sound/jump_rope.ogg",
+    ("sport_football", 0.3, 70, 0, "assets/kid/actions/football", 3, 1, None, 1, "assets/sound/jump_rope.ogg",
         effects.Effect(None, [("energy",-70), ("defenses",10), ("weight",-15), ("c_leguminosas",-20), ("v_frutas",-20), ("dulces",-10), ("g_aceites",-5), ("agua",-40), ("shower",50), ("w_hands",80), ("sports",60), ("fun",80), ("relaxing",-60)]), None, None, None
     ),
-    ("sport_jump", 0.3, 70, 0, "assets/kid/actions/ropejump", 3, 1, None, 4, "assets/sound/saltar_cuerda.ogg",
+    ("sport_jump", 0.3, 70, 0, "assets/kid/actions/ropejump", 3, 1, None, 1, "assets/sound/saltar_cuerda.ogg",
         effects.Effect(None, [("energy",-30), ("defenses",5), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-5), ("g_aceites",-2.5), ("agua",-20), ("shower",20), ("w_hands",20), ("sports",30), ("fun",50), ("relaxing",-20)]), None, None, None
     ),
-    ("sport_run", 0.3, 70, 0, "assets/kid/actions/run", 3, 1, None, 4, None,
+    ("sport_run", 0.3, 70, 0, "assets/kid/actions/run", 3, 1, None, 1, None,
         effects.Effect(None, [("energy",-50), ("defenses",10), ("weight",-15), ("c_leguminosas",-20), ("v_frutas",-20), ("dulces",-10), ("g_aceites",-5), ("agua",-40), ("shower",50), ("w_hands",60), ("sports",70), ("fun",30), ("relaxing",-50)]), None, None, None
     ),
     
     # Do
-    ("housekeeping", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/clean", 4, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("housekeeping", 0.3, 70, 1, "assets/kid/actions/twister", 3, 2, "assets/action-icons/clean", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-20), ("shower",-20), ("w_hands",-20), ("sports",10), ("fun",-20), ("relaxing",-30), ("housekeeping",60)]), None, None, None
     ),
-    ("homework", 0.3, 70, 1, "assets/kid/actions/read", 3, 1, None, 4, "assets/sound/work.ogg",
+    ("homework", 0.3, 70, 1, "assets/kid/actions/read", 3, 1, None, 1, "assets/sound/work.ogg",
         effects.Effect(None, [("energy",-30), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("sports",-20), ("fun",-20), ("relaxing",-30), ("homework",80)]), None, None, None
     ),
-    ("study_xo", 0.3, 70, 0, "assets/kid/actions/studyXO", 3, 1, None, 4, "assets/sound/play_xo.ogg",
+    ("study_xo", 0.3, 70, 0, "assets/kid/actions/studyXO", 3, 1, None, 1, "assets/sound/play_xo.ogg",
         effects.Effect(None, [("energy",-30), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("sports",-20), ("fun",-10), ("relaxing",-30)]), None, None, None
     ),
-    ("help_field", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, None, 4, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("help_field", 0.3, 70, 1, "assets/kid/actions/twister", 3, 2, None, 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-40), ("defenses",10), ("weight",-10), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("g_aceites",-5), ("agua",-20), ("shower",-40), ("w_hands",-70), ("sports",20), ("fun",-20), ("relaxing",-40)]), None, None, None
     ),
-    ("help_cook", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/cook", 4, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("help_cook", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/cook", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-20), ("shower",-10), ("w_hands",-50), ("relaxing",-10)]), None, None, None
     ),
-    ("relax", 0.3, 70, 0, "assets/kid/actions/rest", 3, 1, None, 4, ["assets/sound/relax.ogg"],
+    ("relax", 0.3, 70, 0, "assets/kid/actions/rest", 3, 1, None, 1, ["assets/sound/relax.ogg"],
         effects.Effect(None, [("energy",40), ("defenses",10), ("fun",10), ("relaxing",40)]), None, None, None
     ),
-    ("talk", 0.3, 70, 0, None, 3, 1, "assets/action-icons/talktofriend", 4, "assets/sound/talk.ogg",
+    ("talk", 0.3, 70, 0, None, 3, 1, "assets/action-icons/talktofriend", 1, "assets/sound/talk.ogg",
         effects.Effect(None, [("fun",30)]), None, None, None
     ),
-    ("clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/clean", 4, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/clean", 2, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-20), ("shower",-10), ("w_hands",-40), ("sports",10), ("fun",-20), ("relaxing",-20), ("housekeeping",20)]), None, None, None
     ),
-    ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 4, [None, "assets/sound/sleep.ogg"],
+    ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 2, [None, "assets/sound/sleep.ogg"],
         effects.Effect(None, [("energy",90), ("defenses",20), ("c_leguminosas",-50), ("v_frutas",-50), ("c_huevos",-30), ("dulces",-40), ("g_aceites",-20), ("l_quesos",-20), ("agua",-70), ("shower",-40), ("w_hands",-40), ("b_teeth",-40), ("toilet",-80), ("sports",-30), ("relaxing",90), ("housekeeping",-30), ("homework",-30)]), None, None, None, 1, None, "sleep"
     ),
     
-    ("wash_hands", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/washhands", 4, [TWISTER_SOUND, "assets/sound/wash_hands.ogg"],
+    ("wash_hands", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/washhands", 2, [TWISTER_SOUND, "assets/sound/wash_hands.ogg"],
         effects.Effect(None, [("defenses",20), ("shower",90), ("w_hands",100), ("fun",-10)]), None, None, None
     ),
-    ("brush_teeth", 0.3, 70, 0, "assets/kid/actions/brushteeth", 3, 1, None, 4, "assets/sound/brush_teeth.ogg",
+    ("brush_teeth", 0.3, 70, 0, "assets/kid/actions/brushteeth", 3, 1, None, 1, "assets/sound/brush_teeth.ogg",
         effects.Effect(None, [("defenses",10), ("b_teeth",100), ("fun",-10)]), None, None, None, 1, "un link"
     ),
-    ("shower", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/shower", 4, [TWISTER_SOUND, "assets/sound/shower.ogg"],
+    ("shower", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/shower", 2, [TWISTER_SOUND, "assets/sound/shower.ogg"],
         effects.Effect(None, [("energy",-10), ("defenses",20), ("agua",-10), ("shower",90), ("fun",-20), ("relaxing",10)]), None, None, None, 1, "un link"
     ),
-    ("toilet", 0.3, 100, 1, "assets/kid/actions/toilet", 3, 1, None, 4, [TWISTER_SOUND, "assets/sound/toilet.ogg"],
+    ("toilet", 0.3, 100, 1, "assets/kid/actions/toilet", 3, 1, None, 2, [TWISTER_SOUND, "assets/sound/toilet.ogg"],
         effects.Effect(None, [("defenses",10), ("w_hands",-100), ("toilet",100), ("fun",-10)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
     ),
     
     # Farm
-    ("farm_plow", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/trident", 4, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+    ("farm_plow", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/trident", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-40), ("weight",-10), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("g_aceites",-5), ("agua",-40), ("shower",-60), ("w_hands",-90), ("sports",30), ("fun",30), ("relaxing",-40)]), None, None, None
     ),
-    ("farm_sow", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 4, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+    ("farm_sow", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-10), ("shower",-10), ("w_hands",-90), ("fun",10), ("relaxing",-10)]), None, None, None
     ),
-    ("farm_irrigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/irrigate", 4, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+    ("farm_irrigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/irrigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-20), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("agua",-20), ("shower",-30), ("w_hands",-90), ("sports",10), ("fun",10), ("relaxing",-20)]), None, None, None
     ),
-    ("farm_fumigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/fumigate", 4, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+    ("farm_fumigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/fumigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-10), ("shower",-100), ("w_hands",-90), ("fun",10), ("relaxing",-20)]), None, None, None
     ),
-    ("farm_clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 4, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+    ("farm_clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-20), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("shower",-40), ("w_hands",-90), ("sports",10), ("fun",10), ("relaxing",-20)]), None, None, None
     ),
-    ("farm_harvest", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/harvest", 4, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+    ("farm_harvest", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/harvest", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-10), ("shower",-10), ("w_hands",-90), ("sports",10), ("fun",40), ("relaxing",-10)]), None, None, None
     ),
     
     # Fun
-    ("playXO", 0.3, 70, 0, "assets/kid/actions/playXO", 3, 1, None, 4, "assets/sound/play_xo.ogg",
+    ("playXO", 0.3, 70, 0, "assets/kid/actions/playXO", 3, 1, None, 1, "assets/sound/play_xo.ogg",
         effects.Effect(None, [("energy",-20), ("w_hands",-10), ("sports",-30), ("fun",60), ("relaxing",-20)]), None, None, None, 1, "un link"
     ),
-    ("hidenseek", 0.3, 70, 0, "assets/kid/actions/hidenseek", 3, 1, None, 4, "assets/sound/hidenseek.ogg",
+    ("hidenseek", 0.3, 70, 0, "assets/kid/actions/hidenseek", 3, 1, None, 1, "assets/sound/hidenseek.ogg",
         effects.Effect(None, [("energy",-30), ("weight",-10), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("g_aceites",-5), ("agua",-10), ("shower",-20), ("w_hands",-20), ("sports",20), ("fun",60), ("relaxing",-40)]), None, None, None
     ),
-    ("hopscotch", 0.3, 92, 2, "assets/kid/actions/hopscotch", 3, 1, None, 4, "assets/sound/hopscotch.ogg",
+    ("hopscotch", 0.3, 92, 2, "assets/kid/actions/hopscotch", 3, 1, None, 1, "assets/sound/hopscotch.ogg",
         effects.Effect(None, [("energy",-30), ("weight",-10), ("shower",-20), ("w_hands",-20), ("sports",10), ("fun",60), ("relaxing",-40)]), None, None, None
     ),
-    ("tv", 0.3, 70, 0, "assets/kid/actions/tv", 3, 1, None, 4, None,
+    ("tv", 0.3, 70, 0, "assets/kid/actions/tv", 3, 1, None, 1, None,
         effects.Effect(None, [("energy",-20), ("sports",-30), ("fun",40), ("relaxing",10)]), None, None, None
     ),
-    ("read", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 4, None,
+    ("read", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 1, None,
         effects.Effect(None, [("energy",-20), ("sports",-30), ("fun",50), ("relaxing",10)]), None, None, None, 1, "un link"
     ),
-    ("music", 0.3, 70, 0, None, 3, 1, None, 4, "assets/sound/music.ogg",
+    ("music", 0.3, 70, 0, None, 3, 1, None, 1, "assets/sound/music.ogg",
         effects.Effect(None, [("energy",-10), ("sports",-40), ("fun",50), ("relaxing",20)]), None, None, None, 1, "un link"
     ),
     #("sing", 0.3, 70, 1, "assets/kid/actions/sing", 3, 1, None, 4, None,
         #effects.Effect(None, [("fun", 4.0)]), None, None, None, 1, "un link"
     #),
-    ("crazy", 0.3, 70, 0, "assets/kid/actions/crazy", 3, 1, None, 4, "assets/sound/crazy.ogg",
+    ("crazy", 0.3, 70, 0, "assets/kid/actions/crazy", 3, 1, None, 1, "assets/sound/crazy.ogg",
         effects.Effect(None, [("energy",-10), ("fun",40), ("relaxing",-10)]), None, None, None
     ),
-    ("dance", 0.3, 70, 0, "assets/kid/actions/dance", 3, 1, None, 4, "assets/sound/music.ogg",
+    ("dance", 0.3, 70, 0, "assets/kid/actions/dance", 3, 1, None, 1, "assets/sound/music.ogg",
         effects.Effect(None, [("energy",-40), ("weight",-20), ("c_leguminosas",-20), ("v_frutas",-20), ("dulces",-20), ("g_aceites",-10), ("agua",-20), ("shower",-10), ("sports",30), ("fun",60), ("relaxing",-40)]), None, None, None, 1, "un link"
     ),
     
     # Go to
-    ("dentist", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/dentist", 4, None,
+    ("dentist", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/dentist", 1, TWISTER_SOUND,
         effects.Effect(None, [("h_check",80)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
     ),
-    ("doctor", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/doctor", 4, None,
+    ("doctor", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/doctor", 1, TWISTER_SOUND,
         effects.Effect(None, [("h_check",80)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
     ),
     
