@@ -19,7 +19,7 @@ N_TF = 5
 FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
 TITLE_FONT_SIZE = 24
-TEXT_FONT_SIZE = 18
+TEXT_FONT_SIZE = 22
 
 ANSWER_COLOR = pygame.Color("blue")
 MOUSE_OVER_COLOR = pygame.Color("green")
