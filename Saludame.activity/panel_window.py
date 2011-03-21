@@ -52,11 +52,11 @@ class PanelWindow(gui.Window):
         
         ### Events ###
         # Personal
-        self.personal_window = PersonalWindow(self.rect, pygame.Rect((224, 35), (130, 110)), 1, self.windows_controller)
+        self.personal_window = PersonalWindow(self.rect, pygame.Rect((224, 35), (142, 127)), 1, self.windows_controller)
         self.add_window(self.personal_window)
         
         # Social
-        self.social_window = SocialWindow(self.rect, pygame.Rect((394, 35), (130, 110)), 1, self.windows_controller)
+        self.social_window = SocialWindow(self.rect, pygame.Rect((391, 35), (142, 127)), 1, self.windows_controller)
         self.add_window(self.social_window)
         
         # Customization
@@ -99,7 +99,7 @@ class PanelWindow(gui.Window):
     def set_active_action(self, action):
         self.current_action = action
         if action.window_animation_path:
-            self.current_animation = animation.ActionAnimation(self.rect, self.rect_action, 10, action.window_animation_path, action.sound_path)
+            self.current_animation = animation.ActionAnimation(self.rect, self.rect_action, 10, action.window_animation_path)
             self.add_child(self.current_animation)
         else:
             rect_progress = self.rect_action.move(65, 45)

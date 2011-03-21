@@ -162,7 +162,7 @@ class Introduction(gtk.Fixed):
         
         btn_next = get_button("assets/layout/btn_next.png")
         btn_next.connect("clicked", self._next)
-        self.put(btn_next, 192, 604)
+        self.put(btn_next, 1087, 604)
         
         self.show_all()
         

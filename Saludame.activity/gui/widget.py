@@ -13,6 +13,8 @@ class Widget:
         self.background = surface
         self.parent = None
         
+        self.center_in_rect = False
+        
         # Tooltip
         self.tooltip = tooltip
         self.super_tooltip = None
@@ -42,8 +44,16 @@ class Widget:
         self.dirty = False
         if self.visible:
             if self.background:
-                screen.blit(self.background, self.rect_absolute)
-                return self.rect_absolute
+                if self.center_in_rect:
+                    x, y = self.background.get_size()
+                    x = self.rect_absolute.size[0] - x
+                    y = self.rect_absolute.size[1] - y
+                    coords = self.rect_absolute.left + x / 2, self.rect_absolute.top + y / 2
+                    screen.blit(self.background, coords)
+                    return self.rect_absolute
+                else:
+                    screen.blit(self.background, self.rect_absolute)
+                    return self.rect_absolute
     
     def set_image(self, image):
         self.background = image

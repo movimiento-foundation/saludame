@@ -19,7 +19,6 @@ def alt_c_2_handling():
     print u"MULTIPLE CHOICE"
     if game_manager.instance:
         game_manager.instance.windows_controller.main_window.kidW._cb_button_click_mc_challenges(None)
-        
     
 def alt_c_3_handling():
     print "MASTER CHALLENGE"
@@ -51,43 +50,36 @@ def alt_shift_w_handling():
     if game_manager.instance:
         game_manager.instance.change_current_weather()
 
-def alt_shift_t_handling():
+def alt_shift_g_handling():
     print "RESET GAME"
     if game_manager.instance:
         game_manager.instance.reset_game()
+
+def alt_shift_t_handling():
+    print "CHANGE TIME"
+    if game_manager.instance:
+        game_manager.instance.change_time()
 
 def alt_shift_a_handling():
     print "10 POINTS"
     if game_manager.instance: 
         game_manager.instance.add_points(10)
 
-
-## HOTKEYS DEF
-ALT_L_PLUS = (pygame.K_LALT, pygame.K_l, pygame.K_PLUS)
-ALT_L_MINUS = (pygame.K_LALT, pygame.K_l, pygame.K_MINUS)
-ALT_C_2 = (pygame.K_LALT, pygame.K_c, pygame.K_2)
-ALT_C_3 = (pygame.K_LALT, pygame.K_c, pygame.K_3)
-ALT_C_4 = (pygame.K_LALT, pygame.K_c, pygame.K_4)
-ALT_C_5 = (pygame.K_LALT, pygame.K_c, pygame.K_5)
-ALT_SHIFT_O = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_o)
-ALT_SHIFT_P = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_p)
-ALT_SHIFT_W = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_w)
-ALT_SHIFT_T = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_t)
-ALT_SHIFT_A = (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_a)
-
-##HOTKEYS DIC
-hotkeys = {ALT_L_PLUS: alt_l_plus_handling,
-           ALT_L_MINUS: alt_l_minus_handling, 
-           ALT_C_2: alt_c_2_handling, 
-           ALT_C_3: alt_c_3_handling, 
-           ALT_C_4: alt_c_4_handling, 
-           ALT_C_5: alt_c_5_handling, 
-           ALT_SHIFT_O: alt_shift_o_handling, 
-           ALT_SHIFT_P: alt_shift_p_handling, 
-           ALT_SHIFT_W: alt_shift_w_handling,
-           ALT_SHIFT_T: alt_shift_t_handling,
-           ALT_SHIFT_A: alt_shift_a_handling
-           }
+# HOTKEYS DIC
+hotkeys = {
+    (pygame.K_LALT, pygame.K_l, pygame.K_PLUS): alt_l_plus_handling,
+    (pygame.K_LALT, pygame.K_l, pygame.K_MINUS): alt_l_minus_handling,
+    (pygame.K_LALT, pygame.K_c, pygame.K_2): alt_c_2_handling,
+    (pygame.K_LALT, pygame.K_c, pygame.K_3): alt_c_3_handling,
+    (pygame.K_LALT, pygame.K_c, pygame.K_4): alt_c_4_handling,
+    (pygame.K_LALT, pygame.K_c, pygame.K_5): alt_c_5_handling,
+    (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_o): alt_shift_o_handling, 
+    (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_p): alt_shift_p_handling, 
+    (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_w): alt_shift_w_handling,
+    (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_t): alt_shift_t_handling,
+    (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_g): alt_shift_g_handling,
+    (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_a): alt_shift_a_handling,
+}
 
 class HotKeyHandler:
     

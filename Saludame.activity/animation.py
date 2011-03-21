@@ -66,11 +66,11 @@ class Kid(gui.Widget):
         self.set_animation()
     
     def set_animation(self):
-        
         sex = self.character.sex
         clothes = self.character.clothes
         
         self.loops = 0
+        self.sound_loops = 0
         self.visible = True
         self.index = 0 # Sequence number of the current animation
         if self.action and self.action.kid_animation_path: # An action with animation is enabled
@@ -79,8 +79,7 @@ class Kid(gui.Widget):
         else:
             directory = "%s/%s/%s" % (self.mood.kid_animation_path, sex, clothes)
             self.file_list = get_image_list(directory)
-    
-    
+
     ##### update #####
     def update(self, frames):
         filename = self.file_list[self.index]
@@ -96,9 +95,21 @@ class Kid(gui.Widget):
             self.loops += 1
             if self.action and self.action.kid_loop_times > 0 and self.loops == self.action.kid_loop_times:
                 self.visible = False
+        
+        if self.action and self.action.sound_path:
+            self.play_sound()
 
         self.set_dirty()
     
+    def play_sound(self):
+        if self.sound_loops == self.loops:
+            if isinstance(self.action.sound_path, list):
+                if len(self.action.sound_path) > self.sound_loops:
+                    pygame.mixer.Sound(self.action.sound_path[self.sound_loops]).play()
+            else:
+                pygame.mixer.Sound(self.action.sound_path).play()
+            self.sound_loops += 1
+        
     def draw(self, frames):
         if self.visible:
             return gui.Widget.draw(self, frames)
@@ -118,8 +129,10 @@ class ActionAnimation(gui.Button):
     """
     An action animation to show at panel
     """
-    def __init__(self, container, rect, frame_rate, animation_path, sound_path=None):
+    def __init__(self, container, rect, frame_rate, animation_path):
         gui.Button.__init__(self, container, rect, frame_rate, None)
+        
+        self.center_in_rect = True
         
         self.path = animation_path
         self.frame_rate = frame_rate
@@ -136,7 +149,7 @@ class ActionAnimation(gui.Button):
             self.background = pygame.image.load(filename)
             self.index = (self.index + 1) % len(self.file_list)
             self.set_dirty()
-
+            
 class FPS(gui.Widget):
     def __init__(self, container, rect, frame_rate, clock):
         
@@ -145,7 +158,7 @@ class FPS(gui.Widget):
         self.clock = clock
         
         self.font = pygame.font.Font(None, 16)
-  
+    
     def draw(self, screen):
         screen.fill(BLACK, self.rect_absolute)
         text = str(round(self.clock.get_fps()))

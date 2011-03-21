@@ -71,7 +71,7 @@ class PersonalEvent(Event):
     def perform(self):
         if self.time_left:
             if self.effect:
-                self.effect.activate()
+                self.effect.activate(1)
             self.time_left -= 1
     
     def reset(self):
@@ -100,7 +100,7 @@ class SocialEvent(Event):
     def perform(self):
         if self.time_left:
             if self.effect:
-                self.effect.activate()
+                self.effect.activate(1)
             self.time_left -= 1
     
     def reset(self):

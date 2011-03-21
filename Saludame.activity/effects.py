@@ -13,9 +13,9 @@ class Effect:
         self.effect_status_list = effect_satatus_list   # list of tuples (bar_id, increase_rate)
         self.consequences = consequences                # list of event_id that can trigger, only one with probability > 0 will be triggered
         
-    def activate(self):
-        for effect_status in self.effect_status_list:
-            self.bars_controller.increase_bar(effect_status[0], effect_status[1])
+    def activate(self, factor):
+        for bar_id, increase_rate in self.effect_status_list:
+            self.bars_controller.increase_bar(bar_id, increase_rate * factor)
             
     def set_bar_controller(self, bars_controller):
         self.bars_controller = bars_controller
@@ -38,7 +38,7 @@ class LocationEffect:
         self.game_manager = game_manager
         self.place_id = place_id
     
-    def activate(self):
+    def activate(self, factor):
         self.game_manager.set_character_location(self.place_id)
     
     def set_game_manager(self, game_manager):
@@ -46,6 +46,9 @@ class LocationEffect:
         
     def get_consequence(self):
         return
+    
+    def get_effect_list(self):
+        return []
         
 class ClothesEffect:
     """
@@ -56,7 +59,7 @@ class ClothesEffect:
         self.game_manager = game_manager
         self.clothes_id = clothes_id
     
-    def activate(self):
+    def activate(self, factor):
         self.game_manager.set_character_clothes(self.clothes_id)
     
     def set_game_manager(self, game_manager):
@@ -64,3 +67,6 @@ class ClothesEffect:
 
     def get_consequence(self):
         return
+
+    def get_effect_list(self):
+        return []

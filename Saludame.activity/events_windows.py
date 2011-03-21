@@ -38,7 +38,8 @@ class PersonalWindow(gui.Window):
                         event_info += "- %s \n" % (bar_label)
             
             ## Animation
-            temp_animation = animation.ActionAnimation(self.rect, pygame.Rect(0, 0, 130, 110), 3, event.directory_path)            
+            animation_rect = pygame.Rect((0, 0), self.rect.size)
+            temp_animation = animation.ActionAnimation(self.rect, animation_rect, 3, event.directory_path)            
             temp_animation.set_on_mouse_click(self._cb_button_click_personal)
             
             temp_animation.set_super_tooltip(event_info)
@@ -148,7 +149,8 @@ class SocialWindow(gui.Window):
                     else:
                         event_info += "- %s \n" % (bar_label)
             
-            temp_animation = animation.ActionAnimation(self.rect, pygame.Rect(0, 0, 130, 110), 3, event.directory_path)
+            animation_rect = pygame.Rect((0, 0), self.rect.size)
+            temp_animation = animation.ActionAnimation(self.rect, animation_rect, 3, event.directory_path)
             temp_animation.set_on_mouse_click(self._cb_button_click_social)
             
             temp_animation.set_super_tooltip(event_info)

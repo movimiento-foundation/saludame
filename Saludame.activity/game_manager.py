@@ -115,7 +115,7 @@ class GameManager:
                 self.__handle_time()
                 self.__check_idle_time()
                 if self.environment_effect:
-                    self.environment_effect.activate()
+                    self.environment_effect.activate(1)
                 else:
                     self.update_environment_effect()
                 
@@ -169,25 +169,27 @@ class GameManager:
    
     def __handle_time(self):
         if not self.hour_count:
-            sound_manager.instance.play_time_change()
-            
-            self.hour_count = HOUR_COUNT_CYCLE
-            
-            self.hour += 1
-            
-            if self.hour > 3:
-                self.hour = 0 #night
-            
-            self.current_time = self.day_dic[self.hour]
-            print "cambio el momento del día a: ", self.current_time
-            self.update_environment()
-            
-            if self.hour == 1: #temporal para cambiar el clima
-                self.change_current_weather()
+            self.change_time()
         else:
             self.hour_count -= 1
         
+    def change_time(self):
+        sound_manager.instance.play_time_change()
         
+        self.hour_count = HOUR_COUNT_CYCLE
+        
+        self.hour += 1
+        
+        if self.hour > 3:
+            self.hour = 0 #night
+        
+        self.current_time = self.day_dic[self.hour]
+        print "cambio el momento del día a: ", self.current_time
+        self.update_environment()
+        
+        if self.hour == 1: #temporal para cambiar el clima
+            self.change_current_weather()
+    
 ### weather
     
     def change_current_weather(self):
@@ -274,12 +276,12 @@ class GameManager:
             elif isinstance(action.effect, effects.LocationEffect): #this action affects character location
                 if self.active_char_action:
                     self.interrupt_active_action(None)
-                action.perform()
+                action.perform(1)
                 action.reset()
             elif isinstance(action.effect, effects.ClothesEffect): #this action affects character clothes
                 if self.active_char_action:
                     self.interrupt_active_action(None)
-                action.perform()
+                action.perform(1)
                 action.reset()
     
     def interrupt_active_action(self, action_id):
@@ -316,11 +318,10 @@ class GameManager:
         """
         Set the active char actions
         """
-        
         if not self.active_char_action: #if there is not an active character action
             action = self.get_action(action_id)
             if action:
-                action.perform()
+                action.perform(0)
                 self.windows_controller.show_action_animation(action)
                 self.active_char_action = action
             
@@ -364,21 +365,27 @@ class GameManager:
 
     def __handle_active_character_action(self):
         if self.active_char_action:
-            #handle performance
+            # handle effects, once per CONTROL_INTERVAL
             if self.count >= CONTROL_INTERVAL:
                 if self.active_char_action.time_left > 0:
-                    self.active_char_action.perform()
- 
-            #handle animation
-            if self.active_char_action.kid_frames_left > 0:
+                    self.active_char_action.perform(CONTROL_INTERVAL)
+            
+            # handle animation - every frame
+            if self.active_char_action.time_left > 0:
                 self.active_char_action.decrease_frames_left()
-                if self.active_char_action.kid_frames_left == 0:
+                if self.active_char_action.time_left == 0:
                     self.windows_controller.stop_current_action_animation()
                     self.__try_solve_events(self.active_char_action.id)
             
-            #when the action ends to run (animation and performance), tries to solve an event and reset the action
-            if self.active_char_action.kid_frames_left == 0 and self.active_char_action.time_left == 0:
+            # check if the action ended
+            if self.active_char_action.time_left == 0:
+                # perform missed cicles
+                self.active_char_action.perform(self.count)
+                
+                # reset the action
                 self.active_char_action.reset()
+                
+                # check consequences
                 cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status())
                 self.active_char_action = None
                 if cons:
@@ -389,7 +396,7 @@ class GameManager:
         Controls active background actions.
         """
         for action in self.background_actions:
-            action.perform()
+            action.perform(CONTROL_INTERVAL)
             action.time_span = -1 #that means background actions never stop
             
 ## Moods handling
