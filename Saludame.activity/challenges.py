@@ -8,6 +8,7 @@ import pygame
 import os
 import gui
 import utilities
+import game_manager
 from gettext import gettext as _
 
 S_CORRECT_PATH = os.path.normpath("assets/sound/challenge_win.ogg")
@@ -264,8 +265,17 @@ class TrueOrFalse(MultipleChoice):
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
             else:
-                self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.get_current_level_conf()["master_challenge_text"])
-        self.windows_controller.set_active_window("info_challenge_window")
+                
+                if not game_manager.instance.get_current_level_conf()["master_challenge_text"]:
+                    if game_manager.instance.get_current_level_conf()["slide"]:
+                        self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
+                        self.windows_controller.set_active_window("slide_window")
+                else:        
+                    self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.get_current_level_conf()["master_challenge_text"])
+                    self.windows_controller.set_active_window("info_challenge_window")
+                    if game_manager.instance.get_current_level_conf()["slide"]:
+                        self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
+                        self.windows_controller.set_active_window("slide_window")     
         
         self.n_tf = N_TF
         self.question_number = 0
@@ -280,7 +290,7 @@ class TrueOrFalse(MultipleChoice):
         self.perdio = False
     
 class InfoChallenge(gui.Window):
-    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, bg_color=(0, 0, 0)):
+    def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, slide=None, bg_color=(0, 0, 0)):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "info_challenge_window", bg_color)
              
         self.set_bg_image("assets/windows/window_2.png")
@@ -303,6 +313,20 @@ class InfoChallenge(gui.Window):
         self.title.refresh()
         self.text.parse_lines(text)
         self.image = image
+        
+    def _cb_button_click_continue(self, button):
+        self.windows_controller.close_active_window()
+        
+class Slide(gui.Window):
+    def __init__(self, container, rect, frame_rate, windows_controller):
+        
+        gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "slide_window")
+        
+        self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((600, 600), (1, 1)), _("Continue"), self._cb_button_click_continue)
+        self.add_button(self.btn_continue)        
+        
+    def show_slide(self, slide_path):
+        self.set_bg_image(slide_path) 
         
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()

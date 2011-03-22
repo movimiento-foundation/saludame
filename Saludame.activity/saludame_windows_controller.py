@@ -26,6 +26,8 @@ class SaludameWindowsController(gui.WindowsController):
         cha_creator.create_challenges()
         self.game_man.challenges_creator = cha_creator
         
+        slide_window = challenges.Slide(self.screen.get_rect(), self.screen.get_rect(), 1, self)
+        
         info_master_challenge = challenges.InfoChallenge(self.screen.get_rect(), pygame.Rect((250, 30), (934, 567)), 1, self, cha_creator, u"¡Felicitaciones! \nHas completado el nivel actual. Para pasar de nivel \ndebes contestar bien la siguiente pregunta. \n\n¡¡Suerte!!", u"Felicitaciones, has pasado de nivel. \nSe han desbloqueado nuevas acciones, \n¿te animás a encontrarlas?", u"Contestaste incorrectamente, \ntendrás que intentar pasar de nivel más adelante")
         
         # Customization Window
@@ -34,6 +36,7 @@ class SaludameWindowsController(gui.WindowsController):
         # Main Window
         main_win = main_window.MainWindow(self.screen.get_rect(), self.screen.get_rect(), 1, clock, self, cha_creator, bars_loader, self.game_man)
         self.main_window = main_win
+        
         # Activate Main window
         self.set_active_window("main_window")
         self.update(0)
@@ -48,8 +51,7 @@ class SaludameWindowsController(gui.WindowsController):
     
     # CLOTHES
     def update_clothes(self):
-        self.windows["kid"].update_clothes()
-    
+        self.windows["kid"].update_clothes()          
     
     # Actions
     def show_action_animation(self, action):
