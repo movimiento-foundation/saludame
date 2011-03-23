@@ -421,7 +421,7 @@ msgstr "Living"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:151
 msgid "Bedroom"
-msgstr "Dormitorio"
+msgstr "Habitación"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:153
 msgid "Ir al baño"

@@ -209,50 +209,136 @@ class AppLoader:
         #Events constructor params:
         #(directory_path, kid_animation_path, id, description, appereance_probability, time_span, kind, event_status, effect, kid_message, level, preferred_mood=9, message_time_span = time_span)
         
+        # Formula to convert effects per minute into effects per CONTROL_INTERVAL
+        # factor = CONTROL_INTEVAL/(60 * FPS)
+        factor = float(16) / (60 * 14)
+        m = lambda x: x*factor
+        import operator
+        
         _events = []
         
         # Personal Events
         # probabiliy configuration: (bar, type, threshold, probability_percentaje)
-        probability = [("v_frutas", "indirect", 10.0, 30.0)]
-        effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5)])
-        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "constipation", _("Constipation"), 5, 15, "personal", probability, effect, u"Me duele la panza y no \n puedo ir al baño", 1, 2, 150)
+        probability = ("all", [("v_frutas", "indirect", 10.0, 30.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("fun", -5), ("h_check", -5)])
+        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "constipation", u"Estreñimiento", "neg", None, None, probability, effect, u"Me duele la panza y no \n puedo ir al baño", 1, 2, 150)
         _events.append(event)
         
-        probability = [("w_hands", "indirect", 25.0, 30.0)]
-        effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5), ("agua", -1.0), ("defenses", -0.5), ("toilet", -2.5)])
-        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "diarrhea", _("Diarrhea"), 5, 15, "personal", probability, effect, "Tengo diarrea", 1, 2, 150)
+        probability = ("all", [("w_hands", "indirect", 25.0, 30.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("fun", -5), ("agua", -10), ("defenses", -5), ("toilet", -25), ("h_check", -5)])
+        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "diarrhea", u"Diarrea", "neg", None, None, probability, effect, "Tengo diarrea", 1, 2, 150)
         _events.append(event)
         
-        probability = [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)]
-        effect = effects.Effect(bars_controller, [("energy", -1.0), ("fun", -0.5), ("relaxing", -0.5)])
-        event = events.PersonalEvent("assets/events/personal/headache", None, "headache", _("Headache"), 5, 15, "personal", probability, effect, "Me duele la cabeza", 1, 2, 150)
+        probability = ("all", [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("fun", -5), ("relaxing", -5), ("h_check", -5)])
+        event = events.PersonalEvent("assets/events/personal/headache", None, "headache", u"Dolor de cabeza", "neg", None, None, probability, effect, "Me duele la cabeza", 1, 2, 150)
         _events.append(event)
         
-        probability = [("b_teeth", "indirect", 25.0, 50.0), ("dulces", "direct", 75.0, 20.0)]
-        effect = effects.Effect(bars_controller, [("energy", -1.0), ("defenses", -1.0), ("fun", -1.0), ("relaxing", -1.0)])
-        event = events.PersonalEvent("assets/events/personal/toothache", None, "caries", _("Caries"), 5, 15, "personal", probability, effect, "Me duele una muela", 1, 5, 150)
+        probability = ("all", [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("defenses", -10), ("relaxing", 10)])
+        event = events.PersonalEvent("assets/events/personal/nausea", None, "drunk", u"Borracho", "neg", None, m(2), probability, effect, "Me duele la cabeza", 1, 2, 150)
         _events.append(event)
         
-        probability = [("overall_bar", "constant", 100.0, 15.0)]
-        effect = effects.Effect(bars_controller, [("nutrition", -0.3), ("energy", -1.0), ("resistencia", -0.9), ("fat", -0.5)])
-        event = events.PersonalEvent("assets/events/personal/stomach_ache", "assets/events/stomach_ache", "stomach_ache", _("Stomach ache"), 5, 15, "personal", probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        probability = ("all", [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("defenses", -5), ("weight", -2)])
+        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "hunger", u"Hambre", "neg", None, None, probability, effect, "Me duele la cabeza", 1, 2, 150)
         _events.append(event)
         
-        #Social events
+        probability = ("all", [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10)])
+        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "thirsty", u"Sed", "neg", None, None, probability, effect, "Me duele la cabeza", 1, 2, 150)
+        _events.append(event)
+        
+        probability = ("all", [("nutrition", "indirect", 100.0, 20.0), ("relaxing", "indirect", 100.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("defenses", -10), ("fun", -15)])
+        event = events.PersonalEvent("assets/events/personal/tired", None, "tired", u"Muy Cansado", "neg", None, None, probability, effect, "Me duele la cabeza", 1, 2, 150)
+        _events.append(event)
+        
+        probability = ("all", [("b_teeth", "indirect", 25.0, 50.0), ("dulces", "direct", 75.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("defenses", -10)])
+        event = events.PersonalEvent("assets/events/personal/dirty_hands", None, "dirty_hands", u"Manos sucias", "neg", None, None, probability, effect, "Me duele una muela", 1, 5, 150)
+        _events.append(event)
+
+        probability = ("all", [("b_teeth", "indirect", 25.0, 50.0), ("dulces", "direct", 75.0, 20.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("defenses", -10), ("fun", -10), ("relaxing", -10), ("h_check", -10)])
+        event = events.PersonalEvent("assets/events/personal/toothache", None, "Dolor de dientes", u"Dolor de dientes", "neg", None, None, probability, effect, "Me duele una muela", 1, 5, 150)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("fun", -15), ("relaxing", -10)])
+        event = events.PersonalEvent("assets/events/personal/bored", None, "bored", u"Aburrido", "neg", None, m(5), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("energy", +10), ("defenses", +10)])
+        event = events.PersonalEvent("assets/events/personal/happy", None, "happy", u"Feliz", "pos", None, m(2), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("defenses", +10)])
+        event = events.PersonalEvent("assets/events/personal/energetic", None, "energetic", u"Mucha energía", "pos", None, m(2), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("fun", +10), ("defenses", +10)])
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "Me veo bien", u"me_veo_bien", "pos", None, m(2), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("energy", -10), ("defenses", -5), ("fun", -10)])
+        event = events.PersonalEvent("assets/events/personal/tired", None, "sedentarismo", u"Sedentarismo", "neg", None, m(5), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("energy", -5), ("defenses", -10), ("agua", -5)])
+        event = events.PersonalEvent("assets/events/personal/sunburn", None, "quemaduras_sol", u"Quemaduras por el sol", "neg", None, m(5), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("defenses", -15), ("toilet", -20), ("energy", -15), ("fun", -5), ("h_check", -5), ("relaxing", -10)])
+        event = events.PersonalEvent("assets/events/personal/nausea", None, "nausea", u"Nauseas y vómitos", "neg", None, None, probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("defenses", -10), ("energy", -10), ("fun", -5), ("h_check", -5), ("relaxing", -10)])
+        event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "stomach_ache", u"Dolor de panza", "neg", None, m(5), probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("defenses", -15), ("energy", -15), ("fun", -10), ("weight", -1), ("h_check", -5), ("relaxing", -10)])
+        event = events.PersonalEvent("assets/events/personal/sick", None, "flu", u"Gripe", "neg", None, None, probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("defenses", -20), ("energy", -10), ("fun", -5), ("h_check", -20), ("relaxing", -10)])
+        event = events.PersonalEvent("assets/events/personal/nausea", None, "intoxicacion", u"Intoxicacion", "neg", None, None, probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None, None, probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None, None, probability, effect, "Me duele la panza! :(", 1, 2, 50)
+        _events.append(event)
+        
+        # Social events
         #(directory_path, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, level, message_time_span)
-        probability = [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)]
+        probability = ("all", [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)])
         event = events.SocialEvent("assets/events/social/mother_neg", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), 5.0, 15, probability, u"Deberías cepillarte los \ndientes", None, 1, 150)
         _events.append(event)
 
-        probability = [("responsability", "indirect", 60.0, 70.0)]
+        probability = ("all", [("responsability", "indirect", 60.0, 70.0)])
         event = events.SocialEvent("assets/events/social/father_neg", "assets/characters/father.png", "study", _("Estudiar"), 5.0, 20, probability, u"Debes hacer los deberes", None, 1, 150)
         _events.append(event)
 
-        probability = [("responsability", "indirect", 60.0, 70.0)]
+        probability = ("all", [("responsability", "indirect", 60.0, 70.0)])
         event = events.SocialEvent("assets/events/social/teacher_neg", "assets/characters/father.png", "study", _("Estudiar"), 5.0, 20, probability, u"¿Estudiaste las tablas?", None, 1, 150)
         _events.append(event)
         
-        probability = [("responsability", "indirect", 70.0, 70.0)]
+        probability = ("all", [("responsability", "indirect", 70.0, 70.0)])
         event = events.SocialEvent("assets/events/social/doc_neg", "assets/characters/doctor.png", "health_check", _("Control médico"), 5.0, 30, probability, u"¿Este año fuiste al doctor?", None, 1, 150)
         _events.append(event)
 

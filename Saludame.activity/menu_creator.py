@@ -8,6 +8,11 @@ import gui
 
 MA = ["morning", "afternoon"]
 NN = ["night", "noon"]
+
+CC = ["bedroom", "livingroom"]
+EP = ["school", "square"]
+ALL_BUT_SQUARE = ["bedroom", "livingroom", "school", "classroom"]
+
 items = [
     # ("display_name", "action_id", "tooltip", [Children], place_restrictions, time_restrictions),
     
@@ -118,33 +123,36 @@ items = [
     
     (_("Diversión..."), None, None, [
         (_("Jugar XO"), "playXO", None, None),
-        (_("Escondida"), "hidenseek", None, None),
+        (_("Escondida"), "hidenseek", None, None, EP),
         #(_("Jugar con Amigo"), "play_friend", None, None),
-        (_("Rayuela"), "hopscotch", None, None),
-        (_("Ver televisión"), "tv", None, None),
+        (_("Rayuela"), "hopscotch", None, None, None, EP),
+        (_("Ver televisión"), "tv", None, None, "livingroom"),
         (_("Leer"), "read", None, None),
-        (_("Escuchar música"), "music", None, None),
+        (_("Escuchar música"), "music", None, None, CC),
         (_("Locuras"), "crazy", None, None),
-        (_("Bailar"), "dance", None, None),
-        (_("Cantar"), "sing", None, None),
+        (_("Bailar"), "dance", None, None, ["bedroom", "livingroom", "school", "square"]),
+        (_("Cantar"), "sing", None, None, ["bedroom", "livingroom", "school", "square"]),
     ]),
     
     (_("Hacer..."), None, None, [
         (_("Talk with a friend"), "talk", None, None),
         (_("Do homework"), "homework", None, None),
-        (_("Clean up the bedroom"), "clean", None, None),
-        (_("Cocinar"), "help_cook", None, None),
+        (_("Clean up the bedroom"), "clean", None, None, ["bedroom"]),
+        (_("Tareas domésticas"), "housekeeping", None, None, CC),
+        (_("Ayudar en el campo"), "help_field", None, None, CC),
+        (_("Cocinar"), "help_cook", None, None, CC),
+        (_("Descanzar"), "relax", None, None, CC + ["square"]),
         (_("Cambiar de ropa..."), None, None, [
             (_("School"), "change_school_clothes", None, None),
             (_("Normal"), "change_regular_clothes", None, None),
         ]),
         (_("Deporte..."), None, None, [
-            (_("Run"), "sport_run", None, None),
-            (_("Jump the rope"), "sport_jump", None, None),
-            (_("Play footbal"), "sport_football", None, None),
+            (_("Run"), "sport_run", None, None, EP),
+            (_("Jump the rope"), "sport_jump", None, None, EP),
+            (_("Play footbal"), "sport_football", None, None, EP),
         ]),
-        (_("Ir al baño"), "toilet", None, None),
-        (_("Go to sleep"), "sleep", None, None),
+        (_("Ir al baño"), "toilet", None, None, ALL_BUT_SQUARE),
+        (_("Go to sleep"), "sleep", None, None, ["bedroom"]),
     ]),
     
     (_("Ir a..."), None, None, [
@@ -162,20 +170,20 @@ items = [
    ]),
    
    (_("Higiene..."), None, None, [
-       (_("Bañarse"), "shower", None, None),
-       (_("Cepillarse los dientes"), "brush_teeth", None, None),
-       (_("Lavarse las manos"), "wash_hands", None, None),
+       (_("Bañarse"), "shower", None, None, ALL_BUT_SQUARE),
+       (_("Cepillarse los dientes"), "brush_teeth", None, None, ALL_BUT_SQUARE),
+       (_("Lavarse las manos"), "wash_hands", None, None, ALL_BUT_SQUARE),
    ]),
    
    (_("Huerta..."), None, None, [
-       (_("Preparar tierra"), "farm_plow", None, None),
-       (_("Sembrar"), "farm_sow", None, None),
+       (_("Preparar tierra"), "farm_plow", None, None, ALL_BUT_SQUARE),
+       (_("Sembrar"), "farm_sow", None, None, ALL_BUT_SQUARE),
        (_("Mantener"), None , None, [
            (_("Regar"), "farm_irrigate", None, None),
            (_("Fumigar"), "farm_fumigate", None, None),
            (_("Limpiar"), "farm_clean", None, None),
-       ]),
-       (_("Cocechar"), "farm_harvest", None, None),
+       ], ALL_BUT_SQUARE),
+       (_("Cocechar"), "farm_harvest", None, None, ALL_BUT_SQUARE),
    ]),
 ]
 
@@ -199,10 +207,21 @@ def create_item(item_tuple, a_menu, container, font):
         subitems = []
     lenght = len(item_tuple)
     item = None
-    if lenght == 4:
-        item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], "", item_tuple[1], item_tuple[2], subitems, a_menu, font)
-    elif lenght == 5: # the item has place restrictions
-        item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], "", item_tuple[1], item_tuple[2], subitems, a_menu, font, item_tuple[4])
-    elif lenght == 6: # the item has time restrictions
-        item = menu.Item(container, MENU_FRAME_RATE, item_tuple[0], "", item_tuple[1], item_tuple[2], subitems, a_menu, font, item_tuple[4], item_tuple[5])
+    
+    label = item_tuple[0]
+    if not isinstance(label, unicode):
+        label = unicode(label.decode("utf-8"))
+        
+    action_id = item_tuple[1]
+    tooltip = item_tuple[2]
+
+    place_restrictions = None
+    time_restrictions = None
+    if lenght > 4: # the item has place restrictions
+        place_restrictions = item_tuple[4]
+    
+    if lenght > 5: # the item has time restrictions
+        time_restrictions = item_tuple[5]
+    
+    item = menu.Item(container, MENU_FRAME_RATE, label, "", action_id, tooltip, subitems, a_menu, font, place_restrictions, time_restrictions)
     return item
