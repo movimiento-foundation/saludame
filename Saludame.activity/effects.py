@@ -20,12 +20,12 @@ class Effect:
     def set_bar_controller(self, bars_controller):
         self.bars_controller = bars_controller
 
-    def get_consequence(self, events_dict, bars_value_dic):
+    def get_consequence(self, events_dict, bars_value_dic, restrictions):
         """ Iterates between the possible consequences and returns the first one with probability > 0 """
         for c in self.consequences:
             if c in events_dict:
                 event = events_dict[c]
-                event.update_probability(bars_value_dic)
+                event.update_probability(bars_value_dic, restrictions, True)
                 if event.get_probability() > 0:
                     return event
         

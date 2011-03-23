@@ -243,7 +243,15 @@ class GameManager:
             return None
             
     
-    
+    def get_restrictions(self):
+        """ returns a dictionary with all the environmental restrictions """
+        return {
+            "clothes": self.character.clothes,
+            "place": self.character.current_place,
+            "weather": self.current_weather,
+            "time": self.current_time,
+        }
+        
 ### location
 
     def set_character_location(self, place_id):
@@ -398,8 +406,8 @@ class GameManager:
                 # reset the action
                 self.active_char_action.reset()
                 
-                # check consequences
-                cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status())
+                # check consequences should be triggered
+                cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status(),  self.get_restrictions())
                 self.active_char_action = None
                 if cons:
                     self.check_consequence_event(cons)
@@ -518,7 +526,7 @@ class GameManager:
         Handle social events
         """
         for event in self.active_social_events:
-            if event.time_left:
+            if event.time_left is None or event.time_left:
                 event.perform()
             else:
                 self.remove_social_event(event)
@@ -529,7 +537,7 @@ class GameManager:
         """
         for event in self.active_events:
             
-            if event.time_left:
+            if event.time_left is None or event.time_left:
                 event.perform()
             else:
                 self.remove_personal_event(event)
@@ -557,10 +565,11 @@ class GameManager:
         """
         Updates events probability
         """
+        restrictions = self.get_restrictions()
         bars_status_dict = self.bars_controller.get_bars_status()
         #updates events probability
         for evt in events_list:
-            evt.update_probability(bars_status_dict)
+            evt.update_probability(bars_status_dict, restrictions)
             
     def __calculate_max_rand(self, events_list):
         """

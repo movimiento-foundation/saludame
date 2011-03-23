@@ -28,29 +28,56 @@ class Event:
         self.condicioned_probability = 0.0 # starts in 0.0
         self.level = level      # Starting level, in levels prior to this one, the event is not triggered
     
-    def update_probability(self, bars_value_dic):
+        self.restrictions = {}
+    
+    def check_restrictions(self, restrictions):
+        for restriction_id, values in self.restrictions:
+            value = restrictions[restriction_id]
+            if not value in values:
+                return False
+        return True
+        
+    def update_probability(self, bars_value_dic, restrictions, triggered = False):
         """
         Updates event probability
         """
-        prob = 0.0
-        for bar_con in self.condicioned_bars:
-            bar_id = bar_con[0]
-            threshold = bar_con[2]
-            max_prob = bar_con[3]
+        
+        self.condicioned_probability = 0.0
+        
+        if not self.check_restrictions(restrictions):
+            return 0.0
             
-            bar_value = bars_value_dic[bar_id]
-
-            if bar_con[1] == "direct":
-                if bar_value > threshold:
-                    prob += max_prob * ((bar_value - threshold) / (MAX_BAR_VALUE - threshold))
-            elif bar_con[1] == "indirect":
-                if bar_value < threshold:
-                    prob += max_prob * ((threshold - bar_value) / threshold)
-            elif bar_con[1] == "constant":
-                if bar_value < threshold :
-                    prob += max_prob
-            self.condicioned_probability = prob
-        return int(prob)
+        probs = []
+        
+        if self.condicioned_bars:
+            
+            for bar_con in self.condicioned_bars:
+                bar_id, probability_type, threshold, max_prob = bar_con
+                
+                bar_value = bars_value_dic[bar_id]
+                
+                prob = 0.0
+                if probability_type == "direct":
+                    if bar_value > threshold:
+                        prob = max_prob * ((bar_value - threshold) / (MAX_BAR_VALUE - threshold))
+                elif probability_type == "indirect":
+                    if bar_value < threshold:
+                        prob = max_prob * ((threshold - bar_value) / threshold)
+                elif probability_type == "constant":
+                    if bar_value < threshold :
+                        prob = float(max_prob)
+                elif probability_type == "triggered" and triggered:
+                    prob = 1.0
+            
+                if self.operator == "all" and prob == 0.0:
+                    return 0.0
+                    
+                probs.append(prob)
+        
+        if probs:
+            self.condicioned_probability = sum(probs) / len(probs)
+        
+        return self.condicioned_probability
     
     def get_probability(self):
         #eventually we just take the conditioned
@@ -59,15 +86,25 @@ class Event:
         
         
     def perform(self):
-        if self.time_left:
+        if self.time_left is None or self.time_left:
             if self.effect:
                 self.effect.activate(1)
-            self.time_left -= 1
+                
+            if not self.time_left is None:
+                self.time_left -= 1
     
     def reset(self):
         self.time_left = self.time_span
     
-    
+    def add_restriction(self, restriction_id, values):
+        """ Adds a restriction for this event to be triggered
+            place: []
+            weather: []
+            time: []
+            clothes: []
+        """
+        self.restrictions[restriction_id] = values
+        
 class PersonalEvent(Event):
     
     def __init__(self, picture, kid_animation_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, kid_message, level=1, preferred_mood=9, message_time_span=5):
@@ -85,9 +122,11 @@ class SocialEvent(Event):
     def __init__(self, picture, person_path, name, description, impact, appereance_probability, time_span, conditioned_bars, message, effect, level=1, preferred_mood=9, message_time_span=5):
         Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, level, preferred_mood)
         
+        print conditioned_bars
+        print self.condicioned_bars
+        
         self.time_left = time_span
         
         self.person_path = person_path
         self.person_message = message
         self.message_time_span = message_time_span
-

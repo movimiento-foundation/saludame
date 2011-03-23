@@ -34,6 +34,7 @@ bar_dec_effect = effects.Effect(None, [(bar, rate*factor) for bar, rate in bars_
 
 # Consequences of food actions (triggered events after eating)
 CONS_FOOD = ["nauseas", "cepillar_dientes"]
+CONS_MEAL = CONS_FOOD + ["stomach_ache"]
 
 #actions list tuple format:
 #[("action's id","icon_path","picture_path", appereance_probability, time_span,
@@ -119,61 +120,61 @@ actions_list = [
     
     # Meals - Launch, Dinner
     ("sopa_verduras", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas",20), ("agua",6.25), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("v_frutas",20), ("agua",6.25), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("e_carne_verduras", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("agua",6.25), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("agua",6.25), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("g_arroz_carne_lenteja_verdura", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("agua",6.25), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("agua",6.25), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("puchero", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("milanesa_papas_fritas", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("c_huevos",50), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("c_huevos",50), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("costilla_cordero_huevo", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_huevos",100), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_huevos",100), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("cordero_arroz_choclo", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("churrasco_pure_zapallo", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("v_frutas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("pollo_horno_ensalada", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("lengua_polenta", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("hamburguesa_papas_fritas", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("albondiga_fideo", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("carne_papas", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("carne_vaca_ensalada", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("carne_cordero_pure", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("tarta_jamon_queso", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("panchos_huevo", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_huevos",100), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_huevos",100), ("g_aceites",100), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("choripan", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("polenta", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("tallarines", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("ñoquis", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("ravioles_verdura", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",30), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",30), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("tortilla_papa", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",40), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",40), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("pizza", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("g_aceites",50), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",40), ("v_frutas",10), ("g_aceites",50), ("energy",20), ("weight",2), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("tarta_zapallo", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("pascualina", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("canelones_verdura", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("c_leguminosas",20), ("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     ("zapallitos_rellenos", 0.3, 70, 0, CHEW_PATH, 3, 1, STEW_PATH, 4, BLIP_PATH,
-        effects.Effect(None, [("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None),
+        effects.Effect(None, [("v_frutas",20), ("g_aceites",50), ("energy",20), ("b_teeth",-30), ("toilet",-30)], CONS_MEAL), None, None, None),
     
     # Farm
     ("pasta_primavera", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
@@ -306,8 +307,8 @@ actions_list = [
     ("housekeeping", 0.3, 70, 1, "assets/kid/actions/twister", 3, 2, "assets/action-icons/clean", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-20), ("shower",-20), ("w_hands",-20), ("sports",10), ("fun",-20), ("relaxing",-30), ("housekeeping",60)]), None, None, None
     ),
-    ("homework", 0.3, 70, 1, "assets/kid/actions/read", 3, 1, None, 1, "assets/sound/work.ogg",
-        effects.Effect(None, [("energy",-30), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("sports",-20), ("fun",-20), ("relaxing",-30), ("homework",80)]), None, None, None
+    ("homework", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 1, "assets/sound/work.ogg",
+        effects.Effect(None, [("energy",-30), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("sports",-20), ("fun",-20), ("relaxing",-30), ("homework",80)], ["contento_deberes"]), None, None, None
     ),
     ("study_xo", 0.3, 70, 0, "assets/kid/actions/studyXO", 3, 1, None, 1, "assets/sound/play_xo.ogg",
         effects.Effect(None, [("energy",-30), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("sports",-20), ("fun",-10), ("relaxing",-30)]), None, None, None
@@ -316,7 +317,7 @@ actions_list = [
         effects.Effect(None, [("energy",-40), ("defenses",10), ("weight",-10), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("g_aceites",-5), ("agua",-20), ("shower",-40), ("w_hands",-70), ("sports",20), ("fun",-20), ("relaxing",-40)]), None, None, None
     ),
     ("help_cook", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/cook", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
-        effects.Effect(None, [("energy",-20), ("shower",-10), ("w_hands",-50), ("relaxing",-10)]), None, None, None
+        effects.Effect(None, [("energy",-20), ("shower",-10), ("w_hands",-50), ("relaxing",-10)], ["contento_cocinar"]), None, None, None
     ),
     ("relax", 0.3, 70, 0, "assets/kid/actions/rest", 3, 1, None, 1, ["assets/sound/relax.ogg"],
         effects.Effect(None, [("energy",40), ("defenses",10), ("fun",10), ("relaxing",40)]), None, None, None
@@ -355,7 +356,7 @@ actions_list = [
         effects.Effect(None, [("energy",-20), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("agua",-20), ("shower",-30), ("w_hands",-90), ("sports",10), ("fun",10), ("relaxing",-20)]), None, None, None
     ),
     ("farm_fumigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/fumigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-10), ("shower",-100), ("w_hands",-90), ("fun",10), ("relaxing",-20)]), None, None, None
+        effects.Effect(None, [("energy",-10), ("shower",-100), ("w_hands",-90), ("fun",10), ("relaxing",-20)], ["intoxicacion"]), None, None, None
     ),
     ("farm_clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
         effects.Effect(None, [("energy",-20), ("weight",-5), ("c_leguminosas",-10), ("v_frutas",-10), ("dulces",-10), ("shower",-40), ("w_hands",-90), ("sports",10), ("fun",10), ("relaxing",-20)]), None, None, None
