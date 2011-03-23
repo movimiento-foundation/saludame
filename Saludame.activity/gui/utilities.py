@@ -190,11 +190,13 @@ class TextBlock(Widget):
         self.color = color
         self.parse_lines(text)
         self.size = size
-        self.prepare_text_block()
+        
         self.fill = fill
         
         if type == "tooltip":
             self.rect_absolute.bottomleft = (x, y)
+            
+        self.prepare_text_block()
         
     def parse_lines(self, text):
         self.lines = []
