@@ -31,7 +31,7 @@ class Event:
         self.restrictions = {}
     
     def check_restrictions(self, restrictions):
-        for restriction_id, values in self.restrictions:
+        for restriction_id, values in self.restrictions.items():
             value = restrictions[restriction_id]
             if not value in values:
                 return False
