@@ -320,34 +320,69 @@ class AppLoader:
         
         probability = ("all", [("homework", "direct", 75, 70)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None, None, probability, effect, u"¡Que bien que hice mi deberes!", happy_2, 2, 50)
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None,  m(2), probability, effect, u"¡Que bien que hice mi deberes!", happy_2, 2, 50)
         _events.append(event)
         
         probability = ("all", [("housekeeping", "direct", 75, 70)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None, None, probability, effect, u"¡Que rico que cocinamos!", happy_2, 2, 50)
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None,  m(2), probability, effect, u"¡Que rico que cocinamos!", happy_2, 2, 50)
         _events.append(event)
         
         # Social events
+        mother = "assets/characters/mother.png"
+        father = "assets/characters/father.png"
+        doctor = "assets/characters/doctor.png"
+        teacher = "assets/characters/teacher.png"
+        
+        doctor_neg = "assets/events/social/doc_neg"
+        teacher_neg = "assets/events/social/teacher_neg"
+        mother_neg = "assets/events/social/mother_neg"
+        father_neg = "assets/events/social/father_neg"
+        
         #(directory_path, person_path, name, description, appereance_probability, time_span, condicioned_bars, message, level, message_time_span)
+        
+        probability = ("any", [("housekeeping", "indirect", 30, 30)])
+        effect = effects.Effect(bars_controller, [("housekeeping", -10)])
+        event = events.SocialEvent(mother_neg, mother, "ayuda_cocinar", u"Ayudar a cocinar", "neg", None, m(5), probability, u"¿Vamos a cocinar algo juntos?", effect, 1, 150)
+        event.add_restriction("place", ["livingroom", "bedroom"])
+        _events.append(event)
+        
+        probability = ("any", [("housekeeping", "indirect", 30, 30)])
+        effect = effects.Effect(bars_controller, [("housekeeping", -10)])
+        event = events.SocialEvent(mother_neg, mother, "ayuda_limpiar", u"Ayudar con la limpieza", "neg", None, m(5), probability, u"Recuerda ordenar y\nlimpiar tu cuarto.", effect, 1, 150)
+        event.add_restriction("place", ["livingroom", "bedroom"])
+        _events.append(event)
+        
+        probability = ("any", [("housekeeping", "indirect", 30, 30)])
+        effect = effects.Effect(bars_controller, [("housekeeping", -10)])
+        event = events.SocialEvent(mother_neg, mother, "ayuda_campo", u"Ayuda en el campo", "neg", None, m(5), probability, u"¿Me puedes ayudar\ncon las tareas\ndel campo?", effect, 1, 150)
+        event.add_restriction("place", ["livingroom", "bedroom"])
+        _events.append(event)
+
+        probability = ("any", [("v_frutas", "indirect", 30, 50)])
+        effect = effects.Effect(bars_controller, [("defenses", -10), ("energy", -10)])
+        event = events.SocialEvent(mother_neg, mother, "falta_verduras", u"Falta frutas y verduras", "neg", None, m(5), probability, u"No comiste suficientes\nfrutas y verduras.", effect, 1, 150)
+        event.add_restriction("place", ["livingroom", "bedroom", "square"])
+        _events.append(event)
+
         probability = ("all", [("b_teeth", "indirect", 50.0, 70.0), ("dulces", "direct", 75.0, 30.0)])
         effect = None
-        event = events.SocialEvent("assets/events/social/mother_neg", "assets/characters/mother.png", "p_caries", _("Prevenir caries"), "neg", 5.0, 15, probability, u"Deberías cepillarte los \ndientes", effect, 1, 150)
+        event = events.SocialEvent(mother_neg, mother, "ayuda_campo", _("Ayuda en el campo"), "neg", 5.0, m(5), probability, u"Deberías cepillarte los \ndientes", effect, 1, 150)
         _events.append(event)
 
         probability = ("all", [("responsability", "indirect", 60.0, 70.0)])
         effect = None
-        event = events.SocialEvent("assets/events/social/father_neg", "assets/characters/father.png", "study", _("Estudiar"), "neg", 5.0, 20, probability, u"Debes hacer los deberes", effect, 1, 150)
+        event = events.SocialEvent(father_neg, father, "study", _("Estudiar"), "neg", 5.0, m(5), probability, u"Debes hacer los deberes", effect, 1, 150)
         _events.append(event)
 
         probability = ("all", [("responsability", "indirect", 60.0, 70.0)])
         effect = None
-        event = events.SocialEvent("assets/events/social/teacher_neg", "assets/characters/father.png", "study", _("Estudiar"), "neg", 5.0, 20, probability, u"¿Estudiaste las tablas?", effect, 1, 150)
+        event = events.SocialEvent(teacher_neg, teacher, "study", _("Estudiar"), "neg", 5.0, 20, probability, u"¿Estudiaste las tablas?", effect, 1, 150)
         _events.append(event)
         
         probability = ("all", [("responsability", "indirect", 70.0, 70.0)])
         effect = None
-        event = events.SocialEvent("assets/events/social/doc_neg", "assets/characters/doctor.png", "health_check", _("Control médico"), "neg", 5.0, 30, probability, u"¿Este año fuiste al doctor?", effect, 1, 150)
+        event = events.SocialEvent(doctor_neg, doctor, "health_check", _("Control médico"), "neg", 5.0, 30, probability, u"¿Este año fuiste al doctor?", effect, 1, 150)
         _events.append(event)
 
         return _events

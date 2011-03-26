@@ -39,13 +39,14 @@ def set_library_function(link):
 
 class Main():
     
-    def __init__(self):
+    def __init__(self, target_size=(1200, 780)):
         self.windows_controller = None
         global main_class
         main_class = self
         self.gender = "boy"
         self.name = ""
         self.started = False
+        self.target_size = target_size
     
     def main(self, from_sugar):
         self.init(from_sugar)
@@ -62,8 +63,7 @@ class Main():
         pygame.init()
         
         if not from_sugar:
-            target_size = (1000, 650) #(1200, 800)  # In regular computers the native resolution is too high (5/6)
-            screen = pygame.display.set_mode(target_size)
+            screen = pygame.display.set_mode(self.target_size)
         
         screen = pygame.display.get_surface()
         assert screen, "No screen"
@@ -171,8 +171,13 @@ if __name__ == "__main__":
         gender = sys.argv[1]
     else:
         gender = "boy"
-        
-    m = Main()
+    
+    if len(sys.argv) > 1 and "full" in sys.argv[1:]:
+        m = Main()
+    else:
+        # In regular computers the native resolution is too high (5/6)
+        m = Main((1000, 650))
+    
     m.gender = gender
     m.name = ""
     m.main(False)
