@@ -39,7 +39,6 @@ class Text(Widget):
         self.refresh()
     
     def refresh(self):
-        background = self.get_background_rect().copy()
         self.background = self.font.render(self.text, False, self.color)
         self.set_dirty()
         
@@ -153,6 +152,19 @@ class TextButton(ImageButton):
     def switch_color_text(self, color):
         self.background = self.text.switch_color_text(color).background
         self.set_dirty()
+        
+class TextBlockButton(Button):     
+    def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
+        self.text = TextBlock(container, rect.x, rect.y, frame_rate, text, size, color, "normal", False)
+        Button.__init__(self, container, self.text.rect_in_container, frame_rate, self.text.background, cb_click, cb_over, cb_out)
+        
+    def switch_color_text(self, color):
+        self.text.switch_color_text(color)
+        self.set_dirty()
+        
+    def draw(self, screen):
+        self.text.draw(screen)
+        self.parent.set_dirty_background()
     
 class TextButton2(ImageButton):
     
@@ -218,7 +230,7 @@ class TextBlock(Widget):
             if r.get_rect().width > self.rect_absolute.width:
                 self.rect_absolute.width = r.get_rect().width
             self.rect_absolute.height += r.get_rect().height 
-            
+        
         if self.type == "tooltip":
             self.rect_absolute.height += 20
             self.rect_absolute.width += 20
@@ -227,7 +239,9 @@ class TextBlock(Widget):
         if self.rect_absolute.right > self.container.right:
             self.rect_absolute.right = self.container.right
         if self.rect_absolute.bottom > self.container.bottom:
-            self.rect_absolute.bottom = self.container.bottom                  
+            self.rect_absolute.bottom = self.container.bottom
+            
+        self.rect_in_container.size = self.rect_absolute.size                  
         
     def draw(self, screen):
         if self.visible:
@@ -249,6 +263,10 @@ class TextBlock(Widget):
                 number_of_lines += 1
             if self.type == "tooltip":
                 pygame.draw.rect(screen, pygame.Color("#7fe115"), self.rect_absolute, 2)
+                
+    def switch_color_text(self, color):
+        self.color = color
+        self.set_dirty()
 
 font_dict = {}  # Chaches created font instances
 def get_font(size, bold=False, italic=False):
