@@ -58,14 +58,23 @@ class Event:
                 
                 prob = 0.0
                 if probability_type == "direct":
-                    if bar_value > threshold:
+                    if bar_value >= threshold:
                         prob = max_prob * ((bar_value - threshold) / (MAX_BAR_VALUE - threshold))
+                    
                 elif probability_type == "indirect":
-                    if bar_value < threshold:
+                    if bar_value <= threshold:
                         prob = max_prob * ((threshold - bar_value) / threshold)
+                    
                 elif probability_type == "constant":
-                    if bar_value < threshold :
+                    if bar_value <= threshold :
                         prob = float(max_prob)
+                        
+                elif probability_type == "range":
+                    rMin, rMax = threshold
+                    pMin, pMax = max_prob
+                    if rMin <= bar_value and bar_value <= rMax:
+                        prob = pMin + (bar_value-rMin)*(pMax-pMin)/(rMax-rMin)
+                    
                 elif probability_type == "triggered" and triggered:
                     prob = 1.0
             
@@ -107,19 +116,19 @@ class Event:
         
 class PersonalEvent(Event):
     
-    def __init__(self, picture, kid_animation_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, kid_message, level=1, preferred_mood=9, message_time_span=5):
+    def __init__(self, picture, kid_animation_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, kid_message, level=1, preferred_mood=9):
         Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, level, preferred_mood)
         
         self.kid_animation_path = kid_animation_path
     
         # Messages at ballon
         self.kid_message = kid_message
-        self.message_time_span = message_time_span
+        self.message_time_span = 250
     
     
 class SocialEvent(Event):
     
-    def __init__(self, picture, person_path, name, description, impact, appereance_probability, time_span, conditioned_bars, message, effect, level=1, preferred_mood=9, message_time_span=5):
+    def __init__(self, picture, person_path, name, description, impact, appereance_probability, time_span, conditioned_bars, message, effect, level=1, preferred_mood=9):
         Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, level, preferred_mood)
         
         print conditioned_bars
@@ -129,4 +138,4 @@ class SocialEvent(Event):
         
         self.person_path = person_path
         self.person_message = message
-        self.message_time_span = message_time_span
+        self.message_time_span = 250
