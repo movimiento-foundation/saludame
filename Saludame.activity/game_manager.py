@@ -30,6 +30,8 @@ class GameManager:
         """
         Constructor de la clase
         """
+        
+        #Singleton
         global instance
         instance = self
 
