@@ -117,6 +117,7 @@ class SaludameActivity(Activity):
             self.guides.show()
 
         if index == 4:
+            self.credits.before_show()
             self.credits.show()
 
     #Override activity.Activity's can_close method

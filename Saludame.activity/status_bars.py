@@ -34,7 +34,6 @@ ROOT_BAR_PARTITIONS = {33: pygame.Color("#cb0e12"), 100: pygame.Color("#7ee113")
 SUB_BAR_PARTITIONS = {100: pygame.Color("#a742bd")}                                     # Violet until hundred
 SCORE_BAR_PARTITIONS = {100: pygame.Color("#51b8ed")}                                   # Skyblue until hundred
 
-TEXT_COLOR_TUPLE = (255, 255, 255)
 TEXT_COLOR = "#0f5e65"
 SUB_BAR_TEXT_COLOR = "#ffffff"
 
@@ -490,10 +489,11 @@ class StatusBar:
         self.children_list = children_list # conjunto de barras hijas
 
         self.last_increase = 0.0
+        self.ignore = False             # An ingored bar doesn't affect the parent bar
         
     def get_score(self):
         return self.value
-        
+    
     def increase(self, increase_rate):
         """
         Incrementa el valor de la barra y repercute en los hijos y la barra padre
@@ -516,10 +516,9 @@ class StatusBar:
                 self.parent.recalculate()
     
     def recalculate(self):
-        children = len(self.children_list)
-        if children > 0:
-            values = sum([child.get_score() for child in self.children_list])
-            value = float(values) / children
+        if self.children_list:
+            values = [child.get_score() for child in self.children_list if not child.ignore]
+            value = float(sum(values)) / len(values)
             if self.value <> value:
                 self.value = value
                 if self.parent:
@@ -532,7 +531,8 @@ class StatusBar:
         self.last_increase = increase_rate
         if len(self.children_list) > 0:
             for child in self.children_list:
-                child.increase_from_parent(increase_rate)
+                if not child.ignore:
+                    child.increase_from_parent(increase_rate)
             self.recalculate()
         else:
             self.value += increase_rate
@@ -550,10 +550,11 @@ class WeightBar(StatusBar):
     def get_score(self):
         return self.max - abs(2 * self.value - self.max)
 
-class FarmBar(StatusBar):
+class IgnoreBar(StatusBar):
     
     def __init__(self, id, label, parent_bar, children_list, max_value, init_value):
         StatusBar.__init__(self, id, label, parent_bar, children_list, max_value, init_value)
-    
+        self.ignore = True
+        
     def get_score(self):
-        return self.max
+        return None

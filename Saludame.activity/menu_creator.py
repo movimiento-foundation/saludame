@@ -10,8 +10,8 @@ MA = ["morning", "afternoon"]
 NN = ["night", "noon"]
 
 CC = ["bedroom", "livingroom"]
-EP = ["school", "square"]
-ALL_BUT_SQUARE = ["bedroom", "livingroom", "school", "classroom"]
+EP = ["schoolyard", "square"]
+ALL_BUT_SQUARE = ["bedroom", "livingroom", "schoolyard", "classroom"]
 
 items = [
     # ("display_name", "action_id", "tooltip", [Children], place_restrictions, time_restrictions),
@@ -151,7 +151,6 @@ items = [
             (_("Jump the rope"), "sport_jump", None, None, EP),
             (_("Play footbal"), "sport_football", None, None, EP),
         ]),
-        (_("Ir al baño"), "toilet", None, None, ALL_BUT_SQUARE),
         (_("Go to sleep"), "sleep", None, None, ["bedroom"]),
     ]),
     
@@ -173,6 +172,7 @@ items = [
        (_("Bañarse"), "shower", None, None, ALL_BUT_SQUARE),
        (_("Cepillarse los dientes"), "brush_teeth", None, None, ALL_BUT_SQUARE),
        (_("Lavarse las manos"), "wash_hands", None, None, ALL_BUT_SQUARE),
+       (_("Ir al baño"), "toilet", None, None, ALL_BUT_SQUARE),
    ]),
    
    (_("Huerta..."), None, None, [

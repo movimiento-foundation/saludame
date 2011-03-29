@@ -10,44 +10,45 @@ class BarsLoader:
     """
     
     def __init__(self):
-        hard_level = (100, 50)
+        max_points = 100
+        init_points = 50
         
         self.score_bar = status_bars.StatusBar("score_bar", _("Score"), None, [], 100, 0)
-        self.overall_bar = status_bars.StatusBar("overall_bar", _("Overall"), None, [], hard_level[0], hard_level[1])
+        self.overall_bar = status_bars.StatusBar("overall_bar", _("Overall"), None, [], max_points, init_points)
         
         #'hard_level' para plasmar que la idea es que los valores por defecto de las barras
         #se carguen segun un nivel de dificultad
         # physica
         physica_children_id = [("energy", _(u"Energía")), ("defenses", _("Defenses"))]
-        physica = status_bars.StatusBar("physica", "Physica", self.overall_bar, [], hard_level[0], hard_level[1])
-        physica_children_bar = [status_bars.StatusBar(id[0], id[1], physica, [], hard_level[0], hard_level[1]) for id in physica_children_id]
-        weight_bar = status_bars.WeightBar("weight", _("Peso"), physica, [], hard_level[0], hard_level[1])
+        physica = status_bars.StatusBar("physica", _("Physica"), self.overall_bar, [], max_points, init_points)
+        physica_children_bar = [status_bars.StatusBar(id[0], id[1], physica, [], max_points, init_points) for id in physica_children_id]
+        weight_bar = status_bars.WeightBar("weight", _("Peso"), physica, [], max_points, init_points)
         physica_children_bar.append(weight_bar)
         physica.children_list = physica_children_bar
         
         ### hygiene
         hygiene_children_id = [("shower", _("Shower")), ("w_hands", _("Wash Hands")), ("b_teeth", _("Brush Teeth")), ("toilet", _(u"Toilet"))]
-        hygiene = status_bars.StatusBar("hygiene", "Hygiene", self.overall_bar, [], hard_level[0], hard_level[1])
-        hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], hard_level[0], hard_level[1]) for id in hygiene_children_id]
+        hygiene = status_bars.StatusBar("hygiene", _("Hygiene"), self.overall_bar, [], max_points, init_points)
+        hygiene_children_bar = [status_bars.StatusBar(id[0], id[1], hygiene, [], max_points, init_points) for id in hygiene_children_id]
         hygiene.children_list = hygiene_children_bar
 
         ### nutrition
         nutrition_children_id = [("c_leguminosas", _("Cereales y leguminosas")), ("v_frutas", _("Verduras y frutas")), ("c_huevos", _("Carnes y huevos")), ("dulces", _("Dulces")), ("g_aceites", _("Grasas y aceites")), ("l_quesos", _("Leches y quesos")), ("agua", _("Agua"))]
-        nutrition = status_bars.StatusBar("nutrition", _("Alimentation"), self.overall_bar, [], hard_level[0], hard_level[1])
-        nutrition_children_bar = [status_bars.StatusBar(id[0], id[1], nutrition, [], hard_level[0], hard_level[1]) for id in nutrition_children_id]
+        nutrition = status_bars.StatusBar("nutrition", _("Alimentation"), self.overall_bar, [], max_points, init_points)
+        nutrition_children_bar = [status_bars.StatusBar(id[0], id[1], nutrition, [], max_points, init_points) for id in nutrition_children_id]
         nutrition.children_list = nutrition_children_bar
         
         ### spare time
         fun_children_id = [("sports", _("Sports")), ("fun", _(u"Fun")), ("relaxing", _("Rest"))]
-        fun = status_bars.StatusBar("spare_time", _("Tiempo Libre"), self.overall_bar, [], hard_level[0], hard_level[1])
-        fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in fun_children_id]
+        fun = status_bars.StatusBar("spare_time", _("Tiempo Libre"), self.overall_bar, [], max_points, init_points)
+        fun_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], max_points, init_points) for id in fun_children_id]
         fun.children_list = fun_children_bar
 
         ### responsability
-        resp_children_id = [("homework", _(u"Homework")), ("housekeeping", _("Housekeeping")), ("farm", _("Huerta")), ("h_check", _("Health Check"))]
-        resp = status_bars.StatusBar("responsability", _("Responsabilidad"), self.overall_bar, [], hard_level[0], hard_level[1])
-        resp_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], hard_level[0], hard_level[1]) for id in resp_children_id]
-        farm_bar = status_bars.FarmBar("farm", _("Huerta"), resp, [], hard_level[0], hard_level[1])
+        resp_children_id = [("homework", _(u"Homework")), ("housekeeping", _("Housekeeping")), ("h_check", _("Health Check"))]
+        resp = status_bars.StatusBar("responsability", _("Responsabilidad"), self.overall_bar, [], max_points, init_points)
+        resp_children_bar = [status_bars.StatusBar(id[0], id[1], fun, [], max_points, init_points) for id in resp_children_id]
+        farm_bar = status_bars.IgnoreBar("farm", _("Huerta"), resp, [], max_points, 0)
         resp_children_bar.append(farm_bar)
         resp.children_list = resp_children_bar
         

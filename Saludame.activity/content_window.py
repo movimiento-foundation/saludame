@@ -12,7 +12,9 @@ else:
     ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
-HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción.html')
+ignore_list = ["images", "old", "bak"]
+
+HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
 
 hulahop_ok = True
 try:
@@ -112,28 +114,45 @@ class ContentWindow(gtk.HBox):
             self.web_view = None
         self.hide()
         
-    def _load_treeview(self):
-        iters = {ROOT_PATH: None}
+    #def _load_treeview(self):
+        #iters = {ROOT_PATH: None}
         
-        for root, dirs, files in os.walk(ROOT_PATH):
-            all = []
-            all += [(file, 'f') for file in files]
-            all += [(dir, 'd') for dir in dirs]
-            all = sorted(all)
+        #for root, dirs, files in os.walk(ROOT_PATH):
+            #all = []
+            #all += [(file, 'f') for file in files]
+            #all += [(dir, 'd') for dir in dirs]
+            #all = sorted(all)
             
-            for node_name, node_type in all:
-                if node_type == 'f':
-                    if node_name.endswith(".html"):
-                        display_name = self.get_display_name(node_name)
-                        fullpath = os.path.join(root, node_name)
-                        self.treestore.append(iters[root], (display_name, fullpath))
-                else:
-                    display_name = self.get_display_name(node_name)
-                    _iter = self.treestore.append(iters[root], (display_name, root))
-                    iters[os.path.join(root, node_name)] = _iter
+            #for node_name, node_type in all:
+                #if node_type == 'f':
+                    #if node_name.endswith(".html"):
+                        #display_name = self.get_display_name(node_name)
+                        #fullpath = os.path.join(root, node_name)
+                        #self.treestore.append(iters[root], (display_name, fullpath))
+                #else:
+                    #display_name = self.get_display_name(node_name)
+                    #_iter = self.treestore.append(iters[root], (display_name, root))
+                    #iters[os.path.join(root, node_name)] = _iter
         
+    def _load_treeview(self, directory=ROOT_PATH, parent_iter=None):
+        dirList = os.listdir(directory)
+        for node in sorted(dirList):
+            nodepath = os.path.join(directory, node)
+            if os.path.isfile(nodepath):
+                pass
+                if node.endswith(".html"):
+                    display_name = self.get_display_name(node)
+                    self.treestore.append(parent_iter, (display_name, nodepath))
+            else:
+                if not node in ignore_list:
+                    display_name = self.get_display_name(node)
+                    _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                    self._load_treeview(nodepath, _iter)
+                    
     def get_display_name(self, file_name):
         display_name = file_name.replace(".html", "")
+        display_name = display_name.replace("-avanzado", "")
+        display_name = display_name.replace("-simple", "")
         display_name = display_name.split("-", 1)[-1]
         return display_name
     
@@ -147,5 +166,6 @@ if __name__ == "__main__":
     window = ContentWindow()
     main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
     main_window.add(window)
+    main_window.set_size_request(800,600)
     main_window.show_all()
     gtk.main()
