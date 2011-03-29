@@ -20,7 +20,8 @@ N_TF = 5
 FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
 TITLE_FONT_SIZE = 24
-TEXT_FONT_SIZE = 22
+TEXT_FONT_SIZE = 18
+TEXT_TRUE_OR_FALSE_SIZE = 24
 
 ANSWER_COLOR = pygame.Color("blue")
 MOUSE_OVER_COLOR = pygame.Color("green")
@@ -79,11 +80,22 @@ class MultipleChoice(gui.Window):
 
         y += 40 * len(self.question.lines)
         
+        last_y = 30
+        
+        if isinstance(self, TrueOrFalse):
+            if self.kind == "normal":
+                size = TEXT_TRUE_OR_FALSE_SIZE
+            else:
+                size = TEXT_FONT_SIZE
+        else:
+            size = TEXT_FONT_SIZE 
+            
         for ans in answers:
-            y += 30
-            b = gui.TextButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, TEXT_FONT_SIZE, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+            y += last_y
+            b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.add_button(b)
+            last_y = b.rect_in_container.height
     
     def set_image(self, image):
         if  not isinstance(image, pygame.Surface):
@@ -270,12 +282,12 @@ class TrueOrFalse(MultipleChoice):
                     if game_manager.instance.get_current_level_conf()["slide"]:
                         self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
                         self.windows_controller.set_active_window("slide_window")
-                else:        
-                    self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.get_current_level_conf()["master_challenge_text"])
-                    self.windows_controller.set_active_window("info_challenge_window")
+                else:      
                     if game_manager.instance.get_current_level_conf()["slide"]:
                         self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
-                        self.windows_controller.set_active_window("slide_window")     
+                        self.windows_controller.set_active_window("slide_window")
+                    self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.get_current_level_conf()["master_challenge_text"])
+                    self.windows_controller.set_active_window("info_challenge_window")     
         
         self.n_tf = N_TF
         self.question_number = 0

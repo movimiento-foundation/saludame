@@ -37,7 +37,7 @@ class ChallengesCreator:
     def create_challenges(self):
         # Common multiple choice
         self._create_mc_challenge(_("Which foods do we need to eat every day?"), [_("Some food from each group every day"), _("Some fruits and vegetables only"), _("Some food from all the groups but not fats and sugar")], 0, 10, 10)
-        self._create_mc_challenge(_("What is the most important meal of the day?"), [_("Breakfast"), _("Lunch"), _("Tea"), _("Dinner")], 0, 10, 10)
+        self._create_mc_challenge(_("What is the most important meal of the day?"), [_("Break\nfast"), _("Lunch"), _("Tea"), _("Dinner")], 0, 10, 10)
         self._create_mc_challenge(_("How regularly should children exercise?"), [_("Once a month"), _("Once a week"), _("Once a day")], 2, 10, 10)
         self._create_mc_challenge(_("What percentage of the body is made up of water?"), ["30%", "70%", "90%"], 1, 10, 10)
         
