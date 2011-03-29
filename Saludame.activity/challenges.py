@@ -174,7 +174,8 @@ class TrueOrFalse(MultipleChoice):
         self.kind = "normal"    # normal or master
                                 # master challenge is like a TrueOrFalse challenge with mutlitple choice questions
                                 
-        self.limit = 3
+        self.limit = game_manager.instance.get_current_level_conf()["min_qty_correct_ans"]
+        
         self.perdio = False
         
     def pre_draw(self, screen):
@@ -276,6 +277,7 @@ class TrueOrFalse(MultipleChoice):
         if self.kind == "master":
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
+                self.windows_controller.set_active_window("info_challenge_window")
             else:
                 
                 if not game_manager.instance.get_current_level_conf()["master_challenge_text"]:

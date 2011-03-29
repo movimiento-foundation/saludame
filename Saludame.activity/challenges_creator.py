@@ -74,7 +74,7 @@ class ChallengesCreator:
             self._create_tf_challenge(_("Ser sedentarios no tiene importancia y no afecta nuestra \nsalud"), 0, 10, 10),
         ]
         
-        # Spare time
+        # Responsability
         self.tf_challenges["responsability"] = [
             self._create_tf_challenge(_("Hay que hacer los deberes en la escuela"), 1, 10, 10),
             self._create_tf_challenge(_("Es bueno ayudar en las tareas domésticas"), 0, 10, 10),
