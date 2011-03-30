@@ -36,10 +36,10 @@ class ChallengesCreator:
         
     def create_challenges(self):
         # Common multiple choice
-        self._create_mc_challenge(_("Which foods do we need to eat every day?"), [_("Some food from each group every day"), _("Some fruits and vegetables only"), _("Some food from all the groups but not fats and sugar")], 0, 10, 10)
-        self._create_mc_challenge(_("What is the most important meal of the day?"), [_("Break\nfast"), _("Lunch"), _("Tea"), _("Dinner")], 0, 10, 10)
-        self._create_mc_challenge(_("How regularly should children exercise?"), [_("Once a month"), _("Once a week"), _("Once a day")], 2, 10, 10)
-        self._create_mc_challenge(_("What percentage of the body is made up of water?"), ["30%", "70%", "90%"], 1, 10, 10)
+        self._create_mc_challenge(_("Which foods do we need to eat every day?"), [_("Some food from each group every day"), _("Some fruits and vegetables only"), _("Some food from all the groups but not fats and sugar"), _("Some food from each group every day"), _("Some food from each group every day"), _("Some food from all the groups but not fats and sugar"), _("Some food from each group every day"), _("Some food from each group every day")], _("Some food from each group every day"), 10, 10)
+        self._create_mc_challenge(_("What is the most important meal of the day?"), [_("Breakfast"), _("Lunch"), _("Tea"), _("Dinner"), _("Dinner"), _("Dinner")], _("Breakfast"), 10, 10)
+        self._create_mc_challenge(_("How regularly should children exercise?"), [_("Once a day"), _("Once a month"), _("Once a week"), _("Once a day"), _("Once a day"), _("Once a day")], _("Once a day"), 10, 10)
+        self._create_mc_challenge(_("What percentage of the body is made up of water?"), ["70%", "30%", "90%", "90%", "90%", "90%"], "70%", 10, 10)
         
         # True or false
         # 0 = False | 1 = True
@@ -104,8 +104,8 @@ class ChallengesCreator:
             
             # Set challenge attributes
             self.mc_challenge.set_question(c[0])
-            self.mc_challenge.set_answers(c[1])
             self.mc_challenge.set_correct_answer(c[2])
+            self.mc_challenge.set_answers(c[1])
             self.mc_challenge.set_win_points(c[3])
             self.mc_challenge.set_lose_points(c[4])
             
@@ -126,8 +126,8 @@ class ChallengesCreator:
             
             # Set challenge attributes
             self.tf_challenge.set_question(c[0])
-            self.tf_challenge.set_answers(c[1])
             self.tf_challenge.set_correct_answer(c[2])
+            self.tf_challenge.set_answers(c[1])
             self.tf_challenge.set_win_points(c[3])
             self.tf_challenge.set_lose_points(c[4])
             
@@ -152,8 +152,8 @@ class ChallengesCreator:
             
             # Set challenge attributes
             self.tf_challenge.set_question(c[0])
-            self.tf_challenge.set_answers(c[1])
             self.tf_challenge.set_correct_answer(c[2])
+            self.tf_challenge.set_answers(c[1])            
             self.tf_challenge.set_win_points(c[3])
             self.tf_challenge.set_lose_points(c[4])
             
