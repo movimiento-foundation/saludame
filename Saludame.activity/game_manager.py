@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-INSTANCE_FILE_PATH = "game.save"
 GAME_VERSION = "1.0"
 
 MAX_LEVEL = 9 #max qty of game levels  
@@ -26,7 +25,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, windows_controller, level_conf, events_actions_res):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, level_conf, events_actions_res):
         """
         Constructor de la clase
         """
@@ -35,12 +34,14 @@ class GameManager:
         global instance
         instance = self
 
+        self.started = False
+        
         #level configuration list
         self.level_conf = level_conf
         
         self.character = character
         self.bars_controller = bars_controller
-        self.windows_controller = windows_controller
+        self.windows_controller = None
         
         #management
         self.count = 0 #sirve como 'clock' interno, para mantener un orden de tiempo dentro de la clase.
@@ -71,11 +72,12 @@ class GameManager:
         
         #for events handling:
         self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
-
+        
         #environment
         self.environments_dictionary = environments_dictionary
         self.current_weather = self.weathers[0] # default weather
         self.environment = None
+        self.update_environment()
         
         # time of day
         self.hour = 2 # value between 0 and 3
@@ -87,13 +89,19 @@ class GameManager:
         # menu handling
         self.menu_active = False
         
-        # weather
+        # weather effects
         self.weather_effects = weather_effects
         self.environment_effect = None  # this is an Effect that represents the effect on the character by the environment: weather + place + clothes
         self.update_environment_effect()
         
         self.old_place = None
 
+    def start(self, windows_controller):
+        self.windows_controller = windows_controller
+        self.started = True
+        #self.update_environment_effect()
+        #self.windows_controller.update_clothes()
+        
 # management
 
     def pause_game(self):
@@ -155,7 +163,8 @@ class GameManager:
         environment_id = (self.character.current_place, self.current_weather[0])
         self.environment = self.environments_dictionary[environment_id]
         
-        self.windows_controller.set_environment(self.environment, self.current_time)
+        if self.started:
+            self.windows_controller.set_environment(self.environment, self.current_time)
     
     def update_environment_effect(self):
         """
@@ -189,6 +198,7 @@ class GameManager:
         
         self.current_time = self.day_dic[self.hour]
         print "cambio el momento del día a: ", self.current_time
+        
         self.update_environment()
         
         if self.hour == 1: #temporal para cambiar el clima
@@ -688,51 +698,37 @@ class GameManager:
         self.current_time = self.day_dic[self.hour]
         print "game reseted successfully... "
 
-    def save_game(self):
+    def serialize(self):
         """
         Save the game instance
         """
         game_status = {}
-        ##save bars status
+        ## save bars status
         bars_status_dic = self.bars_controller.get_bars_status()
-        ##save character properties
+        ## save character properties
         char_properties = self.character.get_status()
         ##
         game_status.update(bars_status_dic)
         game_status.update(char_properties)
         game_status.update({"version" : GAME_VERSION})
         
-        try:
-            f = open(INSTANCE_FILE_PATH, 'w')
-            f.write(game_status.__str__())
-            f.close()
-            
-            print "se guardo la partida con exito. Version ", GAME_VERSION
-        except:
-            print "no se pudo guardar la partida."
-            raise
+        return str(game_status)
 
-    def load_game(self):
-        try:
-            f = open(INSTANCE_FILE_PATH)
-            str = f.read()
-            game_status = eval(str)
-            f.close()
-            
-            #load bars status
-            self.bars_controller.load_bars_status(game_status)
-            print "status bars loaded..."
-            #character properties
-            self.character.load_properties(game_status)
-            print "character properties loaded..."
-            
-            self.update_environment()
-            self.update_environment_effect()
-            self.windows_controller.update_clothes()
-            
-            print "se cargo la partida con exito. Version ", game_status["version"]
-        except:
-            print "no se pudo cargar la partida."
+    def parse_game(self, data):
+        """ loads the game from a string """
+        
+        game_status = eval(data)
+        
+        #load bars status
+        self.bars_controller.load_bars_status(game_status)
+        
+        #character properties
+        self.character.load_properties(game_status)
+        
+        self.update_environment()
+        
+        print "Se cargo la partida con exito. Version ", game_status["version"]
+    
 
     def get_level(self):
         """

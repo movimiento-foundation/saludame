@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import gtk
+import pango
 from gettext import gettext as _
     
 def get_button(path):
@@ -12,17 +13,19 @@ def get_button(path):
 
 class StartupWindow(gtk.VBox):
     
-    def __init__(self, start_cb):
+    def __init__(self, start_cb, load_last_game_cb):
         gtk.VBox.__init__(self, False)
         
         self.start_cb = start_cb
+        self.load_last_game_cb = load_last_game_cb
+        
         self.set_welcome()
 
     def set_welcome(self):
         for child in self.get_children():
             self.remove(child)
         
-        self.add(Welcome(self.start_cb, self._new_game, self._load_last_game, self._load_game))
+        self.add(Welcome(self.start_cb, self._new_game, self.load_last_game_cb))
         self.show_all()
         
     def _new_game(self, button):
@@ -30,12 +33,6 @@ class StartupWindow(gtk.VBox):
             self.remove(child)
         
         self.add(SelectGenderAndName(self._gender_selected))
-    
-    def _load_last_game(self, button):
-        pass
-    
-    def _load_game(self, button):
-        pass
     
     def _gender_selected(self, name, gender):
         for child in self.get_children():
@@ -46,7 +43,7 @@ class StartupWindow(gtk.VBox):
 
 class Welcome(gtk.Fixed):
     
-    def __init__(self, start_cb, new_game_cb, load_last_game_cb, load_game_cb):
+    def __init__(self, start_cb, new_game_cb, load_last_game_cb):
         gtk.Fixed.__init__(self)
 
         self.start_cb = start_cb
@@ -63,10 +60,6 @@ class Welcome(gtk.Fixed):
         btn_last_game.connect("clicked", load_last_game_cb)
         self.put(btn_last_game, 490, 500)
         
-        btn_load_game = get_button("assets/layout/btn_from_journal.png")
-        btn_load_game.connect("clicked", load_game_cb)
-        self.put(btn_load_game, 490, 620)
-
         self.show_all()
 
 class SelectGenderAndName(gtk.Fixed):
@@ -80,8 +73,13 @@ class SelectGenderAndName(gtk.Fixed):
         image.set_from_file("assets/slides/screen_name_and_gender.jpg")
         self.put(image, 0, 0)
 
-        self.kid_name = gtk.Entry()
-        self.put(self.kid_name, 225, 150)
+        self.kid_name = PlaceholderEntry(_('Escribe un nombre'))
+        font = 'dejavu 24'
+        font_desc = pango.FontDescription(font)
+        self.kid_name.modify_font(font_desc)
+        self.kid_name.set_has_frame(False)
+        self.kid_name.set_size_request(776, 98)
+        self.put(self.kid_name, 213, 127)
         
         btn_boy = get_button("assets/layout/btn_boy.png")
         btn_boy.connect("clicked", self._boy)
@@ -99,6 +97,35 @@ class SelectGenderAndName(gtk.Fixed):
     def _girl(self, button):
         self.callback(self.kid_name.get_text(), "girl")
 
+
+class PlaceholderEntry(gtk.Entry):
+
+    _default = True
+
+    def __init__(self, placeholder):
+        gtk.Entry.__init__(self)
+        self.placeholder = placeholder
+        self._focus_out_event(self, None)
+        self.connect('focus-in-event', self._focus_in_event)
+        self.connect('focus-out-event', self._focus_out_event)
+
+    def _focus_in_event(self, widget, event):
+        if self._default:
+            self.set_text('')
+            self.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse('black'))
+
+    def _focus_out_event(self, widget, event):
+        if gtk.Entry.get_text(self) == '':
+            self.set_text(self.placeholder)
+            self.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse('gray'))
+            self._default = True
+        else:
+            self._default = False
+
+    def get_text(self):
+        if self._default:
+            return ''
+        return gtk.Entry.get_text(self)
 
 story = [
     
@@ -178,3 +205,10 @@ class Introduction(gtk.Fixed):
             self.index -= 1
             self.show_slide()
         
+if __name__ == "__main__":
+    sw = StartupWindow(None)
+    main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+    main_window.set_size_request(1200,700)
+    main_window.add(sw)
+    main_window.show_all()
+    gtk.main()

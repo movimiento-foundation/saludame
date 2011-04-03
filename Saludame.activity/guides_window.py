@@ -14,6 +14,8 @@ else:
 
 HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción.html')
 
+ignore_list = ["images", "old", "bak"]
+
 hulahop_ok = True
 try:
     import hulahop
@@ -30,7 +32,10 @@ class GuidesWindow(gtk.HBox):
         gtk.HBox.__init__(self, False)
         
         self._create_treeview()
-        self.pack_start(self.treeview, False)
+        sw = gtk.ScrolledWindow()
+        sw.add(self.treeview)
+        self.pack_start(sw, False)
+        self.treeview.set_size_request(300, -1)
         
         self.web_view = None
         self.last_uri = HOME_PAGE
@@ -110,27 +115,22 @@ class GuidesWindow(gtk.HBox):
         if self.web_view:
             self.remove(self.web_view)
             self.web_view = None
-        self.hide()
+        #self.hide()
         
-    def _load_treeview(self):
-        iters = {ROOT_PATH: root_iter}
-        
-        for root, dirs, files in os.walk(ROOT_PATH):
-            all = []
-            all += [(file, 'f') for file in files]
-            all += [(dir, 'd') for dir in dirs]
-            all = sorted(all)
-            
-            for node_name, node_type in all:
-                if node_type == 'f':
-                    if node_name.endswith(".html"):
-                        display_name = self.get_display_name(node_name)
-                        fullpath = os.path.join(root, node_name)
-                        self.treestore.append(iters[root], (display_name, fullpath))
-                else:
-                    display_name = self.get_display_name(node_name)
-                    _iter = self.treestore.append(iters[root], (display_name, root))
-                    iters[os.path.join(root, node_name)] = _iter
+    def _load_treeview(self, directory=ROOT_PATH, parent_iter=None):
+        dirList = os.listdir(directory)
+        for node in sorted(dirList):
+            nodepath = os.path.join(directory, node)
+            if os.path.isfile(nodepath):
+                pass
+                if node.endswith(".html"):
+                    display_name = self.get_display_name(node)
+                    self.treestore.append(parent_iter, (display_name, nodepath))
+            else:
+                if not node in ignore_list:
+                    display_name = self.get_display_name(node)
+                    _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                    self._load_treeview(nodepath, _iter)
         
     def get_display_name(self, file_name):
         display_name = file_name.replace(".html", "")

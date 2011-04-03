@@ -5,7 +5,7 @@ MAX_BAR_VALUE = 100.0 #maximo valor que puede alcanzar una barra
 
 class Event:
     
-    def __init__(self, directory_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, level, preferred_mood):
+    def __init__(self, directory_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, library_link, level, preferred_mood):
         
         if not time_span:
             time_span = 999
@@ -27,7 +27,9 @@ class Event:
         self.condicioned_bars = conditioned_bars[1]
         self.condicioned_probability = 0.0 # starts in 0.0
         self.level = level      # Starting level, in levels prior to this one, the event is not triggered
-    
+
+        self.library_link = library_link
+        
         self.restrictions = {}
     
     def check_restrictions(self, restrictions):
@@ -115,9 +117,8 @@ class Event:
         self.restrictions[restriction_id] = values
         
 class PersonalEvent(Event):
-    
-    def __init__(self, picture, kid_animation_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, kid_message, level=1, preferred_mood=9):
-        Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, level, preferred_mood)
+    def __init__(self, picture, kid_animation_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, kid_message, library_link, level=1, preferred_mood=9):
+        Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
         
         self.kid_animation_path = kid_animation_path
     
@@ -128,11 +129,8 @@ class PersonalEvent(Event):
     
 class SocialEvent(Event):
     
-    def __init__(self, picture, person_path, name, description, impact, appereance_probability, time_span, conditioned_bars, message, effect, level=1, preferred_mood=9):
-        Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, level, preferred_mood)
-        
-        print conditioned_bars
-        print self.condicioned_bars
+    def __init__(self, picture, person_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, message, library_link, level=1, preferred_mood=9):
+        Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
         
         self.time_left = time_span
         

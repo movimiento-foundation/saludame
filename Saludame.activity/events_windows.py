@@ -84,12 +84,16 @@ class PersonalWindow(gui.Window):
         else:
             self.count_personal_events.text = "0/0"
             self.count_personal_events.refresh()                     
-        
+    
+    def get_current_event(self):
+        if self.index_personal_event < len(self.active_personal_events):
+            return self.active_personal_events[self.index_personal_event][0]
+
     # Buttons Callbacks
     def _cb_button_click_personal(self, button):
-        print "personal"
-        if game.set_library_function:
-            game.set_library_function("99-Eventos.html")
+        event = self.get_current_event()
+        if event and event.library_link:
+            game.set_library_event(event.library_link)
         
     def _cb_button_click_personal_next(self, button):
         if self.index_personal_event < len (self.active_personal_events) - 1:
@@ -166,7 +170,7 @@ class SocialWindow(gui.Window):
             self.index_social_event = len(self.active_social_events) - 1
             
             self.refresh_count_social_events()           
-        
+    
     def remove_social_event(self, event):
         
         for e in self.active_social_events:
@@ -195,13 +199,17 @@ class SocialWindow(gui.Window):
         else:
             self.count_social_events.text = "0/0"
             self.count_social_events.refresh()
-            
+    
+    def get_current_event(self):
+        if self.index_social_event < len(self.active_social_events):
+            return self.active_social_events[self.index_social_event][0]
+    
     ## Buttons callbacks
     def _cb_button_click_social(self, button):
-        print "social"
-        if game.set_library_function:
-            game.set_library_function("99-Eventos.html")
-            
+        event = self.get_current_event()
+        if event and event.library_link:
+            game.set_library_event(event.library_link)
+    
     def _cb_button_click_social_next(self, button):
         if self.index_social_event < len (self.active_social_events) - 1:
             self.remove_button(self.current_animation)

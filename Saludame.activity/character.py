@@ -39,25 +39,28 @@ class Character:
         Get the character current status, and returns
         a dictionary.
         """
-        status = {"character_colors" : self.mappings, # add by CustomizatedKid in module customization.
-                  "current_place" : self.current_place,
-                  "name" : self.name,
-                  "level" : self.level,
-                  "grade" : self.grade,
-                  "clothes" : self.clothes
-                  }
+        status = {
+            "name": self.name,
+            "gender": self.sex,
+            "clothes": self.clothes,
+            "character_colors": self.mappings, # add by CustomizatedKid in module customization.
+            "current_place": self.current_place,
+            "level": self.level,
+            "grade": self.grade,
+        }
         return status
     
     def load_properties(self, game_status):
         """
         Load the character properties from previous data
         """
-        self.mappings = game_status["character_colors"]
         self.name = game_status["name"]
+        self.sex = game_status["gender"]
         self.clothes = game_status["clothes"]
-        self.grade = game_status["grade"]
+        self.mappings = game_status["character_colors"]
         self.current_place = game_status["current_place"]
         self.level = game_status["level"]
+        self.grade = game_status["grade"]
     
     def reset(self):
         """

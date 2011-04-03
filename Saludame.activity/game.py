@@ -5,7 +5,6 @@ import pygame
 import logging
 import hotkeys
 
-
 if __name__ == "__main__":
     import gettext
     gettext.textdomain("org.ceibaljam.Saludame")
@@ -21,7 +20,6 @@ if __name__ == "__main__":
     gettext.gettext = _
 
 from gettext import gettext as _
-import os
 
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
@@ -29,13 +27,22 @@ log.setLevel(logging.DEBUG)
 # Variables globales
 MAX_FPS = 16            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
+
+INSTANCE_FILE_PATH = "game.save"        # File to save the game in standalone mode
+
 pause = False
 running = True
 
 main_class = None
 
-def set_library_function(link):
-    print link
+def set_library_function(link, anchor=None):
+    if anchor:
+        print link + "#" + anchor
+    else:
+        print link
+
+def set_library_event(anchor):
+    set_library_function("90-Eventos-avanzado.html", anchor)
 
 class Main():
     
@@ -47,6 +54,7 @@ class Main():
         self.name = ""
         self.started = False
         self.target_size = target_size
+        self.loaded_game = None
     
     def main(self, from_sugar):
         self.init(from_sugar)
@@ -94,21 +102,24 @@ class Main():
         # This clock is used to keep the game at the desired FPS.
         clock = pygame.time.Clock()
         
-        # windows_controller asociado al screen
-        self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, None)
-        
         # Initialize sound_manager, game_manager, character, actions and menu.
         sound_manager.SoundManager()
         
-        app_loader = app_init.AppLoader(self.windows_controller, gender, name)
+        app_loader = app_init.AppLoader(gender, name)
         bars_loader = app_loader.get_status_bars_loader()
-        game_man = app_loader.get_game_manager()
+        self.game_man = app_loader.get_game_manager()
+        if from_sugar:
+            if self.loaded_game:
+                self.game_man.parse_game(self.loaded_game)
+        else:
+            self.load_game()
         
-        self.hotkeys_handler = hotkeys.HotKeyHandler()
-        self.windows_controller.game_man = game_man
+        # windows_controller asociado al screen
+        self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, self.game_man)        
         self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
-
-        game_man.load_game()
+        self.hotkeys_handler = hotkeys.HotKeyHandler()
+        
+        self.game_man.start(self.windows_controller)
         
         frames = 0
         
@@ -134,25 +145,33 @@ class Main():
                     for event in events:
                         if event.type == pygame.QUIT:
                             running = False
-                            game_man.save_game()
+                            if not from_sugar:
+                                self.save_game()
+                                
                         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and not from_sugar:
                             running = False
-                            game_man.save_game()
+                            self.save_game()
+                            
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
+                            
                         elif event.type == pygame.MOUSEBUTTONUP:
                             self.windows_controller.handle_mouse_up(event.pos)
+                            
                         elif event.type == pygame.MOUSEMOTION:
                             self.windows_controller.handle_mouse_motion(event.pos)
+                            
                         elif event.type == pygame.VIDEOEXPOSE:
                             self.windows_controller.reload_main = True
+                            
                         elif event.type == pygame.USEREVENT and event.code == 0: # Music ended
                             sound_manager.instance.start_playing()
+                            
                         elif event.type == pygame.KEYDOWN:
                             self.hotkeys_handler.handle_keydown(event)
+                            
                         elif event.type == pygame.KEYUP:
                             self.hotkeys_handler.handle_keyup(event)
-                            
                             
                 self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 
@@ -160,11 +179,35 @@ class Main():
         
                 frames += 1
 
-                game_man.signal()
+                self.game_man.signal()
                 
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
 
+
+    def save_game(self, path=INSTANCE_FILE_PATH):
+        """
+        Save the game instance
+        """
+        print "saving game"
+        data = self.game_man.serialize()
+        
+        try:
+            f = open(path, 'w')
+            f.write(data)
+        finally:
+            f.close()
+        
+    def load_game(self, path=INSTANCE_FILE_PATH):
+        """ loads the game from a string """
+        try:
+            f = open(path)
+            data = f.read()
+            self.game_man.parse_game(data)
+            f.close()
+        except:
+            print "Error al cargar la partida"
+    
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1 and sys.argv[1] in ["boy", "girl"]:

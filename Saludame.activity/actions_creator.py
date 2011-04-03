@@ -29,7 +29,7 @@ HOT_DRINK_PATH = os.path.normpath("assets/action-icons/hotdrink")
 # Formula to convert effects per minute into effects per CONTROL_INTERVAL
 # factor = CONTROL_INTEVAL/(60 * FPS)
 factor = float(16) / (60 * 14)
-bars_rate_per_minute = [("energy",-2), ("defenses",-0.5), ("weight",0), ("c_leguminosas",-1.5), ("v_frutas",-1.5), ("c_huevos",-0.5), ("dulces",-10), ("g_aceites",-5), ("l_quesos",-5), ("agua",-2), ("shower",-1), ("w_hands",-1), ("b_teeth",-1), ("toilet",-2), ("sports",-1), ("fun",-1), ("relaxing",-1), ("housekeeping",-2), ("homework",-2), ("h_check",-0.2), ("farm",0)]
+bars_rate_per_minute = [("energy",-20), ("defenses",-10), ("weight",0), ("c_leguminosas",-15), ("v_frutas",-15), ("c_huevos",-5), ("dulces",-1), ("g_aceites",-5), ("l_quesos",-5), ("agua",-20), ("shower",-10), ("w_hands",-10), ("b_teeth",-10), ("toilet",-20), ("sports",-10), ("fun",-10), ("relaxing",-10), ("housekeeping",-20), ("homework",-20), ("h_check",-0.2), ("farm",0)]
 bar_dec_effect = effects.Effect(None, [(bar, rate*factor) for bar, rate in bars_rate_per_minute])
 
 # Consequences of food actions (triggered events after eating)
