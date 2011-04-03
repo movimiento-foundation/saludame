@@ -22,7 +22,7 @@ class Credits(gtk.Fixed):
             height = self.credits_pixbuf.get_height()
             self.adj = gtk.Adjustment(value=0, lower=0, upper=height, step_incr=20, page_incr=200, page_size=550)
             scroll = gtk.VScrollbar(self.adj)
-            scroll.set_size_request(-1, 550)
+            scroll.set_size_request(40, 550)
             scroll.show()
             scroll.connect("value-changed", self.scrolled)
             

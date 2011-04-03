@@ -16,16 +16,18 @@ class KidWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, cha_loader, game_man):
         
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "kid")
-        self.set_bg_image(pygame.image.load(BACKGROUND_PATH).convert())
-        
-        kid_rect = pygame.Rect((280, 70), (400, 500))
-        self.mood = "normal"
         
         self.game_man = game_man
-        
         self.cha_loader = cha_loader
-            
-        self.kid = animation.Kid(rect, kid_rect, 1, windows_controller, game_man, self.mood)
+
+        environment = self.game_man.environment
+        time = self.game_man.current_time
+        self.set_environment(environment, time)
+        
+        mood = self.game_man.character.mood
+        
+        kid_rect = pygame.Rect((280, 70), (400, 500))
+        self.kid = animation.Kid(rect, kid_rect, 1, windows_controller, game_man, mood)
         self.add_child(self.kid)
         
         self.balloon = None
@@ -171,7 +173,7 @@ class ExternalCharacter(gui.Window):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "external_character")
         
         self.time_span = event.message_time_span
-                
+        
         self.character = character # Main character (Kid)
         
         self.external_character = gui.Image(self.rect, pygame.Rect((13, 179), (273, 380)), 1, event.person_path, True)

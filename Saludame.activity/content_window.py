@@ -5,11 +5,11 @@ import os
 from gettext import gettext as _
 
 if __name__ == "__main__":
-    ROOT_PATH = os.path.realpath('content/')
+    ROOT_PATH = unicode(os.path.realpath('content/'))
     STARTUP_DIR = os.path.realpath('gecko')
 else:
     from sugar.activity import activity
-    ROOT_PATH = os.path.join(activity.get_bundle_path(), 'content/')
+    ROOT_PATH = unicode(os.path.join(activity.get_bundle_path(), 'content/'))
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
 ignore_list = ["images", "old", "bak"]
@@ -26,13 +26,24 @@ except:
 
 gobject.threads_init()
 
+# filesystemencoding should be used, but for some reason its value is ascii instead of utf-8
+# the following lines are used to fix that problem, asumming all paths as unicode
+fencoding = 'utf-8'     
+uni = lambda s: unicode(s, fencoding)
+listdir = lambda x: map(uni, os.listdir(x.encode(fencoding)))
+isfile = lambda x: os.path.isfile(x.encode(fencoding))
+#
+
 class ContentWindow(gtk.HBox):
     
     def __init__(self):
         gtk.HBox.__init__(self, False)
         
         self._create_treeview()
-        self.pack_start(self.treeview, False)
+        sw = gtk.ScrolledWindow()
+        sw.add(self.treeview)
+        self.pack_start(sw, False)
+        self.treeview.set_size_request(300, -1)
         
         self.web_view = None
         self.last_uri = HOME_PAGE
@@ -40,6 +51,11 @@ class ContentWindow(gtk.HBox):
         self.connect("expose-event", self._exposed)
         self.show_all()
 
+        # Could be loaded on expose, but the set_url function won't work
+        self.path_iter = {}
+        self.treeview_loaded = True
+        self._load_treeview()
+        
     def _create_browser(self):
         if hulahop_ok:
             self.web_view = WebView()
@@ -100,10 +116,10 @@ class ContentWindow(gtk.HBox):
     
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
+            self.path_iter = {}
             self.treeview_loaded = True
             self._load_treeview()
-            self.treeview.expand_row((0), False)        # Expand the root path
-        
+            
         if not self.web_view:
             self._create_browser()
             
@@ -112,41 +128,22 @@ class ContentWindow(gtk.HBox):
         if self.web_view:
             self.remove(self.web_view)
             self.web_view = None
-        self.hide()
-        
-    #def _load_treeview(self):
-        #iters = {ROOT_PATH: None}
-        
-        #for root, dirs, files in os.walk(ROOT_PATH):
-            #all = []
-            #all += [(file, 'f') for file in files]
-            #all += [(dir, 'd') for dir in dirs]
-            #all = sorted(all)
-            
-            #for node_name, node_type in all:
-                #if node_type == 'f':
-                    #if node_name.endswith(".html"):
-                        #display_name = self.get_display_name(node_name)
-                        #fullpath = os.path.join(root, node_name)
-                        #self.treestore.append(iters[root], (display_name, fullpath))
-                #else:
-                    #display_name = self.get_display_name(node_name)
-                    #_iter = self.treestore.append(iters[root], (display_name, root))
-                    #iters[os.path.join(root, node_name)] = _iter
+        #self.hide()
         
     def _load_treeview(self, directory=ROOT_PATH, parent_iter=None):
-        dirList = os.listdir(directory)
+        dirList = listdir(directory)
         for node in sorted(dirList):
             nodepath = os.path.join(directory, node)
-            if os.path.isfile(nodepath):
-                pass
+            if isfile(nodepath):
                 if node.endswith(".html"):
                     display_name = self.get_display_name(node)
-                    self.treestore.append(parent_iter, (display_name, nodepath))
+                    _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                    self.path_iter[nodepath] = _iter
             else:
                 if not node in ignore_list:
                     display_name = self.get_display_name(node)
                     _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                    self.path_iter[nodepath] = _iter
                     self._load_treeview(nodepath, _iter)
                     
     def get_display_name(self, file_name):
@@ -156,9 +153,24 @@ class ContentWindow(gtk.HBox):
         display_name = display_name.split("-", 1)[-1]
         return display_name
     
-    def set_url(self, link):
-        link = ROOT_PATH + link
-        self.last_uri = unicode(link)
+    def position_in_filename(self, filepath):
+        if filepath in self.path_iter:
+            _iter = self.path_iter[filepath]
+            treepath = self.treestore.get_path(_iter)
+            self.treeview.expand_to_path(treepath)
+            self.treeview.set_cursor(treepath)
+        else:
+            print filepath
+            print self.path_iter.keys()
+            
+    def set_url(self, link, anchor=None):
+        link = os.path.join(ROOT_PATH, link)
+        self.position_in_filename(link)
+        if anchor:
+            self.last_uri = unicode("file://") + link + unicode("#") + unicode(anchor)
+        else:
+            self.last_uri = unicode("file://") + link
+        
         if self.web_view:
             self.web_view.load_uri( self.last_uri )
         
@@ -169,3 +181,4 @@ if __name__ == "__main__":
     main_window.set_size_request(800,600)
     main_window.show_all()
     gtk.main()
+    

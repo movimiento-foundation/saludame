@@ -67,19 +67,6 @@ class Translator(object):
         self._mainwindow.set_flags(gtk.CAN_FOCUS)
         self._inner_evb.set_flags(gtk.CAN_FOCUS)
         
-        # Callback functions to link the event systems
-        self._mainwindow.connect('unrealize', self._quit_cb)
-        self._mainwindow.connect('key_press_event', self._keydown_cb)
-        self._mainwindow.connect('key_release_event', self._keyup_cb)
-        self._mainwindow.connect('expose-event', self._expose_cb)
-        
-        self._inner_evb.connect('key_press_event', self._keydown_cb)
-        self._inner_evb.connect('key_release_event', self._keyup_cb)
-        self._inner_evb.connect('button_press_event', self._mousedown_cb)
-        self._inner_evb.connect('button_release_event', self._mouseup_cb)
-        self._inner_evb.connect('motion-notify-event', self._mousemove_cb)
-        self._inner_evb.connect('configure-event', self._resize_cb)
-        
         # Internal data
         self.__stopped = False
         self.__keystate = [0] * 323
@@ -90,8 +77,24 @@ class Translator(object):
         self.__held_time_left = {}
         self.__held_last_time = {}
         self.__tick_id = None
+        
+        self.__hooked = False
 
     def hook_pygame(self):
+        # Callback functions to link the event systems
+        self.m_quit = self._mainwindow.connect('unrealize', self._quit_cb)
+        self.m_keydown = self._mainwindow.connect('key_press_event', self._keydown_cb)
+        self.m_keyup = self._mainwindow.connect('key_release_event', self._keyup_cb)
+        self.m_expose = self._mainwindow.connect('expose-event', self._expose_cb)
+        
+        self.i_keydown = self._inner_evb.connect('key_press_event', self._keydown_cb)
+        self.i_keyup = self._inner_evb.connect('key_release_event', self._keyup_cb)
+        self.i_mousedown = self._inner_evb.connect('button_press_event', self._mousedown_cb)
+        self.i_mouseup = self._inner_evb.connect('button_release_event', self._mouseup_cb)
+        self.i_mousemove = self._inner_evb.connect('motion-notify-event', self._mousemove_cb)
+        self.i_resize = self._inner_evb.connect('configure-event', self._resize_cb)
+        
+        # Hook pygame functions to this class functions
         pygame.key.get_pressed = self._get_pressed
         pygame.key.set_repeat = self._set_repeat
         pygame.mouse.get_pressed = self._get_mouse_pressed
@@ -100,6 +103,22 @@ class Translator(object):
         self.real_pygame_set_mode = pygame.display.set_mode
         pygame.display.set_mode = self._set_display_mode
         
+        self.__hooked = True
+        
+    def unhook_pygame(self):
+        if self.__hooked:
+            self._mainwindow.disconnect(self.m_quit)
+            self._mainwindow.disconnect(self.m_keydown)
+            self._mainwindow.disconnect(self.m_keyup)
+            self._mainwindow.disconnect(self.m_expose)
+            
+            self._mainwindow.disconnect(self.i_keydown)
+            self._mainwindow.disconnect(self.i_keyup)
+            self._mainwindow.disconnect(self.i_mousedown)
+            self._mainwindow.disconnect(self.i_mouseup)
+            self._mainwindow.disconnect(self.i_mousemove)
+            self._mainwindow.disconnect(self.i_resize)
+            self.__hooked = False
         
     def _expose_cb(self, event, widget):
         if pygame.display.get_init():
