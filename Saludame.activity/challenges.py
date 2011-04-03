@@ -9,6 +9,7 @@ import os
 import gui
 import utilities
 import game_manager
+import random
 from gettext import gettext as _
 
 S_CORRECT_PATH = os.path.normpath("assets/sound/challenge_win.ogg")
@@ -42,7 +43,8 @@ class MultipleChoice(gui.Window):
         self.topic = None # The topic is the bar whose we are playing
         
         self.choices = []
-        self.correct = 0
+        self.correct = None
+        self.correct_index = 0
         
         self.tries = 0
         
@@ -85,17 +87,44 @@ class MultipleChoice(gui.Window):
         if isinstance(self, TrueOrFalse):
             if self.kind == "normal":
                 size = TEXT_TRUE_OR_FALSE_SIZE
+                
+                for ans in answers:
+                    y += last_y
+                    b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
+                    self.choices.append(b)
+                    self.add_button(b)
+                    last_y = b.rect_in_container.height
+                return 
+                                                    
             else:
                 size = TEXT_FONT_SIZE
         else:
-            size = TEXT_FONT_SIZE 
+            size = TEXT_FONT_SIZE            
+           
+        # Choose 3 of the 5 possible incorrect answers
+        cant_choose = []
+        selected_answers = [answers[0]]
+        for _ in range(3):
             
-        for ans in answers:
+            ans = self.get_random_answer(answers[1:], cant_choose) # The first answer is the correct one
+            selected_answers.append(ans)           
+        
+        random.shuffle(selected_answers)
+        self.correct_index = selected_answers.index(self.correct)
+        
+        for ans in selected_answers:  
             y += last_y
             b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.add_button(b)
             last_y = b.rect_in_container.height
+            
+    def get_random_answer(self, answers, cant_choose):
+        while True:
+            r = random.randrange(0, 5)
+            if not r in cant_choose:
+                cant_choose.append(r)
+                return answers[r]       
     
     def set_image(self, image):
         if  not isinstance(image, pygame.Surface):
@@ -112,7 +141,7 @@ class MultipleChoice(gui.Window):
     ######## Callbacks buttons ########
     
     def _cb_button_click_choice(self, button):
-        if button == self.choices[self.correct]:
+        if button == self.choices[self.correct_index]:
             self.s_correct.play()
             self.windows_controller.game_man.bars_controller.increase_bar(self.topic.id, self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][self.tries])
             
@@ -135,7 +164,6 @@ class MultipleChoice(gui.Window):
                 self.windows_controller.set_active_window("mc_challenge_window")
                 self.windows_controller.set_active_window("info_challenge_window")
 
-        
     def _cb_button_over_choice(self, button):
         if not FIN_MC:
             button.switch_color_text(MOUSE_OVER_COLOR)
@@ -221,7 +249,13 @@ class TrueOrFalse(MultipleChoice):
         return [q0, q1, q2, q3, q4]
         
     def _cb_button_click_choice(self, button):
-        if button == self.choices[self.correct]:
+        
+        if self.kind == "normal":
+            correct = self.correct
+        else:
+            correct = self.correct_index
+        
+        if button == self.choices[correct]:
             self.s_correct.play()
             
             # Correct answer
@@ -243,13 +277,20 @@ class TrueOrFalse(MultipleChoice):
             
             # Incorrect answer
             self.answers[self.question_number] = "incorrect"
+            
+            if self.answers.count("incorrect") == 5 - self.limit + 1:
+                self.perdio = True
+            
+            if self.perdio:
+                self.windows_controller.close_active_window()
+                self.result_and_reset()
+                return            
+            
             self.n_tf -= 1
             
-            if self.n_tf > 0 and not self.perdio:
+            if self.n_tf > 0:
                                 
                 if self.kind == "master":
-                    if self.answers.count("incorrect") == 5 - self.limit:
-                        self.perdio = True
                     self.challenges_creator.get_challenge("master")
                     
                 if self.kind == "normal":
@@ -272,6 +313,7 @@ class TrueOrFalse(MultipleChoice):
                 self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Perdiste %s puntos para tu \nbarra %s" % (-puntos, self.topic.label))
             else:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Ganaste %s puntos para tu \nbarra %s" % (puntos, self.topic.label))
+            self.windows_controller.set_active_window("info_challenge_window")
 
             
         if self.kind == "master":
