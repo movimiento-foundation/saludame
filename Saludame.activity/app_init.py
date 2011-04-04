@@ -21,7 +21,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty" : 2,
                              "events_qty_personal" : 1,
                              "events_qty_social" : 1,
-                             "time_between_events" : 30 #menos tiempo para probar más fácil 175 #three minutes aprox.
+                             "time_between_events" : 175
                              },
                              {# LEVEL 2
                              "score_vector" : (-8, -4, 0 , 5, 10),
@@ -33,7 +33,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty" : 2,
                              "events_qty_personal" : 1,
                              "events_qty_social" : 1,
-                             "time_between_events" : 120 #menos tiempo para probar más fácil 160
+                             "time_between_events" : 160
                              },
                              {# LEVEL 3
                              "score_vector" : (-8, -4, 0 , 5, 10),
@@ -45,7 +45,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "events_qty" : 2,
                              "events_qty_personal" : 1,
                              "events_qty_social" : 2,
-                             "time_between_events" : 120 #menos tiempo para probar más fácil 145
+                             "time_between_events" : 145
                              },
                              {# LEVEL 4
                              "score_vector" : (-10, -6, 0 , 3, 7),
@@ -63,7 +63,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "score_vector" : (-10, -6, 0 , 3, 7),
                              "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
                              "multiple_choice_vector" : (10, 5, -7),
-                             "master_challenge_text" : u"Muy bien! Recuerda que el clima frio puede hacer que pierdas más energía.",
+                             "master_challenge_text" : u"¡Muy bien! A partir de este nivel te puede tocar\nclima frio, ten cuidado porque pierdes energía más rápido.",
                              "min_qty_correct_ans" : 4,
                              "slide" : None,
                              "events_qty" : 3,
@@ -237,11 +237,6 @@ class AppLoader:
         event = events.PersonalEvent("assets/events/personal/headache", None, "headache", u"Dolor de cabeza", "neg", None, None, probability, effect, u"Me duele la cabeza", "id.2g0bjuai8neo", 1, sick_1)
         _events.append(event)
         
-        probability = ("all", [("overall_bar", "triggered", 0, 1)])
-        effect = effects.Effect(bars_controller, [("energy", -10), ("defenses", -10), ("relaxing", 10)])
-        event = events.PersonalEvent("assets/events/personal/nausea", None, "drunk", u"Borracho", "neg", None, m(2), probability, effect, u"¿Qué pasa? Me siento mal\ny estoy mareado", "id.d7a2e7660jxk", 1, sick_2)
-        _events.append(event)
-        
         probability = ("all", [("nutrition", "indirect", 15, 75), ("energy", "indirect", 15, 75)])
         effect = effects.Effect(bars_controller, [("energy", -10), ("defenses", -5), ("weight", -2)])
         event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "hunger", u"Hambre", "neg", None, None, probability, effect, u"¡Tengo hambre!", "id.62xnnrmqecu9", 1, angry_2)
@@ -385,6 +380,7 @@ class AppLoader:
         effect = effects.Effect(bars_controller, [("defenses", -5), ("energy", -5)])
         event = events.SocialEvent(father_neg, father, "ir_a_dormir", u"Ir a dormir", "neg", None, m(5), probability, effect, u"Llegó la hora\nde ir dormir", "id.mm0q0bwd72vv", 1, normal)
         event.add_restriction("place", ["livingroom", "bedroom", "square"])
+        event.add_restriction("time", ["night"])
         _events.append(event)
         
         # Teacher

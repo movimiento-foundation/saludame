@@ -5,14 +5,14 @@ import os
 from gettext import gettext as _
 
 if __name__ == "__main__":
-    ROOT_PATH = os.path.realpath('guides/')
+    ROOT_PATH = unicode(os.path.realpath('guides/'))
     STARTUP_DIR = os.path.realpath('gecko')
 else:
     from sugar.activity import activity
-    ROOT_PATH = os.path.join(activity.get_bundle_path(), 'guides/')
+    ROOT_PATH = unicode(os.path.join(activity.get_bundle_path(), 'guides/'))
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
-HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción.html')
+HOME_PAGE = os.path.join(ROOT_PATH, u'02-Empezar.html')
 
 ignore_list = ["images", "old", "bak"]
 
@@ -25,6 +25,14 @@ except:
     hulahop_ok = False
 
 gobject.threads_init()
+
+# filesystemencoding should be used, but for some reason its value is ascii instead of utf-8
+# the following lines are used to fix that problem, asumming all paths as unicode
+fencoding = 'utf-8'     
+uni = lambda s: unicode(s, fencoding)
+listdir = lambda x: map(uni, os.listdir(x.encode(fencoding)))
+isfile = lambda x: os.path.isfile(x.encode(fencoding))
+#
 
 class GuidesWindow(gtk.HBox):
     
@@ -91,21 +99,12 @@ class GuidesWindow(gtk.HBox):
         
         if real_path.endswith(".html"):
             self.web_view.load_uri( unicode(real_path) )
-
-    #def selection(self, treeview, tree_path, view_column):
-        #it = self.treestore.get_iter(tree_path)
-        #path = self.treestore.get_value(it, 1)
-
-        #real_path = os.path.join(ROOT_PATH, path)
-        #print real_path
-        
-        #self.web_view.load_uri( unicode(real_path) )
     
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
+            self.path_iter = {}
             self.treeview_loaded = True
             self._load_treeview()
-            self.treeview.expand_row((0), False)        # Expand the root path
         
         if not self.web_view:
             self._create_browser()
@@ -118,18 +117,19 @@ class GuidesWindow(gtk.HBox):
         #self.hide()
         
     def _load_treeview(self, directory=ROOT_PATH, parent_iter=None):
-        dirList = os.listdir(directory)
+        dirList = listdir(directory)
         for node in sorted(dirList):
             nodepath = os.path.join(directory, node)
-            if os.path.isfile(nodepath):
-                pass
+            if isfile(nodepath):
                 if node.endswith(".html"):
                     display_name = self.get_display_name(node)
-                    self.treestore.append(parent_iter, (display_name, nodepath))
+                    _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                    self.path_iter[nodepath] = _iter
             else:
                 if not node in ignore_list:
                     display_name = self.get_display_name(node)
                     _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                    self.path_iter[nodepath] = _iter
                     self._load_treeview(nodepath, _iter)
         
     def get_display_name(self, file_name):

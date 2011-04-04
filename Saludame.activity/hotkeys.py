@@ -18,22 +18,17 @@ def alt_l_minus_handling():
 def alt_c_2_handling():
     print u"MULTIPLE CHOICE"
     if game_manager.instance:
-        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_mc_challenges(None)
+        game_manager.instance._mc_challenges()
     
 def alt_c_3_handling():
-    print "MASTER CHALLENGE"
-    if game_manager.instance:
-        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_master_challenge(None)
-
-def alt_c_4_handling():
     print "TRUE OR FALSE"
     if game_manager.instance:
-        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_tf_challenges(None)
-
-def alt_c_5_handling():
-    print "COOKING"
+        game_manager.instance._tf_challenges()
+    
+def alt_c_4_handling():
+    print "MASTER CHALLENGE"
     if game_manager.instance:
-        game_manager.instance.windows_controller.main_window.kidW._cb_button_click_cooking_challenge(None)
+        game_manager.instance._master_challenge()
 
 def alt_shift_o_handling():
     print "ADD SOCIAL EVENT"
@@ -72,7 +67,6 @@ hotkeys = {
     (pygame.K_LALT, pygame.K_c, pygame.K_2): alt_c_2_handling,
     (pygame.K_LALT, pygame.K_c, pygame.K_3): alt_c_3_handling,
     (pygame.K_LALT, pygame.K_c, pygame.K_4): alt_c_4_handling,
-    (pygame.K_LALT, pygame.K_c, pygame.K_5): alt_c_5_handling,
     (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_o): alt_shift_o_handling, 
     (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_p): alt_shift_p_handling, 
     (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_w): alt_shift_w_handling,

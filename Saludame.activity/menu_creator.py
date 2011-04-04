@@ -16,74 +16,74 @@ ALL_BUT_SQUARE = ["bedroom", "livingroom", "schoolyard", "classroom"]
 items = [
     # ("display_name", "action_id", "tooltip", [Children], place_restrictions, time_restrictions),
     
-    (_("Alimentarse..."), None, None, [
+    (u"Alimentarse...", None, None, [
         
         # Platos desayuno y merienda
-        (_("Platos..."), None, None, [
-            (_("Pan con queso"), "pan_queso", None, None),
-            (_("Pan con manteca"), "pan_manteca", None, None),
-            (_("Galletas con dulce"), "galletas_dulce", None, None),
-            (_("Torta frita"), "torta_frita", None, None),
-            (_("Refuerzo fiambre"), "refuerzo_fiambre", None, None),
-            (_("Bizcochos"), "bizcochos", None, None),
-            (_("Torta"), "torta", None, None),
-            (_("Rosca Chicharrones"), "rosca_chicharrones", None, None),
+        (u"Platos...", None, None, [
+            (u"Pan con queso", "pan_queso", None, None),
+            (u"Pan con manteca", "pan_manteca", None, None),
+            (u"Galletas con dulce", "galletas_dulce", None, None),
+            (u"Torta frita", "torta_frita", None, None),
+            (u"Refuerzo fiambre", "refuerzo_fiambre", None, None),
+            (u"Bizcochos", "bizcochos", None, None),
+            (u"Torta casera", "torta", None, None),
+            (u"Rosca Chicharrones", "rosca_chicharrones", None, None),
         ], [], MA),
         
         # Platos almuerzo y cena
-        (_("Platos..."), None, None, [
-            ("Sopa de verduras", "sopa_verduras", None, None),
-            ("Ensopado con carne y verduras", "e_carne_verduras", None, None),
-            ("Guiso con arroz, carne, lentejas y verduras", "g_arroz_carne_lenteja_verdura", None, None),
-            ("Puchero", "puchero", None, None),
-            ("Milanesa frita con papas fritas", "milanesa_papas_fritas", None, None),
-            ("Costilla de cordero con huevo frito", "costilla_cordero_huevo", None, None),
-            ("Cordero y arroz con choclo", "cordero_arroz_choclo", None, None),
-            ("Churrasco con puré de zapallo", "churrasco_pure_zapallo", None, None),
-            ("Pollo al horno con ensalada", "pollo_horno_ensalada", None, None),
-            ("Lengua con polenta", "lengua_polenta", None, None),
-            ("Hamburguesa con papas fritas", "hamburguesa_papas_fritas", None, None),
-            ("Albóndigas con fideos", "albondiga_fideo", None, None),
-            ("Carne al horno con papas y boniatos", "carne_papas", None, None),
-            ("Asado de vaca con ensalada", "carne_vaca_ensalada", None, None),
-            ("Asado de cordero con puré", "carne_cordero_pure", None, None),
-            ("Tarta de jamón y queso", "tarta_jamon_queso", None, None),
-            ("Panchos con huevo frito", "panchos_huevo", None, None),
-            ("Chorizo al pan", "choripan", None, None),
-            ("Polenta con tuco", "polenta", None, None),
-            ("Tallarines con tuco", "tallarines", None, None),
-            ("Ñoquis con tuco", "ñoquis", None, None),
-            ("Ravioles de verdura con tuco", "ravioles_verdura", None, None),
-            ("Tortilla de papa y ensalada", "tortilla_papa", None, None),
-            ("Pizza", "pizza", None, None),
-            ("Tarta de zapallo", "tarta_zapallo", None, None),
-            ("Pascualina", "pascualina", None, None),
-            ("Canelones de verdura", "canelones_verdura", None, None),
-            ("Zapallitos rellenos", "zapallitos_rellenos", None, None),     
+        (u"Platos...", None, None, [
+            (u"Sopa de verduras", "sopa_verduras", None, None),
+            (u"Ensopado", "e_carne_verduras", u"Con carne y verduras", None),
+            (u"Guiso", "Con arroz, carne, lentejas y verduras", None, None),
+            (u"Puchero", "puchero", None, None),
+            (u"Milanesa frita", "milanesa_papas_fritas", u"Con papas fritas", None),
+            (u"Costilla de cordero", "costilla_cordero_huevo", u"Con huevo frito", None),
+            (u"Cordero", "cordero_arroz_choclo", u"Con arroz y choclo", None),
+            (u"Churrasco", "Con puré de zapallo", None, None),
+            (u"Pollo al horno", "pollo_horno_ensalada", u"Con ensalada", None),
+            (u"Lengua con polenta", "lengua_polenta", None, None),
+            (u"Hamburguesa", "hamburguesa_papas_fritas", u"Con papas fritas", None),
+            (u"Albóndigas", "albondiga_fideo", u"Con fideos", None),
+            (u"Carne al horno", "carne_papas", u"Con papas y boniatos", None),
+            (u"Asado de vaca", "carne_vaca_ensalada", u"Con ensalada", None),
+            (u"Asado de cordero", "carne_cordero_pure", u"Con puré de papas", None),
+            (u"Tarta de jamón y queso", "tarta_jamon_queso", None, None),
+            (u"Panchos", "panchos_huevo", u"Con huevo frito", None),
+            (u"Chorizo al pan", "choripan", None, None),
+            (u"Polenta con tuco", "polenta", None, None),
+            (u"Tallarines con tuco", "tallarines", None, None),
+            (u"Ñoquis con tuco", "ñoquis", None, None),
+            (u"Ravioles de verdura", "ravioles_verdura", u"Con tuco", None),
+            (u"Tortilla de papa", "tortilla_papa", u"Con ensalada", None),
+            (u"Pizza", "pizza", None, None),
+            (u"Tarta de zapallo", "tarta_zapallo", None, None),
+            (u"Pascualina", "pascualina", None, None),
+            (u"Canelones de verdura", "canelones_verdura", None, None),
+            (u"Zapallitos rellenos", "zapallitos_rellenos", None, None),     
         ], [], NN),
            
-        (_("Frutas..."), None, None, [
-            (_("Manzana"), "manzana", None, None),
-            (_("Naranja"), "naranja", None, None),
-            (_("Banana"), "banana", None, None),
-            (_("Ciruelas"), "ciruelas", None, None),
-            (_("Pelón"), "pelon", None, None),
-            (_("Ciruelas"), "ciruelas", None, None),
-            (_("Frutillas"), "frutillas", None, None),
-            (_("Durazno"), "durazno", None, None),
-            (_("Mandarina"), "mandarina", None, None),
+        (u"Frutas...", None, None, [
+            (u"Manzana", "manzana", None, None),
+            (u"Naranja", "naranja", None, None),
+            (u"Banana", "banana", None, None),
+            (u"Ciruelas", "ciruelas", None, None),
+            (u"Pelón", "pelon", None, None),
+            (u"Ciruelas", "ciruelas", None, None),
+            (u"Frutillas", "frutillas", None, None),
+            (u"Durazno", "durazno", None, None),
+            (u"Mandarina", "mandarina", None, None),
         ]),
         
-        (_("Bebidas..."), None, None, [
+        (u"Bebidas...", None, None, [
             # Ambos
-            ("Agua", "agua", None, None),
-            ("Jugo natural", "jugo_natural", None, None),
-            ("Leche", "leche", None, None),
-            ("Licuado con leche", "licuado", None, None),
-            ("Refresco", "refresco", None, None),
+            (u"Agua", "agua", None, None),
+            (u"Jugo natural", "jugo_natural", None, None),
+            (u"Leche", "leche", None, None),
+            (u"Licuado con leche", "licuado", None, None),
+            (u"Refresco", "refresco", None, None),
             
             # Desayuno
-            ("Leche chocolatada", "leche_chocolatada", None, None, [], MA),
+            ("Leche con cocoa", "leche_chocolatada", None, None, [], MA),
             ("Yogur", "yogur", None, None, [], MA),
             ("Mate", "mate", None, None, [], MA),
             ("Café", "cafe", None, None, [], MA),
@@ -92,22 +92,21 @@ items = [
             ("Agua con gas", "agua_c_gas", None, None, [], NN),
             ("Jugo de compota", "jugo_compota", None, None, [], NN),
             ("Jugo artificial", "jugo_artificial", None, None, [], NN),
-            ("Vino", "vino", None, None, [], NN),
         ]),
         
-        (_("Golosinas y Snacks..."), None, None, [
-            (_("Papas chips"), "papas_chips", None, None),
-            (_("Ticholos"), "ticholos", None, None),
-            (_("Rapadura"), "rapadura", None, None),
-            (_("Caramelo"), "caramelo", None, None),
-            (_("Galletitas dulces"), "galletitas_dulces", None, None),
-            (_("Alfajor"), "alfajor", None, None),
-            (_("Chicle"), "chicle", None, None),
-            (_("Chupetin"), "chupetin", None, None),
-            (_("Chocolate"), "chocolate", None, None),
+        (u"Golosinas y Snacks...", None, None, [
+            (u"Papas chips", "papas_chips", None, None),
+            (u"Ticholos", "ticholos", None, None),
+            (u"Rapadura", "rapadura", None, None),
+            (u"Caramelo", "caramelo", None, None),
+            (u"Galletitas dulces", "galletitas_dulces", None, None),
+            (u"Alfajor", "alfajor", None, None),
+            (u"Chicle", "chicle", None, None),
+            (u"Chupetin", "chupetin", None, None),
+            (u"Chocolate", "chocolate", None, None),
         ]),
-            
-        (_("Otros..."), None, None, [
+        
+        (u"Otros...", None, None, [
             # Desayuno
             ("Avena con leche", "avena_leche", None, None, [], MA),
             ("Arroz con leche", "arroz_leche", None, None, [], MA),
@@ -119,71 +118,85 @@ items = [
             ("Torta frita", "torta_frita", None, None, [], NN),
             ("Torta dulce", "torta_dulce", None, None, [], NN),
         ]),
+        
+        (u"Platos de la huerta...", None, None, [
+            (u"Pasta la primavera", "pasta_primavera", u"Con fideos, chauchas y brócoli", None),
+            (u"Pastel de lentejas", "pastel_lentajas", u"Con arroz, espinaca, morrón y zanahoria", None),
+            (u"Tarta de zapallitos", "tarta_zapallitos", u"Con huevos", None),
+            (u"Tarta de puerros", "tarta_puerros", u"Con huevos", None),
+            (u"Polenta con acelga", "polenta_acelga", u"Con cebolla y morrón", None),
+            (u"Budín de chauchas", "budin_chauchas", u"Con huevos, cebolla y morrón", None),
+            (u"Guiso de berenjenas", "guiso_berenjenas", u"Con morrón y tomates", None),
+            (u"Ensalada de lechuga ", "ensalada_lechuga", u"Con zanahoria y aceite", None),
+            (u"Ensalada de remolacha", "ensalada_remolacha", u"Con huevos y aceite", None),
+            (u"Ensalada Holandesa", "ensalada_holanesa", u"Con repollo, zanahoria,\ncebolla y aceite", None),
+            (u"Ensalada pepinos", "ensalada_pepinos", u"Con tomates, perejil y aceite", None),
+        ], [], NN),
     ]),
     
-    (_("Diversión..."), None, None, [
-        (_("Jugar XO"), "playXO", None, None),
-        (_("Escondida"), "hidenseek", None, None, EP),
-        #(_("Jugar con Amigo"), "play_friend", None, None),
-        (_("Rayuela"), "hopscotch", None, None, None, EP),
-        (_("Ver televisión"), "tv", None, None, "livingroom"),
-        (_("Leer"), "read", None, None),
-        (_("Escuchar música"), "music", None, None, CC),
-        (_("Locuras"), "crazy", None, None),
-        (_("Bailar"), "dance", None, None, ["bedroom", "livingroom", "school", "square"]),
-        (_("Cantar"), "sing", None, None, ["bedroom", "livingroom", "school", "square"]),
+    (u"Diversión...", None, None, [
+        (u"Jugar XO", "playXO", None, None),
+        (u"Escondida", "hidenseek", None, None, EP),
+        #(u"Jugar con Amigo", "play_friend", None, None),
+        (u"Rayuela", "hopscotch", None, None, None, EP),
+        (u"Ver televisión", "tv", None, None, ["livingroom"]),
+        (u"Leer", "read", None, None),
+        (u"Escuchar música", "music", None, None, CC),
+        (u"Locuras", "crazy", None, None),
+        (u"Bailar", "dance", None, None, ["bedroom", "livingroom", "school", "square"]),
+        (u"Cantar", "sing", None, None, ["bedroom", "livingroom", "school", "square"]),
     ]),
     
-    (_("Hacer..."), None, None, [
-        (_("Talk with a friend"), "talk", None, None),
-        (_("Do homework"), "homework", None, None),
-        (_("Clean up the bedroom"), "clean", None, None, ["bedroom"]),
-        (_("Tareas domésticas"), "housekeeping", None, None, CC),
-        (_("Ayudar en el campo"), "help_field", None, None, CC),
-        (_("Cocinar"), "help_cook", None, None, CC),
-        (_("Descanzar"), "relax", None, None, CC + ["square"]),
-        (_("Cambiar de ropa..."), None, None, [
-            (_("School"), "change_school_clothes", None, None),
-            (_("Normal"), "change_regular_clothes", None, None),
+    (u"Hacer...", None, None, [
+        (u"Hablar con un amigo", "talk", None, None),
+        (u"Hacer deberes", "homework", None, None),
+        (u"Limpiar el cuarto", "clean", None, None, ["bedroom"]),
+        (u"Tareas domésticas", "housekeeping", None, None, CC),
+        (u"Ayudar en el campo", "help_field", None, None, CC),
+        (u"Cocinar", "help_cook", None, None, CC),
+        (u"Descanzar", "relax", None, None, CC + ["square"]),
+        (u"Cambiar de ropa...", None, None, [
+            (u"Escuela", "change_school_clothes", None, None),
+            (u"Normal", "change_regular_clothes", None, None),
         ]),
-        (_("Deporte..."), None, None, [
-            (_("Run"), "sport_run", None, None, EP),
-            (_("Jump the rope"), "sport_jump", None, None, EP),
-            (_("Play footbal"), "sport_football", None, None, EP),
+        (u"Deporte...", None, None, [
+            (u"Correr", "sport_run", None, None, EP),
+            (u"Saltar la cuerda", "sport_jump", None, None, EP),
+            (u"Jugar al futbol", "sport_football", None, None, EP),
         ]),
-        (_("Go to sleep"), "sleep", None, None, ["bedroom"]),
+        (u"Ir a dormir", "sleep", None, None, ["bedroom"]),
     ]),
     
-    (_("Ir a..."), None, None, [
-        (_("Schoolyard"), "goto_schoolyard", None, None),
-        (_("Classroom"), "goto_classroom", None, None),
-        (_("Square"), "goto_square", None, None),
-        (_("Home..."), None, None, [
-            (_("Living room"), "goto_livingroom", None, None),
-            (_("Bedroom"), "goto_bedroom", None, None),
+    (u"Ir a...", None, None, [
+        (u"Escuela", "goto_schoolyard", None, None),
+        (u"Clase", "goto_classroom", None, None),
+        (u"Plaza", "goto_square", None, None),
+        (u"Casa...", None, None, [
+            (u"Living", "goto_livingroom", None, None),
+            (u"Habitación", "goto_bedroom", None, None),
         ]),
-        (_("Ir al médico..."), None, None, [
-            (_("Dentista"), "dentist", None, None),
-            (_("Doctor"), "doctor", None, None),
+        (u"Ir al médico...", None, None, [
+            (u"Dentista", "dentist", None, None),
+            (u"Doctor", "doctor", None, None),
         ])
    ]),
    
-   (_("Higiene..."), None, None, [
-       (_("Bañarse"), "shower", None, None, ALL_BUT_SQUARE),
-       (_("Cepillarse los dientes"), "brush_teeth", None, None, ALL_BUT_SQUARE),
-       (_("Lavarse las manos"), "wash_hands", None, None, ALL_BUT_SQUARE),
-       (_("Ir al baño"), "toilet", None, None, ALL_BUT_SQUARE),
+   (u"Higiene...", None, None, [
+       (u"Bañarse", "shower", None, None, ALL_BUT_SQUARE),
+       (u"Cepillarse los dientes", "brush_teeth", None, None, ALL_BUT_SQUARE),
+       (u"Lavarse las manos", "wash_hands", None, None, ALL_BUT_SQUARE),
+       (u"Ir al baño", "toilet", None, None, ALL_BUT_SQUARE),
    ]),
    
-   (_("Huerta..."), None, None, [
-       (_("Preparar tierra"), "farm_plow", None, None, ALL_BUT_SQUARE),
-       (_("Sembrar"), "farm_sow", None, None, ALL_BUT_SQUARE),
-       (_("Mantener"), None , None, [
-           (_("Regar"), "farm_irrigate", None, None),
-           (_("Fumigar"), "farm_fumigate", None, None),
-           (_("Limpiar"), "farm_clean", None, None),
+   (u"Huerta...", None, None, [
+       (u"Preparar tierra", "farm_plow", None, None, ALL_BUT_SQUARE),
+       (u"Sembrar", "farm_sow", None, None, ALL_BUT_SQUARE),
+       (u"Mantener", None , None, [
+           (u"Regar", "farm_irrigate", None, None),
+           (u"Fumigar", "farm_fumigate", None, None),
+           (u"Limpiar", "farm_clean", None, None),
        ], ALL_BUT_SQUARE),
-       (_("Cocechar"), "farm_harvest", None, None, ALL_BUT_SQUARE),
+       (u"Cocechar", "farm_harvest", None, None, ALL_BUT_SQUARE),
    ]),
 ]
 

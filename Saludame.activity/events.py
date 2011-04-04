@@ -78,6 +78,7 @@ class Event:
                         prob = pMin + (bar_value-rMin)*(pMax-pMin)/(rMax-rMin)
                     
                 elif probability_type == "triggered" and triggered:
+                    print "triggered"
                     prob = 1.0
             
                 if self.operator == "all" and prob == 0.0:

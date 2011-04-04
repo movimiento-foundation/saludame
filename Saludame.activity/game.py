@@ -92,7 +92,6 @@ class Main():
             import gtk
 
         import app_init
-        import challenges_creator
         import customization
         import sound_manager
         import saludame_windows_controller

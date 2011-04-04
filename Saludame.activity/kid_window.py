@@ -26,7 +26,7 @@ class KidWindow(gui.Window):
         
         mood = self.game_man.character.mood
         
-        kid_rect = pygame.Rect((280, 70), (400, 500))
+        kid_rect = pygame.Rect((280, 70), (400, 500))        
         self.kid = animation.Kid(rect, kid_rect, 1, windows_controller, game_man, mood)
         self.add_child(self.kid)
         
@@ -42,50 +42,8 @@ class KidWindow(gui.Window):
         self.menu = menu_creator.load_menu(game_man, (480, 250), self.rect, windows_controller)
         self.add_window(self.menu)
         
-        # Challenges
-        #challenges_button = gui.ImageButton(self.rect, pygame.Rect((900, 400), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_mc_challenges)
-        #challenges_button.set_tooltip(_("Multiple choice"))
-        #challenges_button.keep_dirty = True
-        #self.add_button(challenges_button)
-        
-        #challenges_button2 = gui.ImageButton(self.rect, pygame.Rect((900, 500), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_tf_challenges)
-        #challenges_button2.set_tooltip(_("True or false"))
-        #challenges_button2.keep_dirty = True
-        #self.add_button(challenges_button2)
-        
-        #challenges_button3 = gui.ImageButton(self.rect, pygame.Rect((900, 300), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_master_challenge)
-        #challenges_button3.set_tooltip(_("Master challenge"))
-        #challenges_button3.keep_dirty = True
-        #self.add_button(challenges_button3)
-        
-        #challenges_button4 = gui.ImageButton(self.rect, pygame.Rect((900, 200), (60, 60)), 1, "challenges/trophy.png", self._cb_button_click_cooking_challenge)
-        #challenges_button4.set_tooltip(_("Cooking"))
-        #challenges_button4.keep_dirty = True
-        #self.add_button(challenges_button4)
-        
         self.last_repaint = False
         
-    ##### Callbacks #####
-    def _cb_button_click_mc_challenges(self, button):
-        self.cha_loader.get_challenge("mc")
-        self.windows_controller.set_active_window("mc_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" %(self.cha_loader.game_man.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
-        self.windows_controller.set_active_window("info_challenge_window")
-        
-    def _cb_button_click_tf_challenges(self, button):
-        self.cha_loader.get_challenge("tf")
-        self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Falso: %s" %(self.cha_loader.game_man.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.cha_loader.game_man.get_lowest_bar().label))
-        self.windows_controller.set_active_window("info_challenge_window")
-        
-    def _cb_button_click_master_challenge(self, button):
-        self.cha_loader.get_challenge("master")
-        self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estas por pasar de nivel! \nPara superarlo tienes que responder \ncorrecto a 3 de las 5 preguntas \nque siguen \n\n¡Suerte!")
-        self.windows_controller.set_active_window("info_challenge_window")
-        
-    def _cb_button_click_cooking_challenge(self, button):
-        self.windows_controller.set_active_window("cooking_challenge_window")
         
     ##### Environment #####
     def set_environment(self, environment, time):

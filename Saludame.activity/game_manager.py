@@ -6,6 +6,8 @@ MAX_LEVEL = 9 #max qty of game levels
 
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.) 
 
+CHALLENGES_INTERVAL = 300
+
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
@@ -48,6 +50,7 @@ class GameManager:
         self.pause = False
         
         self.idle_time = 0
+        self.challenge_cicles = CHALLENGES_INTERVAL
         
         #events, actions, moods
         self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
@@ -126,6 +129,7 @@ class GameManager:
                 self.__check_active_mood() # check if the active character mood
                 self.__handle_time()
                 self.__check_idle_time()
+                self.__control_challenges()
                 if self.environment_effect:
                     self.environment_effect.activate(1)
                 else:
@@ -419,7 +423,7 @@ class GameManager:
                 self.active_char_action.reset()
                 
                 # check consequences should be triggered
-                cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status(),  self.get_restrictions())
+                cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status(), self.get_restrictions())
                 self.active_char_action = None
                 if cons:
                     self.check_consequence_event(cons)
@@ -754,3 +758,32 @@ class GameManager:
         returns current momento of day.
         """
         return self.current_time
+
+
+    def __control_challenges(self):
+        if self.challenge_cicles == 0:
+            self.challenge_cicles = CHALLENGES_INTERVAL
+            if random.randint(0, 1):
+                self._mc_challenges()
+            else:
+                self._tf_challenges()
+        self.challenge_cicles -= 1
+        
+    def _mc_challenges(self):
+        self.challenges_creator.get_challenge("mc")
+        self.windows_controller.set_active_window("mc_challenge_window")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" %(self.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta. \n\n¡Suerte!" %(self.get_lowest_bar().label))
+        self.windows_controller.set_active_window("info_challenge_window")
+        
+    def _tf_challenges(self):
+        self.challenges_creator.get_challenge("tf")
+        self.windows_controller.set_active_window("tf_challenge_window")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Falso: %s" %(self.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.get_lowest_bar().label))
+        self.windows_controller.set_active_window("info_challenge_window")
+        
+    def _master_challenge(self):
+        self.challenges_creator.get_challenge("master")
+        self.windows_controller.set_active_window("tf_challenge_window")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estas por pasar de nivel! \nPara superarlo tienes que responder \ncorrecto a 3 de las 5 preguntas \nque siguen \n\n¡Suerte!")
+        self.windows_controller.set_active_window("info_challenge_window")
+    
