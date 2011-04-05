@@ -70,6 +70,7 @@ class MultipleChoice(gui.Window):
         if self.question:
             self.erase()
         
+        question = self.prepare(question, 70)
         self.question = gui.TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, (0, 0, 0), "normal", False)
         self.add_child(self.question)
         
@@ -89,7 +90,7 @@ class MultipleChoice(gui.Window):
                 size = TEXT_TRUE_OR_FALSE_SIZE
                 
                 for ans in answers:
-                    ans = self.prepare(ans)
+                    ans = self.prepare(ans, 100)
                     y += last_y
                     b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
                     self.choices.append(b)
@@ -114,18 +115,18 @@ class MultipleChoice(gui.Window):
         self.correct_index = selected_answers.index(self.correct)
         
         for ans in selected_answers:  
-            ans = self.prepare(ans)
+            ans = self.prepare(ans, 100)
             y += last_y
             b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.add_button(b)
             last_y = b.rect_in_container.height
             
-    def prepare(self, ans):
-        if len(ans) > 100:
-            space = ans[0:100].rfind(" ")
-            ans = ans[0:space] + "\n" + ans[space + 1:]
-        return ans
+    def prepare(self, text, limit):
+        if len(text) > limit:
+            space = text[0:limit].rfind(" ")
+            text = text[0:space] + "\n" + text[space + 1:]
+        return text
             
     def get_random_answer(self, answers, cant_choose):
         while True:
@@ -163,7 +164,7 @@ class MultipleChoice(gui.Window):
             
             if self.tries == 1:
                 self.challenges_creator.game_man.bars_controller.increase_bar(self.topic.id, self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2])
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \n %s puntos para tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2], self.topic.label))
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \n %s puntos para tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2], self.topic.label), "assets/challenges/boy_sad.png")
                 self.windows_controller.set_active_window("info_challenge_window")
                 self.tries = 0
             else:
@@ -286,8 +287,9 @@ class TrueOrFalse(MultipleChoice):
             # Incorrect answer
             self.answers[self.question_number] = "incorrect"
             
-            if self.answers.count("incorrect") == 5 - self.limit + 1:
-                self.perdio = True
+            if self.kind == "master":
+                if self.answers.count("incorrect") == 5 - self.limit + 1:
+                    self.perdio = True
             
             if self.perdio:
                 self.windows_controller.close_active_window()
@@ -318,7 +320,7 @@ class TrueOrFalse(MultipleChoice):
             self.challenges_creator.game_man.bars_controller.increase_bar(self.topic.id, puntos)
             
             if puntos < 0:                
-                self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Perdiste %s puntos para tu \nbarra %s" % (-puntos, self.topic.label))
+                self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Perdiste %s puntos para tu \nbarra %s" % (-puntos, self.topic.label), "assets/challenges/boy_sad.png")
             else:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"%s Respuestas correctas" % (self.answers.count("correct")), u"Ganaste %s puntos para tu \nbarra %s" % (puntos, self.topic.label))
             self.windows_controller.set_active_window("info_challenge_window")
@@ -326,10 +328,10 @@ class TrueOrFalse(MultipleChoice):
             
         if self.kind == "master":
             if self.perdio:
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!")
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!", "assets/challenges/boy_sad.png")
                 self.windows_controller.set_active_window("info_challenge_window")
-            else:
                 
+            else:                
                 if not game_manager.instance.get_current_level_conf()["master_challenge_text"]:
                     if game_manager.instance.get_current_level_conf()["slide"]:
                         self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
@@ -360,6 +362,8 @@ class InfoChallenge(gui.Window):
         self.set_bg_image("assets/windows/window_2.png")
         self.challenges_creator = challenges_creator
         
+        self.rect = rect
+        
         self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_continue)
         self.add_button(self.btn_continue)
         
@@ -376,7 +380,10 @@ class InfoChallenge(gui.Window):
         self.title.text = title
         self.title.refresh()
         self.text.parse_lines(text)
-        self.image = image
+        
+        self.remove_child(self.image)
+        self.image = gui.Image(self.rect, pygame.Rect(640, 240, 80, 80), 1, image)
+        self.add_child(self.image)
         
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()
