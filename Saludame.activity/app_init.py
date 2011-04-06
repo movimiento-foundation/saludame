@@ -92,7 +92,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "slide" : None,
                              "events_qty" : 3,
                              "events_qty_personal" : 3,
-                             "events_qty_social" : 3,
+                             "s_qty_social" : 3,
                              "time_between_events" : 85
                              },
                              {# LEVEL 8
@@ -130,14 +130,14 @@ class AppLoader:
         self.status_bars_controller = self.bars_loader.get_bar_controller()
         self.character_bars = self.bars_loader.get_third_level_bars() #the third level status bars
         
-        # events
-        self.events_list = self.__load_events(self.status_bars_controller)
-        
         # places
         self.places_dictionary = None
         
         # character
         self.character = character.Character(gender, name, 1, 0, "school")
+        
+        # events
+        self.events_list = self.__load_events(self.status_bars_controller)
         
         # moods
         self.moods_list = self.__load_moods()
@@ -215,7 +215,7 @@ class AppLoader:
         # Formula to convert effects per minute into effects per CONTROL_INTERVAL
         # factor = CONTROL_INTEVAL/(60 * FPS)
         factor = float(16) / (60 * 14)
-        m = lambda x: x*factor
+        m = lambda x: x * factor
         import operator
         
         _events = []
@@ -316,12 +316,12 @@ class AppLoader:
         
         probability = ("all", [("homework", "direct", 75, 70)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None,  m(2), probability, effect, u"¡Que bien que hice\nmis deberes!", "", 1, happy_2)
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None, m(2), probability, effect, u"¡Que bien que hice\nmis deberes!", "", 1, happy_2)
         _events.append(event)
         
         probability = ("all", [("housekeeping", "direct", 75, 70)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None,  m(2), probability, effect, u"¡Que rico que cocinamos!", "", 1, happy_2)
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None, m(2), probability, effect, u"¡Que rico que cocinamos!", "", 1, happy_2)
         _events.append(event)
         
         # Social events
@@ -329,7 +329,6 @@ class AppLoader:
         father = "assets/characters/father.png"
         doctor = "assets/characters/doctor.png"
         teacher = "assets/characters/teacher.png"
-        friend = "assets/characters/friend.png"
         
         doctor_neg = "assets/events/social/doc_neg"; doctor_pos = "assets/events/social/doc_pos"; 
         teacher_neg = "assets/events/social/teacher_neg"; teacher_pos = "assets/events/social/teacher_pos"
@@ -423,7 +422,7 @@ class AppLoader:
         
         probability = ("all", [("farm", "range", (51, 75), (10, 10))])
         effect = effects.Effect(bars_controller, [("farm", -5)])
-        event = events.SocialEvent(teacher_neg, teacher, "huerta_seca", u"La huerta se secó", "neg", None, None, probability,  effect, u"¡Uf! Los plantines se\nsecaron con el calor.",1, 150)
+        event = events.SocialEvent(teacher_neg, teacher, "huerta_seca", u"La huerta se secó", "neg", None, None, probability, effect, u"¡Uf! Los plantines se\nsecaron con el calor.", 1, 150)
         event.add_restriction("place", ["classroom", "schoolyard"])
         event.add_restriction("weather", ["hot"])
         _events.append(event)
@@ -441,7 +440,7 @@ class AppLoader:
         event.add_restriction("place", ["classroom", "schoolyard", "livingroom", "bedroom"])
         _events.append(event)
         
-        probability = ("all", [("overall_bar", "range", (0,100), (100, 100))])
+        probability = ("all", [("overall_bar", "range", (0, 100), (100, 100))])
         effect = effects.Effect(bars_controller, [("homework", -10)])
         event = events.SocialEvent(teacher_neg, teacher, "tunica", u"Sin túnica", "neg", None, m(5), probability, effect, u"¡Debes usar tu túnica\nen el aula!", "", 1, normal)
         event.add_restriction("place", ["classroom"])
@@ -501,25 +500,31 @@ class AppLoader:
         # AMIG@
         probability = ("all", [("sports", "direct", 70, 80)])
         effect = effects.Effect(bars_controller, [("energy", +5), ("fun", +10)])
-        event = events.SocialEvent(friend_pos, friend, "nuevos_amigos", u"Me hice nuevos amigos", "pos", None, m(2), probability, effect, u"¿Quieres participar conmigo\nen el campeonato?", "", 1, normal)
+        event = events.SocialEvent(friend_pos, self.get_friend(), "nuevos_amigos", u"Me hice nuevos amigos", "pos", None, m(2), probability, effect, u"¿Quieres participar conmigo\nen el campeonato?", "", 1, normal)
         _events.append(event)
         
         probability = ("all", [("sports", "direct", 80, 80)])
         effect = effects.Effect(bars_controller, [("energy", +5), ("fun", +15)])
-        event = events.SocialEvent(friend_pos, friend, "amigo_alienta", u"Un amigo me alienta", "pos", None, m(2), probability, effect, u"¡Muy bien!\nHiciste muchos goles.", "", 1, normal)
+        event = events.SocialEvent(friend_pos, self.get_friend(), "amigo_alienta", u"Un amigo me alienta", "pos", None, m(2), probability, effect, u"¡Muy bien!\nHiciste muchos goles.", "", 1, normal)
         _events.append(event)
         
         probability = ("all", [("hygiene", "direct", 70, 80)])
         effect = effects.Effect(bars_controller, [("energy", +5), ("fun", +15)])
-        event = events.SocialEvent(friend_pos, friend, "amigo_cumplido", u"Un amigo me da un cumplido", "pos", None, m(2), probability, effect, u"¡Te ves bien!", "", 1, normal)
+        event = events.SocialEvent(friend_pos, self.get_friend(), "amigo_cumplido", u"Un amigo me da un cumplido", "pos", None, m(2), probability, effect, u"¡Te ves bien!", "", 1, normal)
         _events.append(event)
         
         probability = ("all", [("sports", "indirect", 25, 80)])
         effect = effects.Effect(bars_controller, [("energy", -5), ("weight", +1)])
-        event = events.SocialEvent(friend_neg, friend, "amigo_deportes", u"Amigo invita a hacer deportes", "neg", None, m(5), probability, effect, u"¿Vamos a hacer deporte\npara el campeonato?", "id.cfzkxmujas29", 1, normal)
+        event = events.SocialEvent(friend_neg, self.get_friend(), "amigo_deportes", u"Amigo invita a hacer deportes", "neg", None, m(5), probability, effect, u"¿Vamos a hacer deporte\npara el campeonato?", "id.cfzkxmujas29", 1, normal)
         _events.append(event)
         
         return _events
+    
+    def get_friend(self):
+        if self.character.sex == "boy":        
+            return "assets/characters/friend_girl.png"
+        else:
+            return "assets/characters/friend_boy.png"
 
     def __load_events_actions_resolutions(self):
         """ A list of tuples containing all the events and the actions that can solve them, with a probability rate. """
