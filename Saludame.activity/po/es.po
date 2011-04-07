@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-25 20:05-0300\n"
+"POT-Creation-Date: 2011-04-06 21:57-0300\n"
 "PO-Revision-Date: 2010-11-07 20:45-0200\n"
 "Last-Translator: Pablo Moleri <pmoleri@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: activity/activity.info:2
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:150
 msgid "Saludame"
 msgstr "Salúdame"
 
@@ -37,429 +38,23 @@ msgstr "Frío"
 msgid "Hot"
 msgstr "Caluroso"
 
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:370
-msgid "Ayuda en el campo"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:375
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:380
-msgid "Estudiar"
-msgstr "Estudiar"
-
-#: /home/pmoleri/saludame/Saludame.activity/app_init.py:385
-msgid "Control médico"
-msgstr "Control médico"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:19
-msgid "Alimentarse..."
-msgstr "Alimentarse..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:22
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:34
-msgid "Platos..."
-msgstr "Platos..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:23
-msgid "Pan con queso"
-msgstr "Pan con queso"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:24
-msgid "Pan con manteca"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:25
-msgid "Galletas con dulce"
-msgstr "Galletas con dulce"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:26
-msgid "Torta frita"
-msgstr "Torta frita"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:27
-msgid "Refuerzo fiambre"
-msgstr "Refuerzo fiambre"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:28
-msgid "Bizcochos"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:29
-msgid "Torta"
-msgstr "Torta"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:30
-msgid "Rosca Chicharrones"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:65
-msgid "Frutas..."
-msgstr "Frutas..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:66
-msgid "Manzana"
-msgstr "Manzana"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:67
-msgid "Naranja"
-msgstr "Naranja"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:68
-msgid "Banana"
-msgstr "Banana"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:69
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:71
-msgid "Ciruelas"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:70
-msgid "Pelón"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:72
-msgid "Frutillas"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:73
-msgid "Durazno"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:74
-msgid "Mandarina"
-msgstr "Mandarina"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:77
-msgid "Bebidas..."
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:98
-msgid "Golosinas y Snacks..."
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:99
-msgid "Papas chips"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:100
-msgid "Ticholos"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:101
-msgid "Rapadura"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:102
-msgid "Caramelo"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:103
-msgid "Galletitas dulces"
-msgstr "Galletitas dulces"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:104
-msgid "Alfajor"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:105
-msgid "Chicle"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:106
-msgid "Chupetin"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:107
-msgid "Chocolate"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:110
-msgid "Otros..."
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:124
-msgid "Diversión..."
-msgstr "Diversión..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:125
-msgid "Jugar XO"
-msgstr "Jugar XO"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:126
-msgid "Escondida"
-msgstr "Escondida"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:128
-msgid "Rayuela"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:129
-msgid "Ver televisión"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:130
-msgid "Leer"
-msgstr "Leer"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:131
-msgid "Escuchar música"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:132
-msgid "Locuras"
-msgstr "Locuras"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:133
-msgid "Bailar"
-msgstr "Bailar"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:134
-msgid "Cantar"
-msgstr "Cantar"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:137
-msgid "Hacer..."
-msgstr "Hacer..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:138
-msgid "Talk with a friend"
-msgstr "Hablar con un amigo"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:139
-msgid "Do homework"
-msgstr "Hacer deberes"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:140
-msgid "Clean up the bedroom"
-msgstr "Limpiar el cuarto"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:141
-msgid "Tareas domésticas"
-msgstr "Tareas domésticas"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:142
-msgid "Ayudar en el campo"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:143
-msgid "Cocinar"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:144
-msgid "Descanzar"
-msgstr "Descanzar"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:145
-msgid "Cambiar de ropa..."
-msgstr "Cambiar de ropa..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:146
-msgid "School"
-msgstr "Escuela"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:147
-msgid "Normal"
-msgstr "Normal"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:149
-msgid "Deporte..."
-msgstr "Deporte..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:150
-msgid "Run"
-msgstr "Correr"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:151
-msgid "Jump the rope"
-msgstr "Saltar la cuerda"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:152
-msgid "Play footbal"
-msgstr "Jugar al fútbol"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:154
-msgid "Ir al baño"
-msgstr "Ir al baño"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:155
-msgid "Go to sleep"
-msgstr "Ir a dormir"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:158
-msgid "Ir a..."
-msgstr "Ir a..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:159
-msgid "Schoolyard"
-msgstr "Patio de la escuela"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:160
-msgid "Classroom"
-msgstr "Clase"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:161
-msgid "Square"
-msgstr "Plaza"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:162
-msgid "Home..."
-msgstr "Casa..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:163
-msgid "Living room"
-msgstr "Living"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:164
-msgid "Bedroom"
-msgstr "Habitación"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:166
-msgid "Ir al médico..."
-msgstr "Ir al médico..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:167
-msgid "Dentista"
-msgstr "Dentista"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:168
-msgid "Doctor"
-msgstr "Doctor"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:172
-msgid "Higiene..."
-msgstr "Higiene..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:173
-msgid "Bañarse"
-msgstr "Bañarse"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:174
-msgid "Cepillarse los dientes"
-msgstr "Cepillarse los dientes"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:175
-msgid "Lavarse las manos"
-msgstr "Lavarse las manos"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:178
-msgid "Huerta..."
-msgstr "Huerta..."
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:179
-msgid "Preparar tierra"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:180
-msgid "Sembrar"
-msgstr "Sembrar"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:181
-msgid "Mantener"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:182
-msgid "Regar"
-msgstr "Regar"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:183
-msgid "Fumigar"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:184
-msgid "Limpiar"
-msgstr "Limpiar"
-
-#: /home/pmoleri/saludame/Saludame.activity/menu_creator.py:186
-msgid "Cocechar"
-msgstr "Cosechar"
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges.py:290
-#: /home/pmoleri/saludame/Saludame.activity/challenges.py:316
-#: /home/pmoleri/saludame/Saludame.activity/customization.py:58
+#: /home/pmoleri/saludame/Saludame.activity/challenges.py:367
+#: /home/pmoleri/saludame/Saludame.activity/challenges.py:396
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:52
 msgid "Continue"
 msgstr "Continuar"
 
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:51
-msgid ""
-"La alimentación adecuada previene muchas enfermedades \n"
-"importantes"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:52
-msgid ""
-"Si no nos vacunamos con las vacunas obligatorias podemos \n"
-"enfermarnos"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:53
-msgid ""
-"Cuando estamos ingiriendo alimentos en menor proporción \n"
-"a lo que necesitamos, podemos volvernos más \n"
-"susceptibles a las infecciones "
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:58
-msgid ""
-"Muchos alimentos pueden estar contaminados con agroquímicos, \n"
-"y pesticidas porque son frecuentemente usados"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:59
-msgid "Si no voy a comer no necesito lavarme las manos "
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:60
-msgid ""
-"Lo primero que hay que hay que hacer cuando vamos a lavarnos \n"
-"las manos es ponernos jabón"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:65
-msgid ""
-"Cuando aprendemos hábitos saludables estamos cuidando nuestra \n"
-"salud"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:66
-msgid ""
-"Tomar mucha agua, hacer ejercicio y comer frutas y verduras \n"
-"ayuda a mover el intestino sin dificultad"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:67
-msgid "El desayuno no es importante en nuestra alimentación"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:72
-msgid "La actividad física mejora nuestra imagen"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:73
-msgid ""
-"La actividad física  no nos ayuda prevenir enfermedades \n"
-"como el sobrepeso y la obesidad "
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:74
-msgid ""
-"Ser sedentarios no tiene importancia y no afecta nuestra \n"
-"salud"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:79
-msgid "Hay que hacer los deberes en la escuela"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:80
-msgid "Es bueno ayudar en las tareas domésticas"
-msgstr ""
-
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:94
+#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:614
 msgid "False"
 msgstr "Falso"
 
-#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:94
+#: /home/pmoleri/saludame/Saludame.activity/challenges_creator.py:614
 msgid "True"
 msgstr "Verdadero"
+
+#: /home/pmoleri/saludame/Saludame.activity/startup_window.py:76
+msgid "Escribe un nombre"
+msgstr ""
 
 #: /home/pmoleri/saludame/Saludame.activity/panel_window.py:41
 msgid "Clima"
@@ -481,182 +76,181 @@ msgstr "Acción"
 msgid "Customization module"
 msgstr "Personalización"
 
-#: /home/pmoleri/saludame/Saludame.activity/customization.py:61
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:55
 msgid "Hair"
 msgstr "Pelo"
 
-#: /home/pmoleri/saludame/Saludame.activity/customization.py:62
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:56
 msgid "Skin"
 msgstr "Piel"
 
-#: /home/pmoleri/saludame/Saludame.activity/customization.py:63
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:57
 msgid "Sweater"
 msgstr "Buzo"
 
-#: /home/pmoleri/saludame/Saludame.activity/customization.py:64
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:58
 msgid "Pants"
 msgstr "Pantalones"
 
-#: /home/pmoleri/saludame/Saludame.activity/customization.py:65
+#: /home/pmoleri/saludame/Saludame.activity/customization.py:59
 msgid "Shoes"
 msgstr "Zapatos"
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:39
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:108
 msgid "Game"
 msgstr "Juego"
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:43
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:112
 msgid "Health Library"
 msgstr "Biblioteca"
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:47
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:113
 msgid "Guides"
 msgstr "Guías"
 
-#: /home/pmoleri/saludame/Saludame.activity/activity.py:51
+#: /home/pmoleri/saludame/Saludame.activity/activity.py:114
 msgid "Credits"
 msgstr "Créditos"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:61
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:60
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:64
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:63
 msgid "ESTADO FÍSICO"
 msgstr "ESTADO FÍSICO"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:67
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:66
 msgid "HIGIENE"
 msgstr "HIGIENE"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:70
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:69
 msgid "ALIMENTACIÓN"
 msgstr "ALIMENTACIÓN"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:73
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:72
 msgid "TIEMPO LIBRE"
 msgstr "TIEMPO LIBRE"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:76
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:75
 msgid "RESPONSABILIDAD"
 msgstr ""
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:376
+#: /home/pmoleri/saludame/Saludame.activity/status_bars.py:375
 msgid "LEVEL"
 msgstr "NIVEL"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:15
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:16
 msgid "Score"
 msgstr "Puntos"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:16
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:17
 msgid "Overall"
 msgstr "Total"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:21
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:22
 msgid "Energía"
 msgstr "Energía"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:21
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:22
 msgid "Defenses"
 msgstr "Defensas"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:22
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:23
 msgid "Physica"
-msgstr ""
+msgstr "Estado físico"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:24
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:25
 msgid "Peso"
 msgstr "Peso"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:29
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:30
 msgid "Shower"
 msgstr "Ducharse"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:29
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:30
 msgid "Wash Hands"
 msgstr "Lavarse Manos"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:29
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:30
 msgid "Brush Teeth"
 msgstr "Cepillarse Dientes"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:29
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:30
 msgid "Toilet"
 msgstr "Ir al Baño"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:30
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:31
 msgid "Hygiene"
 msgstr "Higiene"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Cereales y leguminosas"
 msgstr "Cereales y leguminosas"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Verduras y frutas"
 msgstr "Verduras y frutas"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Carnes y huevos"
 msgstr "Carnes y huevos"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Dulces"
 msgstr "Dulces"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Grasas y aceites"
 msgstr "Grasas y aceites"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Leches y quesos"
 msgstr "Leches y quesos"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:35
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
 msgid "Agua"
 msgstr "Agua"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:36
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:37
 msgid "Alimentation"
 msgstr "Alimentación"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:41
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:42
 msgid "Sports"
 msgstr "Deportes"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:41
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:42
 msgid "Fun"
 msgstr "Diversión"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:41
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:42
 msgid "Rest"
 msgstr "Descansar"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:42
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:43
 msgid "Tiempo Libre"
 msgstr "Tiempo libre"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:47
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:48
 msgid "Homework"
 msgstr "Hacer deberes"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:47
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:48
 msgid "Housekeeping"
 msgstr "Tareas domésticas"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:47
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:50
-msgid "Huerta"
-msgstr "Huerta"
-
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:47
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:48
 msgid "Health Check"
 msgstr "Control de Salud"
 
-#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:48
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:49
 msgid "Responsabilidad"
 msgstr "Responsabilidad"
+
+#: /home/pmoleri/saludame/Saludame.activity/status_bars_creator.py:51
+msgid "Huerta"
+msgstr "Huerta"
 
 #: /home/pmoleri/saludame/Saludame.activity/menu.py:55
 msgid "exit"

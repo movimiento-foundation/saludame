@@ -164,7 +164,7 @@ class MultipleChoice(gui.Window):
             
             if self.tries == 1:
                 self.challenges_creator.game_man.bars_controller.increase_bar(self.topic.id, self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2])
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \n %s puntos para tu barra de %s. \nLee la biblioteca o pregunta al maestro/a." % (self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2], self.topic.label), "assets/challenges/boy_sad.png")
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Qué lástima, no era correcta, \n %s puntos para tu barra de %s. \nLee la biblioteca o pregunta a tu maestro/a." % (self.challenges_creator.game_man.get_current_level_conf()["multiple_choice_vector"][2], self.topic.label), "assets/challenges/boy_sad.png")
                 self.windows_controller.set_active_window("info_challenge_window")
                 self.tries = 0
             else:
@@ -328,7 +328,7 @@ class TrueOrFalse(MultipleChoice):
             
         if self.kind == "master":
             if self.perdio:
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel. \n¡Hay que aprender más!", "assets/challenges/boy_sad.png")
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel.\nRecuerda que puedes estudiar en la biblioteca.", "assets/challenges/boy_sad.png")
                 self.windows_controller.set_active_window("info_challenge_window")
                 
             else:                
