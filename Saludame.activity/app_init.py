@@ -12,7 +12,7 @@ import effects
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
-                             "score_vector" : (-8, -4, 0 , 5, 10), # incremento central en 10 por motivos de testeo
+                             "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
@@ -212,11 +212,14 @@ class AppLoader:
         
         sick_3 = 0; sick_2 = 1; sick_1 = 2; sad_3 = 3; sad_2 = 4; sad_1 = 5; angry_3 = 6; angry_2 = 7; angry_1 = 8; normal = 9; happy_1 = 10; happy_2 = 11; happy_3 = 12
         
-        # Formula to convert effects per minute into effects per CONTROL_INTERVAL
-        # factor = CONTROL_INTEVAL/(60 * FPS)
-        factor = float(16) / (60 * 14)
-        m = lambda x: x*factor
-        import operator
+        # Factor from times per minute into times per CONTROL_INTERVAL
+        factor = (60 * 14) / float(16)
+        
+        # Formula to convert time per minute into per CONTROL_INTERVAL
+        m = lambda x: int(x * factor)
+
+        # Formula to convert effect impact from value per minute into value per CONTROL_INTERVAL
+        per_minute = lambda effect_tuple: (effect_tuple[0], effect_tuple[1] / factor)
         
         _events = []
         
@@ -329,7 +332,7 @@ class AppLoader:
         father = "assets/characters/father.png"
         doctor = "assets/characters/doctor.png"
         teacher = "assets/characters/teacher.png"
-        friend = "assets/characters/friend.png"
+        friend = "assets/characters/friend_boy.png.png"
         
         doctor_neg = "assets/events/social/doc_neg"; doctor_pos = "assets/events/social/doc_pos"; 
         teacher_neg = "assets/events/social/teacher_neg"; teacher_pos = "assets/events/social/teacher_pos"
@@ -518,6 +521,10 @@ class AppLoader:
         effect = effects.Effect(bars_controller, [("energy", -5), ("weight", +1)])
         event = events.SocialEvent(friend_neg, friend, "amigo_deportes", u"Amigo invita a hacer deportes", "neg", None, m(5), probability, effect, u"¿Vamos a hacer deporte\npara el campeonato?", "id.cfzkxmujas29", 1, normal)
         _events.append(event)
+        
+        for event in _events:
+            if event.effect:
+                event.effect.effect_status_list = map(per_minute, event.effect.effect_status_list)      # Convert to values per control interval
         
         return _events
 

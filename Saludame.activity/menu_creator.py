@@ -26,7 +26,7 @@ items = [
             (u"Torta frita", "torta_frita", None, None),
             (u"Refuerzo fiambre", "refuerzo_fiambre", None, None),
             (u"Bizcochos", "bizcochos", None, None),
-            (u"Torta casera", "torta", None, None),
+            (u"Torta casera", "torta_dulce", None, None),
             (u"Rosca Chicharrones", "rosca_chicharrones", None, None),
         ], [], MA),
         

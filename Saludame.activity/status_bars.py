@@ -419,18 +419,15 @@ class BarsController:
                 bar.increase(increase_rate)
                 break
     
-    def calculate_score(self):
+    def calculate_score(self, score_level_vector):
         """
         Calculates score_bar's score.
         """
-        score_level_vector = game_manager.instance.get_current_level_conf()["score_vector"]
-        interval = self.overall_bar.max / len(score_level_vector) # parte la barra en intervalos iguales según la cantidad de valores del score_vector
-        value = self.overall_bar.value # overall_bar's current charge
-
-        index = 0 #index to de position in the score_vector
-        while value > interval:
-            interval += self.overall_bar.max / len(score_level_vector)
-            index += 1
+        interval = float(self.overall_bar.max) / len(score_level_vector)
+        index = int(self.overall_bar.value / interval)
+        if index >= len(score_level_vector):
+            index = len(score_level_vector) - 1
+        
         self.score_bar.increase(score_level_vector[index])
     
     def get_overall_percent(self):

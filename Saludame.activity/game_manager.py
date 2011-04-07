@@ -122,7 +122,7 @@ class GameManager:
             #handle actions.
             self.__handle_active_character_action() #handle active character action (performing and animation)
             if self.count >= CONTROL_INTERVAL:
-                self.bars_controller.calculate_score()  # calculates the score of the score_bar
+                self.__control_score() # calculates the score of the score_bar
                 self.__control_background_actions() # background actions
                 self.__control_level() # Checks if level must be changed
                 self.__control_active_events() # handle active events
@@ -137,6 +137,11 @@ class GameManager:
                 
                 self.count = 0
 
+    def __control_score(self):
+        score_vector_per_minute = self.get_current_level_conf()["score_vector"]
+        score_vector_per_cicle = [float(value)/60 for value in score_vector_per_minute]
+        self.bars_controller.calculate_score(score_vector_per_cicle)
+        
     def get_current_level_conf(self):
         """
         returns the current level configuration dictionary
@@ -649,21 +654,12 @@ class GameManager:
         score_bar = self.bars_controller.score_bar
         if score_bar.value == score_bar.max:
             # sets master challenge
-            self.set_master_challenge()
+            self._master_challenge()
             self.next_level()
             
         if score_bar.value == 0:
             # falls back to previous level
             self.previous_level()
-
-    def set_master_challenge(self):
-        # The master challenge occurs when the player completed a level.
-        # If it is answered correctly the player wins some points, so he starts the new level with these points
-        # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
-        # reach the master challenge again.
-        
-        #self.windows_controller.show_master_challenge_intro()
-        self.windows_controller.main_window.kidW._cb_button_click_master_challenge(None)
     
 # Score handling
     def add_points(self, points):
@@ -782,8 +778,12 @@ class GameManager:
         self.windows_controller.set_active_window("info_challenge_window")
         
     def _master_challenge(self):
+        # The master challenge occurs when the player completed a level.
+        # If it is answered correctly the player wins some points, so he starts the new level with these points
+        # Otherwise it loses some points, and continues in the same level, so he has to continue playing to
+        # reach the master challenge again.
         self.challenges_creator.get_challenge("master")
         self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estas por pasar de nivel! \nPara superarlo tienes que responder \ncorrecto a 3 de las 5 preguntas \nque siguen \n\n¡Suerte!")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrecto a 3 de las 5 preguntas\nque siguen\n\n¡Suerte!")
         self.windows_controller.set_active_window("info_challenge_window")
     
