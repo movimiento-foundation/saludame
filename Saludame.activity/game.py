@@ -4,7 +4,7 @@ from game_manager import GameManager
 import pygame
 import logging
 import hotkeys
-
+  
 if __name__ == "__main__":
     import gettext
     gettext.textdomain("org.ceibaljam.Saludame")
