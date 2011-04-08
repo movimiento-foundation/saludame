@@ -153,6 +153,7 @@ items = [
         (u"Limpiar el cuarto", "clean", None, None, ["bedroom"]),
         (u"Tareas domésticas", "housekeeping", None, None, CC),
         (u"Ayudar en el campo", "help_field", None, None, CC),
+        (u"Estudiar en la XO", "study_xo", None, None),
         (u"Cocinar", "help_cook", None, None, CC),
         (u"Descanzar", "relax", None, None, CC + ["square"]),
         (u"Cambiar de ropa...", None, None, [
@@ -191,7 +192,7 @@ items = [
    (u"Huerta...", None, None, [
        (u"Preparar tierra", "farm_plow", None, None, ALL_BUT_SQUARE),
        (u"Sembrar", "farm_sow", None, None, ALL_BUT_SQUARE),
-       (u"Mantener", None , None, [
+       (u"Mantener...", None , None, [
            (u"Regar", "farm_irrigate", None, None),
            (u"Fumigar", "farm_fumigate", None, None),
            (u"Limpiar", "farm_clean", None, None),

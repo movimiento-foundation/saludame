@@ -11,7 +11,11 @@ CHALLENGES_INTERVAL = 300
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
-HOUR_COUNT_CYCLE = 320 #control intevals that have to pass to management the time of day ... 320 = 5 min. apróx
+HOUR_COUNT_CYCLE = 200  # control intevals that have to pass to change the time of day ... 200 = 4 min. apróx
+
+# Game Over: If the overall bar stays under the threshold for a whole interval, the game will end
+GAME_OVER_INTERVAL = 150
+GAME_OVER_THRESHOLD = 15
 
 import random
 import effects
@@ -37,6 +41,7 @@ class GameManager:
         instance = self
 
         self.started = False
+        self.game_over = False
         
         #level configuration list
         self.level_conf = level_conf
@@ -51,6 +56,7 @@ class GameManager:
         
         self.idle_time = 0
         self.challenge_cicles = CHALLENGES_INTERVAL
+        self.game_over_cicles = GAME_OVER_INTERVAL
         
         #events, actions, moods
         self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
@@ -130,6 +136,7 @@ class GameManager:
                 self.__handle_time()
                 self.__check_idle_time()
                 self.__control_challenges()
+                self.__control_game_over()
                 if self.environment_effect:
                     self.environment_effect.activate(1)
                 else:
@@ -680,6 +687,9 @@ class GameManager:
             self.windows_controller.remove_personal_event(personal_event)
         for social_event in self.active_social_events:
             self.windows_controller.remove_social_event(social_event)
+            
+        self.game_over = False
+        
         self.active_events = []
         self.active_social_events = []
         self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
@@ -696,6 +706,7 @@ class GameManager:
         self.hour = 2
         self.hour_count = HOUR_COUNT_CYCLE
         self.current_time = self.day_dic[self.hour]
+        
         print "game reseted successfully... "
 
     def serialize(self):
@@ -727,6 +738,8 @@ class GameManager:
         
         self.update_environment()
         
+        self.game_over = False
+        
         print "Se cargo la partida con exito. Version ", game_status["version"]
     
 
@@ -756,6 +769,7 @@ class GameManager:
         return self.current_time
 
 
+# Challenges
     def __control_challenges(self):
         if self.challenge_cicles == 0:
             self.challenge_cicles = CHALLENGES_INTERVAL
@@ -786,4 +800,17 @@ class GameManager:
         self.windows_controller.set_active_window("tf_challenge_window")
         self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrecto a 3 de las 5 preguntas\nque siguen\n\n¡Suerte!")
         self.windows_controller.set_active_window("info_challenge_window")
-    
+
+# Game Over
+    def __control_game_over(self):
+        percentaje = self.bars_controller.get_overall_percent()
+        if percentaje >= GAME_OVER_THRESHOLD:
+            self.game_over_cicles = GAME_OVER_INTERVAL
+        else:
+            self.game_over_cicles -= 1
+        
+        if self.game_over_cicles == 0:
+            self.game_over = True
+            self.windows_controller.windows["slide_window"].show_slide("assets/slides/loose.jpg")
+            self.windows_controller.set_active_window("slide_window")
+        
