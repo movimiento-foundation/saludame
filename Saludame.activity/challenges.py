@@ -125,7 +125,7 @@ class MultipleChoice(gui.Window):
     def prepare(self, text, limit):
         if len(text) > limit:
             space = text[0:limit].rfind(" ")
-            text = text[0:space] + "\n" + text[space + 1:]
+            text = text[0:space] + "\n" + self.prepare(text[space + 1:], limit)
         return text
             
     def get_random_answer(self, answers, cant_choose):

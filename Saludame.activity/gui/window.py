@@ -244,6 +244,7 @@ class Window:
                         self.windows_controller.show_super_tooltip(widget.super_tooltip)
                         widget.showing_tooltip = True
                     widget.on_mouse_over()
+                    self.windows_controller.active_widget = widget
                     return # No seguimos buscando el botón
             else:
                 # Ineficiente! Por ahora lo dejo asi para PROBAR

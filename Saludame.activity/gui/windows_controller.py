@@ -24,6 +24,8 @@ class WindowsController:
         # Tooltips
         self.showing_tooltip = False
         self.active_tooltip = None
+
+        self.active_widget = None
         
         self.mouse_on_window = None
     
@@ -34,6 +36,10 @@ class WindowsController:
     def set_mouse_on_window(self, register_id):
         if (self.mouse_on_window != register_id and self.showing_tooltip):
             self.hide_active_tooltip()
+
+        if (self.mouse_on_window != register_id and self.active_widget):
+            self.active_widget.over = False
+
         self.mouse_on_window = register_id
     
     def close_active_window(self):
