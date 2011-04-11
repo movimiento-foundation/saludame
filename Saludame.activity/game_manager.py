@@ -381,30 +381,45 @@ class GameManager:
     def __try_solve_events(self, action_id):
         """Try to solve an active event with the active character
         action"""
-
+        action = [action for action in self.actions_list if action.id == action_id][0]
+        
         for evt in self.active_events:
-            if (evt.name, action_id) in self.events_actions_res:
-                rand = random.randint(0, 100)
-                print evt.name, " ", action_id
-                prob = self.events_actions_res[(evt.name, action_id)]
-                print "TRYING SOLVE ", evt.name, " performing: ", action_id, " PROBABILITY: ", prob
-                if rand <= prob:
-                    print "EVENT SOLVED "
-                    self.remove_personal_event(evt)
-                else:
-                    print "EVENT NOT SOLVED"
+            solved = self.__check_event_resolution(evt, action)
+            if solved:
+                sound_manager.instance.play_event_solved()
+                self.remove_personal_event(evt)
 
         for evt in self.active_social_events:
-            if (evt.name, action_id) in self.events_actions_res:
-                rand = random.randint(0, 100)
-                prob = self.events_actions_res[(evt.name, action_id)]
-                print "TRYING SOLVE ", evt.name, " performing: ", action_id, " PROBABILITY: ", prob
-                if rand <= prob:
-                    print "EVENT SOLVED "
-                    self.remove_social_event(evt)
-                else:
-                    print "EVENT NOT SOLVED"
-
+            solved = self.__check_event_resolution(evt, action)
+            if solved:
+                sound_manager.instance.play_event_solved()
+                self.remove_social_event(evt)
+    
+    def __check_event_resolution(self, evt, action):
+        action_id = action.id
+        
+        prob = self.events_actions_res.get( (evt.name, action_id) )
+        if prob:
+            rand = random.randint(0, 100)
+            print "TRYING SOLVE: %s perfroming: %s with probability: %s" % (evt.name, action_id, prob)
+            if rand <= prob:
+                print "EVENT SOLVED"
+                return True
+        
+        elif action.effect:
+            positive_impacts = [impact for impact in action.effect.effect_status_list if impact[1] > 0]
+            for impact in positive_impacts:
+                status_bar = impact[0]
+                prob = self.events_actions_res.get( (evt.name, None, status_bar) )
+                if prob:
+                    rand = random.randint(0, 100)
+                    print "TRYING SOLVE: %s perfroming: %s with effect: %s, with probability: %s" % (evt.name, action_id, status_bar, prob)
+                    if rand <= prob:
+                        print "EVENT SOLVED"
+                        return True
+        
+        return False
+    
     def __handle_active_character_action(self):
         if self.active_char_action:
             # handle effects, once per CONTROL_INTERVAL
@@ -536,11 +551,11 @@ class GameManager:
                 self.add_social_event(event)
         
     def remove_social_event(self, event):
-        """removes an active social event
-        """
+        """ removes an active social event """
         self.windows_controller.remove_social_event(event)
         event.reset()
         self.active_social_events.remove(event)
+        self.__check_active_mood()
 
     def remove_personal_event(self, event):
         """removes an active personal event
@@ -548,6 +563,7 @@ class GameManager:
         self.windows_controller.remove_personal_event(event)
         event.reset()
         self.active_events.remove(event)
+        self.__check_active_mood()
 
     def __handle_social_events(self):
         """
@@ -804,7 +820,7 @@ class GameManager:
 # Game Over
     def __control_game_over(self):
         percentaje = self.bars_controller.get_overall_percent()
-        if percentaje >= GAME_OVER_THRESHOLD:
+        if percentaje*100 >= GAME_OVER_THRESHOLD:
             self.game_over_cicles = GAME_OVER_INTERVAL
         else:
             self.game_over_cicles -= 1

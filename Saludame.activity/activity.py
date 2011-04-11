@@ -3,11 +3,13 @@
 from sugar.activity.activity import Activity, ActivityToolbox
 from sugar.datastore import datastore
 from sugargame.canvas import PygameCanvas
+
 import gtk
 import gobject
 
 import gettext
 gettextold = gettext.gettext
+
 def _(string):
     string = gettextold(string)
     if isinstance(string, unicode):
@@ -46,7 +48,7 @@ class SaludameActivity(Activity):
 
         # Creates other toolbars
         self.game_toolbar = gtk.Toolbar()
-        self.health_library_toolbar = gtk.Toolbar()
+        # Library toolbar gets created on demand
         self.guides_toolbar = gtk.Toolbar()
         self.credits_toolbar = gtk.Toolbar()
         
@@ -102,14 +104,14 @@ class SaludameActivity(Activity):
         for i in range(toolbars, 0, -1):
             self.toolbox.remove_toolbar(i)
         
-        self.indexes = ["activity"]
+        self.indexes = ["activity"]     # activity toolbar never gets removed
         
         if add_game:
             self.toolbox.add_toolbar(_("Game"), self.game_toolbar)
             self.indexes += ["game"]
         
         self.indexes += ["library", "guides", "credits"]
-        self.toolbox.add_toolbar(_("Health Library"), self.health_library_toolbar)
+        self.toolbox.add_toolbar(_("Health Library"), self.health_library.get_toolbar())
         self.toolbox.add_toolbar(_("Guides"), self.guides_toolbar)
         self.toolbox.add_toolbar(_("Credits"), self.credits_toolbar)
         
@@ -120,6 +122,7 @@ class SaludameActivity(Activity):
         game.pause = True
         self.pygame_canvas.translator.unhook_pygame()
         self.health_library.ditch()
+        self.guides.ditch()
         self.guides.ditch()
         
         if self.indexes[index] == "activity":

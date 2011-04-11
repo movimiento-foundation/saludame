@@ -28,7 +28,8 @@ class MainWindow(gui.Window):
         self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, cha_loader, game_man)
         self.add_window(self.kidW)
         
-        self.add_child(animation.FPS(container, pygame.Rect((1150, 0), (50, 20)), 15, self.clock))
+        #self.add_child(animation.FPS(container, pygame.Rect((1150, 0), (50, 20)), 15, self.clock))
+        
         self.add_window(status_bars.BarsWindow(container, pygame.Rect(0, 0, 227, 590), 5, windows_controller, bars_loader))
         
         self.add_child(Clock(container, pygame.Rect(0, 528, 1, 1), 1, game_man))

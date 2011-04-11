@@ -15,7 +15,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
-                             "master_challenge_text" : "Tienes nuevas acciones, ¿te animas a encontrarlas?",
+                             "master_challenge_text" : u"Tienes nuevas acciones, ¿te animas a encontrarlas?",
                              "min_qty_correct_ans" : 3, #min qty of corrent answers to pass master challenge.
                              "slide" : None,
                              "events_qty" : 2,
@@ -27,7 +27,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "score_vector" : (-8, -4, 0 , 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
-                             "master_challenge_text" : "Vas muy bien! Cuando llueva recuerda ponerte bajo techo.",
+                             "master_challenge_text" : u"¡Vas muy bien! Ahora podrás tener clima lluvioso.\nCuando llueva recuerda ponerte bajo techo.",
                              "min_qty_correct_ans" : 3,
                              "slide" : None,
                              "events_qty" : 2,
@@ -51,7 +51,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "score_vector" : (-10, -6, 0 , 3, 7),
                              "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
                              "multiple_choice_vector" : (10, 5, -7),
-                             "master_challenge_text" : "Vas muy bien! ¿Has visitado la plaza?",
+                             "master_challenge_text" : u"¡Vas muy bien! ¿Has visitado la plaza?",
                              "min_qty_correct_ans" : 4,
                              "slide" : None,
                              "events_qty" : 2,
@@ -309,7 +309,7 @@ class AppLoader:
         
         probability = ("all", [("w_hands", "indirect", 30, 90), ("shower", "indirect", 30, 90), ("defenses", "indirect", 30, 90), ("energy", "indirect", 30, 90)])
         effect = effects.Effect(bars_controller, [("defenses", -15), ("energy", -15), ("fun", -10), ("weight", -1), ("h_check", -5), ("relaxing", -10)])
-        event = events.PersonalEvent("assets/events/personal/sick", None, "flu", u"Gripe", "neg", None, None, probability, effect, u"Que mal me siento, creo que me engripé", "id.spl2hjco8uic", 1, sick_3)
+        event = events.PersonalEvent("assets/events/personal/sick", None, "flu", u"Gripe", "neg", None, None, probability, effect, u"Qué mal me siento,\ncreo que me engripé", "id.spl2hjco8uic", 1, sick_3)
         _events.append(event)
         
         #probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
@@ -319,12 +319,12 @@ class AppLoader:
         
         probability = ("all", [("homework", "direct", 75, 70)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None, m(2), probability, effect, u"¡Que bien que hice\nmis deberes!", "", 1, happy_2)
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_deberes", u"Muy contento", "pos", None, m(2), probability, effect, u"¡Qué bien que hice\nmis deberes!", "", 1, happy_2)
         _events.append(event)
         
         probability = ("all", [("housekeeping", "direct", 75, 70)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None, m(2), probability, effect, u"¡Que rico que cocinamos!", "", 1, happy_2)
+        event = events.PersonalEvent("assets/events/social/friend1_pos", None, "contento_cocinar", u"Muy contento", "pos", None, m(2), probability, effect, u"¡Qué rico que cocinamos!", "", 1, happy_2)
         _events.append(event)
         
         # Social events
@@ -554,7 +554,7 @@ class AppLoader:
                               
                               #("hambre", "___") : ___,
                               
-                              ("sed", "agua") : 100,
+                              ("thirsty", "agua") : 100,
                               
                               ("tired", "relax") : 100,
                               ("tired", "sleep") : 100,

@@ -8,6 +8,7 @@ class Credits(gtk.Fixed):
     def __init__(self):
         gtk.Fixed.__init__(self)
         self.loaded = False
+        self.reloaded = False
         
         self.connect("expose-event", self._expose_cb)
                 
@@ -30,6 +31,14 @@ class Credits(gtk.Fixed):
 
             self.loaded = True
             
+        elif not self.reloaded:
+            self.credits_pixbuf = rsvg.Handle(file="credits/saludame.svg").get_pixbuf()
+            self.reloaded = True
+        
+    def ditch(self):
+        self.credits_pixbuf = None
+        self.reloaded = False
+    
     def scrolled(self, gtkrange):
         self.queue_draw()
         
