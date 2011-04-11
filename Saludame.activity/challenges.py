@@ -393,7 +393,7 @@ class Slide(gui.Window):
         
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "slide_window")
         
-        self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((600, 600), (1, 1)), _("Continue"), self._cb_button_click_continue)
+        self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((550, 700), (1, 1)), _("Continue"), self._cb_button_click_continue)
         self.add_button(self.btn_continue)        
         
     def show_slide(self, slide_path):

@@ -52,11 +52,11 @@ class CustomizationWindow(gui.Window):
         btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
         button_back = pygame.image.load("customization/customization_button.png").convert()
-        btn_hair = gui.TextButton2(self.rect, pygame.Rect((500, 100), (70, 30)), 1, _("Hair"), 30, (255, 255, 255), button_back, self._cb_button_hair)
-        btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 170), (70, 30)), 1, _("Skin"), 30, (255, 255, 255), button_back, self._cb_button_skin)
-        btn_sweater = gui.TextButton2(self.rect, pygame.Rect((500, 240), (70, 30)), 1, _("Sweater"), 30, (255, 255, 255), button_back, self._cb_button_sweater)
-        btn_pants = gui.TextButton2(self.rect, pygame.Rect((500, 310), (70, 30)), 1, _("Pants"), 30, (255, 255, 255), button_back, self._cb_button_pants)
-        btn_shoes = gui.TextButton2(self.rect, pygame.Rect((500, 380), (70, 30)), 1, _("Shoes"), 30, (255, 255, 255), button_back, self._cb_button_shoes)
+        btn_hair = gui.TextButton2(self.rect, pygame.Rect((500, 100), (70, 30)), 1, _("Hair"), 28, (255, 255, 255), button_back, self._cb_button_hair)
+        btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 170), (70, 30)), 1, _("Skin"), 28, (255, 255, 255), button_back, self._cb_button_skin)
+        btn_sweater = gui.TextButton2(self.rect, pygame.Rect((500, 240), (70, 30)), 1, _("Sweater"), 28, (255, 255, 255), button_back, self._cb_button_sweater)
+        btn_pants = gui.TextButton2(self.rect, pygame.Rect((500, 310), (70, 30)), 1, _("Pants"), 28, (255, 255, 255), button_back, self._cb_button_pants)
+        btn_shoes = gui.TextButton2(self.rect, pygame.Rect((500, 380), (70, 30)), 1, _("Shoes"), 28, (255, 255, 255), button_back, self._cb_button_shoes)
         map(self.add_button, [btn_close, btn_hair, btn_skin, btn_sweater, btn_pants, btn_shoes])
         
         self.hair_color_index = 0

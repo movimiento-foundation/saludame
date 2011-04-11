@@ -11,7 +11,11 @@ CHALLENGES_INTERVAL = 300
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
 
-HOUR_COUNT_CYCLE = 320 #control intevals that have to pass to management the time of day ... 320 = 5 min. apróx
+HOUR_COUNT_CYCLE = 200  # control intevals that have to pass to change the time of day ... 200 = 4 min. apróx
+
+# Game Over: If the overall bar stays under the threshold for a whole interval, the game will end
+GAME_OVER_INTERVAL = 150
+GAME_OVER_THRESHOLD = 15
 
 import random
 import effects
@@ -37,6 +41,7 @@ class GameManager:
         instance = self
 
         self.started = False
+        self.game_over = False
         
         #level configuration list
         self.level_conf = level_conf
@@ -51,6 +56,7 @@ class GameManager:
         
         self.idle_time = 0
         self.challenge_cicles = CHALLENGES_INTERVAL
+        self.game_over_cicles = GAME_OVER_INTERVAL
         
         #events, actions, moods
         self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
@@ -130,6 +136,7 @@ class GameManager:
                 self.__handle_time()
                 self.__check_idle_time()
                 self.__control_challenges()
+                self.__control_game_over()
                 if self.environment_effect:
                     self.environment_effect.activate(1)
                 else:
@@ -374,30 +381,45 @@ class GameManager:
     def __try_solve_events(self, action_id):
         """Try to solve an active event with the active character
         action"""
-
+        action = [action for action in self.actions_list if action.id == action_id][0]
+        
         for evt in self.active_events:
-            if (evt.name, action_id) in self.events_actions_res:
-                rand = random.randint(0, 100)
-                print evt.name, " ", action_id
-                prob = self.events_actions_res[(evt.name, action_id)]
-                print "TRYING SOLVE ", evt.name, " performing: ", action_id, " PROBABILITY: ", prob
-                if rand <= prob:
-                    print "EVENT SOLVED "
-                    self.remove_personal_event(evt)
-                else:
-                    print "EVENT NOT SOLVED"
+            solved = self.__check_event_resolution(evt, action)
+            if solved:
+                sound_manager.instance.play_event_solved()
+                self.remove_personal_event(evt)
 
         for evt in self.active_social_events:
-            if (evt.name, action_id) in self.events_actions_res:
-                rand = random.randint(0, 100)
-                prob = self.events_actions_res[(evt.name, action_id)]
-                print "TRYING SOLVE ", evt.name, " performing: ", action_id, " PROBABILITY: ", prob
-                if rand <= prob:
-                    print "EVENT SOLVED "
-                    self.remove_social_event(evt)
-                else:
-                    print "EVENT NOT SOLVED"
-
+            solved = self.__check_event_resolution(evt, action)
+            if solved:
+                sound_manager.instance.play_event_solved()
+                self.remove_social_event(evt)
+    
+    def __check_event_resolution(self, evt, action):
+        action_id = action.id
+        
+        prob = self.events_actions_res.get( (evt.name, action_id) )
+        if prob:
+            rand = random.randint(0, 100)
+            print "TRYING SOLVE: %s perfroming: %s with probability: %s" % (evt.name, action_id, prob)
+            if rand <= prob:
+                print "EVENT SOLVED"
+                return True
+        
+        elif action.effect:
+            positive_impacts = [impact for impact in action.effect.effect_status_list if impact[1] > 0]
+            for impact in positive_impacts:
+                status_bar = impact[0]
+                prob = self.events_actions_res.get( (evt.name, None, status_bar) )
+                if prob:
+                    rand = random.randint(0, 100)
+                    print "TRYING SOLVE: %s perfroming: %s with effect: %s, with probability: %s" % (evt.name, action_id, status_bar, prob)
+                    if rand <= prob:
+                        print "EVENT SOLVED"
+                        return True
+        
+        return False
+    
     def __handle_active_character_action(self):
         if self.active_char_action:
             # handle effects, once per CONTROL_INTERVAL
@@ -529,11 +551,11 @@ class GameManager:
                 self.add_social_event(event)
         
     def remove_social_event(self, event):
-        """removes an active social event
-        """
+        """ removes an active social event """
         self.windows_controller.remove_social_event(event)
         event.reset()
         self.active_social_events.remove(event)
+        self.__check_active_mood()
 
     def remove_personal_event(self, event):
         """removes an active personal event
@@ -541,6 +563,7 @@ class GameManager:
         self.windows_controller.remove_personal_event(event)
         event.reset()
         self.active_events.remove(event)
+        self.__check_active_mood()
 
     def __handle_social_events(self):
         """
@@ -680,6 +703,9 @@ class GameManager:
             self.windows_controller.remove_personal_event(personal_event)
         for social_event in self.active_social_events:
             self.windows_controller.remove_social_event(social_event)
+            
+        self.game_over = False
+        
         self.active_events = []
         self.active_social_events = []
         self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
@@ -696,6 +722,7 @@ class GameManager:
         self.hour = 2
         self.hour_count = HOUR_COUNT_CYCLE
         self.current_time = self.day_dic[self.hour]
+        
         print "game reseted successfully... "
 
     def serialize(self):
@@ -727,6 +754,8 @@ class GameManager:
         
         self.update_environment()
         
+        self.game_over = False
+        
         print "Se cargo la partida con exito. Version ", game_status["version"]
     
 
@@ -756,6 +785,7 @@ class GameManager:
         return self.current_time
 
 
+# Challenges
     def __control_challenges(self):
         if self.challenge_cicles == 0:
             self.challenge_cicles = CHALLENGES_INTERVAL
@@ -786,4 +816,17 @@ class GameManager:
         self.windows_controller.set_active_window("tf_challenge_window")
         self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrecto a 3 de las 5 preguntas\nque siguen\n\n¡Suerte!")
         self.windows_controller.set_active_window("info_challenge_window")
-    
+
+# Game Over
+    def __control_game_over(self):
+        percentaje = self.bars_controller.get_overall_percent()
+        if percentaje*100 >= GAME_OVER_THRESHOLD:
+            self.game_over_cicles = GAME_OVER_INTERVAL
+        else:
+            self.game_over_cicles -= 1
+        
+        if self.game_over_cicles == 0:
+            self.game_over = True
+            self.windows_controller.windows["slide_window"].show_slide("assets/slides/loose.jpg")
+            self.windows_controller.set_active_window("slide_window")
+        

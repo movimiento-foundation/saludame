@@ -97,7 +97,7 @@ class GuidesWindow(gtk.HBox):
 
         real_path = os.path.join(ROOT_PATH, path)
         
-        if real_path.endswith(".html"):
+        if real_path.endswith(".html") and self.web_view:
             self.web_view.load_uri( unicode(real_path) )
     
     def _exposed(self, widget, event):
@@ -107,14 +107,15 @@ class GuidesWindow(gtk.HBox):
             self._load_treeview()
         
         if not self.web_view:
-            self._create_browser()
+            # First exposes the widget and then (when idle) creates the browser, so the screen shows up faster
+            self.web_view = True # temporary so the conditions doesn't meet
+            gobject.idle_add(self._create_browser)
             
     def ditch(self):
         """ Called when we need to ditch the browsing window and hide the whole window """
         if self.web_view:
             self.remove(self.web_view)
             self.web_view = None
-        #self.hide()
         
     def _load_treeview(self, directory=ROOT_PATH, parent_iter=None):
         dirList = listdir(directory)

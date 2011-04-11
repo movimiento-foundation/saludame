@@ -66,3 +66,7 @@ class SoundManager:
     # Sounds
     def play_time_change(self):
         pygame.mixer.Sound("assets/sound/time_change.ogg").play()
+
+    def play_event_solved(self):
+        pygame.mixer.Sound("assets/sound/challenge_win.ogg").play()
+        

@@ -44,6 +44,15 @@ def set_library_function(link, anchor=None):
 def set_library_event(anchor):
     set_library_function("90-Eventos-avanzado.html", anchor)
 
+def set_library_full_link(link):
+    parts = link.split(u"#")
+    link = parts[0]
+    anchor = None
+    if len(parts) > 1:
+        anchor = parts[1]
+    
+    set_library_function(link, anchor)
+
 class Main():
     
     def __init__(self, target_size=(1200, 780)):
