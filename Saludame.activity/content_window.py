@@ -16,7 +16,7 @@ else:
 
 ignore_list = ["images", "old", "bak"]
 
-HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
+HOME_PAGE = u"file://" + os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
 
 hulahop_ok = True
 try:
@@ -67,7 +67,6 @@ class ContentWindow(gtk.HBox):
             self.web_view = WebView()
             self.pack_start(self.web_view, True, True)
             
-            print HOME_PAGE
             self.web_view.load_uri(self.last_uri)
             self.web_view.show()
         else:
@@ -105,11 +104,11 @@ class ContentWindow(gtk.HBox):
         
         it = self.treestore.get_iter(tree_path)
         path = self.treestore.get_value(it, 1)
-
-        real_path = os.path.join(ROOT_PATH, path)
         
-        if real_path.endswith(".html") and self.web_view:
-            self.web_view.load_uri( unicode(real_path) )
+        if path.endswith(".html") and self.web_view:
+            self.last_uri = u"file://" + unicode(path, "utf-8")
+            self.web_view.load_uri(self.last_uri)
+            
     
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
@@ -143,12 +142,12 @@ class ContentWindow(gtk.HBox):
                 if isfile(nodepath):
                     if node.endswith(".html"):
                         display_name = self.get_display_name(node)
-                        _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                        _iter = self.treestore.append(parent_iter, (display_name, nodepath.encode("utf-8")))
                         self.path_iter[nodepath] = _iter
                 else:
                     if not node in ignore_list:
                         display_name = self.get_display_name(node)
-                        _iter = self.treestore.append(parent_iter, (display_name, nodepath))
+                        _iter = self.treestore.append(parent_iter, (display_name, nodepath.encode("utf-8")))
                         self.path_iter[nodepath] = _iter
                         self._load_treeview_recursive(nodepath, _iter)
     
@@ -173,10 +172,7 @@ class ContentWindow(gtk.HBox):
             treepath = self.treestore.get_path(_iter)
             self.treeview.expand_to_path(treepath)
             self.treeview.set_cursor(treepath)
-        else:
-            print filepath
-            print self.path_iter.keys()
-            
+    
     def set_url(self, link, anchor=None):
         # First fix the link in advanced or simple:
         if self.library_type == "basic":
@@ -185,9 +181,9 @@ class ContentWindow(gtk.HBox):
         link = os.path.join(ROOT_PATH, link)
         self.position_in_filename(link)
         if anchor:
-            self.last_uri = unicode("file://") + link + unicode("#") + unicode(anchor)
+            self.last_uri = u"file://" + link + u"#" + unicode(anchor)
         else:
-            self.last_uri = unicode("file://") + link
+            self.last_uri = u"file://" + link
         
         if self.web_view:
             self.web_view.load_uri( self.last_uri )

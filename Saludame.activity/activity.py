@@ -4,6 +4,8 @@ from sugar.activity.activity import Activity, ActivityToolbox
 from sugar.datastore import datastore
 from sugargame.canvas import PygameCanvas
 
+import gc
+
 import gtk
 import gobject
 
@@ -124,6 +126,8 @@ class SaludameActivity(Activity):
         self.health_library.ditch()
         self.guides.ditch()
         self.guides.ditch()
+        
+        gc.collect()    # Collects garbaje created in the initialization
         
         if self.indexes[index] == "activity":
             self.items.set_current_page(0)
