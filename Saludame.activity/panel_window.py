@@ -35,6 +35,9 @@ class PanelWindow(gui.Window):
         self.current_animation = None
         
         self.action_progress_bar = None
+
+        self.event_info_button = None
+        self.image_info_blink = "assets/layout/info.png"
         
         TEXT_COLOR = pygame.Color("#0f5e65")
         
@@ -65,8 +68,8 @@ class PanelWindow(gui.Window):
         self.add_button(customization_button)
         
         # Info
-        info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_stop_action)
-        self.add_button(info_button)
+        self.info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_info)
+        self.add_button(self.info_button)
         
         # Environment
         self.weather_widget = None
@@ -136,6 +139,9 @@ class PanelWindow(gui.Window):
         
     def remove_social_event(self, event):
         self.social_window.remove_social_event(event)
+
+    def add_event_info_button(self, event):
+        self.event_info_button = event       
         
     def update(self, frames):
              
@@ -148,14 +154,28 @@ class PanelWindow(gui.Window):
     
         self.personal_window.set_dirty_background()
         self.social_window.set_dirty_background()
+        
+        if frames % 3 == 0:
+            if self.event_info_button:       
+                # Make the button blink
+                if self.image_info_blink == "assets/layout/info.png":
+                    self.info_button.switch_image_background("assets/layout/info2.png")
+                    self.image_info_blink = "assets/layout/info2.png"
+                else:
+                    self.info_button.switch_image_background("assets/layout/info.png")
+                    self.image_info_blink = "assets/layout/info.png"
+
+            self.set_dirty_background()
+
         gui.Window.update(self, frames)        
         
     # Buttons Callbacks
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization_window")
         
-    def _cb_button_click_stop_action(self, nutton):
-        self.stop_action_animation()
+    def _cb_button_click_info(self, button):
+        if self.event_info_button:
+            print self.event_info_button
         
 class ActionProgressBar(gui.Widget):
     """

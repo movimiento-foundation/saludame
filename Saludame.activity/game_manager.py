@@ -321,6 +321,9 @@ class GameManager:
                     self.interrupt_active_action(None)
                 action.perform(1)
                 action.reset()
+
+    def set_forbidden_action(self):
+        self.windows_controller.windows["panel_window"].add_event_info_button("Accion prohibida")
     
     def interrupt_active_action(self, action_id):
         """

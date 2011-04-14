@@ -60,6 +60,11 @@ def alt_shift_a_handling():
     if game_manager.instance: 
         game_manager.instance.add_points(10)
 
+def alt_c_p_handling():
+    print "Forbidden action"
+    if game_manager.instance: 
+        game_manager.instance.set_forbidden_action()
+
 # HOTKEYS DIC
 hotkeys = {
     (pygame.K_LALT, pygame.K_l, pygame.K_PLUS): alt_l_plus_handling,
@@ -73,6 +78,7 @@ hotkeys = {
     (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_t): alt_shift_t_handling,
     (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_g): alt_shift_g_handling,
     (pygame.K_LALT, pygame.K_LSHIFT, pygame.K_a): alt_shift_a_handling,
+    (pygame.K_LALT, pygame.K_c, pygame.K_p): alt_c_p_handling
 }
 
 class HotKeyHandler:

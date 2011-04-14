@@ -133,6 +133,10 @@ class ImageButton(Button):
                 self.image = image.convert_alpha()
         
         rect.size = image.get_rect().size
+
+        self.text_intro = None
+        self.text_result = None
+
         Button.__init__(self, container, rect, frame_rate, image, cb_click, cb_over, cb_out)
     
     def switch_image_background(self, image):
@@ -142,9 +146,12 @@ class ImageButton(Button):
                 image = image.convert()
             else:
                 image = image.convert_alpha()
-            self.text_intro.visible = True
-            
-        self.text_result.visible = False
+
+            if self.text_intro:
+                self.text_intro.visible = True
+        
+        if self.text_result:    
+            self.text_result.visible = False
         self.background = image
         self.set_dirty()
         
