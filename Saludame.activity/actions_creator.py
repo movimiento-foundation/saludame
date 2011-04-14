@@ -16,6 +16,7 @@ TWISTER_SOUND = os.path.normpath("assets/sound/place_change.ogg")
 CHANGE_CLOTHES_ANIMATION_PATH = os.path.normpath("assets/kid/actions/twister")
 CHEW_PATH = os.path.normpath("assets/kid/actions/eat")
 DRINK_PATH = os.path.normpath("assets/kid/actions/drink")
+TWISTER_PATH = os.path.normpath("assets/kid/actions/twister")
 
 # Action Icons
 FRUIT_PATH = os.path.normpath("assets/action-icons/fruits")
@@ -305,7 +306,7 @@ actions_list = [
     ),
     
     # Do
-    ("housekeeping", 0.3, 70, 1, "assets/kid/actions/twister", 3, 2, "assets/action-icons/clean", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("housekeeping", 0.3, 70, 1, TWISTER_PATH, 3, 2, "assets/action-icons/clean", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-5), ("shower",-5), ("w_hands",-5), ("sports",10), ("fun",-20), ("relaxing",-5), ("housekeeping",60)]), None, None, None
     ),
     ("homework", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 1, "assets/sound/work.ogg",
@@ -314,10 +315,10 @@ actions_list = [
     ("study_xo", 0.3, 70, 0, "assets/kid/actions/studyXO", 3, 1, None, 1, "assets/sound/play_xo.ogg",
         effects.Effect(None, [("energy",-5), ("weight",-0.5), ("sports",-5), ("fun",-10), ("relaxing",-5), ("homework",60)]), None, None, None
     ),
-    ("help_field", 0.3, 70, 1, "assets/kid/actions/twister", 3, 2, None, 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("help_field", 0.3, 70, 1, TWISTER_PATH, 3, 2, None, 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-10), ("weight",-1), ("agua",-5), ("shower",-10), ("w_hands",-20), ("sports",20), ("fun",-20), ("relaxing",-10), ("housekeeping",60)]), None, None, None
     ),
-    ("help_cook", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/cook", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("help_cook", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/cook", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-5), ("w_hands",-10), ("relaxing",-5), ("housekeeping",40)], ["contento_cocinar"]), None, None, None, 1, u"70-Recetas/01-Recetas-avanzado.html"
     ),
     ("relax", 0.3, 70, 0, "assets/kid/actions/rest", 3, 1, None, 1, ["assets/sound/relax.ogg"],
@@ -326,20 +327,20 @@ actions_list = [
     ("talk", 0.3, 70, 0, None, 3, 1, "assets/action-icons/talktofriend", 1, "assets/sound/talk.ogg",
         effects.Effect(None, [("fun",30)]), None, None, None
     ),
-    ("clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/clean", 2, [TWISTER_SOUND, "assets/sound/work.ogg"],
+    ("clean", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/clean", 2, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect(None, [("energy",-5), ("w_hands",-5), ("sports",10), ("fun",-20), ("relaxing",-5), ("housekeeping",40)]), None, None, None
     ),
     ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 2, [None, "assets/sound/sleep.ogg"],
         effects.Effect(None, [("energy",90), ("defenses",20), ("shower",-25), ("w_hands",-5), ("b_teeth",-15), ("toilet",-10), ("sports",-20), ("relaxing",90), ("housekeeping",-30), ("homework",-30)]), None, None, None, 1, u"04-Más hábitos saludables/06-Ocio y descanso-avanzado.html", "sleep"
     ),
     
-    ("wash_hands", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/washhands", 2, [TWISTER_SOUND, "assets/sound/wash_hands.ogg"],
+    ("wash_hands", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/washhands", 2, [TWISTER_SOUND, "assets/sound/wash_hands.ogg"],
         effects.Effect(None, [("defenses",5), ("w_hands",90), ("fun",-10)]), None, None, None, 1, u"04-Más hábitos saludables/05-Higiene corporal-avanzado.html#id.1zz1x6vcpupm"
     ),
     ("brush_teeth", 0.3, 70, 0, "assets/kid/actions/brushteeth", 3, 1, None, 1, "assets/sound/brush_teeth.ogg",
         effects.Effect(None, [("defenses",5), ("b_teeth",90), ("fun",-10)]), None, None, None, 1, u"04-Más hábitos saludables/07-Salud bucal-avanzado.html"
     ),
-    ("shower", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/shower", 2, [TWISTER_SOUND, "assets/sound/shower.ogg"],
+    ("shower", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/shower", 2, [TWISTER_SOUND, "assets/sound/shower.ogg"],
         effects.Effect(None, [("energy",-5), ("defenses",5), ("shower",90), ("w_hands",90), ("fun",-20), ("relaxing",-5)]), None, None, None, 1, u"04-Más hábitos saludables/05-Higiene corporal-avanzado.html#id.1zz1x6vcpupm"
     ),
     ("toilet", 0.3, 100, 1, "assets/kid/actions/toilet", 3, 1, None, 2, [TWISTER_SOUND, "assets/sound/toilet.ogg"],
@@ -347,23 +348,23 @@ actions_list = [
     ),
     
     # Farm
-    ("farm_plow", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/trident", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("shower",-5), ("w_hands",-30), ("sports",10), ("fun",40), ("weight",-1), ("agua",-5), ("shower",-30), ("w_hands",-70), ("sports",30), ("fun",30), ("relaxing",-10)]), None, None, None, u"50-Huerta/03-Preparación del suelo/01-Preparación del suelo-avanzado.html"
+    ("farm_plow", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/trident", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+        effects.Effect(None, [("energy",-5), ("shower",-5), ("w_hands",-30), ("sports",10), ("fun",40), ("weight",-1), ("agua",-5), ("shower",-30), ("w_hands",-70), ("sports",30), ("fun",30), ("relaxing",-10), ("farm",25)]), None, None, None, 1, u"50-Huerta/03-Preparación del suelo/01-Preparación del suelo-avanzado.html"
     ),
-    ("farm_sow", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("w_hands",-10), ("fun",10)]), None, None, None, 1, u"50-Huerta/04-Sembrar/01-Sembrar-avanzado.html"
+    ("farm_sow", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+        effects.Effect(None, [("energy",-5), ("w_hands",-10), ("fun",10), ("farm",25)]), None, None, None, 1, u"50-Huerta/04-Sembrar/01-Sembrar-avanzado.html"
     ),
-    ("farm_irrigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/irrigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("weight",-0.5), ("w_hands",-5), ("fun",10)]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/04-Regar-avanzado.html"
+    ("farm_irrigate", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/irrigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+        effects.Effect(None, [("energy",-5), ("weight",-0.5), ("w_hands",-5), ("fun",10), ("farm",10)]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/04-Regar-avanzado.html"
     ),
-    ("farm_fumigate", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/fumigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("shower",-40), ("w_hands",-40), ("fun",10)], ["intoxicacion"]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/03-Cómo combatirlas-avanzado.html"
+    ("farm_fumigate", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/fumigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+        effects.Effect(None, [("energy",-5), ("shower",-40), ("w_hands",-40), ("fun",10), ("farm",10)], ["intoxicacion"]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/03-Cómo combatirlas-avanzado.html"
     ),
-    ("farm_clean", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("weight",-0.5), ("shower",-5), ("w_hands",-20), ("sports",10), ("fun",10)]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/05-Remover yuyos-avanzado.html"
+    ("farm_clean", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+        effects.Effect(None, [("energy",-5), ("weight",-0.5), ("shower",-5), ("w_hands",-20), ("sports",10), ("fun",10), ("farm",10)]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/05-Remover yuyos-avanzado.html"
     ),
-    ("farm_harvest", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/harvest", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("w_hands",-1), ("sports",10), ("fun",40)]), None, None, None, 1,  u"50-Huerta/07-Cosechar-avanzado.html"
+    ("farm_harvest", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/harvest", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
+        effects.Effect(None, [("energy",-5), ("w_hands",-1), ("sports",10), ("fun",40), ("farm",25)]), None, None, None, 1,  u"50-Huerta/07-Cosechar-avanzado.html"
     ),
     
     # Fun
@@ -396,10 +397,10 @@ actions_list = [
     ),
     
     # Go to
-    ("dentist", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/dentist", 1, TWISTER_SOUND,
+    ("dentist", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/dentist", 1, TWISTER_SOUND,
         effects.Effect(None, [("h_check",80)]), None, None, None, 1, u"04-Más hábitos saludables/07-Salud bucal-avanzado.html"
     ),
-    ("doctor", 0.3, 70, 1, "assets/kid/actions/twister", 3, 1, "assets/action-icons/doctor", 1, TWISTER_SOUND,
+    ("doctor", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/doctor", 1, TWISTER_SOUND,
         effects.Effect(None, [("h_check",80)]), None, None, None, 1,  u"04-Más hábitos saludables/09-Controles en salud-avanzado.html"
     ),
     

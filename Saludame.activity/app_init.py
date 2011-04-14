@@ -501,7 +501,7 @@ class AppLoader:
         _events.append(event)
 
         # AMIG@
-        probability = ("all", [("sports", "direct", 0, 500)])#70, 80)])
+        probability = ("all", [("sports", "direct", 70, 80)])
         effect = effects.Effect(bars_controller, [("energy", +5), ("fun", +10)])
         event = events.SocialEvent(friend_pos, self.get_friend(), "nuevos_amigos", u"Me hice nuevos amigos", "pos", None, m(2), probability, effect, u"¿Quieres participar conmigo\nen el campeonato?", "", 1, normal)
         _events.append(event)
@@ -518,7 +518,7 @@ class AppLoader:
         
         probability = ("all", [("sports", "indirect", 25, 80)])
         effect = effects.Effect(bars_controller, [("energy", -5), ("weight", +1)])
-        event = events.SocialEvent(friend_neg, self.get_friend(), "amigo_deportes", u"Amigo invita a hacer deportes", "neg", None, m(5), probability, effect, u"¿Vamos a hacer deporte\npara el campeonato?", "id.cfzkxmujas29", 1, normal)
+        event = events.SocialEvent(friend_neg, self.get_friend(), "amigo_deportes", u"Amigo invita a hacer deportes", "neg", None, m(2), probability, effect, u"¿Vamos a hacer deporte\npara el campeonato?", "id.cfzkxmujas29", 1, normal)
         _events.append(event)
         
         for event in _events:
@@ -591,6 +591,54 @@ class AppLoader:
                               ("flu", None, "v_frutas") : 10,
                               
                               ("intoxicacion", "doctor") : 100,
+                              
+                              ("amigo_deportes", None, "sports"): 100,
+                              
+                              ("amigo_deportes", None, "sports"): 100,
+                              
+                              ("ayuda_cocinar", "help_cook"): 100,
+                              ("ayuda_limpiar", "housekeeping"): 100,
+                              ("ayuda_campo", "help_field"): 100,
+                              
+                              ("falta_verduras", None, "v_frutas"): 80,
+                              
+                              ("huerta_preparar", "farm_plow"): 85,
+                              ("huerta_sembrar", "farm_sow"): 85,
+                              ("huerta_mantener", "farm_irrigate"): 50,
+                              ("huerta_mantener", "farm_clean"): 50,
+                              ("huerta_mantener", "farm_fumigate"): 50,
+                              ("huerta_cosechar", "farm_harvest"): 100,
+                              ("huerta_plato", "farm_harvest"): 100,
+                              
+                              ("huerta_plato", "pasta_primavera"): 100,
+                              ("huerta_plato", "pastel_lentajas"): 100,
+                              ("huerta_plato", "tarta_zapallitos"): 100,
+                              ("huerta_plato", "tarta_puerros"): 100,
+                              ("huerta_plato", "polenta_acelga"): 100,
+                              ("huerta_plato", "budin_chauchas"): 100,
+                              ("huerta_plato", "guiso_berenjenas"): 100,
+                              ("huerta_plato", "ensalada_lechuga"): 100,
+                              ("huerta_plato", "ensalada_remolacha"): 100,
+                              ("huerta_plato", "ensalada_holanesa"): 100,
+                              ("huerta_plato", "ensalada_pepinos"): 100,
+                              
+                              ("huerta_erosion", "farm_plow"): 85,
+                              ("huerta_seca", "farm_irrigate"): 85,
+                              ("huerta_seca", "farm_sow"): 85,
+                              ("huerta_tormenta", "farm_sow"): 85,
+                              
+                              ("tunica", "change_school_clothes"): 85,
+                              
+                              ("control_salud", "doctor"): 85,
+                              ("control_salud", "doctor"): 85,
+                              ("control_salud", "doctor"): 85,
+                              
+                              ("falta_vitaminas", None, "v_frutas"): 80,
+                              ("falta_proteinas", None, "l_quesos"): 80,
+                              ("falta_fibras", None, "v_frutas"): 80,
+                              ("falta_agua", None, "agua"): 80,
+                              ("falta_carbohidratos", None, "c_leguminosas"): 80,
+                              ("falta_carbohidratos", None, "dulces"): 80,
             }
         
         return events_actions_res
