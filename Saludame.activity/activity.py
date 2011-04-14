@@ -99,6 +99,8 @@ class SaludameActivity(Activity):
         # force the toolbar change
         self.change_mode(None, self.toolbox.get_current_toolbar())
         
+        game.set_library_function = self.set_library    # Sets the callback to put links in the library
+        
         self.show()
     
     def make_toolbox(self, add_game):
@@ -157,7 +159,6 @@ class SaludameActivity(Activity):
         self.metadata['title'] = _("Saludame") + " " + name
         self.game.gender = gender
         self.game.name = name
-        game.set_library_function = self.set_library    # Sets the callback to put links in the library
         self.startup_window.set_welcome()
         self.make_toolbox(True)
         self.toolbox.set_current_toolbar(1)             # Move to game tab
