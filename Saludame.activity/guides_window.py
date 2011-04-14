@@ -12,7 +12,7 @@ else:
     ROOT_PATH = unicode(os.path.join(activity.get_bundle_path(), 'guides/'))
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
-HOME_PAGE = os.path.join(ROOT_PATH, u'02-Empezar.html')
+HOME_PAGE = u"file://" + os.path.join(ROOT_PATH, u'02-Empezar.html')
 
 ignore_list = ["images", "old", "bak"]
 
@@ -94,11 +94,10 @@ class GuidesWindow(gtk.HBox):
         
         it = self.treestore.get_iter(tree_path)
         path = self.treestore.get_value(it, 1)
-
-        real_path = os.path.join(ROOT_PATH, path)
         
-        if real_path.endswith(".html") and self.web_view:
-            self.web_view.load_uri( unicode(real_path) )
+        if path.endswith(".html") and self.web_view:
+            self.last_uri = u"file://" + path
+            self.web_view.load_uri( self.last_uri )
     
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
@@ -132,17 +131,13 @@ class GuidesWindow(gtk.HBox):
                     _iter = self.treestore.append(parent_iter, (display_name, nodepath))
                     self.path_iter[nodepath] = _iter
                     self._load_treeview(nodepath, _iter)
-        
+    
+    
     def get_display_name(self, file_name):
         display_name = file_name.replace(".html", "")
         display_name = display_name.split("-", 1)[-1]
         return display_name
     
-    def set_url(self, link):
-        link = ROOT_PATH + link
-        self.last_uri = unicode(link)
-        if self.web_view:
-            self.web_view.load_uri( self.last_uri )
         
 if __name__ == "__main__":
     window = GuidesWindow()

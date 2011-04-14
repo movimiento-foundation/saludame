@@ -15,8 +15,8 @@ from events_windows import *
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
 WHITE = pygame.Color("white")
 
-BAR_BACK_COLOR = pygame.Color("#106168")
-BAR_FILL_COLOR = pygame.Color("#a742bd")
+BAR_BACK_COLOR = pygame.Color("#fbfbfbff")
+BAR_FILL_COLOR = pygame.Color("#0f5e65ff")
 
 class PanelWindow(gui.Window):
     
@@ -184,7 +184,7 @@ class ActionProgressBar(gui.Widget):
     def __init__(self, container, rect_in_container, frame_rate, action):
         
         self.action = action
-        surface = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
+        surface = pygame.image.load("assets/layout/progress_bar_back.png").convert_alpha()
         
         gui.Widget.__init__(self, container, rect_in_container, frame_rate)
         

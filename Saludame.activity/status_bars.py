@@ -26,13 +26,13 @@ SCORE_BAR_HEIGHT = 36
 SCORE_BAR_WIDTH = 118
 SCORE_BAR_X_OFFSET = 82
 
-BAR_BACK_COLOR = pygame.Color("#106168")
+BAR_BACK_COLOR = pygame.Color("#106168ff")
 #ROOT_BAR_COLOR = pygame.Color("#7ee113")
 #SUB_BAR_COLOR = pygame.Color("#a742bd")
 #SCORE_BAR_COLOR = pygame.Color("#51b8ed")
-ROOT_BAR_PARTITIONS = {33: pygame.Color("#cb0e12"), 100: pygame.Color("#7ee113")}       # Red until 33, Green until hundred
-SUB_BAR_PARTITIONS = {100: pygame.Color("#a742bd")}                                     # Violet until hundred
-SCORE_BAR_PARTITIONS = {100: pygame.Color("#51b8ed")}                                   # Skyblue until hundred
+ROOT_BAR_PARTITIONS = {33: pygame.Color("#cb0e12ff"), 100: pygame.Color("#7ee113ff")}       # Red until 33, Green until hundred
+SUB_BAR_PARTITIONS = {100: pygame.Color("#a742bdff")}                                     # Violet until hundred
+SCORE_BAR_PARTITIONS = {100: pygame.Color("#51b8edff")}                                   # Skyblue until hundred
 
 TEXT_COLOR = "#0f5e65"
 SUB_BAR_TEXT_COLOR = "#ffffff"
@@ -292,7 +292,8 @@ class BarDisplay(gui.Widget):
         self.show_name = True
         
     def update(self, frames):
-        if self.last_value != self.status_bar.value:
+        if self.last_value != int(self.status_bar.value):
+            self.last_value = int(self.status_bar.value)
             self.set_dirty()
             
     def draw(self, screen):

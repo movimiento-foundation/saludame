@@ -4,7 +4,8 @@ from game_manager import GameManager
 import pygame
 import logging
 import hotkeys
-  
+import gc
+
 if __name__ == "__main__":
     import gettext
     gettext.textdomain("org.ceibaljam.Saludame")
@@ -122,12 +123,16 @@ class Main():
         else:
             self.load_game()
         
+        gc.collect()    # Collects garbaje created in the initialization
+        
         # windows_controller asociado al screen
         self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, self.game_man)        
         self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
         self.hotkeys_handler = hotkeys.HotKeyHandler()
         
         self.game_man.start(self.windows_controller)
+        
+        gc.collect()    # Collects garbaje created in the initialization
         
         frames = 0
         
