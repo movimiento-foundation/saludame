@@ -243,18 +243,8 @@ class Window:
                         self.windows_controller.hide_active_tooltip()
                         self.windows_controller.show_super_tooltip(widget.super_tooltip)
                         widget.showing_tooltip = True
-                    widget.on_mouse_over()
-                    self.windows_controller.active_widget = widget
+                    self.windows_controller.set_active_widget(widget)
                     return # No seguimos buscando el botón
-            else:
-                # Ineficiente! Por ahora lo dejo asi para PROBAR
-                # Esta todo el tiempo haciendo esto! Cambiar
-                if widget.showing_tooltip:
-                    # Si estabamos mostrando el tooltip ahora debemos esconderlo
-                    self.windows_controller.hide_active_tooltip()
-                    widget.showing_tooltip = False
-                if widget.over:
-                    widget.on_mouse_out()
     
     # It will be overridden by cooking challenge or other D&D challenge
     def handle_mouse_motion(self, (x, y)):

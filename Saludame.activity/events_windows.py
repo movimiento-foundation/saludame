@@ -4,6 +4,9 @@ import gui
 import pygame
 import game
 import animation
+
+TEXT_COLOR = (0,0,0)
+
 class PersonalWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
         
@@ -12,13 +15,16 @@ class PersonalWindow(gui.Window):
         self.active_personal_events = [] # tuple (event, animation)
         self.index_personal_event = 0
         
-        self.personal_next = gui.ImageButton(self.rect, pygame.Rect(115, 90, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
-        self.personal_back = gui.ImageButton(self.rect, pygame.Rect(10, 90, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_personal_back)
+        self.personal_next = gui.ImageButton(self.rect, pygame.Rect(120, 95, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_personal_next)
+        self.personal_back = gui.ImageButton(self.rect, pygame.Rect(5, 95, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_personal_back)
         
         self.add_button(self.personal_next)
         self.add_button(self.personal_back)
         
-        self.count_personal_events = gui.Text(self.rect, 60, 92, 1, "%s/%s" % (self.index_personal_event, len(self.active_personal_events)), 20, pygame.Color("black"))
+        self.personal_next.visible = False
+        self.personal_back.visible = False
+        
+        self.count_personal_events = gui.Text(self.rect, 60, 100, 1, "", 22, TEXT_COLOR, gui.Text.ALIGN_CENTER, True, False)
         self.add_child(self.count_personal_events)
         
         self.current_animation = None # Visible event at panel
@@ -41,7 +47,7 @@ class PersonalWindow(gui.Window):
             animation_rect = pygame.Rect((0, 0), self.rect.size)
             temp_animation = animation.ActionAnimation(self.rect, animation_rect, 3, event.directory_path)            
             temp_animation.set_on_mouse_click(self._cb_button_click_personal)
-            
+            temp_animation.highlight = False
             temp_animation.set_super_tooltip(event_info)
             
             self.active_personal_events.append((event, temp_animation))
@@ -76,14 +82,18 @@ class PersonalWindow(gui.Window):
         self.refresh_count_personal_events()        
         
     def refresh_count_personal_events(self):
-        
-        if self.active_personal_events:
+        if len(self.active_personal_events) > 1:
             self.count_personal_events.text = "%s/%s" % (self.index_personal_event + 1, len(self.active_personal_events))
             self.count_personal_events.refresh()
             
+            self.personal_next.visible = True
+            self.personal_back.visible = True
         else:
-            self.count_personal_events.text = "0/0"
-            self.count_personal_events.refresh()                     
+            self.count_personal_events.text = ""
+            self.count_personal_events.refresh()
+            
+            self.personal_next.visible = False
+            self.personal_back.visible = False
     
     def get_current_event(self):
         if self.index_personal_event < len(self.active_personal_events):
@@ -128,13 +138,15 @@ class SocialWindow(gui.Window):
         self.active_social_events = [] # tuple (event, animation)
         self.index_social_event = 0
         
-        self.social_next = gui.ImageButton(self.rect, pygame.Rect(115, 90, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_social_next)
-        self.social_back = gui.ImageButton(self.rect, pygame.Rect(10, 90, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_social_back)
+        self.social_next = gui.ImageButton(self.rect, pygame.Rect(120, 95, 30, 30), 1, "assets/events/go-next.png", self._cb_button_click_social_next)
+        self.social_back = gui.ImageButton(self.rect, pygame.Rect(5, 95, 30, 30), 1, "assets/events/go-back.png", self._cb_button_click_social_back)
         
         self.add_button(self.social_next)
         self.add_button(self.social_back)
+        self.social_next.visible = False
+        self.social_back.visible = False
         
-        self.count_social_events = gui.Text(self.rect, 60, 92, 1, "%s/%s" % (self.index_social_event, len(self.active_social_events)), 20, pygame.Color("black"))
+        self.count_social_events = gui.Text(self.rect, 60, 100, 1, "", 22, TEXT_COLOR, gui.Text.ALIGN_CENTER, True, False)
         self.add_child(self.count_social_events)
         
         self.current_animation = None # Visible event at panel
@@ -156,7 +168,7 @@ class SocialWindow(gui.Window):
             animation_rect = pygame.Rect((0, 0), self.rect.size)
             temp_animation = animation.ActionAnimation(self.rect, animation_rect, 3, event.directory_path)
             temp_animation.set_on_mouse_click(self._cb_button_click_social)
-            
+            temp_animation.highlight = False
             temp_animation.set_super_tooltip(event_info)
             
             self.active_social_events.append((event, temp_animation))
@@ -169,7 +181,7 @@ class SocialWindow(gui.Window):
             self.current_animation.set_dirty()
             self.index_social_event = len(self.active_social_events) - 1
             
-            self.refresh_count_social_events()           
+            self.refresh_count_social_events()
     
     def remove_social_event(self, event):
         
@@ -191,15 +203,19 @@ class SocialWindow(gui.Window):
         self.refresh_count_social_events()
             
     def refresh_count_social_events(self):
-        
-        if self.active_social_events:
+        if len(self.active_social_events) > 1:
             self.count_social_events.text = "%s/%s" % (self.index_social_event + 1, len(self.active_social_events))
             self.count_social_events.refresh()
             
+            self.social_next.visible = True
+            self.social_back.visible = True
         else:
-            self.count_social_events.text = "0/0"
+            self.count_social_events.text = ""
             self.count_social_events.refresh()
-    
+            
+            self.social_next.visible = False
+            self.social_back.visible = False
+
     def get_current_event(self):
         if self.index_social_event < len(self.active_social_events):
             return self.active_social_events[self.index_social_event][0]

@@ -382,7 +382,7 @@ actions_list = [
     ("read", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 1, None,
         effects.Effect(None, [("energy",5), ("fun",50), ("relaxing",5)]), None, None, None, 1, "un link"
     ),
-    ("music", 0.3, 70, 0, None, 3, 1, None, 1, "assets/sound/music.ogg",
+    ("music", 0.3, 70, 0, "assets/kid/actions/dance", 3, 1, None, 1, "assets/sound/music.ogg",
         effects.Effect(None, [("fun",50), ("relaxing",5)]), None, None, None, 1, "un link"
     ),
     #("sing", 0.3, 70, 1, "assets/kid/actions/sing", 3, 1, None, 4, None,

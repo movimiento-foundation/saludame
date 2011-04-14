@@ -25,21 +25,30 @@ class WindowsController:
         self.showing_tooltip = False
         self.active_tooltip = None
 
-        self.active_widget = None
+        self.active_widgets = []
         
         self.mouse_on_window = None
     
     def get_screen(self):
         return self.screen
     
+    def set_active_widget(self, widget):
+        if widget not in self.active_widgets:
+            self.active_widgets.append(widget)
+            widget.on_mouse_over()
+        
+    def check_active_widgets(self, mouse_coords):
+        for widget in self.active_widgets:
+            if not widget.rect_absolute.collidepoint(mouse_coords):
+                if widget.over:
+                    widget.on_mouse_out()
+                if widget.showing_tooltip:
+                    self.hide_active_tooltip()
+                    widget.showing_tooltip = False
+                self.active_widgets.remove(widget)
+        
     # Windows
     def set_mouse_on_window(self, register_id):
-        if (self.mouse_on_window != register_id and self.showing_tooltip):
-            self.hide_active_tooltip()
-
-        if (self.mouse_on_window != register_id and self.active_widget):
-            self.active_widget.over = False
-
         self.mouse_on_window = register_id
     
     def close_active_window(self):
@@ -90,12 +99,13 @@ class WindowsController:
         self.windows_stack[-1].handle_mouse_up(pos)
                 
     def handle_mouse_over(self, (x, y)):
-        x, y = self.scaled_game.scale_coordinates((x, y))
         self.windows_stack[-1].handle_mouse_over((x, y))
+        self.check_active_widgets((x, y))
         
     def handle_mouse_motion(self, (x, y)):
         x, y = self.scaled_game.scale_coordinates((x, y))
-        self.windows_stack[-1].handle_mouse_motion((x, y))    
+        self.windows_stack[-1].handle_mouse_motion((x, y))
+        self.handle_mouse_over((x, y))
     
     # Tooltips 
     def show_super_tooltip(self, tooltip):

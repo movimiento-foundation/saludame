@@ -12,7 +12,7 @@ import effects
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
-                             "score_vector" : (-8, -4, 0 , 5, 10),
+                             "score_vector" : (-8, -4, 0, 3, 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"Tienes nuevas acciones, ¿te animas a encontrarlas?",
@@ -24,7 +24,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 175
                              },
                              {# LEVEL 2
-                             "score_vector" : (-8, -4, 0 , 5, 10),
+                             "score_vector" : (-8, -4, -1, 2, 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"¡Vas muy bien! Ahora podrás tener clima lluvioso.\nCuando llueva recuerda ponerte bajo techo.",
@@ -501,7 +501,7 @@ class AppLoader:
         _events.append(event)
 
         # AMIG@
-        probability = ("all", [("sports", "direct", 70, 80)])
+        probability = ("all", [("sports", "direct", 0, 500)])#70, 80)])
         effect = effects.Effect(bars_controller, [("energy", +5), ("fun", +10)])
         event = events.SocialEvent(friend_pos, self.get_friend(), "nuevos_amigos", u"Me hice nuevos amigos", "pos", None, m(2), probability, effect, u"¿Quieres participar conmigo\nen el campeonato?", "", 1, normal)
         _events.append(event)
@@ -630,23 +630,23 @@ class AppLoader:
         weather_effects = {
                    # (clothes_id, weather_id, boolean outdoor) : list of tuples [(id_bar, rate)]
                    # school clothes
-                   ("school", "hot", True) : [("fun", 0.5)],
-                   ("school", "hot", False) : [("fun", -0.05)],
-                   ("school", "rainy", True) : [("fun", 0.05), ("defenses", -1.0)],
-                   ("school", "rainy", False) : [("fun", 0.05)],
-                   ("school", "warm", True) : [("fun", 0.05)],
-                   ("school", "warm", False) : [("fun", 0.05)],
-                   ("school", "cold", True) : [("fun", -0.05), ("defenses", -1.0)],
-                   ("school", "cold", False) : [("fun", 0.05)],
+                   ("school", "hot", True) : [("defenses", -10.0/60), ("energy", -5.0/60), ("agua", -10.0/60)],
+                   ("school", "hot", False) : [],
+                   ("school", "rainy", True) : [("defenses", -10.0/60), ("energy", -10.0/60)],
+                   ("school", "rainy", False) : [],
+                   ("school", "warm", True) : [],
+                   ("school", "warm", False) : [],
+                   ("school", "cold", True) : [("defenses", -10.0/60), ("energy", -15.0/60)],
+                   ("school", "cold", False) : [],
                    # regular clothes
-                   ("regular", "hot", True) : [("fun", 0.5)],
-                   ("regular", "hot", False) : [("fun", 0.05)],
-                   ("regular", "rainy", True) : [("defenses", -1.0), ("fun", 0.05)],
-                   ("regular", "rainy", False) : [("fun", 0.05)],
-                   ("regular", "warm", True) : [("fun", 0.5)],
-                   ("regular", "warm", False) : [("fun", 0.05)],
-                   ("regular", "cold", True) : [("fun", -0.05), ("defenses", -1.0)],
-                   ("regular", "cold", False) : [("fun", 0.02)],
+                   ("regular", "hot", True) : [("defenses", -10.0/60), ("energy", -5.0/60), ("water", -10.0/60)],
+                   ("regular", "hot", False) : [],
+                   ("regular", "rainy", True) : [("defenses", -10.0/60), ("energy", -10.0/60)],
+                   ("regular", "rainy", False) : [],
+                   ("regular", "warm", True) : [],
+                   ("regular", "warm", False) : [],
+                   ("regular", "cold", True) : [("defenses", -10.0/60), ("energy", -15.0/60)],
+                   ("regular", "cold", False) : [],
         }
         return weather_effects
     

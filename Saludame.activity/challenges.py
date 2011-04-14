@@ -56,6 +56,9 @@ class MultipleChoice(gui.Window):
         self.win_points = 0
         self.lose_points = 0
         
+        self.title = gui.Text(self.rect, 30, 35, 1, u"Elije la opción correcta", 24, (255,255,255), bold=True)
+        self.add_child(self.title)
+        
         # Close Button
         self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
         self.add_button(self.btn_close)
@@ -90,7 +93,7 @@ class MultipleChoice(gui.Window):
                 size = TEXT_TRUE_OR_FALSE_SIZE
                 
                 for ans in answers:
-                    ans = self.prepare(ans, 100)
+                    ans = self.prepare(ans, 85)
                     y += last_y + 20
                     b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
                     self.choices.append(b)
@@ -115,7 +118,7 @@ class MultipleChoice(gui.Window):
         self.correct_index = selected_answers.index(self.correct)
         
         for ans in selected_answers:  
-            ans = self.prepare(ans, 100)
+            ans = self.prepare(ans, 85)
             y += last_y + 20
             b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
@@ -194,6 +197,7 @@ class MultipleChoice(gui.Window):
         self.choices = []
         self.clear_childs()
         self.add_button(self.btn_close)
+        self.add_child(self.title)
         self.set_dirty_background()
         self.wait = 0
         global FIN_MC

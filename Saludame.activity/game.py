@@ -186,7 +186,7 @@ class Main():
                         elif event.type == pygame.KEYUP:
                             self.hotkeys_handler.handle_keyup(event)
                             
-                self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
+                #self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 
                 self.windows_controller.update(frames)
         

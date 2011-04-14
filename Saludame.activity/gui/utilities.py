@@ -75,6 +75,8 @@ class Button(Widget):
         self.function_on_mouse_over = cb_over
         self.function_on_mouse_out = cb_out
         
+        self.highlight = True   # Highlight it when mouse over
+        
         self.enable = True
         
         self.set_click_sound_path("assets/sound/click.ogg")
@@ -89,14 +91,16 @@ class Button(Widget):
     # Override
     def on_mouse_over(self):
         self.over = True
-        self.set_dirty()
+        if self.highlight:
+            self.set_dirty()
         if self.function_on_mouse_over and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_over(self)
     
     # Override
     def on_mouse_out(self):
         self.over = False
-        self.set_dirty()
+        if self.highlight:
+            self.set_dirty()
         if self.function_on_mouse_out and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_out(self)
     
@@ -111,7 +115,7 @@ class Button(Widget):
     
     def draw(self, screen):
         updates = Widget.draw(self, screen)
-        if self.visible and self.background and self.over:
+        if self.visible and self.background and self.over and self.highlight:
             copy = self.background.convert_alpha()
             copy.fill((40, 40, 40), None, pygame.BLEND_ADD)       # Makes the widget brighter
             screen.blit(copy, self.rect_absolute)
