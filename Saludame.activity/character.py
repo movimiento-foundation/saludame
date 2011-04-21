@@ -62,7 +62,7 @@ class Character:
         self.level = game_status["level"]
         self.grade = game_status["grade"]
     
-    def reset(self):
+    def reset(self, gender=None):
         """
         Restore some character properties to its default values.
         """
@@ -70,6 +70,8 @@ class Character:
         self.clothes = 'school'
         self.current_place = 'schoolyard'
         self.mappings = DEFAULT_MAPPINGS.copy()
+        if gender:
+            self.sex = gender
         
 class Place:
     

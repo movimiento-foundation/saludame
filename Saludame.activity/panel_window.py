@@ -10,6 +10,7 @@ import gui
 import animation
 import customization
 import game
+import sound_manager
 from events_windows import *
 
 PANEL_BG_PATH = os.path.normpath("assets/layout/panel.png")
@@ -36,7 +37,7 @@ class PanelWindow(gui.Window):
         
         self.action_progress_bar = None
 
-        self.event_info_button = None
+        self.info_button_event = None
         self.image_info_blink = "assets/layout/info.png"
         
         TEXT_COLOR = pygame.Color("#0f5e65")
@@ -70,6 +71,7 @@ class PanelWindow(gui.Window):
         # Info
         self.info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_info)
         self.add_button(self.info_button)
+        self.info_button_blink_timeout = 0
         
         # Environment
         self.weather_widget = None
@@ -140,23 +142,27 @@ class PanelWindow(gui.Window):
     def remove_social_event(self, event):
         self.social_window.remove_social_event(event)
 
-    def add_event_info_button(self, event):
-        self.event_info_button = event       
+    def add_info_button_event(self, event, action_label):
+        self.info_button_event = event
+        tooltip = u"La acción %s\nno debe realizarse durante\nel evento %s" % (action_label, event.description)
+        self.info_button.set_super_tooltip(tooltip)
+        self.info_button_blink_timeout = 6
+        sound_manager.instance.play_forbidden_action()
         
     def update(self, frames):
              
         self.timing += 1
         
+        self.social_window.set_dirty_background()
+        self.personal_window.set_dirty_background()
+        
         # Actions
         if self.on_animation and self.current_animation and self.timing % self.current_animation.frame_rate == 0:
             if self.timing > 12:
                 self.timing = 0
-    
-        self.personal_window.set_dirty_background()
-        self.social_window.set_dirty_background()
         
-        if frames % 3 == 0:
-            if self.event_info_button:       
+        if frames % 8 == 0:
+            if self.info_button_event and self.info_button_blink_timeout:
                 # Make the button blink
                 if self.image_info_blink == "assets/layout/info.png":
                     self.info_button.switch_image_background("assets/layout/info2.png")
@@ -164,18 +170,24 @@ class PanelWindow(gui.Window):
                 else:
                     self.info_button.switch_image_background("assets/layout/info.png")
                     self.image_info_blink = "assets/layout/info.png"
-
-            self.set_dirty_background()
-
+                self.info_button.set_dirty()
+                
+                self.info_button_blink_timeout -= 1
+        
         gui.Window.update(self, frames)        
         
+    def remove_info_button_event(self, event):
+        if self.info_button_event == event:
+            self.info_button_event = None
+            self.info_button.set_super_tooltip("")
+            
     # Buttons Callbacks
     def _cb_button_click_customization(self, button):
         self.windows_controller.set_active_window("customization_window")
         
     def _cb_button_click_info(self, button):
-        if self.event_info_button:
-            print self.event_info_button
+        if self.info_button_event:
+            game.set_library_event(self.info_button_event.library_link)
         
 class ActionProgressBar(gui.Widget):
     """

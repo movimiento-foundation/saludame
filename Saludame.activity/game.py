@@ -57,18 +57,28 @@ def set_library_full_link(link):
 class Main():
     
     def __init__(self, target_size=(1200, 780)):
-        self.windows_controller = None
+        self.target_size = target_size
+        
         global main_class
         main_class = self
+        
         self.gender = "boy"
         self.name = ""
+        
         self.started = False
-        self.target_size = target_size
         self.loaded_game = None
+        self.game_over_callback = None
     
+    def set_game_over_callback(self, callback):
+        self.game_over_callback = callback
+        
     def main(self, from_sugar):
         self.init(from_sugar)
-        self.run(from_sugar, self.gender, self.name)
+        if self.started:
+            self.game_man.reset_game(self.gender)
+        else:
+            self.create_game(from_sugar, self.gender, self.name)
+            self.run(from_sugar)
         
     def init(self, from_sugar):
         # Optimizes sound quality and buffer for quick loading
@@ -89,17 +99,13 @@ class Main():
         screen.blit(pygame.image.load("assets/slides/screen_loading.jpg"), (0,0))
         pygame.display.flip()
         
-    def run(self, from_sugar, gender, name):
+    def create_game(self, from_sugar, gender, name):
         """Main function of the game.
         
         This function initializes the game and enters the PyGame main loop.
         """
-        global running, pauses
-        
+
         self.started = True
-        
-        if from_sugar:
-            import gtk
 
         import app_init
         import customization
@@ -109,7 +115,7 @@ class Main():
         screen = pygame.display.get_surface()
         
         # This clock is used to keep the game at the desired FPS.
-        clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()
         
         # Initialize sound_manager, game_manager, character, actions and menu.
         sound_manager.SoundManager()
@@ -127,16 +133,23 @@ class Main():
         
         # windows_controller asociado al screen
         self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, self.game_man)        
-        self.windows_controller.create_windows_and_activate_main(app_loader, clock, bars_loader)
+        self.windows_controller.create_windows_and_activate_main(app_loader, self.clock, bars_loader)
         self.hotkeys_handler = hotkeys.HotKeyHandler()
-        
-        self.game_man.start(self.windows_controller)
         
         gc.collect()    # Collects garbaje created in the initialization
         
-        frames = 0
+        self.game_man.start(self.windows_controller)
+    
+    def run(self, from_sugar):
+        global running, pauses
+        
+        import sound_manager
+        
+        if from_sugar:
+            import gtk
         
         # Main loop
+        frames = 0
         update = True # The first time the screen need to be updated
         
         while running:
@@ -150,7 +163,7 @@ class Main():
             if not pause:
                 # Waits for events, if none the game pauses:
                 # http://wiki.laptop.org/go/Game_development_HOWTO#Reducing_CPU_Load
-                milliseconds = clock.tick(MAX_FPS) # waits if the game is running faster than MAX_FPS
+                milliseconds = self.clock.tick(MAX_FPS) # waits if the game is running faster than MAX_FPS
                 
                 events = pygame.event.get()
                 
@@ -185,19 +198,22 @@ class Main():
                             
                         elif event.type == pygame.KEYUP:
                             self.hotkeys_handler.handle_keyup(event)
-                            
-                #self.windows_controller.handle_mouse_over(pygame.mouse.get_pos())
                 
-                self.windows_controller.update(frames)
-        
-                frames += 1
+                if self.game_man.game_over:
+                    if self.game_over_callback:
+                        self.game_over_callback()
+                    else:
+                        running = False
+                else:
+                    self.windows_controller.update(frames)
+                    
+                    frames += 1
 
-                self.game_man.signal()
+                    self.game_man.signal()
                 
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
-
-
+    
     def save_game(self, path=INSTANCE_FILE_PATH):
         """
         Save the game instance

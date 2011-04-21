@@ -120,16 +120,7 @@ class PersonalWindow(gui.Window):
             self.refresh_count_personal_events()
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
             self.add_button(self.current_animation, 0)
-            
-    def handle_mouse_down(self, coords):
-        if self.personal_next.rect_absolute.collidepoint(coords):
-            return self.personal_next.handle_mouse_down(coords)
-        elif self.personal_back.rect_absolute.collidepoint(coords):
-            return self.personal_back.handle_mouse_down(coords)
-        elif self.active_personal_events:
-            self._cb_button_click_personal(None)
-        return True
-        
+
 class SocialWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
         
@@ -233,7 +224,7 @@ class SocialWindow(gui.Window):
             self.refresh_count_social_events()
             self.current_animation = self.active_social_events[self.index_social_event][1]
             self.add_button(self.current_animation, 0)
-            
+
     def _cb_button_click_social_back(self, button):
         if self.index_social_event > 0:
             self.remove_button(self.current_animation)

@@ -344,7 +344,7 @@ actions_list = [
         effects.Effect(None, [("energy",-5), ("defenses",5), ("shower",90), ("w_hands",90), ("fun",-20), ("relaxing",-5)]), None, None, None, 1, u"04-Más hábitos saludables/05-Higiene corporal-avanzado.html#id.1zz1x6vcpupm"
     ),
     ("toilet", 0.3, 100, 1, "assets/kid/actions/toilet", 3, 1, None, 2, [TWISTER_SOUND, "assets/sound/toilet.ogg"],
-        effects.Effect(None, [("w_hands",-30), ("toilet",90), ("fun",-10)]), None, None, None, 1, "/elPropioLinkDePrueba/link"
+        effects.Effect(None, [("w_hands",-30), ("toilet",90), ("fun",-10)]), None, None, None
     ),
     
     # Farm
@@ -364,7 +364,7 @@ actions_list = [
         effects.Effect(None, [("energy",-5), ("weight",-0.5), ("shower",-5), ("w_hands",-20), ("sports",10), ("fun",10), ("farm",10)]), None, None, None, 1, u"50-Huerta/05-Mantenimiento/05-Remover yuyos-avanzado.html"
     ),
     ("farm_harvest", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/harvest", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect(None, [("energy",-5), ("w_hands",-1), ("sports",10), ("fun",40), ("farm",25)]), None, None, None, 1,  u"50-Huerta/07-Cosechar-avanzado.html"
+        effects.Effect(None, [("energy",-5), ("w_hands",-1), ("sports",10), ("fun",40), ("farm",-100)]), None, None, None, 1,  u"50-Huerta/07-Cosechar-avanzado.html"
     ),
     
     # Fun

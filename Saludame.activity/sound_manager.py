@@ -70,3 +70,6 @@ class SoundManager:
     def play_event_solved(self):
         pygame.mixer.Sound("assets/sound/challenge_win.ogg").play()
         
+    def play_forbidden_action(self):
+        pygame.mixer.Sound("assets/sound/alert.ogg").play(2)
+        

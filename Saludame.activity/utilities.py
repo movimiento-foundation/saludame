@@ -53,3 +53,19 @@ def verify_path(action, game_manager):
         return os.path.isfile(game_manager.environments_dictionary[(action.effect.place_id, game_manager.current_weather[0])].background_path)
         
     return True
+
+def unquote(string):
+    result = ""
+    i = 0
+    while i < len(string):
+        if string[i] == "%":
+            if string[i+1] == "%":
+                result += "%"
+                i += 1
+            else:
+                result += chr(int(string[i+1:i+3], 16))
+                i += 2
+        else:
+            result += string[i]
+        i += 1
+    return result.decode("utf-8")

@@ -399,12 +399,15 @@ class Slide(gui.Window):
         
         self.btn_continue = utilities.get_accept_button(self.rect, pygame.Rect((550, 700), (1, 1)), _("Continue"), self._cb_button_click_continue)
         self.add_button(self.btn_continue)        
-        
-    def show_slide(self, slide_path):
-        self.set_bg_image(slide_path) 
+    
+    def show_slide(self, slide_path, close_callback=None):
+        self.set_bg_image(slide_path)
+        self.close_callback = close_callback
         
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()
+        if self.close_callback:
+            self.close_callback()
 
 #class Cooking(gui.Window):
     #def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=(0, 0, 0)):

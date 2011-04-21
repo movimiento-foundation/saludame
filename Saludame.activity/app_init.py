@@ -152,9 +152,10 @@ class AppLoader:
         self.level_conf = CONFIGURATION_LEVEL_LIST
         
         # game manager
-        self.events_actions_res = self.__load_events_actions_resolutions()
+        events_actions_res = self.__load_events_actions_resolutions()
+        events_forbidden_actions = self.__load_events_forbidden_actions()
         
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, self.level_conf, self.events_actions_res)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, self.level_conf, events_actions_res, events_forbidden_actions)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
@@ -225,6 +226,7 @@ class AppLoader:
         
         # Personal Events
         # probabiliy configuration: (bar, type, threshold, probability_percentaje)
+        
         probability = ("all", [("v_frutas", "indirect", 20, 60)])
         effect = effects.Effect(bars_controller, [("energy", -10), ("fun", -5), ("h_check", -5)])
         event = events.PersonalEvent("assets/events/personal/stomach_ache", None, "constipation", u"Estreñimiento", "neg", None, None, probability, effect, u"Me duele la panza y no\npuedo ir al baño", "id.5fyq0oytfruc", 1, sick_2)
@@ -280,7 +282,7 @@ class AppLoader:
         event = events.PersonalEvent("assets/events/personal/energetic", None, "energetic", u"Mucha energía", "pos", None, m(2), probability, effect, u"¡Guauuu, que energía tengo!", "id.1qjxykbd4ira", 1, happy_2)
         _events.append(event)
         
-        probability = ("all", [("physica", "constant", 90, 50), ("hygiene", "constant", 90, 50), ("nutrition", "constant", 90, 50)])
+        probability = ("all", [("physica", "direct", 90, 50), ("hygiene", "direct", 90, 50), ("nutrition", "direct", 90, 50)])
         effect = effects.Effect(bars_controller, [("fun", +10), ("defenses", +10)])
         event = events.PersonalEvent("assets/events/social/friend1_pos", None, "me_veo_bien", u"Me veo bien", "pos", None, m(2), probability, effect, u"Yupiiii, que bien me veo", "id.nny40i7jwdy8", 1, happy_3)
         _events.append(event)
@@ -643,6 +645,19 @@ class AppLoader:
         
         return events_actions_res
     
+    def __load_events_forbidden_actions(self):
+        """ A list of tuples containing all the events and the actions forbidden to them, with a probability rate. """
+        """ Alternatively insted of an action can configure a third option that is an effect, so every action with that effect higher than 0
+            will trigger the rule """
+        events_forbidden_actions = {
+            "constipation": ["pan_queso", "pizza"],
+            "diarrhea": ["yogur", "jugo_natural"],
+            "nausea": ["yogur", "cafe"],
+            "stomach_ache": ["yogur", "cafe"],
+            "flu": ["yogur", "cafe"],
+        }
+        return events_forbidden_actions
+        
     def __load_moods(self):
         
         #SICK

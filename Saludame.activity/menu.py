@@ -88,7 +88,7 @@ class Menu(gui.Window):
         if self.visible:
             self.set_dirty_background() # Sets the background as dirty, cause the menú is animated
     
-    def send_action(self, action_id):
+    def send_action(self, action_id, action_name=None):
         """
         Send an action to the game_manager. The action was selected
         in one of the sub-items
@@ -98,7 +98,7 @@ class Menu(gui.Window):
         elif action_id == BACK_MENU:
             self.back()
         else:
-            self.game_manager.execute_action(action_id)
+            self.game_manager.execute_action(action_id, action_name)
             self.close()
     
     def set_current_selection(self, items_list):
@@ -375,12 +375,12 @@ class Item(gui.Button):
         self.menu.windows_controller.hide_active_tooltip()
         if self.action_link and (self.bg_rect.right + self.rect_absolute.left < x) :# the items has help_button and the "click" is on the help image
             game.set_library_full_link(self.action_link)
-            self.menu.send_action(CLOSE_MENU)
+            self.menu.send_action(CLOSE_MENU, self.name)
         else:
             if len(self.subitems_list) > 0:
                 self.menu.show_items(self.subitems_list)
             else:
                 if self.action_id != None:
-                    self.menu.send_action(self.action_id)
+                    self.menu.send_action(self.action_id, self.name)
                 else:
-                    self.menu.send_action(CLOSE_MENU) # if the item have not children and have not an action_id, close the menu
+                    self.menu.send_action(CLOSE_MENU, self.name) # if the item have not children and have not an action_id, close the menu

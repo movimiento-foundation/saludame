@@ -22,7 +22,7 @@ class MainWindow(gui.Window):
         
         self.windows = []   # Lista de ventanas que 'componen' la ventana principal
         
-        self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1015, 200)), 1, windows_controller)
+        self.panel_win = PanelWindow(container, pygame.Rect((180, 609), (1020, 200)), 1, windows_controller)
         self.add_window(self.panel_win)
         
         self.kidW = KidWindow(container, pygame.Rect((227, 0), (973, 609)), 1, windows_controller, cha_loader, game_man)

@@ -35,7 +35,7 @@ class SaludameActivity(Activity):
         
     def __init__(self, handle):
         
-        self.running = False
+        self.game_init = False          # Tells if game engine was initialized
         self.loaded_game = None
         
         Activity.__init__(self, handle)
@@ -91,6 +91,7 @@ class SaludameActivity(Activity):
 
         logging.debug("Create main")
         self.game = game.Main()
+        self.game.set_game_over_callback(self.game_over_callback)
         
         self.toolbox.connect('current-toolbar-changed', self.change_mode)
         self.make_toolbox(False)
@@ -119,9 +120,6 @@ class SaludameActivity(Activity):
         self.toolbox.add_toolbar(_("Guides"), self.guides_toolbar)
         self.toolbox.add_toolbar(_("Credits"), self.credits_toolbar)
         
-    def canvas_resize_cb(self):
-        pass
-    
     def change_mode(self, notebook, index):
         game.pause = True
         self.pygame_canvas.translator.unhook_pygame()
@@ -129,7 +127,7 @@ class SaludameActivity(Activity):
         self.guides.ditch()
         self.guides.ditch()
         
-        gc.collect()    # Collects garbaje created in the initialization
+        gc.collect()    # Collects garbaje
         
         if self.indexes[index] == "activity":
             self.items.set_current_page(0)
@@ -167,10 +165,10 @@ class SaludameActivity(Activity):
         if self.game.started:
             self.game.windows_controller.reload_main = True       # Repaints the whole screen
         
-        if self.running:
+        if self.game_init:
             self.pygame_canvas.translator.hook_pygame()
         else:
-            self.running = True
+            self.game_init = True
             # Start pygame
             self.pygame_canvas.run_pygame(lambda:self.game.main(True))    # Indico que llame a la función local para iniciar el juego pygame
 
@@ -184,6 +182,10 @@ class SaludameActivity(Activity):
             self.metadata['title'] = metadata['title']
             self.make_toolbox(True)
             self.toolbox.set_current_toolbar(1)
+    
+    def game_over_callback(self):
+        self.make_toolbox(False)
+        self.toolbox.set_current_toolbar(0)             # Move to game tab
         
     def write_file(self, file_path):
         if self.game.started:

@@ -3,6 +3,7 @@
 import gtk, gobject
 import os
 from gettext import gettext as _
+import utilities
 
 from sugar.graphics.radiotoolbutton import RadioToolButton
 
@@ -14,7 +15,7 @@ else:
     ROOT_PATH = unicode(os.path.join(activity.get_bundle_path(), 'content/'))
     STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
 
-ignore_list = ["images", "old", "bak"]
+ignore_list = ["images", "old", "bak", "default.html", "default-avanzado.html", "default-simple.html"]
 
 HOME_PAGE = u"file://" + os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
 
@@ -23,6 +24,7 @@ try:
     import hulahop
     hulahop.startup(STARTUP_DIR)
     from hulahop.webview import WebView
+    from progresslistener import ProgressListener
 except:
     hulahop_ok = False
 
@@ -66,6 +68,9 @@ class ContentWindow(gtk.HBox):
         if hulahop_ok:
             self.web_view = WebView()
             self.pack_start(self.web_view, True, True)
+            self.progress_listener = ProgressListener()
+            self.progress_listener.setup(self.web_view)
+            self.progress_listener.connect('location-changed', self._location_changed_cb)
             
             self.web_view.load_uri(self.last_uri)
             self.web_view.show()
@@ -75,7 +80,7 @@ class ContentWindow(gtk.HBox):
             self.web_view.load_uri(self.last_uri)
             self.add(self.web_view)
             self.web_view.show()
-
+    
     def _create_treeview(self):
         # Provided by Poteland:
         # create a TreeStore with one string column to use as the model
@@ -98,18 +103,7 @@ class ContentWindow(gtk.HBox):
         
         self.treeview_loaded = False
         self.treeview.connect("cursor-changed", self.cursor_changed_cb)
-
-    def cursor_changed_cb(self, treeview):
-        tree_path, column = self.treeview.get_cursor()
         
-        it = self.treestore.get_iter(tree_path)
-        path = self.treestore.get_value(it, 1)
-        
-        if path.endswith(".html") and self.web_view:
-            self.last_uri = u"file://" + unicode(path, "utf-8")
-            self.web_view.load_uri(self.last_uri)
-            
-    
     def _exposed(self, widget, event):
         if not self.treeview_loaded:
             self.path_iter = {}
@@ -126,6 +120,7 @@ class ContentWindow(gtk.HBox):
         if self.web_view:
             self.remove(self.web_view)
             self.web_view = None
+            self.progress_listener = None
     
     def _load_treeview(self):
         self.treeview_loaded = True
@@ -140,15 +135,16 @@ class ContentWindow(gtk.HBox):
             if load:
                 nodepath = os.path.join(directory, node)
                 if isfile(nodepath):
-                    if node.endswith(".html"):
+                    if node.endswith(".html") and not node in ignore_list:
                         display_name = self.get_display_name(node)
                         _iter = self.treestore.append(parent_iter, (display_name, nodepath.encode("utf-8")))
                         self.path_iter[nodepath] = _iter
                 else:
                     if not node in ignore_list:
                         display_name = self.get_display_name(node)
-                        _iter = self.treestore.append(parent_iter, (display_name, nodepath.encode("utf-8")))
-                        self.path_iter[nodepath] = _iter
+                        path = self.check_default_file(nodepath)
+                        _iter = self.treestore.append(parent_iter, (display_name, path.encode("utf-8")))
+                        self.path_iter[path] = _iter
                         self._load_treeview_recursive(nodepath, _iter)
     
     def check_type(self, node):
@@ -158,7 +154,22 @@ class ContentWindow(gtk.HBox):
             return False
         else:
             return True
+    
+    def check_default_file(self, nodepath):
+        aux = os.path.join(nodepath, "default-avanzado.html")
+        if os.path.exists(aux):
+            return aux
+            
+        aux = os.path.join(nodepath, "default-simple.html")
+        if os.path.exists(aux):
+            return aux
+            
+        aux = os.path.join(nodepath, "default.html")
+        if os.path.exists(aux):
+            return aux
         
+        return nodepath
+
     def get_display_name(self, file_name):
         display_name = file_name.replace(".html", "")
         display_name = display_name.replace("-avanzado", "")
@@ -166,13 +177,31 @@ class ContentWindow(gtk.HBox):
         display_name = display_name.split("-", 1)[-1]
         return display_name
     
+    def cursor_changed_cb(self, treeview):
+        tree_path, column = self.treeview.get_cursor()
+        
+        it = self.treestore.get_iter(tree_path)
+        path = self.treestore.get_value(it, 1)
+        
+        if path.endswith(".html") and self.web_view:
+            self.last_uri = u"file://" + unicode(path, "utf-8")
+            self.web_view.load_uri(self.last_uri)
+
+    def _location_changed_cb(self, progress_listener, uri):
+        path = utilities.unquote(uri.path.encode("utf-8"))
+        uri = u"file://" + path
+        if self.last_uri <> uri:
+            self.last_uri = uri
+            self.position_in_filename(path)
+        
     def position_in_filename(self, filepath):
         if filepath in self.path_iter:
             _iter = self.path_iter[filepath]
-            treepath = self.treestore.get_path(_iter)
-            self.treeview.expand_to_path(treepath)
-            self.treeview.set_cursor(treepath)
-    
+            if self.treeview.get_selection().get_selected()[1] <> _iter:   # avoids falling in a loop with location_changed
+                treepath = self.treestore.get_path(_iter)
+                self.treeview.expand_to_path(treepath)
+                self.treeview.set_cursor(treepath)
+        
     def set_url(self, link, anchor=None):
         # First fix the link in advanced or simple:
         if self.library_type == "basic":

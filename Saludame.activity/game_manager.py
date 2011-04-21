@@ -31,7 +31,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, level_conf, events_actions_res):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, level_conf, events_actions_res, events_forbidden_actions):
         """
         Constructor de la clase
         """
@@ -59,13 +59,15 @@ class GameManager:
         self.game_over_cicles = GAME_OVER_INTERVAL
         
         #events, actions, moods
-        self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
         self.personal_events_list = self.__get_personal_events(events_list)
         self.social_events_list = self.__get_social_events(events_list)
         self.events_dict = dict([(e.name, e) for e in events_list])
-        
+                
         self.actions_list = actions_list
         self.moods_list = moods_list
+        
+        self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
+        self.events_forbidden_actions = events_forbidden_actions
 
         self.background_actions = []
         
@@ -74,7 +76,6 @@ class GameManager:
         self.active_events = [] #active personal events
         self.active_social_events = []
         self.active_mood = None
-        #self.__check_active_mood() # sets active_mood -> doesn't work because status bars aren't ready
         
         self.places_dictionary = places_dictionary
         self.weathers = weathers
@@ -305,12 +306,13 @@ class GameManager:
                 
 ## Actions handling
     
-    def execute_action(self, action_id):
+    def execute_action(self, action_id, action_label=None):
         action = self.get_action(action_id)
         
         if action:
             if isinstance(action.effect, effects.Effect): #this action affects status bars
                 self.set_active_action(action_id)
+                self.check_forbidden_action(action, action_label)
             elif isinstance(action.effect, effects.LocationEffect): #this action affects character location
                 if self.active_char_action:
                     self.interrupt_active_action(None)
@@ -322,8 +324,16 @@ class GameManager:
                 action.perform(1)
                 action.reset()
 
-    def set_forbidden_action(self):
-        self.windows_controller.windows["panel_window"].add_event_info_button("Accion prohibida")
+    def check_forbidden_action(self, action, action_label):
+        for evt in self.active_events + self.active_social_events:
+            forbidden_actions = self.events_forbidden_actions.get(evt.name)
+            if forbidden_actions:
+                if action.id in forbidden_actions:
+                    self.set_forbidden_action(evt, action_label)
+                    break
+            
+    def set_forbidden_action(self, event, action_label):
+        self.windows_controller.windows["panel_window"].add_info_button_event(event, action_label)
     
     def interrupt_active_action(self, action_id):
         """
@@ -369,6 +379,7 @@ class GameManager:
                 action.perform(0)
                 self.windows_controller.show_action_animation(action)
                 self.active_char_action = action
+
             
     def get_action(self, action_id):
         """
@@ -556,6 +567,7 @@ class GameManager:
     def remove_social_event(self, event):
         """ removes an active social event """
         self.windows_controller.remove_social_event(event)
+        self.windows_controller.windows["panel_window"].remove_info_button_event(event)
         event.reset()
         self.active_social_events.remove(event)
         self.__check_active_mood()
@@ -564,6 +576,7 @@ class GameManager:
         """removes an active personal event
         """
         self.windows_controller.remove_personal_event(event)
+        self.windows_controller.windows["panel_window"].remove_info_button_event(event)
         event.reset()
         self.active_events.remove(event)
         self.__check_active_mood()
@@ -694,11 +707,11 @@ class GameManager:
         self.character.score = score_bar.value
         
 # Save, load and reset game
-
-    def reset_game(self):
+    def reset_game(self, gender=None):
         """
         Reset game properties
         """
+        
         # actions
         self.interrupt_active_action(None)
         # events
@@ -712,8 +725,9 @@ class GameManager:
         self.active_events = []
         self.active_social_events = []
         self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
+        
         # character
-        self.character.reset()
+        self.character.reset(gender)
         # bars
         self.bars_controller.reset()
         # weather
@@ -725,6 +739,9 @@ class GameManager:
         self.hour = 2
         self.hour_count = HOUR_COUNT_CYCLE
         self.current_time = self.day_dic[self.hour]
+        
+        if self.windows_cotroller:
+            self.windows_cotroller["customization_window"].reload()
         
         print "game reseted successfully... "
 
@@ -829,7 +846,9 @@ class GameManager:
             self.game_over_cicles -= 1
         
         if self.game_over_cicles == 0:
-            self.game_over = True
-            self.windows_controller.windows["slide_window"].show_slide("assets/slides/loose.jpg")
+            self.windows_controller.windows["slide_window"].show_slide("assets/slides/loose.jpg", self.__game_over_cb)
             self.windows_controller.set_active_window("slide_window")
+        
+    def __game_over_cb(self):
+        self.game_over = True
         

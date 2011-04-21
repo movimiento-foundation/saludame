@@ -68,6 +68,10 @@ class CustomizationWindow(gui.Window):
     def get_windows(self):
         return [self]
 
+    def reload(self):
+        """ called when the game is reseted, and posibly the character gender changed """
+        self.kid.reload()
+        
     def _cb_button_hair(self, button):
         self.hair_color_index += 1
         self.hair_color_index %= len(COLORS_HAIR)
@@ -114,6 +118,10 @@ class CustomizatedKid(gui.Widget):
         
         self.dirty_mappings = True      # Only for the first update
     
+    def reload(self):
+        self.set_gender(self.character.sex)
+        self.dirty_mappings = True      # Only for the first update
+        
     def set_mapping(self, key, colors):
         mapping = self.character.mappings[key]
         self.character.mappings[key] = tuple(colors[0:len(mapping)])
