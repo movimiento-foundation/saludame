@@ -387,6 +387,13 @@ class AppLoader:
         event.add_restriction("time", ["night"])
         _events.append(event)
         
+        probability = ("all", [("overall_bar", "range", (0, 100), (80, 80))])
+        effect = effects.Effect(bars_controller, [("responsability", -15)])
+        event = events.SocialEvent(father_neg, father, "volver_a_casa", u"Volver a casa", "neg", None, m(2), probability, effect, u"Es tarde,\ndebes volver a casa", None, 1, normal)
+        event.add_restriction("place", ["schoolyard", "classroom", "square"])
+        event.add_restriction("time", ["night"])
+        _events.append(event)
+        
         # Teacher
         probability = ("all", [("farm", "indirect", 1, 75)])
         effect = effects.Effect(bars_controller, [("defenses", -5), ("energy", -5)])

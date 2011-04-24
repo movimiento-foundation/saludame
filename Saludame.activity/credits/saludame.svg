@@ -651,8 +651,8 @@
      id="namedview4"
      showgrid="false"
      inkscape:zoom="0.51"
-     inkscape:cx="726.214"
-     inkscape:cy="2172.0479"
+     inkscape:cx="430.42969"
+     inkscape:cy="1936.7538"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -666,36 +666,36 @@
        id="g12-8"><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/Logotipo PLAN CEIBAL.png"
    xlink:href="Logotipo PLAN CEIBAL.png"
-   transform="scale(1,-1)"
-   width="152.38094"
-   height="128"
+   y="-1247.6334"
+   x="-123.07839"
    id="image6087"
-   x="377.21964"
-   y="-1259.4812" /><image
+   height="128"
+   width="152.38094"
+   transform="scale(1,-1)" /><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/logoCeibalJAM.png"
    xlink:href="logoCeibalJAM.png"
-   transform="scale(1,-1)"
-   width="246.94533"
-   height="96"
-   id="image6115"
+   y="-1450.3025"
    x="354.96069"
-   y="-1450.3025" /><image
+   id="image6115"
+   height="96"
+   width="246.94533"
+   transform="scale(1,-1)" /><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/logoMovimiento.png"
    xlink:href="logoMovimiento.png"
-   transform="scale(1,-1)"
-   width="222.53352"
-   height="87.209084"
-   id="image6129"
+   y="-1441.1071"
    x="-11.7166"
-   y="-1441.1071" /><image
+   id="image6129"
+   height="87.209084"
+   width="222.53352"
+   transform="scale(1,-1)" /><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/logoNCDO.png"
    xlink:href="logoNCDO.png"
-   transform="scale(1,-1)"
-   width="264.43301"
-   height="100"
+   y="-1218.8334"
+   x="321.76498"
    id="image6143"
-   x="-36.038971"
-   y="-1240.1196" /><text
+   height="96"
+   width="253.8557"
+   transform="scale(1,-1)" /><text
    xml:space="preserve"
    style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
    x="168.60112"
@@ -706,6 +706,7 @@
      id="tspan6149"
      x="168.60112"
      y="-1456.3872">Producido por</tspan></text>
+
 
 
 
@@ -741,6 +742,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -752,6 +754,7 @@
      id="tspan6178"
      x="-153.50597"
      y="-854.41095">Equipo responsable y coordinación</tspan></text>
+
 
 
 
@@ -795,6 +798,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -810,6 +814,7 @@
      x="-153.64659"
      y="-719.04834"
      id="tspan6206">Pablo Moleri (responsable), Diego Mazzone, Emiliano Chinelli</tspan></text>
+
 
 
 
@@ -845,6 +850,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -856,6 +862,7 @@
      id="tspan6216"
      x="-153.50597"
      y="-683.79517">Diseño gráfico e ilustraciones</tspan></text>
+
 
 
 
@@ -891,6 +898,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -902,6 +910,7 @@
      id="tspan6224"
      x="-152.66222"
      y="-617.90881">Sonidos</tspan></text>
+
 
 
 
@@ -941,6 +950,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -952,6 +962,7 @@
      id="tspan6234"
      x="-37.606098"
      y="-1326.196">www.movimientofoundation.com</tspan></text>
+
 
 
 
@@ -987,6 +998,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -998,6 +1010,7 @@
      id="tspan6224-6"
      x="-153.50597"
      y="-533.37274">Música</tspan></text>
+
 
 
 
@@ -1033,6 +1046,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1044,6 +1058,7 @@
      id="tspan6303"
      x="-153.50597"
      y="-462.51678">Biblioteca</tspan></text>
+
 
 
 
@@ -1079,6 +1094,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1090,6 +1106,7 @@
      id="tspan6311"
      x="-152.95284"
      y="-396.25317">Colaboración: Lucía Manta</tspan></text>
+
 
 
 
@@ -1125,6 +1142,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1148,26 +1166,28 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
-   x="96.1119"
-   y="-1102.2531"
+   x="445.9158"
+   y="-1086.1772"
    id="text6321"
    transform="scale(1,-1)"
    sodipodi:linespacing="125%"><tspan
      sodipodi:role="line"
-     x="96.111893"
-     y="-1102.2531"
+     x="445.9158"
+     y="-1086.1772"
      id="tspan3919">Movimiento Foundation (Holanda) con apoyo de NCDO,</tspan><tspan
      sodipodi:role="line"
-     x="96.1119"
-     y="-1080.2531"
+     x="445.9158"
+     y="-1064.1772"
      id="tspan3931">Comisión Nacional para Colaboración Internacional y</tspan><tspan
      sodipodi:role="line"
-     x="96.111893"
-     y="-1058.2531"
+     x="445.9158"
+     y="-1042.1772"
      id="tspan3124">Desarrollo Sostenible (Holanda), programa KPA 2010</tspan></text>
+
 
 
 
@@ -1183,18 +1203,19 @@
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
-   x="529.35974"
-   y="-1102.2531"
+   x="24.261707"
+   y="-1086.1772"
    id="text6321-5"
    transform="scale(1,-1)"><tspan
      sodipodi:role="line"
-     x="529.35974"
-     y="-1102.2531"
+     x="24.261702"
+     y="-1086.1772"
      id="tspan6327-4">Plan Ceibal, Rayuela</tspan><tspan
      sodipodi:role="line"
-     x="529.35974"
-     y="-1080.2531"
+     x="24.261711"
+     y="-1064.1772"
      id="tspan6397">2do Concurso de Ideas, 2010</tspan></text>
+
 
 
 
@@ -1452,6 +1473,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1467,6 +1489,7 @@
      x="-3.8606761"
      y="-975.1781"
      id="tspan6570">es distribuido bajo la licencia AGPL v3</tspan></text>
+
 
 
 
@@ -1542,6 +1565,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1581,6 +1605,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1592,6 +1617,7 @@
      id="tspan7404"
      x="-153.64659"
      y="-84.037849">Las imágenes usadas son de licencia libre de:</tspan></text>
+
 
 
 
@@ -1635,6 +1661,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1646,6 +1673,7 @@
      id="tspan7418"
      x="-152.89659"
      y="45.279747">Contribuciones de</tspan></text>
+
 
 
 
@@ -1697,6 +1725,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1720,15 +1749,16 @@
 
 
 
+
 <image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/Logotipo Rayuela.png"
    xlink:href="Logotipo Rayuela.png"
-   transform="scale(1,-1)"
-   width="108.8"
-   height="128"
+   y="-1247.6334"
+   x="61.396732"
    id="image3292"
-   x="561.69476"
-   y="-1259.3157" /><text
+   height="128"
+   width="108.8"
+   transform="scale(1,-1)" /><text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
    x="-151.81847"
@@ -1750,6 +1780,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
@@ -1765,4 +1796,5 @@
      x="267.24759"
      y="-1487.6069"
      id="tspan3122">final del Proyecto Rayuela o Plan CEIBAL. Próximamante estará disponible la versión final.</tspan></text>
+
 </g></g></svg>
