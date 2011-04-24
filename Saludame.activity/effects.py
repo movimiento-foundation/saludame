@@ -5,13 +5,13 @@ class Effect:
     Represents effects that affect directly on the status bars.
     """
    
-    def __init__(self, bars_controller, effect_satatus_list, consequences=[]):
+    def __init__(self, effect_satatus_list, consequences=[], change_time=False):
         """
         Los effect_status son tuplas (id_barra, increase_rate)
         """
-        self.bars_controller = bars_controller
         self.effect_status_list = effect_satatus_list   # list of tuples (bar_id, increase_rate)
         self.consequences = consequences                # list of event_id that can trigger, only one with probability > 0 will be triggered
+        self.change_time = change_time
         
     def activate(self, factor):
         for bar_id, increase_rate in self.effect_status_list:
@@ -20,6 +20,12 @@ class Effect:
     def set_bar_controller(self, bars_controller):
         self.bars_controller = bars_controller
 
+    def set_change_time(self, change):
+        self.change_time = change
+    
+    def get_change_time(self):
+        return self.change_time
+    
     def get_consequence(self, events_dict, bars_value_dic, restrictions):
         """ Iterates between the possible consequences and returns the first one with probability > 0 """
         for c in self.consequences:
@@ -28,45 +34,35 @@ class Effect:
                 event.update_probability(bars_value_dic, restrictions, True)
                 if event.get_probability() > 0:
                     return event
-        
-class LocationEffect:
+
+    def get_new_place(self):
+        return None
+
+    def get_new_clothes(self):
+        return None
+
+
+class LocationEffect(Effect):
     """
     Represents effects that set the character location.
     """
     
-    def __init__(self, game_manager, place_id):
-        self.game_manager = game_manager
+    def __init__(self, place_id):
+        Effect.__init__(self, [])
         self.place_id = place_id
     
-    def activate(self, factor):
-        self.game_manager.set_character_location(self.place_id)
-    
-    def set_game_manager(self, game_manager):
-        self.game_manager = game_manager
-        
-    def get_consequence(self):
-        return
-    
-    def get_effect_list(self):
-        return []
-        
-class ClothesEffect:
+    def get_new_place(self):
+        return self.place_id
+
+
+class ClothesEffect(Effect):
     """
     Represents effects that set the character clothes.
     """
     
-    def __init__(self, game_manager, clothes_id):
-        self.game_manager = game_manager
+    def __init__(self, clothes_id):
+        Effect.__init__(self, [])
         self.clothes_id = clothes_id
-    
-    def activate(self, factor):
-        self.game_manager.set_character_clothes(self.clothes_id)
-    
-    def set_game_manager(self, game_manager):
-        self.game_manager = game_manager
 
-    def get_consequence(self):
-        return
-
-    def get_effect_list(self):
-        return []
+    def get_new_clothes(self):
+        return self.clothes_id

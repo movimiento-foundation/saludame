@@ -190,7 +190,8 @@ class GameManager:
         """
         outdoor = self.places_dictionary[self.character.current_place]["outdoor"]
         affected_bars = self.weather_effects[(self.character.clothes, self.current_weather[0], outdoor)]
-        effect = effects.Effect(self.bars_controller, affected_bars)
+        effect = effects.Effect(affected_bars)
+        effect.set_bar_controller(self.bars_controller)
         
         self.environment_effect = effect
         print "environment effect updated: ", affected_bars
@@ -309,21 +310,10 @@ class GameManager:
     def execute_action(self, action_id, action_label=None):
         action = self.get_action(action_id)
         
-        if action:
-            if isinstance(action.effect, effects.Effect): #this action affects status bars
-                self.set_active_action(action_id)
-                self.check_forbidden_action(action, action_label)
-            elif isinstance(action.effect, effects.LocationEffect): #this action affects character location
-                if self.active_char_action:
-                    self.interrupt_active_action(None)
-                action.perform(1)
-                action.reset()
-            elif isinstance(action.effect, effects.ClothesEffect): #this action affects character clothes
-                if self.active_char_action:
-                    self.interrupt_active_action(None)
-                action.perform(1)
-                action.reset()
-
+        if action and action.effect:
+            self.set_active_action(action_id)
+            self.check_forbidden_action(action, action_label)
+    
     def check_forbidden_action(self, action, action_label):
         for evt in self.active_events + self.active_social_events:
             forbidden_actions = self.events_forbidden_actions.get(evt.name)
@@ -369,7 +359,7 @@ class GameManager:
     
     def set_active_action(self, action_id):
         """
-        Set the active char actions
+        Sets the active char action, and asks the gui to show it
         """
         if not self.active_char_action: #if there is not an active character action
             action = self.get_action(action_id)
@@ -379,8 +369,7 @@ class GameManager:
                 action.perform(0)
                 self.windows_controller.show_action_animation(action)
                 self.active_char_action = action
-
-            
+    
     def get_action(self, action_id):
         """
         Returns the action asociated to the id_action
@@ -388,10 +377,7 @@ class GameManager:
         for action in self.actions_list:
             if action.id == action_id:
                 return action
-            
-    def get_lowest_bar(self):
-        return self.bars_controller.get_lowest_bar()
-
+    
     def __try_solve_events(self, action_id):
         """Try to solve an active event with the active character
         action"""
@@ -415,7 +401,7 @@ class GameManager:
         prob = self.events_actions_res.get( (evt.name, action_id) )
         if prob:
             rand = random.randint(0, 100)
-            print "TRYING SOLVE: %s perfroming: %s with probability: %s" % (evt.name, action_id, prob)
+            print "TRYING SOLVE: %s performing: %s with probability: %s" % (evt.name, action_id, prob)
             if rand <= prob:
                 print "EVENT SOLVED"
                 return True
@@ -453,22 +439,41 @@ class GameManager:
             
             # check if the action ended
             if self.active_char_action.time_left == 0:
-                # perform missed cicles
-                self.active_char_action.perform(self.count)
-                
-                # restore background
-                if self.active_char_action.background:
-                        self.set_character_location(self.old_place)
-                        
-                # reset the action
-                self.active_char_action.reset()
-                
-                # check consequences should be triggered
-                cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status(), self.get_restrictions())
-                self.active_char_action = None
-                if cons:
-                    self.check_consequence_event(cons)
+                self.finish_action()
     
+    def finish_action(self):
+        # perform missed cicles
+        self.active_char_action.perform(self.count)
+        
+        if self.active_char_action.effect:
+            effect = self.active_char_action.effect
+            
+            new_place = effect.get_new_place()
+            if new_place:
+                # The action changed character's place
+                self.set_character_location(new_place)
+            else:
+                # Restore background
+                if self.active_char_action.background:
+                    self.set_character_location(self.old_place)
+            
+            new_clothes = effect.get_new_clothes()
+            if new_clothes:
+                self.set_character_clothes(new_clothes)
+                
+            change_time = effect.get_change_time()
+            if change_time:
+                self.change_time()
+        
+        # reset the action
+        self.active_char_action.reset()
+        
+        # check consequences should be triggered
+        cons = self.active_char_action.effect.get_consequence(self.events_dict, self.bars_controller.get_bars_status(), self.get_restrictions())
+        self.active_char_action = None
+        if cons:
+            self.check_consequence_event(cons)
+                    
     def __control_background_actions(self):
         """
         Controls active background actions.
@@ -806,6 +811,9 @@ class GameManager:
 
 
 # Challenges
+    def get_lowest_bar(self):
+        return self.bars_controller.get_lowest_bar()
+
     def __control_challenges(self):
         if self.challenge_cicles == 0:
             self.challenge_cicles = CHALLENGES_INTERVAL
