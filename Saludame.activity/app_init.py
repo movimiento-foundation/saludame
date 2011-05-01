@@ -274,7 +274,7 @@ class AppLoader:
         
         probability = ("all", [("fun", "constant", 90, 50), ("defenses", "constant", 90, 50), ("relaxing", "constant", 90, 50)])
         effect = effects.Effect([("energy", +10), ("defenses", +10)])
-        event = events.PersonalEvent("assets/events/personal/happy", None, "happy", u"Feliz", "pos", "random", m(2), probability, effect, u"Estoy de muy bien humor", "id.l4dkflvt1jlf", 1, happy_3)
+        event = events.PersonalEvent("assets/events/personal/happy", None, "happy", u"Feliz", "pos", "random", m(2), probability, effect, u"Estoy de muy buen humor", "id.l4dkflvt1jlf", 1, happy_3)
         _events.append(event)
         
         probability = ("all", [("nutrition", "constant", 90, 50), ("defenses", "constant", 90, 50), ("relaxing", "constant", 90, 50), ("energy", "constant", 90, 50)])
@@ -547,12 +547,12 @@ class AppLoader:
         """ A list of tuples containing all the events and the actions that can solve them, with a probability rate. """
         """ Alternatively insted of an action can configure a third option that is an effect, so every action with that effect higher than 0
             will trigger the rule """
-        events_actions_res = {("constipation", "doctor") : 30,
+        events_actions_res = {("constipation", "doctor") : 60,
                               ("constipation", None, "v_frutas") : 60,
                               ("constipation", None, "agua") : 40,
                               ("constipation", None, "sports") : 50,
                               
-                              ("diarrhea", "doctor") : 40,
+                              ("diarrhea", "doctor") : 60,
                               ("diarrhea", None, "agua") : 60,
                               
                               ("headache", "doctor") : 60,

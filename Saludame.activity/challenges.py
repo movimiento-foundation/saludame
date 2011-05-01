@@ -163,7 +163,7 @@ class MultipleChoice(gui.Window):
                 self.tries = 0
             else:
                 self.tries += 1
-                self.windows_controller.windows["info_challenge_window"].update_content(u"Respuseta incorrecta", u"La respuesta no esta correcta, intenta otra vez")
+                self.windows_controller.windows["info_challenge_window"].update_content(u"Respuesta incorrecta", u"La respuesta no es correcta, intenta otra vez")
                 self.windows_controller.set_active_window("mc_challenge_window")
                 self.windows_controller.set_active_window("info_challenge_window")
 
