@@ -36,6 +36,7 @@ fencoding = 'utf-8'
 uni = lambda s: unicode(s, fencoding)
 listdir = lambda x: map(uni, os.listdir(x.encode(fencoding)))
 isfile = lambda x: os.path.isfile(x.encode(fencoding))
+exists = lambda x: os.path.exists(x.encode(fencoding))
 #
 
 class ContentWindow(gtk.HBox):
@@ -157,15 +158,15 @@ class ContentWindow(gtk.HBox):
     
     def check_default_file(self, nodepath):
         aux = os.path.join(nodepath, "default-avanzado.html")
-        if os.path.exists(aux):
+        if exists(aux):
             return aux
             
         aux = os.path.join(nodepath, "default-simple.html")
-        if os.path.exists(aux):
+        if exists(aux):
             return aux
             
         aux = os.path.join(nodepath, "default.html")
-        if os.path.exists(aux):
+        if exists(aux):
             return aux
         
         return nodepath

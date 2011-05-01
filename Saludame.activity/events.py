@@ -5,7 +5,7 @@ MAX_BAR_VALUE = 100.0 #maximo valor que puede alcanzar una barra
 
 class Event:
     
-    def __init__(self, directory_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, library_link, level, preferred_mood):
+    def __init__(self, directory_path, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood):
         
         if not time_span:
             time_span = 999
@@ -17,7 +17,8 @@ class Event:
         self.impact = impact
         self.preferred_mood = preferred_mood
         
-        self.appereance_probability = appereance_probability
+        self.trigger = trigger          # "random" - it's selected at random by it's probability,
+                                        # "triggered" - it should appear only when it's triggered as a consequence of an action and it's probability is higher than zero
         self.time_span = time_span
         self.time_left = time_span
 
@@ -76,11 +77,7 @@ class Event:
                     pMin, pMax = max_prob
                     if rMin <= bar_value and bar_value <= rMax:
                         prob = pMin + (bar_value-rMin)*(pMax-pMin)/(rMax-rMin)
-                    
-                elif probability_type == "triggered" and triggered:
-                    print "triggered"
-                    prob = 1.0
-            
+                
                 if self.operator == "all" and prob == 0.0:
                     return 0.0
                     
@@ -118,8 +115,8 @@ class Event:
         self.restrictions[restriction_id] = values
         
 class PersonalEvent(Event):
-    def __init__(self, picture, kid_animation_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, kid_message, library_link, level=1, preferred_mood=9):
-        Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
+    def __init__(self, picture, kid_animation_path, name, description, impact, trigger, time_span, conditioned_bars, effect, kid_message, library_link, level=1, preferred_mood=9):
+        Event.__init__(self, picture, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
         
         self.kid_animation_path = kid_animation_path
     
@@ -130,8 +127,8 @@ class PersonalEvent(Event):
     
 class SocialEvent(Event):
     
-    def __init__(self, picture, person_path, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, message, library_link, level=1, preferred_mood=9):
-        Event.__init__(self, picture, name, description, impact, appereance_probability, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
+    def __init__(self, picture, person_path, name, description, impact, trigger, time_span, conditioned_bars, effect, message, library_link, level=1, preferred_mood=9):
+        Event.__init__(self, picture, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
         
         self.time_left = time_span
         

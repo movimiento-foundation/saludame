@@ -158,7 +158,6 @@ class WindowsController:
             changes.append(self.active_tooltip.rect_absolute)
         
         self.scaled_game.update_screen(changes)
-        #self.scaled_game.flip()
 
 class ScaledGame:
     

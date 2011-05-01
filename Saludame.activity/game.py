@@ -237,6 +237,13 @@ class Main():
         except:
             print "Error al cargar la partida"
     
+    def volume_changed(self, range):
+        value = range.get_value()
+        if value >= 0 and value <= 10:
+            value = float(value)/10
+            import sound_manager
+            sound_manager.instance.set_volume(value)
+        
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1 and sys.argv[1] in ["boy", "girl"]:

@@ -27,6 +27,12 @@ class SoundManager:
         self.next_music_name = ""
         self.state = SoundManager.IDLE
         
+        self.volume = 0.3
+    
+    def set_volume(self, value):
+        self.volume = value
+        pygame.mixer.music.set_volume(self.volume)
+        
     def set_music(self, name):
         if self.state == SoundManager.IDLE:
             self.current_music_name = name
@@ -60,7 +66,7 @@ class SoundManager:
             
         path = music[self.current_music_name]
         pygame.mixer.music.load(path)
-        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.set_volume(self.volume)
         pygame.mixer.music.play()
 
     # Sounds

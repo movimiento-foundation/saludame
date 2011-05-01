@@ -53,9 +53,6 @@ class MultipleChoice(gui.Window):
         # If a question is setted, we have to "erase" the old challenge
         self.question = None
         
-        self.win_points = 0
-        self.lose_points = 0
-        
         self.title = gui.Text(self.rect, 30, 35, 1, u"Elije la opción correcta", 24, (255,255,255), bold=True)
         self.add_child(self.title)
         
@@ -143,12 +140,6 @@ class MultipleChoice(gui.Window):
             image = pygame.image.load(image)
         image = gui.Image(self.rect, pygame.Rect(500, 40, 20, 20), 1, image)
         self.add_child(image)
-    
-    def set_win_points(self, points):
-        self.win_points = points
-    
-    def set_lose_points(self, points):
-        self.lose_points = points
         
     ######## Callbacks buttons ########
     
@@ -285,13 +276,13 @@ class TrueOrFalse(MultipleChoice):
                 self.windows_controller.close_active_window()
                 self.result_and_reset()
         else:
-            self.windows_controller.game_man.add_points(-self.lose_points)
             self.s_incorrect.play()
             
             # Incorrect answer
             self.answers[self.question_number] = "incorrect"
             
             if self.kind == "master":
+                self.windows_controller.game_man.add_points(-10)        # So it falls back to the previous level
                 if self.answers.count("incorrect") == 5 - self.limit + 1:
                     self.perdio = True
             

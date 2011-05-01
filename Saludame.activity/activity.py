@@ -49,13 +49,13 @@ class SaludameActivity(Activity):
         self.activity_toolbar = self.toolbox.get_activity_toolbar()
 
         # Creates other toolbars
-        self.game_toolbar = gtk.Toolbar()
+        # Game toolbar gets created on demand
         # Library toolbar gets created on demand
         self.guides_toolbar = gtk.Toolbar()
         self.credits_toolbar = gtk.Toolbar()
         
         self.indexes = ["activity"] # right now only activity toolbar
-        
+
         # Create startup windows
         self.startup_window = startup_window.StartupWindow(self._start_cb, self._load_last_cb)
         
@@ -112,7 +112,7 @@ class SaludameActivity(Activity):
         self.indexes = ["activity"]     # activity toolbar never gets removed
         
         if add_game:
-            self.toolbox.add_toolbar(_("Game"), self.game_toolbar)
+            self.toolbox.add_toolbar(_("Game"), self.get_game_toolbar())
             self.indexes += ["game"]
         
         self.indexes += ["library", "guides", "credits"]
@@ -220,14 +220,61 @@ class SaludameActivity(Activity):
     def get_last_game(self):
         """ Make a query in the datastore to load last game """
         
-        #datastore.find({'activity': 'org.ceibaljam.Saludame'}, sorting='mtime')[0][-1]
-        ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'}, limit=1)
-        if num_objects > 0:
-            entry = ds_objects[0]       # The first one is the last game
-            metadata = entry.get_metadata()
+        metadata = None
+        
+        # This query returns the last time activity instance with the saved flag on
+        ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'})
+        for entry in ds_objects:
             filepath = entry.get_file_path()
-            print "Last game is ", metadata['title_set_by_user'], " ", metadata['title'], metadata['mtime']
-            self.read_file(filepath)
+            if filepath:
+                metadata = entry.get_metadata()
+                filepath = entry.get_file_path()
+                print "Last game is ", metadata['title'], " ", metadata['mtime']
+                self.read_file(filepath)
+                break
+                
+        for entry in ds_objects:
             entry.destroy()
-            return metadata
-    
+            
+        return metadata
+        
+        # This query returns the last activity instance that has a path
+        #ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'}, sorting='mtime')
+        
+    def get_game_toolbar(self):
+        
+        toolbar = gtk.Toolbar()
+        
+        # Music Volume scale
+        min = 0
+        max = 10
+        step = 1
+        default = 3
+        
+        image = gtk.Image()
+        image.set_from_file("assets/music/music_icon.png")
+        image.show()
+        
+        tool_item = gtk.ToolItem()
+        tool_item.set_expand(False)
+        tool_item.add(image)
+        tool_item.show()
+        toolbar.insert(tool_item, -1)
+        
+        adj = gtk.Adjustment(default, min, max, step)
+        scale = gtk.HScale(adj)
+        scale.set_update_policy(gtk.UPDATE_DISCONTINUOUS)
+        scale.set_size_request(240,15)
+        scale.set_draw_value(False)
+        scale.connect("value-changed", self.game.volume_changed)
+        scale.show()
+                
+        tool_item = gtk.ToolItem()
+        tool_item.set_expand(False)
+        tool_item.add(scale)
+        tool_item.show()
+        toolbar.insert(tool_item, -1)
+        
+        toolbar.show()
+        return toolbar
+        

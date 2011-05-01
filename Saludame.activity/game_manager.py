@@ -147,7 +147,7 @@ class GameManager:
 
     def __control_score(self):
         score_vector_per_minute = self.get_current_level_conf()["score_vector"]
-        score_vector_per_cicle = [float(value)/60 for value in score_vector_per_minute]
+        score_vector_per_cicle = [float(value)*2/60 for value in score_vector_per_minute]
         self.bars_controller.calculate_score(score_vector_per_cicle)
         
     def get_current_level_conf(self):
@@ -611,6 +611,8 @@ class GameManager:
         """
         Get a random event
         """
+        events_list = [event for event in events_list if event.trigger == "random"]     # Subset of events which are triggered randomly
+        
         self.__update_events_probability(events_list) # it updates the probabilities of the list's events
         allowed_events = [evt for evt in events_list if evt.level <= self.character.level]#verify wich events are allowed in the current level.
         if len(allowed_events) > 0:

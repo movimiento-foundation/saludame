@@ -16,8 +16,6 @@ SECTION_WIDTH = 220
 SECTION_MIN_HEIGHT = 50
 SECTION_TOP_PADDING = 18
 
-ADJ = 14
-
 BAR_OFFSET_X = 30
 BAR_WIDTH = 182
 BAR_HEIGHT = 24
@@ -168,7 +166,7 @@ class BarSection(gui.Window):
         label_widget = gui.Text(self.rect, pos[0], pos[1], 1, self.name, 16, pygame.Color(TEXT_COLOR), "normal", gui.Text.ALIGN_RIGHT, True, True)
         
         # visuals
-        self.root_bar_display = BarDisplay(BAR_HEIGHT, (size[0] - 2), (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_PARTITIONS)
+        self.root_bar_display = BarDisplay(BAR_HEIGHT, BAR_WIDTH, (BAR_OFFSET_X, SECTION_TOP_PADDING), self.root_bar, ROOT_BAR_PARTITIONS)
         self.root_bar_display.show_name = False
         
         self.displays_list = self.__get_displays()      # obtengo los displays para cada barra.
@@ -256,7 +254,7 @@ class BarSection(gui.Window):
         """
         display_list = []
         for status_bar in self.children_bar:
-            width = self.rect.width
+            width = BAR_WIDTH
             display = BarDisplay(BAR_HEIGHT, width, (BAR_OFFSET_X, 0), status_bar, SUB_BAR_PARTITIONS)
             display_list.append(display)
         return display_list
@@ -298,11 +296,11 @@ class BarDisplay(gui.Widget):
             
     def draw(self, screen):
         if isinstance(self.status_bar, WeightBar):
-            position = (self.status_bar.value * (self.rect_in_container.width) / self.status_bar.max ) - ADJ
-            if position < BAR_OFFSET_X - ADJ:
-                position = BAR_OFFSET_X - ADJ
-            elif position > BAR_WIDTH - ADJ:
-                position = BAR_WIDTH - ADJ
+            position = (self.status_bar.value * (self.rect_in_container.width) / self.status_bar.max)
+            if position < BAR_OFFSET_X:
+                position = BAR_OFFSET_X
+            elif position > BAR_WIDTH:
+                position = BAR_WIDTH
                 
             rect = self.arrow.get_rect()         #
             rect.midbottom = position , 23 #para posicionar la imagen de la flecha en el centro del valor de posicion hallado
@@ -311,10 +309,9 @@ class BarDisplay(gui.Widget):
             self.surface.blit(self.arrow, rect)
 
         elif isinstance(self.status_bar, StatusBar):
-            rect = pygame.Rect((1, 2), (self.rect_absolute.width - 2, self.rect_absolute.height - 4))
-            charged_rect = pygame.Rect((1,2), (0, rect.height))  # create a copy
-            charged_rect.width = (self.status_bar.value * rect.width / self.status_bar.max) - ADJ #el ADJ (adjustment) a es para corregir un desfasaje de pixeles entre el valor real y el que se ve
-            
+            rect = pygame.Rect((2, 2), (self.rect_absolute.width - 4, self.rect_absolute.height - 4))
+            charged_rect = pygame.Rect((2,2), (0, rect.height))  # create a copy
+            charged_rect.width = (self.status_bar.value * rect.width / self.status_bar.max)
             color = self.get_color()
             
             self.surface.fill(BAR_BACK_COLOR, rect)
@@ -428,7 +425,6 @@ class BarsController:
         index = int(self.overall_bar.value / interval)
         if index >= len(score_level_vector):
             index = len(score_level_vector) - 1
-        
         self.score_bar.increase(score_level_vector[index])
     
     def get_overall_percent(self):
