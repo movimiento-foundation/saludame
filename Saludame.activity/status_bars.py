@@ -35,6 +35,9 @@ SCORE_BAR_PARTITIONS = {100: pygame.Color("#51b8edff")}                         
 TEXT_COLOR = "#0f5e65"
 SUB_BAR_TEXT_COLOR = "#ffffff"
 
+NEGATIVE_FACTOR = 0.8   # Applied when decreasing any bar (for gameplay balancing purposes)
+POSITIVE_FACTOR = 1.0   # Applied when increasing any bar (for gameplay balancing purposes)
+
 # ****************** VISUALES ******************
 
 class BarsWindow(gui.Window):
@@ -414,7 +417,11 @@ class BarsController:
     def increase_bar(self, bar_id, increase_rate):
         for bar in self.bars:
             if bar.id == bar_id:
-                bar.increase(increase_rate)
+                if increase_rate < 0:
+                    value = increase_rate * NEGATIVE_FACTOR
+                else:
+                    value = increase_rate * POSITIVE_FACTOR
+                bar.increase(value)
                 break
     
     def calculate_score(self, score_level_vector):

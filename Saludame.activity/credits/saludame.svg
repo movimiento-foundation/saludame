@@ -14,7 +14,7 @@
    version="1.1"
    inkscape:version="0.47 r22583"
    width="1100"
-   height="2400"
+   height="2350"
    xml:space="preserve"
    sodipodi:docname="saludame.svg"
    inkscape:export-filename="/home/pmoleri/saludame/Saludame.activity/credits/creditos.png"
@@ -658,7 +658,7 @@
      showgrid="false"
      inkscape:zoom="0.72124892"
      inkscape:cx="683.29373"
-     inkscape:cy="2154.3531"
+     inkscape:cy="2228.6711"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -666,42 +666,42 @@
      id="g12"
      inkscape:groupmode="layer"
      inkscape:label="saludame"
-     transform="matrix(1.25,0,0,-1.25,0,2400)"><g
+     transform="matrix(1.25,0,0,-1.25,0,2350)"><g
        transform="translate(173.50533,348.68374)"
        inkscape:label="saludame"
        id="g12-8"><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/Logotipo PLAN CEIBAL.png"
    xlink:href="Logotipo PLAN CEIBAL.png"
-   transform="scale(1,-1)"
-   width="152.38094"
-   height="128"
-   id="image6087"
+   y="-1289.2328"
    x="-123.07839"
-   y="-1289.2328" /><image
+   id="image6087"
+   height="128"
+   width="152.38094"
+   transform="scale(1,-1)" /><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/logoCeibalJAM.png"
    xlink:href="logoCeibalJAM.png"
-   transform="scale(1,-1)"
-   width="246.94533"
-   height="96"
-   id="image6115"
+   y="-1491.9019"
    x="354.96069"
-   y="-1491.9019" /><image
+   id="image6115"
+   height="96"
+   width="246.94533"
+   transform="scale(1,-1)" /><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/logoMovimiento.png"
    xlink:href="logoMovimiento.png"
-   transform="scale(1,-1)"
-   width="222.53352"
-   height="87.209084"
-   id="image6129"
+   y="-1482.7064"
    x="-11.7166"
-   y="-1482.7064" /><image
+   id="image6129"
+   height="87.209084"
+   width="222.53352"
+   transform="scale(1,-1)" /><image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/logoNCDO.png"
    xlink:href="logoNCDO.png"
-   transform="scale(1,-1)"
-   width="253.8557"
-   height="96"
-   id="image6143"
+   y="-1260.4327"
    x="321.76498"
-   y="-1260.4327" /><text
+   id="image6143"
+   height="96"
+   width="253.8557"
+   transform="scale(1,-1)" /><text
    xml:space="preserve"
    style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
    x="168.60112"
@@ -712,6 +712,7 @@
      id="tspan6149"
      x="168.60112"
      y="-1497.9866">Producido por</tspan></text>
+
 
 
 
@@ -751,6 +752,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -762,6 +764,7 @@
      id="tspan6178"
      x="-153.50597"
      y="-896.01031">Equipo responsable y coordinación</tspan></text>
+
 
 
 
@@ -809,6 +812,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -824,6 +828,7 @@
      x="-153.64659"
      y="-760.64771"
      id="tspan6206">Pablo Moleri, Diego Mazzone, Emiliano Chinelli</tspan></text>
+
 
 
 
@@ -863,6 +868,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -874,6 +880,7 @@
      id="tspan6216"
      x="-153.50597"
      y="-725.39453">Diseño gráfico e ilustraciones</tspan></text>
+
 
 
 
@@ -913,6 +920,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -924,6 +932,7 @@
      id="tspan6224"
      x="-152.66222"
      y="-659.50818">Sonidos</tspan></text>
+
 
 
 
@@ -967,6 +976,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -978,6 +988,7 @@
      id="tspan6234"
      x="-37.606098"
      y="-1367.7954">www.movimientofoundation.com</tspan></text>
+
 
 
 
@@ -1017,6 +1028,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1028,6 +1040,7 @@
      id="tspan6224-6"
      x="-153.50597"
      y="-522.17291">Música</tspan></text>
+
 
 
 
@@ -1067,6 +1080,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1078,6 +1092,7 @@
      id="tspan6303"
      x="-153.50597"
      y="-448.11673">Biblioteca</tspan></text>
+
 
 
 
@@ -1117,6 +1132,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1128,6 +1144,7 @@
      id="tspan6311"
      x="-152.95284"
      y="-381.85312">Colaboración: Lucía Manta</tspan></text>
+
 
 
 
@@ -1167,6 +1184,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1178,6 +1196,7 @@
      id="tspan6319"
      x="-152.95284"
      y="-349.3873">Con uso permitido y parcialmente adaptado de:</tspan></text>
+
 
 
 
@@ -1226,6 +1245,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1241,6 +1261,7 @@
      x="24.261711"
      y="-1105.7766"
      id="tspan6397">2do Concurso de Ideas, 2010</tspan></text>
+
 
 
 
@@ -1502,6 +1523,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1517,6 +1539,7 @@
      x="-3.8606761"
      y="-1016.7778"
      id="tspan6570">es distribuido bajo la licencia AGPL v3</tspan></text>
+
 
 
 
@@ -1596,6 +1619,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1637,6 +1661,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans"
@@ -1648,6 +1673,7 @@
      id="tspan7404"
      x="-153.64659"
      y="-69.637863">Las imágenes usadas son de licencia libre de:</tspan></text>
+
 
 
 
@@ -1695,6 +1721,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1706,6 +1733,7 @@
      id="tspan7418"
      x="-152.89659"
      y="59.679733">Contribuciones de</tspan></text>
+
 
 
 
@@ -1761,6 +1789,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Dejavu Sans;-inkscape-font-specification:Dejavu Sans Bold"
@@ -1786,15 +1815,16 @@
 
 
 
+
 <image
    sodipodi:absref="/home/pmoleri/saludame/Saludame.activity/credits/Logotipo Rayuela.png"
    xlink:href="Logotipo Rayuela.png"
-   transform="scale(1,-1)"
-   width="108.8"
-   height="128"
-   id="image3292"
+   y="-1289.2328"
    x="61.396732"
-   y="-1289.2328" /><text
+   id="image3292"
+   height="128"
+   width="108.8"
+   transform="scale(1,-1)" /><text
    xml:space="preserve"
    style="font-size:19.20000076px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
    x="-151.81847"
@@ -1818,21 +1848,8 @@
 
 
 
-<text
-   xml:space="preserve"
-   style="font-size:17.60000038px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
-   x="267.24759"
-   y="-1551.2063"
-   id="text3117"
-   transform="scale(1,-1)"><tspan
-     sodipodi:role="line"
-     id="tspan3119"
-     x="267.24759"
-     y="-1551.2063">Advertencia: Este producto se encuentra en etapa de desarrollo y aún no ha recibido aprobación</tspan><tspan
-     sodipodi:role="line"
-     x="267.24759"
-     y="-1529.2063"
-     id="tspan3122">final del Proyecto Rayuela o Plan CEIBAL. Próximamante estará disponible la versión final.</tspan></text>
+
+
 
 
 <text
@@ -1850,4 +1867,5 @@
      x="-153.41222"
      y="-558.18353"
      id="tspan3167">Universidad de la Republica</tspan></text>
+
 </g></g></svg>

@@ -142,7 +142,7 @@ items = [
         (u"Ver televisión", "tv", None, None, ["livingroom"]),
         (u"Leer", "read", None, None),
         (u"Escuchar música", "music", None, None, CC),
-        (u"Locuras", "crazy", None, None),
+        (u"Morisquetas", "crazy", None, None),
         (u"Bailar", "dance", None, None, ["bedroom", "livingroom", "school", "square"]),
         (u"Cantar", "sing", None, None, ["bedroom", "livingroom", "school", "square"]),
     ]),
@@ -192,11 +192,14 @@ items = [
    (u"Huerta...", None, None, [
        (u"Preparar tierra", "farm_plow", None, None, ALL_BUT_SQUARE),
        (u"Sembrar", "farm_sow", None, None, ALL_BUT_SQUARE),
-       (u"Mantener...", None , None, [
-           (u"Regar", "farm_irrigate", None, None),
-           (u"Fumigar", "farm_fumigate", None, None),
-           (u"Limpiar", "farm_clean", None, None),
-       ], ALL_BUT_SQUARE),
+       #(u"Mantener...", None , None, [
+           #(u"Regar", "farm_irrigate", None, None),
+           #(u"Fumigar", "farm_fumigate", None, None),
+           #(u"Limpiar", "farm_clean", None, None),
+       #], ALL_BUT_SQUARE),
+       (u"Regar", "farm_irrigate", None, None, ALL_BUT_SQUARE),
+       (u"Fumigar", "farm_fumigate", None, None, ALL_BUT_SQUARE),
+       (u"Limpiar", "farm_clean", None, None, ALL_BUT_SQUARE),
        (u"Cocechar", "farm_harvest", None, None, ALL_BUT_SQUARE),
    ]),
 ]

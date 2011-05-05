@@ -31,7 +31,7 @@ class GameManager:
     y los eventos del juego.
     """
     
-    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, level_conf, events_actions_res, events_forbidden_actions):
+    def __init__(self, character, bars_controller, actions_list, events_list, places_dictionary, weathers, environments_dictionary, weather_effects, moods_list, level_conf, events_actions_res, events_forbidden_actions, conditions):
         """
         Constructor de la clase
         """
@@ -69,6 +69,8 @@ class GameManager:
         self.events_actions_res = events_actions_res#this is a dic {(event_id, action_id):prob} where prob is the action probability to solve the event
         self.events_forbidden_actions = events_forbidden_actions
 
+        self.conditions = conditions
+        
         self.background_actions = []
         
         #character states
@@ -87,7 +89,6 @@ class GameManager:
         self.environments_dictionary = environments_dictionary
         self.current_weather = self.weathers[0] # default weather
         self.environment = None
-        self.update_environment()
         
         # time of day
         self.hour = 2 # value between 0 and 3
@@ -102,15 +103,14 @@ class GameManager:
         # weather effects
         self.weather_effects = weather_effects
         self.environment_effect = None  # this is an Effect that represents the effect on the character by the environment: weather + place + clothes
-        self.update_environment_effect()
+        
+        self.update_environment()
         
         self.old_place = None
 
     def start(self, windows_controller):
         self.windows_controller = windows_controller
         self.started = True
-        #self.update_environment_effect()
-        #self.windows_controller.update_clothes()
         
 # management
 
@@ -180,6 +180,8 @@ class GameManager:
         environment_id = (self.character.current_place, self.current_weather[0])
         self.environment = self.environments_dictionary[environment_id]
         
+        self.update_environment_effect()
+        
         if self.started:
             self.windows_controller.set_environment(self.environment, self.current_time)
     
@@ -216,11 +218,12 @@ class GameManager:
         
         self.current_time = self.day_dic[self.hour]
         print "cambio el momento del día a: ", self.current_time
-        
-        self.update_environment()
-        
-        if self.hour == 1: #temporal para cambiar el clima
+                
+        if self.hour == 1:
+            # Changes the weather and updates the envirnoment
             self.change_current_weather()
+        else:
+            self.update_environment()
     
 ### weather
     
@@ -234,7 +237,6 @@ class GameManager:
         Set the current weather.
         """
         self.current_weather = weather
-        self.update_environment_effect()
         self.update_environment()
     
     def get_random_weather(self):
@@ -292,7 +294,6 @@ class GameManager:
         self.character.current_place = place_id
         
         self.update_environment()
-        self.update_environment_effect()
             
 ### Clothes
     def set_character_clothes(self, clothes_id):
@@ -306,6 +307,12 @@ class GameManager:
         self.windows_controller.update_clothes()
                 
 ## Actions handling
+    def check_action_condition(self, condition):
+        bars_status_dict = self.bars_controller.get_bars_status()
+        for c in self.conditions:
+            if c.id == condition:
+                return c.evaluate(bars_status_dict)
+                
     
     def execute_action(self, action_id, action_label=None):
         action = self.get_action(action_id)
@@ -737,11 +744,13 @@ class GameManager:
         self.character.reset(gender)
         # bars
         self.bars_controller.reset()
+        
         # weather
         self.current_weather = self.weathers[0] # default weather
         self.update_environment()
-        self.update_environment_effect()
+
         self.windows_controller.update_clothes()
+        
         # hour
         self.hour = 2
         self.hour_count = HOUR_COUNT_CYCLE

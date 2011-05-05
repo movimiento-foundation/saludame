@@ -208,9 +208,9 @@ class MessageBalloon(gui.Window):
         
     def set_text(self, text):
         if self.b_type == 'A':
-            self.text = gui.TextBlock(self.rect, 135, 40, 1, text, 18, pygame.Color("#0f5e65"), "normal", False)
+            self.text = gui.TextBlock(self.rect, 245, 70, 1, text, 18, pygame.Color("#0f5e65"), "normal", False, anchor_type="center")
         else:
-            self.text = gui.TextBlock(self.rect, 40, 40, 1, text, 20, pygame.Color("#0f5e65"), "normal", False)
+            self.text = gui.TextBlock(self.rect, 160, 80, 1, text, 20, pygame.Color("#0f5e65"), "normal", False, anchor_type="center")
         self.text.keep_dirty = True
         self.add_child(self.text)
         

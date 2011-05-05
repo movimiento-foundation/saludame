@@ -106,7 +106,7 @@ class Menu(gui.Window):
         Set the current items selection.
         """
         if not self.on_expansion:
-            current_selection = self.get_allowed_items(items_list) # gets some allowed items, fewer than nine
+            current_selection = self.get_allowed_items(items_list)
             if len(current_selection) > MAX_ITEMS:
                 current_selection = random.sample(current_selection, MAX_ITEMS)
             
@@ -198,6 +198,9 @@ class Menu(gui.Window):
             if not allowed:
                 return False
 
+        if action.condition:
+            return game_manager.check_action_condition(action.condition)
+            
         if action.level > self.game_manager.get_level():
             return False
         #verify path

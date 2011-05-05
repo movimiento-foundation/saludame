@@ -68,10 +68,14 @@ class Event:
                     if bar_value <= threshold:
                         prob = max_prob * ((threshold - bar_value) / threshold)
                     
-                elif probability_type == "constant":
+                elif probability_type == "constant+":
+                    if bar_value >= threshold :
+                        prob = float(max_prob)
+                
+                elif probability_type == "constant-":
                     if bar_value <= threshold :
                         prob = float(max_prob)
-                        
+
                 elif probability_type == "range":
                     rMin, rMax = threshold
                     pMin, pMax = max_prob

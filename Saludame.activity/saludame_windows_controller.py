@@ -51,7 +51,8 @@ class SaludameWindowsController(gui.WindowsController):
     
     # CLOTHES
     def update_clothes(self):
-        self.windows["kid"].update_clothes()          
+        self.windows["kid"].update_clothes()
+        self.windows["panel_window"].set_weather()
     
     # Actions
     def show_action_animation(self, action):

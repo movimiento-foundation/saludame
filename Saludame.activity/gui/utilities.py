@@ -203,8 +203,8 @@ class TextButton2(ImageButton):
         return surface
     
 class TextBlock(Widget):
-    def __init__(self, container, x, y, frame_rate, text, size, color, type="normal", fill=True):    
-            
+    def __init__(self, container, x, y, frame_rate, text, size, color, type="normal", fill=True, anchor_type="topleft"):    
+        
         Widget.__init__(self, container, pygame.Rect(x, y, 0, 0), frame_rate)
         
         self.type = type
@@ -215,10 +215,11 @@ class TextBlock(Widget):
         self.size = size
         
         self.fill = fill
+        self.anchor_type = anchor_type
         
         if type == "tooltip":
             self.rect_absolute.bottomleft = (x, y)
-            
+        
         self.prepare_text_block()
         
     def parse_lines(self, text):
@@ -234,32 +235,37 @@ class TextBlock(Widget):
             self.lines.append(b)
 
     def prepare_text_block(self):
-        number_of_lines = 0
-        for l in self.lines:
-            number_of_lines += 1           
+        self.rendered_lines = []
+        for l in self.lines:          
             r = self.font.render(l, False, self.color)
             if r.get_rect().width > self.rect_absolute.width:
                 self.rect_absolute.width = r.get_rect().width
             self.rect_absolute.height += r.get_rect().height 
-        
+            self.rendered_lines.append(r)
+            
         if self.type == "tooltip":
             self.rect_absolute.height += 20
             self.rect_absolute.width += 20
         
+        if self.anchor_type == "center":
+            # Center the rectangle in the given coordinates
+            self.rect_absolute.center = self.rect_absolute.topleft
+            print "center:" + str(self.rect_absolute.center)
+            
         # Make it fit in the container
         if self.rect_absolute.right > self.container.right:
             self.rect_absolute.right = self.container.right
         if self.rect_absolute.bottom > self.container.bottom:
             self.rect_absolute.bottom = self.container.bottom
             
-        self.rect_in_container.size = self.rect_absolute.size                  
+        self.rect_in_container.size = self.rect_absolute.size
+        self.rect_in_container.left = self.rect_absolute.left - self.container.left
+        self.rect_in_container.top = self.rect_absolute.top - self.container.top
         
     def draw(self, screen):
         if self.visible:
-            number_of_lines = 0
-            
             if self.fill:
-                screen.fill((247, 247, 247), (self.rect_absolute))
+                screen.fill((247, 247, 247), self.rect_absolute)
                 
             if self.type == "tooltip":
                 top = self.rect_absolute.top + 10
@@ -267,11 +273,20 @@ class TextBlock(Widget):
             else:
                 top = self.rect_absolute.top
                 left = self.rect_absolute.left
-                
-            for l in self.lines:          
-                r = self.font.render(l, False, self.color)
-                screen.blit(r, (left, top + r.get_rect().height * number_of_lines))
-                number_of_lines += 1
+            
+            if self.anchor_type == "center":
+                number_of_lines = 0
+                for r in self.rendered_lines:
+                    x = left + (self.rect_absolute.width - r.get_width())/2
+                    y = top + r.get_rect().height * number_of_lines
+                    screen.blit(r, (x, y))
+                    number_of_lines += 1
+            else:
+                number_of_lines = 0
+                for r in self.rendered_lines:
+                    screen.blit(r, (left, top + r.get_rect().height * number_of_lines))
+                    number_of_lines += 1
+            
             if self.type == "tooltip":
                 pygame.draw.rect(screen, pygame.Color("#7fe115"), self.rect_absolute, 2)
                 

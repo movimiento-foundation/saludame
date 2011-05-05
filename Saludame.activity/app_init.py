@@ -8,6 +8,7 @@ import game_manager
 import events
 import actions
 import effects
+import condition
 
 from gettext import gettext as _
 
@@ -152,10 +153,11 @@ class AppLoader:
         self.level_conf = CONFIGURATION_LEVEL_LIST
         
         # game manager
+        conditions = self.__load_conditions()
         events_actions_res = self.__load_events_actions_resolutions()
         events_forbidden_actions = self.__load_events_forbidden_actions()
         
-        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, self.level_conf, events_actions_res, events_forbidden_actions)
+        self.game_man = game_manager.GameManager(self.character, self.status_bars_controller, None, self.events_list, self.get_places(), self.weathers, self.get_environments_dictionary(), self.get_weather_effects(), self.moods_list, self.level_conf, events_actions_res, events_forbidden_actions, conditions)
         actions_loader = actions_creator.ActionsLoader(self.bars_loader.get_bar_controller(), self.game_man)
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
@@ -267,17 +269,17 @@ class AppLoader:
         event = events.PersonalEvent("assets/events/personal/toothache", None, "dolor_dientes", u"Dolor de dientes", "neg", "random", None, probability, effect, u"¡Ayyyy, mis dientes!", "id.55bloxrmmb9h", 1, sad_3)
         _events.append(event)
         
-        probability = ("all", [("fun", "indirect", 90, 50)])
+        probability = ("all", [("fun", "indirect", 70, 50)])
         effect = effects.Effect([("energy", -10), ("fun", -15), ("relaxing", -10)])
         event = events.PersonalEvent("assets/events/personal/bored", None, "bored", u"Aburrido", "neg", "random", m(5), probability, effect, u"Que aburrimiento tengo", "id.rj4a3l5xh6jr", 1, sad_1)
         _events.append(event)
         
-        probability = ("all", [("fun", "constant", 90, 50), ("defenses", "constant", 90, 50), ("relaxing", "constant", 90, 50)])
+        probability = ("all", [("fun", "constant+", 90, 50), ("defenses", "constant+", 90, 50), ("relaxing", "constant+", 90, 50)])
         effect = effects.Effect([("energy", +10), ("defenses", +10)])
         event = events.PersonalEvent("assets/events/personal/happy", None, "happy", u"Feliz", "pos", "random", m(2), probability, effect, u"Estoy de muy buen humor", "id.l4dkflvt1jlf", 1, happy_3)
         _events.append(event)
         
-        probability = ("all", [("nutrition", "constant", 90, 50), ("defenses", "constant", 90, 50), ("relaxing", "constant", 90, 50), ("energy", "constant", 90, 50)])
+        probability = ("all", [("nutrition", "constant+", 90, 50), ("defenses", "constant+", 90, 50), ("relaxing", "constant+", 90, 50), ("energy", "constant+", 90, 50)])
         effect = effects.Effect([("defenses", +10)])
         event = events.PersonalEvent("assets/events/personal/energetic", None, "energetic", u"Mucha energía", "pos", "random", m(2), probability, effect, u"¡Guauuu, que energía tengo!", "id.1qjxykbd4ira", 1, happy_2)
         _events.append(event)
@@ -287,12 +289,12 @@ class AppLoader:
         event = events.PersonalEvent("assets/events/social/friend1_pos", None, "me_veo_bien", u"Me veo bien", "pos", "random", m(2), probability, effect, u"Yupiiii, que bien me veo", "id.nny40i7jwdy8", 1, happy_3)
         _events.append(event)
         
-        probability = ("all", [("sports", "indirect", 10, 80), ("energy", "constant", 10, 80)])
+        probability = ("all", [("sports", "indirect-", 10, 80), ("energy", "constant-", 10, 80)])
         effect = effects.Effect([("energy", -10), ("defenses", -5), ("fun", -10)])
         event = events.PersonalEvent("assets/events/personal/tired", None, "sedentarismo", u"Sedentarismo", "neg", "random", m(5), probability, effect, u"Me agito mucho.\n¿Qué me pasa?", "id.grn7m6ehjqck", 1, angry_1)
         _events.append(event)
         
-        probability = ("all", [("overall_bar", "constant", 50, 30)])
+        probability = ("all", [("overall_bar", "constant+", 0, 30)])
         effect = effects.Effect([("energy", -5), ("defenses", -10), ("agua", -5)])
         event = events.PersonalEvent("assets/events/personal/sunburn", None, "quemaduras_sol", u"Quemaduras por el sol", "neg", "random", m(5), probability, effect, u"¡Me arde todo el cuerpo\npor el sol!", "id.jupzdcewf6v2", 1, sick_2)
         event.add_restriction("place", ["schoolyard", "square"])
@@ -314,7 +316,7 @@ class AppLoader:
         event = events.PersonalEvent("assets/events/personal/sick", None, "flu", u"Gripe", "neg", "random", None, probability, effect, u"Qué mal me siento,\ncreo que me engripé", "id.spl2hjco8uic", 1, sick_3)
         _events.append(event)
         
-        #probability = ("all", [("overall_bar", "constant", 100.0, 15.0)])
+        #probability = ("all", [("overall_bar", "constant-", 100.0, 15.0)])
         #effect = effects.Effect([("defenses", -20), ("energy", -10), ("fun", -5), ("h_check", -20), ("relaxing", -10)])
         #event = events.PersonalEvent("assets/events/personal/nausea", None, "intoxicacion", u"Intoxicacion", "neg", "random", None, probability, effect, "Me duele la cabeza y me pican las manos. Debe ser por la fumigación.", "id.irlzb3wkwmi2", 1, sick_2)
         #_events.append(event)
@@ -395,53 +397,53 @@ class AppLoader:
         _events.append(event)
         
         # Teacher
-        probability = ("all", [("farm", "indirect", 1, 75)])
+        probability = ("all", [("farm", "constant-", 1, 75)])
         effect = effects.Effect([("defenses", -5), ("energy", -5)])
-        event = events.SocialEvent(teacher_pos, teacher, "huerta_preparar", u"Preparar tierra", "pos", "random", None, probability, effect, u"Vamos a preparar la\ntierra para empezar\nla huerta", "id.nz1g0op683cl", 1, normal)
+        event = events.SocialEvent(teacher_pos, teacher, "huerta_preparar", u"Preparar tierra", "pos", "random", None, probability, effect, u"Vamos a preparar la\ntierra para empezar\nla huerta", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         _events.append(event)
         
         probability = ("all", [("farm", "range", (2, 25), (100, 100))])
         effect = effects.Effect([("farm", -5)])
-        event = events.SocialEvent(teacher_pos, teacher, "huerta_sembrar", u"Sembrar", "pos", "random", None, probability, effect, u"La tierra de la\nhuerta esta lista para\nsembrar algo.", "id.lq84xe5zxl1c", 1, normal)
+        event = events.SocialEvent(teacher_pos, teacher, "huerta_sembrar", u"Sembrar", "pos", "random", None, probability, effect, u"La tierra de la\nhuerta esta lista para\nsembrar algo.", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         _events.append(event)
         
-        probability = ("all", [("farm", "range", (26, 50), (100, 100))])
+        probability = ("all", [("farm", "range", (26, 75), (100, 100))])
         effect = effects.Effect([("farm", -5)])
-        event = events.SocialEvent(teacher_pos, teacher, "huerta_mantener", u"Mantener huerta", "pos", "random", None, probability, effect, u"La huerta necesita\nmantenimiento.", "id.lb7rtj5o423g", 1, normal)
+        event = events.SocialEvent(teacher_pos, teacher, "huerta_mantener", u"Mantener huerta", "pos", "random", None, probability, effect, u"La huerta necesita\nmantenimiento.", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         _events.append(event)
         
-        probability = ("all", [("farm", "range", (51, 75), (100, 100))])
+        probability = ("all", [("farm", "range", (76, 100), (100, 100))])
         effect = effects.Effect([("farm", -5)])
-        event = events.SocialEvent(teacher_pos, teacher, "huerta_cosechar", u"Cosechar", "pos", "random", None, probability, effect, u"¡Juupi! En la huerta\nhay vegetales listos\npara cosechar.", "id.8qqtv41o4kam", 1, normal)
+        event = events.SocialEvent(teacher_pos, teacher, "huerta_cosechar", u"Cosechar", "pos", "random", None, probability, effect, u"¡Juupi! En la huerta\nhay vegetales listos\npara cosechar.", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         _events.append(event)
         
-        probability = ("all", [("farm", "direct", 99, 100)])
+        probability = ("all", [("farm", "constant+", 0, 100)])
         effect = None
-        event = events.SocialEvent(teacher_pos, teacher, "huerta_plato", u"Nuevo plato de la huerta", "pos", "random", None, probability, effect, u"¡Ahora podemos comer\nun plato de la\nhuerta!", "", 1, normal)
+        event = events.SocialEvent(teacher_pos, teacher, "huerta_plato", u"Nuevo plato de la huerta", "pos", "triggered", None, probability, effect, u"¡Ahora podemos comer\nun plato de la\nhuerta!", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         _events.append(event)
         
         probability = ("all", [("farm", "range", (1, 25), (10, 10))])
         effect = effects.Effect([("farm", -20)])
-        event = events.SocialEvent(teacher_neg, teacher, "huerta_erosion", u"Erosión en la huerta", "neg", "random", None, probability, effect, u"¡Uf! La lluvia dañó\nnuestra huerta.", "", 1, normal)
+        event = events.SocialEvent(teacher_neg, teacher, "huerta_erosion", u"Erosión en la huerta", "neg", "random", None, probability, effect, u"¡Uf! La lluvia dañó\nnuestra huerta.", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         event.add_restriction("weather", ["rainy"])
         _events.append(event)
         
         probability = ("all", [("farm", "range", (51, 75), (10, 10))])
         effect = effects.Effect([("farm", -5)])
-        event = events.SocialEvent(teacher_neg, teacher, "huerta_seca", u"La huerta se secó", "neg", "random", None, probability, effect, u"¡Uf! Los plantines se\nsecaron con el calor.", 1, 150)
+        event = events.SocialEvent(teacher_neg, teacher, "huerta_seca", u"La huerta se secó", "neg", "random", None, probability, effect, u"¡Uf! Los plantines se\nsecaron con el calor.", None, 1, 150)
         event.add_restriction("place", ["classroom", "schoolyard"])
         event.add_restriction("weather", ["hot"])
         _events.append(event)
         
         probability = ("all", [("farm", "range", (75, 100), (10, 10))])
         effect = effects.Effect([("farm", -5)])
-        event = events.SocialEvent(teacher_neg, teacher, "huerta_tormenta", u"Tormenta daña huerta", "neg", "random", None, probability, effect, u"¡Dios mio, una\ntormenta destrozó\nnuestra huerta!", "", 1, normal)
+        event = events.SocialEvent(teacher_neg, teacher, "huerta_tormenta", u"Tormenta daña huerta", "neg", "random", None, probability, effect, u"¡Dios mio, una\ntormenta destrozó\nnuestra huerta!", None, 1, normal)
         event.add_restriction("place", ["classroom", "schoolyard"])
         event.add_restriction("weather", ["rainy"])
         _events.append(event)
@@ -547,12 +549,12 @@ class AppLoader:
         """ A list of tuples containing all the events and the actions that can solve them, with a probability rate. """
         """ Alternatively insted of an action can configure a third option that is an effect, so every action with that effect higher than 0
             will trigger the rule """
-        events_actions_res = {("constipation", "doctor") : 60,
+        events_actions_res = {("constipation", "doctor") : 40,
                               ("constipation", None, "v_frutas") : 60,
                               ("constipation", None, "agua") : 40,
                               ("constipation", None, "sports") : 50,
                               
-                              ("diarrhea", "doctor") : 60,
+                              ("diarrhea", "doctor") : 50,
                               ("diarrhea", None, "agua") : 60,
                               
                               ("headache", "doctor") : 60,
@@ -682,6 +684,14 @@ class AppLoader:
             "amigo_deportes": ["tv", "playXO", "read"],
         }
         return events_forbidden_actions
+        
+    def __load_conditions(self):
+        list = []
+        list.append(condition.Condition("huerta_preparar", "all", [("farm", 0, 1)]))
+        list.append(condition.Condition("huerta_sembrar", "all", [("farm", 2, 25)]))
+        list.append(condition.Condition("huerta_mantener", "all", [("farm", 26, 75)]))
+        list.append(condition.Condition("huerta_cosechar", "all", [("farm", 75, 100)]))
+        return list
         
     def __load_moods(self):
         
