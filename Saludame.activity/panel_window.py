@@ -64,13 +64,14 @@ class PanelWindow(gui.Window):
         self.add_window(self.social_window)
         
         # Customization
-        customization_button = gui.ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
+        customization_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/customization.png", self._cb_button_click_customization)
         customization_button.set_tooltip(_("Customization module"))
         self.add_button(customization_button)
         
         # Info
-        self.info_button = gui.ImageButton(self.rect, pygame.Rect(953, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_info)
+        self.info_button = gui.ImageButton(self.rect, pygame.Rect(885, 0, 1, 1), 1, "assets/layout/info.png", self._cb_button_click_info)
         self.add_button(self.info_button)
+        self.info_button.visible = False
         self.info_button_blink_timeout = 0
         
         # Environment
@@ -148,6 +149,7 @@ class PanelWindow(gui.Window):
         self.info_button.set_super_tooltip(tooltip)
         self.info_button_blink_timeout = 6
         sound_manager.instance.play_forbidden_action()
+        self.info_button.visible = True
         
     def update(self, frames):
              
@@ -180,6 +182,7 @@ class PanelWindow(gui.Window):
         if self.info_button_event == event:
             self.info_button_event = None
             self.info_button.set_super_tooltip("")
+            self.info_button.visible = False
             
     # Buttons Callbacks
     def _cb_button_click_customization(self, button):

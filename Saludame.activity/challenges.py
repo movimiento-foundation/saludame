@@ -20,12 +20,15 @@ N_TF = 5
 
 FIN_MC = False # Toma el valor True cuando finaliza el juego de multiple choice
 
-TITLE_FONT_SIZE = 24
+QUESTION_FONT_SIZE = 24
 TEXT_FONT_SIZE = 20
 TEXT_TRUE_OR_FALSE_SIZE = 24
 
-ANSWER_COLOR = pygame.Color("blue")
-MOUSE_OVER_COLOR = pygame.Color("green")
+TITLE_COLOR = pygame.Color("#0f5e65")
+TEXT_COLOR = pygame.Color("#0f5e65")
+QUESTION_COLOR = pygame.Color("#0f5e65")
+ANSWER_COLOR = pygame.Color("#1c9db4")
+MOUSE_OVER_COLOR = pygame.Color("#0f5e65")
 
 class MultipleChoice(gui.Window):
     
@@ -58,7 +61,7 @@ class MultipleChoice(gui.Window):
         
         # Close Button
         self.btn_close = gui.TextButton(self.rect, pygame.Rect((910, 0), (30, 30)), 1, "X", 32, (0, 0, 0), self._cb_button_click_close)
-        self.add_button(self.btn_close)
+        #self.add_button(self.btn_close)
         
         self.wait = 0
         
@@ -71,7 +74,7 @@ class MultipleChoice(gui.Window):
             self.erase()
         
         question = self.prepare(question, 70)
-        self.question = gui.TextBlock(self.rect, 30, 90, 1, question, TITLE_FONT_SIZE, pygame.Color("#0f5e65"), "normal", False)
+        self.question = gui.TextBlock(self.rect, 30, 90, 1, question, QUESTION_FONT_SIZE, QUESTION_COLOR, "normal", False)
         self.add_child(self.question)
         
     def set_correct_answer(self, a):
@@ -187,7 +190,7 @@ class MultipleChoice(gui.Window):
         """
         self.choices = []
         self.clear_childs()
-        self.add_button(self.btn_close)
+        #self.add_button(self.btn_close)
         self.add_child(self.title)
         self.set_dirty_background()
         self.wait = 0
@@ -363,8 +366,8 @@ class InfoChallenge(gui.Window):
         self.add_button(self.btn_continue)
         
         # Texts
-        self.title = gui.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, pygame.Color("blue"))
-        self.text = gui.TextBlock(rect, 40, 120, 1, "", 35, pygame.Color("black"), "normal", False)
+        self.title = gui.Text(rect, 40, 40, 1, "Verdadero o Falso", 45, TITLE_COLOR)
+        self.text = gui.TextBlock(rect, 40, 120, 1, "", 35, TEXT_COLOR, "normal", False)
         self.image = gui.Image(rect, pygame.Rect(640, 240, 80, 80), 1, "assets/challenges/ninio_normal.png")
     
         self.add_child(self.title)

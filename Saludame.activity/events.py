@@ -5,11 +5,12 @@ MAX_BAR_VALUE = 100.0 #maximo valor que puede alcanzar una barra
 
 class Event:
     
-    def __init__(self, directory_path, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood):
+    def __init__(self, event_type, directory_path, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood):
         
         if not time_span:
             time_span = 999
         
+        self.event_type = event_type
         self.directory_path = directory_path
         self.name = name
         self.description = description
@@ -19,6 +20,7 @@ class Event:
         
         self.trigger = trigger          # "random" - it's selected at random by it's probability,
                                         # "triggered" - it should appear only when it's triggered as a consequence of an action and it's probability is higher than zero
+                                        # "environment" - it's triggered every time there's a change in {place, time, weather}
         self.time_span = time_span
         self.time_left = time_span
 
@@ -26,7 +28,7 @@ class Event:
         
         self.operator = conditioned_bars[0]
         self.condicioned_bars = conditioned_bars[1]
-        self.condicioned_probability = 0.0 # starts in 0.0
+        self.probability = 0.0 # starts in 0.0
         self.level = level      # Starting level, in levels prior to this one, the event is not triggered
 
         self.library_link = library_link
@@ -45,7 +47,7 @@ class Event:
         Updates event probability
         """
         
-        self.condicioned_probability = 0.0
+        self.probability = 0.0
         
         if not self.check_restrictions(restrictions):
             return 0.0
@@ -88,14 +90,14 @@ class Event:
                 probs.append(prob)
         
         if probs:
-            self.condicioned_probability = sum(probs) / len(probs)
+            self.probability = sum(probs) / len(probs)
         
-        return self.condicioned_probability
+        return self.probability
     
     def get_probability(self):
         #eventually we just take the conditioned
         #probability
-        return int(self.condicioned_probability)
+        return int(self.probability)
         
         
     def perform(self):
@@ -120,7 +122,7 @@ class Event:
         
 class PersonalEvent(Event):
     def __init__(self, picture, kid_animation_path, name, description, impact, trigger, time_span, conditioned_bars, effect, kid_message, library_link, level=1, preferred_mood=9):
-        Event.__init__(self, picture, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
+        Event.__init__(self, "personal", picture, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
         
         self.kid_animation_path = kid_animation_path
     
@@ -132,7 +134,7 @@ class PersonalEvent(Event):
 class SocialEvent(Event):
     
     def __init__(self, picture, person_path, name, description, impact, trigger, time_span, conditioned_bars, effect, message, library_link, level=1, preferred_mood=9):
-        Event.__init__(self, picture, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
+        Event.__init__(self, "social", picture, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood)
         
         self.time_left = time_span
         

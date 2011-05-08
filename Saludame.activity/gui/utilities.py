@@ -234,7 +234,7 @@ class TextBlock(Widget):
             (b, _, a) = a.partition(eol)
             self.lines.append(b)
 
-    def prepare_text_block(self):
+    def render_lines(self):
         self.rendered_lines = []
         for l in self.lines:          
             r = self.font.render(l, False, self.color)
@@ -242,6 +242,9 @@ class TextBlock(Widget):
                 self.rect_absolute.width = r.get_rect().width
             self.rect_absolute.height += r.get_rect().height 
             self.rendered_lines.append(r)
+            
+    def prepare_text_block(self):
+        self.render_lines()
             
         if self.type == "tooltip":
             self.rect_absolute.height += 20
@@ -292,6 +295,7 @@ class TextBlock(Widget):
                 
     def switch_color_text(self, color):
         self.color = color
+        self.render_lines()
         self.set_dirty()
 
 font_dict = {}  # Chaches created font instances

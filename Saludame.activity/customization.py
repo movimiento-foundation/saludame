@@ -49,6 +49,9 @@ class CustomizationWindow(gui.Window):
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
+        title = gui.Text(self.rect, 590, 60, 1, _("Creá tu personaje"), 32, pygame.Color("#0f5e65"), alignment=gui.Text.ALIGN_CENTER, bold=True)
+        self.add_child(title)
+        
         btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
         button_back = pygame.image.load("customization/customization_button.png").convert()

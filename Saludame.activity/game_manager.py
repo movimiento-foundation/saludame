@@ -174,8 +174,7 @@ class GameManager:
    
     def update_environment(self):
         """
-        Sets the character environment and send a message to the
-        windows_controller
+        Sets the character environment and send a message to the windows_controller
         """
         environment_id = (self.character.current_place, self.current_weather[0])
         self.environment = self.environments_dictionary[environment_id]
@@ -184,6 +183,8 @@ class GameManager:
         
         if self.started:
             self.windows_controller.set_environment(self.environment, self.current_time)
+        
+        self.check_environment_events()
     
     def update_environment_effect(self):
         """
@@ -569,13 +570,34 @@ class GameManager:
 
     def check_consequence_event(self, event):
         """ Check if an event can be added """
-        if event in self.personal_events_list:
+        if event.event_type == "personal":
             if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
                 self.add_personal_event(event)
         else:
             if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
                 self.add_social_event(event)
+    
+    def check_environment_events(self):
+        """ Checks if any event should be triggered by an environment change """
+        print "checking environment"
         
+        events_list = self.events_dict.values()
+        events_list = [event for event in events_list if event.trigger == "environment"]     # Subset of events which are triggered randomly
+
+        allowed_events = [evt for evt in events_list if evt.level <= self.character.level]      # verify wich events are allowed in the current level.
+
+        self.__update_events_probability(allowed_events) # it updates the probabilities of the list's events
+        allowed_events = [evt for evt in events_list if evt.get_probability() > 0]
+
+        if len(allowed_events) > 0:
+            event = random.choice(allowed_events)
+            if event.event_type == "personal":
+                if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
+                    self.add_personal_event(event)
+            else:
+                if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
+                    self.add_social_event(event)
+    
     def remove_social_event(self, event):
         """ removes an active social event """
         self.windows_controller.remove_social_event(event)
@@ -620,8 +642,9 @@ class GameManager:
         """
         events_list = [event for event in events_list if event.trigger == "random"]     # Subset of events which are triggered randomly
         
-        self.__update_events_probability(events_list) # it updates the probabilities of the list's events
         allowed_events = [evt for evt in events_list if evt.level <= self.character.level]#verify wich events are allowed in the current level.
+        self.__update_events_probability(allowed_events) # it updates the probabilities of the list's events
+        
         if len(allowed_events) > 0:
             probability_ranges = self.__calculate_ranges(allowed_events) # calculate the ranges for these events
             max_rand = probability_ranges[-1][1]    # Second member of last event

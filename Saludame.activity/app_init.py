@@ -391,7 +391,7 @@ class AppLoader:
         
         probability = ("all", [("overall_bar", "range", (0, 100), (300, 300))])
         effect = effects.Effect([("responsability", -15)])
-        event = events.SocialEvent(father_neg, father, "volver_a_casa", u"Volver a casa", "neg", "random", m(2), probability, effect, u"Es tarde,\ndebes volver a casa", None, 1, normal)
+        event = events.SocialEvent(father_neg, father, "volver_a_casa", u"Volver a casa", "neg", "environment", m(2), probability, effect, u"Es tarde,\ndebes volver a casa", None, 1, normal)
         event.add_restriction("place", ["schoolyard", "classroom", "square"])
         event.add_restriction("time", ["night"])
         _events.append(event)
