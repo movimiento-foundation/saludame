@@ -1,10 +1,27 @@
 # -*- coding: utf-8 -*-
 
-# This module offers a menu.
-# Items are displayed in a circle with an exit button as a center.
-# The diameter of the circle will vary with the quantity of items
-# Items will be a concatenation of an icon and a name
-# When mouse over an item a description will be shown
+# Copyright (C) 2011 ceibalJAM! - ceibaljam.org
+# This file is part of Saludame.
+#
+# Saludame is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Saludame is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Saludame. If not, see <http://www.gnu.org/licenses/>.
+
+"""
+This module offers a menu.
+Items are displayed in a circle with an exit button as a center.
+The diameter of the circle will vary with the quantity of items
+When mouse over an item a description will be shown
+"""
 
 import pygame
 import os

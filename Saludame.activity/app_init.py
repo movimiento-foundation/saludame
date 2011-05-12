@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright (C) 2011 ceibalJAM! - ceibaljam.org
+# This file is part of Saludame.
+#
+# Saludame is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Saludame is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Saludame. If not, see <http://www.gnu.org/licenses/>.
+
 import menu_creator
 import status_bars_creator
 import actions_creator
@@ -614,25 +630,24 @@ class AppLoader:
                               
                               ("falta_verduras", None, "v_frutas"): 80,
                               
-                              ("huerta_preparar", "farm_plow"): 85,
-                              ("huerta_sembrar", "farm_sow"): 85,
+                              ("huerta_preparar", "farm_plow"): 100,
+                              ("huerta_sembrar", "farm_sow"): 100,
                               ("huerta_mantener", "farm_irrigate"): 50,
                               ("huerta_mantener", "farm_clean"): 50,
                               ("huerta_mantener", "farm_fumigate"): 50,
                               ("huerta_cosechar", "farm_harvest"): 100,
-                              ("huerta_plato", "farm_harvest"): 100,
                               
-                              ("huerta_plato", "pasta_primavera"): 100,
-                              ("huerta_plato", "pastel_lentajas"): 100,
-                              ("huerta_plato", "tarta_zapallitos"): 100,
-                              ("huerta_plato", "tarta_puerros"): 100,
-                              ("huerta_plato", "polenta_acelga"): 100,
-                              ("huerta_plato", "budin_chauchas"): 100,
-                              ("huerta_plato", "guiso_berenjenas"): 100,
-                              ("huerta_plato", "ensalada_lechuga"): 100,
-                              ("huerta_plato", "ensalada_remolacha"): 100,
-                              ("huerta_plato", "ensalada_holanesa"): 100,
-                              ("huerta_plato", "ensalada_pepinos"): 100,
+                              ("huerta_plato", "pasta_primavera"): 40,
+                              ("huerta_plato", "pastel_lentajas"): 40,
+                              ("huerta_plato", "tarta_zapallitos"): 40,
+                              ("huerta_plato", "tarta_puerros"): 40,
+                              ("huerta_plato", "polenta_acelga"): 40,
+                              ("huerta_plato", "budin_chauchas"): 40,
+                              ("huerta_plato", "guiso_berenjenas"): 40,
+                              ("huerta_plato", "ensalada_lechuga"): 40,
+                              ("huerta_plato", "ensalada_remolacha"): 40,
+                              ("huerta_plato", "ensalada_holanesa"): 40,
+                              ("huerta_plato", "ensalada_pepinos"): 40,
                               
                               ("huerta_erosion", "farm_plow"): 85,
                               ("huerta_seca", "farm_irrigate"): 85,

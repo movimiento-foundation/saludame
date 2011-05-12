@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright (C) 2011 ceibalJAM! - ceibaljam.org
+# This file is part of Saludame.
+#
+# Saludame is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Saludame is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Saludame. If not, see <http://www.gnu.org/licenses/>.
+
 # Utilitarios: Text, Button (abstract), ImageButton, TextButton
 
 import pygame
@@ -253,7 +269,6 @@ class TextBlock(Widget):
         if self.anchor_type == "center":
             # Center the rectangle in the given coordinates
             self.rect_absolute.center = self.rect_absolute.topleft
-            print "center:" + str(self.rect_absolute.center)
             
         # Make it fit in the container
         if self.rect_absolute.right > self.container.right:

@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright (C) 2011 ceibalJAM! - ceibaljam.org
+# This file is part of Saludame.
+#
+# Saludame is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Saludame is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Saludame. If not, see <http://www.gnu.org/licenses/>.
+
 import effects
 import actions
 import os
@@ -181,27 +197,27 @@ actions_list = [
     
     # Farm
     ("pasta_primavera", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",40), ("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/03-Cereales y leguminosas/06-Pasta primavera.html"),
+        effects.Effect([("c_leguminosas",40), ("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/03-Cereales y leguminosas/06-Pasta primavera.html"),
     ("pastel_lentajas", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",40), ("v_frutas",60), ("g_aceites",50), ("energy",15), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/03-Cereales y leguminosas/08-Pastel de lentejas y espinaca.html"),
+        effects.Effect([("c_leguminosas",40), ("v_frutas",60), ("g_aceites",50), ("energy",15), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/03-Cereales y leguminosas/08-Pastel de lentejas y espinaca.html"),
     ("tarta_zapallitos", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",20), ("v_frutas",30), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/04-Verduras/03-Tarta de zapallitos.html"),
+        effects.Effect([("c_leguminosas",20), ("v_frutas",30), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/04-Verduras/03-Tarta de zapallitos.html"),
     ("tarta_puerros", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",20), ("v_frutas",30), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/04-Verduras/05-Tarta de puerros.html"),
+        effects.Effect([("c_leguminosas",20), ("v_frutas",30), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/04-Verduras/05-Tarta de puerros.html"),
     ("polenta_acelga", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",40), ("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/03-Cereales y leguminosas/09-Polenta con acelga.html"),
+        effects.Effect([("c_leguminosas",40), ("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/03-Cereales y leguminosas/09-Polenta con acelga.html"),
     ("budin_chauchas", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",40), ("v_frutas",30), ("dulces",12.5), ("g_aceites",50), ("l_quesos",25), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/04-Verduras/08-Budín de chauchas.html"),
+        effects.Effect([("c_leguminosas",40), ("v_frutas",30), ("dulces",12.5), ("g_aceites",50), ("l_quesos",25), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/04-Verduras/08-Budín de chauchas.html"),
     ("guiso_berenjenas", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("c_leguminosas",40), ("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("agua",12.5), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/04-Verduras/10-Guiso de berenjenas.html"),
+        effects.Effect([("c_leguminosas",40), ("v_frutas",40), ("c_huevos",50), ("g_aceites",50), ("agua",12.5), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/04-Verduras/10-Guiso de berenjenas.html"),
     ("ensalada_lechuga", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/05-Ensaladas/02-De lechuga y zanahoria.html"),
+        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/05-Ensaladas/02-De lechuga y zanahoria.html"),
     ("ensalada_remolacha", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/05-Ensaladas/08-De remolacha y huevo duro.html"),
+        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/05-Ensaladas/08-De remolacha y huevo duro.html"),
     ("ensalada_holanesa", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/05-Ensaladas/10-Holandesa.html"),
+        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/05-Ensaladas/10-Holandesa.html"),
     ("ensalada_pepinos", 0.3, 70, 0, CHEW_PATH, 3, 1, ORCHARD_PATH, 4, BLIP_PATH,
-        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, None, None, 1, u"70-Recetas/05-Ensaladas/11-De tomates y pepinos.html"),
+        effects.Effect([("v_frutas",40), ("g_aceites",50), ("energy",20), ("defenses",5), ("b_teeth",-30), ("toilet",-30)], CONS_FOOD), None, None, ["huerta_plato"], None, 1, u"70-Recetas/05-Ensaladas/11-De tomates y pepinos.html"),
 
     # Fruit
     ("manzana", 0.3, 70, 0, CHEW_PATH, 3, 1, FRUIT_PATH, 4, BLIP_PATH,

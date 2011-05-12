@@ -1,6 +1,23 @@
 # -*- coding: utf-8 -*-
 
+# Copyright (C) 2011 ceibalJAM! - ceibaljam.org
+# This file is part of Saludame.
+#
+# Saludame is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Saludame is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Saludame. If not, see <http://www.gnu.org/licenses/>.
+
 import pygame
+import logging
 from window import Window
 from utilities import Text, TextBlock
 
@@ -83,11 +100,11 @@ class WindowsController:
             pass
         
     def show_window_hierarchy(self, window):
-        print window.get_register_id()
+        logging.debug( window.get_register_id() )
         W = []
         for win in window.windows:
             W.append(win.register_id)
-        print(" (%s)" % (W))
+        logging.debug(" (%s)" % W)
     
     
     # Events handlers
@@ -170,6 +187,7 @@ class ScaledGame:
         if self.scale_factor == (1, 1):
             self.internal_screen = self.screen
         else:
+            logging.debug("Scaling to: %sx%s" % pygame_screen_size)
             self.internal_screen = pygame.Surface(internal_size)
         
         
@@ -183,14 +201,16 @@ class ScaledGame:
         if self.scale_factor == (1, 1):
             pygame.display.flip()
         else:
-            pygame.transform.scale(self.internal_screen, self.screen.get_size(), self.screen)
+            #pygame.transform.scale(self.internal_screen, self.screen.get_size(), self.screen)
+            pygame.transform.smoothscale(self.internal_screen, self.screen.get_size(), self.screen)
             pygame.display.flip()
         
     def update_screen(self, rect_list):
         if self.scale_factor == (1, 1):
             pygame.display.update(rect_list)
         else:
-            pygame.transform.scale(self.internal_screen, self.screen.get_size(), self.screen)
+            #pygame.transform.scale(self.internal_screen, self.screen.get_size(), self.screen)
+            pygame.transform.smoothscale(self.internal_screen, self.screen.get_size(), self.screen)
             pygame.display.update(self.scale_rect_list(rect_list))
     
     def scale_rect_list(self, rect_list):
@@ -212,5 +232,5 @@ class ScaledGame:
             return display_coordinates
         else:
             x = int(display_coordinates[0] / self.scale_factor[0])
-            y = int(display_coordinates[1] / self.scale_factor[0])
+            y = int(display_coordinates[1] / self.scale_factor[1])
             return x, y
