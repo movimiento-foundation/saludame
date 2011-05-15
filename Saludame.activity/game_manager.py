@@ -99,7 +99,7 @@ class GameManager:
         self.weathers = weathers
         
         #for events handling:
-        self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
+        self.events_interval = self.get_level_conf_value("time_between_events")
         
         #environment
         self.environments_dictionary = environments_dictionary
@@ -162,7 +162,7 @@ class GameManager:
                 self.count = 0
 
     def __control_score(self):
-        score_vector_per_minute = self.get_current_level_conf()["score_vector"]
+        score_vector_per_minute = self.get_level_conf_value("score_vector")
         score_vector_per_cicle = [float(value)*2/60 for value in score_vector_per_minute]
         self.bars_controller.calculate_score(score_vector_per_cicle)
         
@@ -173,6 +173,9 @@ class GameManager:
         assert self.character.level > 0
         return self.level_conf[self.character.level - 1]
 
+    def get_level_conf_value(self, key):
+        return self.level_conf[self.character.level - 1][key]
+    
     def __check_idle_time(self):
         """ checks if the kid is idle for so much time (more than MAX_IDLE_TIME). If he is, then
         plays an attention action.
@@ -234,7 +237,6 @@ class GameManager:
             self.hour = 0 #night
         
         self.current_time = self.day_dic[self.hour]
-        print "cambio el momento del día a: ", self.current_time
                 
         if self.hour == 1:
             # Changes the weather and updates the envirnoment
@@ -307,7 +309,6 @@ class GameManager:
         """
         Set the character location.
         """                    
-        print "character went to: ", place_id
         self.character.current_place = place_id
         
         self.update_environment()
@@ -318,7 +319,6 @@ class GameManager:
         Set the character clothes.
         """
         self.character.set_clothes(clothes_id)
-        print "character's clothes: ", clothes_id
         
         self.update_environment_effect()
         self.windows_controller.update_clothes()
@@ -536,7 +536,7 @@ class GameManager:
             self.active_mood = mood
             self.windows_controller.set_mood(mood)
             self.character.mood = mood
-            print "cambio estado de animo a: ", self.active_mood.name
+            print "Mood changed to: ", self.active_mood.name
             sound_manager.instance.set_music(mood.music)
 
 ## Events handling
@@ -550,7 +550,7 @@ class GameManager:
         if not (event in self.active_events):
             self.windows_controller.add_personal_event(event)   # notify windows controller
             self.active_events.append(event)
-            print "se disparó el evento: ", event.name
+            print "Personal event: ", event.name
     
     def add_random_social_event(self):
         event = self.__get_random_event(self.social_events_list)
@@ -561,7 +561,7 @@ class GameManager:
         if not (event in self.active_social_events):
             self.active_social_events.append(event)
             self.windows_controller.add_social_event(event)
-            print "se disparó el evento: ", event.name
+            print "Social event: ", event.name
 
     def __control_active_events(self):
         """
@@ -573,30 +573,29 @@ class GameManager:
         if self.events_interval == 0 and not self.menu_active and not self.active_char_action:
             if random.randint(0, 1):
                 # add personal
-                if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
+                if len(self.active_events) < self.get_level_conf_value("events_qty_personal"):
                     self.add_random_personal_event()
             else:
                 # add social
-                if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
+                if len(self.active_social_events) < self.get_level_conf_value("events_qty_social"):
                     self.add_random_social_event()
             
-            self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
+            self.events_interval = self.get_level_conf_value("time_between_events")
         elif self.events_interval > 0:
             self.events_interval -= 1
 
     def check_consequence_event(self, event):
         """ Check if an event can be added """
         if event.event_type == "personal":
-            if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
+            if len(self.active_events) < self.get_level_conf_value("events_qty_personal"):
                 self.add_personal_event(event)
         else:
-            if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
+            if len(self.active_social_events) < self.get_level_conf_value("events_qty_social"):
                 self.add_social_event(event)
     
     def check_environment_events(self):
         """ Checks if any event should be triggered by an environment change """
-        print "checking environment"
-        
+
         events_list = self.events_dict.values()
         events_list = [event for event in events_list if event.trigger == "environment"]     # Subset of events which are triggered randomly
 
@@ -608,10 +607,10 @@ class GameManager:
         if len(allowed_events) > 0:
             event = random.choice(allowed_events)
             if event.event_type == "personal":
-                if len(self.active_events) < self.level_conf[self.character.level - 1]["events_qty_personal"]:
+                if len(self.active_events) < self.get_level_conf_value("events_qty_personal"):
                     self.add_personal_event(event)
             else:
-                if len(self.active_social_events) < self.level_conf[self.character.level - 1]["events_qty_social"]:
+                if len(self.active_social_events) < self.get_level_conf_value("events_qty_social"):
                     self.add_social_event(event)
     
     def remove_social_event(self, event):
@@ -748,10 +747,6 @@ class GameManager:
             # sets master challenge
             self._master_challenge()
             self.next_level()
-            
-        if score_bar.value == 0:
-            # falls back to previous level
-            self.previous_level()
     
 # Score handling
     def add_points(self, points):
@@ -774,13 +769,14 @@ class GameManager:
             self.windows_controller.remove_social_event(social_event)
             
         self.game_over = False
+
+        # character
+        self.character.reset(gender)
         
         self.active_events = []
         self.active_social_events = []
-        self.events_interval = self.level_conf[self.character.level - 1]["time_between_events"]
+        self.events_interval = self.get_level_conf_value("time_between_events")
         
-        # character
-        self.character.reset(gender)
         # bars
         self.bars_controller.reset()
         
@@ -831,7 +827,7 @@ class GameManager:
         
         self.game_over = False
         
-        print "Se cargo la partida con exito. Version ", game_status["version"]
+        print "Game loaded. Version ", game_status["version"]
     
 
     def get_level(self):
@@ -859,7 +855,6 @@ class GameManager:
         """
         return self.current_time
 
-
 # Challenges
     def get_lowest_bar(self):
         return self.bars_controller.get_lowest_bar()
@@ -876,13 +871,13 @@ class GameManager:
     def _mc_challenges(self):
         self.challenges_creator.get_challenge("mc")
         self.windows_controller.set_active_window("mc_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" %(self.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta. \n\n¡Suerte!" %(self.get_lowest_bar().label))
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" % (self.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta.\n\n¡Suerte!" % (self.get_lowest_bar().label))
         self.windows_controller.set_active_window("info_challenge_window")
         
     def _tf_challenges(self):
         self.challenges_creator.get_challenge("tf")
         self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Falso: %s" %(self.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso. \n\n¡Suerte!" %(self.get_lowest_bar().label))
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Falso: %s" %(self.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso.\n\n¡Suerte!" % (self.get_lowest_bar().label))
         self.windows_controller.set_active_window("info_challenge_window")
         
     def _master_challenge(self):
@@ -892,7 +887,9 @@ class GameManager:
         # reach the master challenge again.
         self.challenges_creator.get_challenge("master")
         self.windows_controller.set_active_window("tf_challenge_window")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrecto a 3 de las 5 preguntas\nque siguen\n\n¡Suerte!")
+        
+        min_correct = self.get_level_conf_value("min_qty_correct_ans")
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrectamente a %s de las 5 preguntas\nque siguen\n\n¡Suerte!" % min_correct)
         self.windows_controller.set_active_window("info_challenge_window")
 
 # Game Over

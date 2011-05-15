@@ -205,11 +205,13 @@ class ContentWindow(gtk.HBox):
             self.web_view.load_uri(self.last_uri)
 
     def _location_changed_cb(self, progress_listener, uri):
-        path = utilities.unquote(uri.path.encode("utf-8"))
-        uri = u"file://" + path
-        if self.last_uri <> uri:
-            self.last_uri = uri
-            self.position_in_filename(path)
+        if uri:
+            path = utilities.unquote(uri.path.encode("utf-8"))
+            uri = u"file://" + path
+            if self.last_uri <> uri:
+                self.last_uri = uri
+                onlypath = path.split("#")[0]
+                self.position_in_filename(onlypath)
         
     def position_in_filename(self, filepath):
         if filepath in self.path_iter:

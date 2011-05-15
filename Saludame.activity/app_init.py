@@ -29,7 +29,7 @@ import condition
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
-                             "score_vector" : (-8, -4, 3, 5, 10),
+                             "score_vector" : (-8, -4, 5, 10, 15),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"Tienes nuevas acciones, ¿te animas a encontrarlas?",
@@ -41,7 +41,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 175
                              },
                              {# LEVEL 2
-                             "score_vector" : (-8, -4, 2, 5, 10),
+                             "score_vector" : (-8, -4, 4, 8, 12),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"¡Vas muy bien! Ahora podrás tener clima lluvioso.\nCuando llueva recuerda ponerte bajo techo.",
@@ -53,7 +53,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 160
                              },
                              {# LEVEL 3
-                             "score_vector" : (-8, -4, 0, 5, 10),
+                             "score_vector" : (-8, -4, 2, 5, 10),
                              "true_or_false_vector" : (-10, -5, 5, 10, 15, 20),
                              "multiple_choice_vector" : (12, 7, -5),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
@@ -65,7 +65,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 145
                              },
                              {# LEVEL 4
-                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "score_vector" : (-10, -5, 0, 4, 8),
                              "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
                              "multiple_choice_vector" : (10, 5, -7),
                              "master_challenge_text" : u"¡Vas muy bien! ¿Has visitado la plaza?",
@@ -77,7 +77,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 130
                              },
                              {# LEVEL 5
-                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "score_vector" : (-10, -5, 0, 4, 8),
                              "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
                              "multiple_choice_vector" : (10, 5, -7),
                              "master_challenge_text" : u"¡Muy bien! A partir de este nivel te puede tocar\nclima frio, ten cuidado porque pierdes energía más rápido.",
@@ -89,7 +89,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 115
                              },
                              {# LEVEL 6
-                             "score_vector" : (-10, -6, 0 , 3, 7),
+                             "score_vector" : (-10, -5, 0, 4, 8),
                              "true_or_false_vector" : (-12, -7, 3, 9, 13, 18),
                              "multiple_choice_vector" : (10, 5, -7),
                              "master_challenge_text" : u"¡Vas muy bien, continúa!",
@@ -101,7 +101,7 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 100
                              },
                              {# LEVEL 7
-                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "score_vector" : (-10, -5, 0, 3, 6),
                              "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
                              "multiple_choice_vector" : (8, 3, -9),
                              "master_challenge_text" : u"Estás muy cerca de ganar el campeonato.",
@@ -113,10 +113,10 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 85
                              },
                              {# LEVEL 8
-                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "score_vector" : (-10, -5, 0, 3, 6),
                              "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
                              "multiple_choice_vector" : (8, 3, -9),
-                             "master_challenge_text" : u"Llegaste al último nivel, si continúas saludable ganarás el campeonato.",
+                             "master_challenge_text" : u"Llegaste al último nivel,\nsi continúas saludable ganarás el campeonato.",
                              "min_qty_correct_ans" : 5,
                              "slide" : None,
                              "events_qty" : 4,
@@ -125,17 +125,17 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 70
                              },
                              {# LEVEL 9
-                             "score_vector" : (-12, -8, 0 , 2, 5),
+                             "score_vector" : (-10, -5, 0, 2, 5),
                              "true_or_false_vector" : (-15, -10, 1, 6, 10, 15),
                              "multiple_choice_vector" : (8, 3, -9),
-                             "master_challenge_text" : u"¡Vas muy bien, continúa!",
+                             "master_challenge_text" : None,
                              "min_qty_correct_ans" : 5,
                              "slide" : "assets/slides/win.jpg",
                              "events_qty" : 4,
                              "events_qty_personal" : 3,
                              "events_qty_social" : 3,
                              "time_between_events" : 55
-                             }]                              
+                             }]
 
 class AppLoader:
 
@@ -754,11 +754,11 @@ class AppLoader:
                    # regular clothes
                    ("regular", "hot", True) : [("defenses", -10.0/60), ("energy", -5.0/60), ("water", -10.0/60)],
                    ("regular", "hot", False) : [],
-                   ("regular", "rainy", True) : [("defenses", -10.0/60), ("energy", -10.0/60)],
+                   ("regular", "rainy", True) : [("defenses", -15.0/60), ("energy", -15.0/60)],
                    ("regular", "rainy", False) : [],
                    ("regular", "warm", True) : [],
                    ("regular", "warm", False) : [],
-                   ("regular", "cold", True) : [("defenses", -10.0/60), ("energy", -15.0/60)],
+                   ("regular", "cold", True) : [("defenses", -15.0/60), ("energy", -15.0/60)],
                    ("regular", "cold", False) : [],
         }
         return weather_effects

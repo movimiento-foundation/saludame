@@ -344,7 +344,8 @@ class TrueOrFalse(MultipleChoice):
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel.\nRecuerda que puedes estudiar en la biblioteca.", "assets/challenges/boy_sad.png")
                 self.windows_controller.set_active_window("info_challenge_window")
-                
+                game_manager.instance.previous_level()
+                game_manager.instance.add_points(-9)
             else:                
                 if not game_manager.instance.get_current_level_conf()["master_challenge_text"]:
                     if game_manager.instance.get_current_level_conf()["slide"]:
@@ -394,6 +395,7 @@ class InfoChallenge(gui.Window):
         self.title.text = title
         self.title.refresh()
         self.text.parse_lines(text)
+        self.text.prepare_text_block()
         
         self.remove_child(self.image)
         self.image = gui.Image(self.rect, pygame.Rect(640, 240, 80, 80), 1, image)

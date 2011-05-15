@@ -95,19 +95,18 @@ items = [
             (u"Agua", "agua", None, None),
             (u"Jugo natural", "jugo_natural", None, None),
             (u"Leche", "leche", None, None),
-            (u"Licuado con leche", "licuado", None, None),
+            (u"Mate", "mate", None, None),
             (u"Refresco", "refresco", None, None),
             
             # Desayuno
-            ("Leche con cocoa", "leche_chocolatada", None, None, [], MA),
-            ("Yogur", "yogur", None, None, [], MA),
-            ("Mate", "mate", None, None, [], MA),
-            ("Café", "cafe", None, None, [], MA),
+            (u"Leche con cocoa", "leche_chocolatada", None, None, [], MA),
+            (u"Yogur", "yogur", None, None, [], MA),
+            (u"Café", "cafe", None, None, [], MA),
             
             # Cena
-            ("Agua con gas", "agua_c_gas", None, None, [], NN),
-            ("Jugo de compota", "jugo_compota", None, None, [], NN),
-            ("Jugo artificial", "jugo_artificial", None, None, [], NN),
+            (u"Agua con gas", "agua_c_gas", None, None, [], NN),
+            (u"Jugo de compota", "jugo_compota", None, None, [], NN),
+            (u"Jugo artificial", "jugo_artificial", None, None, [], NN),
         ]),
         
         (u"Golosinas y Snacks...", None, None, [
@@ -161,26 +160,26 @@ items = [
         (u"Morisquetas", "crazy", None, None),
         (u"Bailar", "dance", None, None, ["bedroom", "livingroom", "school", "square"]),
         (u"Cantar", "sing", None, None, ["bedroom", "livingroom", "school", "square"]),
+        (u"Hablar con un amigo", "talk", None, None),
     ]),
     
     (u"Hacer...", None, None, [
-        (u"Hablar con un amigo", "talk", None, None),
         (u"Hacer deberes", "homework", None, None),
         (u"Limpiar el cuarto", "clean", None, None, ["bedroom"]),
         (u"Tareas domésticas", "housekeeping", None, None, CC),
         (u"Ayudar en el campo", "help_field", None, None, CC),
         (u"Estudiar en la XO", "study_xo", None, None),
         (u"Cocinar", "help_cook", None, None, CC),
-        (u"Descanzar", "relax", None, None, CC + ["square"]),
+        (u"Descansar", "relax", None, None, CC + ["square"]),
         (u"Cambiar de ropa...", None, None, [
             (u"Escuela", "change_school_clothes", None, None),
             (u"Normal", "change_regular_clothes", None, None),
         ]),
         (u"Deporte...", None, None, [
-            (u"Correr", "sport_run", None, None, EP),
-            (u"Saltar la cuerda", "sport_jump", None, None, EP),
-            (u"Jugar al futbol", "sport_football", None, None, EP),
-        ]),
+            (u"Correr", "sport_run", None, None),
+            (u"Saltar la cuerda", "sport_jump", None, None),
+            (u"Jugar al futbol", "sport_football", None, None),
+        ], EP),
         (u"Ir a dormir", "sleep", None, None, ["bedroom"]),
     ]),
     

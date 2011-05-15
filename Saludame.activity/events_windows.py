@@ -49,8 +49,8 @@ class PersonalWindow(gui.Window):
     def add_personal_event(self, event):
         
         if not event in self.active_personal_events:
-                       
-            event_info = "%s \n" % (event.description)            
+            
+            event_info = "%s\n%s:\n" % (event.description, _("Affects"))
             if event.effect:
                 for eff in event.effect.effect_status_list:
                     bar_label = event.effect.bars_controller.get_bar_label(eff[0])
@@ -163,7 +163,7 @@ class SocialWindow(gui.Window):
         
         if not event in self.active_social_events:
                        
-            event_info = "%s \n" % (event.description)            
+            event_info = "%s\n%s:\n" % (event.description, _("Affects"))
             if event.effect:
                 for eff in event.effect.effect_status_list:
                     bar_label = event.effect.bars_controller.get_bar_label(eff[0])

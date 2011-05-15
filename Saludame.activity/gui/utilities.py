@@ -231,6 +231,7 @@ class TextBlock(Widget):
         self.size = size
         
         self.fill = fill
+        self.anchor = (container[0] + x, container[1] + y)
         self.anchor_type = anchor_type
         
         if type == "tooltip":
@@ -251,6 +252,8 @@ class TextBlock(Widget):
             self.lines.append(b)
 
     def render_lines(self):
+        self.rect_absolute.width = 0
+        self.rect_absolute.height = 0
         self.rendered_lines = []
         for l in self.lines:          
             r = self.font.render(l, False, self.color)
@@ -268,7 +271,8 @@ class TextBlock(Widget):
         
         if self.anchor_type == "center":
             # Center the rectangle in the given coordinates
-            self.rect_absolute.center = self.rect_absolute.topleft
+            #self.rect_absolute.center = self.rect_absolute.topleft
+            self.rect_absolute.center = self.anchor
             
         # Make it fit in the container
         if self.rect_absolute.right > self.container.right:
