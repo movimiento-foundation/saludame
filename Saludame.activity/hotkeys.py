@@ -121,9 +121,10 @@ class HotKeyHandler:
         """verifies if the player is pressing
         hotkeys
         """
-        try:
+        t = (self.buff[0], self.buff[1], self.buff[2])
+        f = hotkeys.get(t, None)
+        if f:
             print "HOTKEY:"
-            hotkeys[(self.buff[0], self.buff[1], self.buff[2])]()
-        except:
+            f()
+        else:
             print u"COMBINACIÓN DE TECLAS NO ENCONTRADA"
-

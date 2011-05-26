@@ -79,11 +79,13 @@ class SoundManager:
         if self.next_music_name:
             self.current_music_name = self.next_music_name
             self.next_music_name = None
-            
+        
         path = music[self.current_music_name]
         pygame.mixer.music.load(path)
         pygame.mixer.music.set_volume(self.volume)
         pygame.mixer.music.play()
+        
+        self.state = SoundManager.PLAYING
 
     # Sounds
     def play_time_change(self):
@@ -94,4 +96,7 @@ class SoundManager:
         
     def play_forbidden_action(self):
         pygame.mixer.Sound("assets/sound/alert.ogg").play(2)
+    
+    def play_popup(self):
+        pygame.mixer.Sound("assets/sound/popup.ogg").play()
         

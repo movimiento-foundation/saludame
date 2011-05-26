@@ -89,10 +89,10 @@ class Main():
         self.game_over_callback = callback
         
     def main(self, from_sugar):
-        self.init(from_sugar)
         if self.started:
             self.game_man.reset_game(self.gender)
         else:
+            self.init(from_sugar)
             self.create_game(from_sugar, self.gender, self.name)
             self.run(from_sugar)
         

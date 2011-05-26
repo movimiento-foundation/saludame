@@ -294,24 +294,25 @@ class Translator(object):
                 raise e
 
     def _set_display_mode(self, resolution=(0,0), flags=0, depth=0):
-      """ Hook version of pygame.event.set_mode
+        """ Hook version of pygame.event.set_mode
       
-	  It calls the real pygame function and then takes the new resolution
-	  and centers the inner event box in the main window.
-      """
-      self.real_pygame_set_mode(resolution, flags, depth)
+        It calls the real pygame function and then takes the new resolution
+        and centers the inner event box in the main window.
+        """
+        self.real_pygame_set_mode(resolution, flags, depth)
       
-      width, height = resolution
-      window_rect = self._mainwindow.get_allocation()
+        # Center the widget sometimes doesn't work right
+        #width, height = resolution
+        #window_rect = self._mainwindow.get_allocation()
       
-      x, y = 0, 0
+        #x, y = 0, 0
       
-      if width < window_rect.width:
-	x = (window_rect.width - width) / 2.0
+        #if width < window_rect.width:
+            #x = (window_rect.width - width) / 2.0
 
-      if height < window_rect.height:
-	y = (window_rect.height - height) / 2.0
+        #if height < window_rect.height:
+            #y = (window_rect.height - height) / 2.0
 
-      rect = gtk.gdk.Rectangle(x, y, width, height)
+        #rect = gtk.gdk.Rectangle(x, y, width, height)
       
-      self._inner_evb.size_allocate(rect)
+        #self._inner_evb.size_allocate(rect)

@@ -174,6 +174,10 @@ class SaludameActivity(Activity):
         self.game.gender = gender
         self.game.name = name
         self.startup_window.set_welcome()
+        
+        if self.game.started:
+            self.game.main(True)
+        
         self.make_toolbox(True)
         self.toolbox.set_current_toolbar(1)             # Move to game tab
     
@@ -238,8 +242,8 @@ class SaludameActivity(Activity):
         
         metadata = None
         
-        # This query returns the last time activity instance with the saved flag on
-        ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'})
+        # This query returns the last activity instance that has a path
+        ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'}, sorting='-mtime', properties=['uid', 'title', 'mtime'])
         for entry in ds_objects:
             filepath = entry.get_file_path()
             if filepath:
@@ -255,7 +259,7 @@ class SaludameActivity(Activity):
         return metadata
         
         # This query returns the last activity instance that has a path
-        #ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'}, sorting='mtime')
+        #ds_objects, num_objects = datastore.find({'activity': 'org.ceibaljam.Saludame'}, sorting='mtime', properties=['uid', 'title', 'mtime'])
         
     def get_game_toolbar(self):
         

@@ -20,6 +20,7 @@ import gui
 import pygame
 import game
 import animation
+from gettext import gettext as _
 
 TEXT_COLOR = (0,0,0)
 

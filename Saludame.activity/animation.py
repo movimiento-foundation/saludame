@@ -66,7 +66,9 @@ class Kid(gui.Widget):
     def set_mood(self, mood):
         self.mood_index = self.moods.index(mood)
         self.mood = self.moods[self.mood_index]
-        self.set_animation()
+        if not (self.action and self.action.kid_animation_path):
+            # if it's not already executing an action animation, it should update the animation according to the new mood
+            self.set_animation()
         
     ##### Clothes ####
     def update_clothes(self):

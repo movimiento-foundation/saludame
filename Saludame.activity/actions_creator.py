@@ -47,7 +47,7 @@ HOT_DRINK_PATH = os.path.normpath("assets/action-icons/hotdrink")
 # factor = CONTROL_INTEVAL/(60 * FPS)
 factor = float(16) / (60 * 14)
 #bars_rate_per_minute = [("energy",-20), ("defenses",-10), ("weight",0), ("c_leguminosas",-15), ("v_frutas",-15), ("c_huevos",-5), ("dulces",-1), ("g_aceites",-5), ("l_quesos",-5), ("agua",-20), ("shower",-10), ("w_hands",-10), ("b_teeth",-10), ("toilet",-20), ("sports",-10), ("fun",-10), ("relaxing",-10), ("housekeeping",-20), ("homework",-20), ("h_check",-0.2), ("farm",0)]
-bars_rate_per_minute = [("energy",-5), ("defenses",-1), ("weight",0), ("nutrition",-float(100)/16), ("shower",-5), ("w_hands",-5), ("b_teeth",-5), ("toilet",-5), ("sports",-10), ("fun",-10), ("relaxing",-10), ("housekeeping",-15), ("homework",-15), ("h_check",-0.2), ("farm",0)]
+bars_rate_per_minute = [("energy",-5), ("defenses",-1), ("weight",0), ("nutrition",-float(100)/16), ("shower",-5), ("w_hands",-5), ("b_teeth",-5), ("toilet",-5), ("sports",-10), ("fun",-10), ("relaxing",-10), ("housekeeping",-12), ("homework",-15), ("h_check",-0.2), ("farm",0)]
 bar_dec_effect = effects.Effect([(bar, rate*factor) for bar, rate in bars_rate_per_minute])
 
 # Consequences of food actions (triggered events after eating)
@@ -306,10 +306,10 @@ actions_list = [
     ),
     
     # Sports
-    ("sport_football", 0.3, 70, 0, "assets/kid/actions/football", 3, 1, None, 1, "assets/sound/jump_rope.ogg",
-        effects.Effect([("energy",-10), ("defenses",5), ("weight",-1.5), ("agua",-15), ("shower",-15), ("w_hands",-10), ("sports",40), ("fun",60), ("relaxing",-10)]), None, None, None, None, 1, u"04-Más hábitos saludables/02-Actividad física-avanzado.html"
+    ("sport_football", 0.3, 70, 0, "assets/kid/actions/football", 3, 1, None, 1, None,
+        effects.Effect([("energy",-10), ("defenses",5), ("weight",-1.5), ("agua",-15), ("shower",-15), ("w_hands",-10), ("sports",40), ("fun",60), ("relaxing",-10)], ["amigo_alienta"]), None, None, None, None, 1, u"04-Más hábitos saludables/02-Actividad física-avanzado.html"
     ),
-    ("sport_jump", 0.3, 70, 0, "assets/kid/actions/ropejump", 3, 1, None, 1, "assets/sound/saltar_cuerda.ogg",
+    ("sport_jump", 0.3, 70, 0, "assets/kid/actions/ropejump", 3, 1, None, 1, "assets/sound/jump_rope.ogg",
         effects.Effect([("energy",-5), ("defenses",2), ("weight",-0.5), ("agua",-5), ("shower",-10), ("w_hands",-5), ("sports",20), ("fun",30), ("relaxing",-5)]), None, None, None, None, 1, u"04-Más hábitos saludables/02-Actividad física-avanzado.html"
     ),
     ("sport_run", 0.3, 70, 0, "assets/kid/actions/run", 3, 1, None, 1, None,
@@ -330,7 +330,7 @@ actions_list = [
         effects.Effect([("energy",-10), ("weight",-1), ("agua",-5), ("shower",-10), ("w_hands",-20), ("sports",20), ("fun",-20), ("relaxing",-5), ("housekeeping",60)]), None, None, None, None
     ),
     ("help_cook", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/cook", 1, [TWISTER_SOUND, "assets/sound/work.ogg"],
-        effects.Effect([("energy",-5), ("w_hands",-10), ("relaxing",-5), ("housekeeping",40)], ["contento_cocinar"]), None, None, None, None, 1, u"70-Recetas/01-Recetas-avanzado.html"
+        effects.Effect([("energy",-5), ("w_hands",-10), ("relaxing",-5), ("housekeeping",40)], ["contento_cocinar"]), None, None, None, None, 1, u"70-Recetas/default.html"
     ),
     ("relax", 0.3, 70, 0, "assets/kid/actions/rest", 3, 1, None, 1, ["assets/sound/relax.ogg"],
         effects.Effect([("energy",30), ("defenses",10), ("fun",10), ("relaxing",40)]), None, None, None, None, 1, u"04-Más hábitos saludables/06-Ocio y descanso-avanzado.html"
@@ -342,7 +342,7 @@ actions_list = [
         effects.Effect([("energy",-5), ("w_hands",-5), ("sports",10), ("fun",-20), ("relaxing",-5), ("housekeeping",40)]), None, None, None, None
     ),
     ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 2, [None, "assets/sound/sleep.ogg"],
-        effects.Effect([("energy",90), ("defenses",20), ("shower",-25), ("w_hands",-5), ("b_teeth",-15), ("toilet",-10), ("sports",-20), ("relaxing",90), ("housekeeping",-30), ("homework",-30)], change_time=True), None, None, None, None, 1, u"04-Más hábitos saludables/06-Ocio y descanso-avanzado.html", "sleep"
+        effects.Effect([("energy",90), ("defenses",20), ("shower",-25), ("w_hands",-5), ("b_teeth",-15), ("toilet",-10), ("sports",-20), ("relaxing",90), ("housekeeping",-20), ("homework",-20)], change_time=True), None, None, None, None, 1, u"04-Más hábitos saludables/06-Ocio y descanso-avanzado.html", "sleep"
     ),
     
     ("wash_hands", 0.3, 80, 1, TWISTER_PATH, 3, 1, "assets/action-icons/washhands", 2, [TWISTER_SOUND, "assets/sound/wash_hands.ogg"],
@@ -360,38 +360,38 @@ actions_list = [
     
     # Farm
     ("farm_plow", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/trident", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect([("energy",-5), ("shower",-5), ("w_hands",-30), ("sports",10), ("fun",40), ("weight",-1), ("agua",-5), ("shower",-30), ("w_hands",-70), ("sports",30), ("fun",30), ("relaxing",-5), ("farm",25)]), None, None, None, "huerta_preparar", 1, u"50-Huerta/03-Preparación del suelo/01-Preparación del suelo-avanzado.html"
+        effects.Effect([("energy",-5), ("shower",-5), ("w_hands",-30), ("sports",10), ("fun",40), ("weight",-1), ("agua",-5), ("shower",-30), ("w_hands",-70), ("sports",30), ("fun",30), ("relaxing",-5), ("farm",25)]), None, None, None, "huerta_preparar", 1, u"50-Huerta/03-Preparación del suelo/default.html"
     ),
     ("farm_sow", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect([("energy",-5), ("w_hands",-10), ("fun",10), ("farm",25)]), None, None, None, "huerta_sembrar", 1, u"50-Huerta/04-Sembrar/01-Sembrar-avanzado.html"
+        effects.Effect([("energy",-5), ("w_hands",-10), ("fun",10), ("farm",25)]), None, None, None, "huerta_sembrar", 1, u"50-Huerta/04-Sembrar/default.html"
     ),
     ("farm_irrigate", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/irrigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect([("energy",-5), ("weight",-0.5), ("w_hands",-5), ("fun",10), ("farm",10)]), None, None, None, "huerta_mantener", 1, u"50-Huerta/05-Mantenimiento/04-Regar-avanzado.html"
+        effects.Effect([("energy",-5), ("weight",-0.5), ("w_hands",-5), ("fun",10), ("farm",10)]), None, None, None, "huerta_mantener", 1, u"50-Huerta/05-Mantenimiento/04-Regar.html"
     ),
     ("farm_fumigate", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/fumigate", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect([("energy",-5), ("shower",-40), ("w_hands",-40), ("fun",10), ("farm",10)], ["intoxicacion"]), None, None, None, "huerta_mantener", 1, u"50-Huerta/05-Mantenimiento/03-Cómo combatirlas-avanzado.html"
+        effects.Effect([("energy",-5), ("shower",-40), ("w_hands",-40), ("fun",10), ("farm",10)], ["intoxicacion"]), None, None, None, "huerta_mantener", 1, u"50-Huerta/05-Mantenimiento/03-Cómo combatirlas.html"
     ),
     ("farm_clean", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/sow", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect([("energy",-5), ("weight",-0.5), ("shower",-5), ("w_hands",-20), ("sports",10), ("fun",10), ("farm",10)]), None, None, None, "huerta_mantener", 1, u"50-Huerta/05-Mantenimiento/05-Remover yuyos-avanzado.html"
+        effects.Effect([("energy",-5), ("weight",-0.5), ("shower",-5), ("w_hands",-20), ("sports",10), ("fun",10), ("farm",10)]), None, None, None, "huerta_mantener", 1, u"50-Huerta/05-Mantenimiento/05-Remover yuyos.html"
     ),
     ("farm_harvest", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/harvest", 2, [TWISTER_SOUND, "assets/sound/farm.ogg"],
-        effects.Effect([("energy",-5), ("w_hands",-1), ("sports",10), ("fun",40), ("farm",-100)], ["huerta_plato"]), None, None, None, "huerta_cosechar", 1, u"50-Huerta/07-Cosechar-avanzado.html"
+        effects.Effect([("energy",-5), ("w_hands",-1), ("sports",10), ("fun",40), ("farm",-100)], ["huerta_plato"]), None, None, None, "huerta_cosechar", 1, u"50-Huerta/07-Cosechar.html"
     ),
     
     # Fun
     ("playXO", 0.3, 70, 0, "assets/kid/actions/playXO", 3, 1, None, 1, "assets/sound/play_xo.ogg",
-        effects.Effect([("energy",-5), ("w_hands",-5), ("sports",-5), ("fun",60), ("relaxing",-5)]), None, None, None, None, 1, u"04-Más hábitos saludables/03-Sedentarismo-avanzado.html"
+        effects.Effect([("energy",-5), ("w_hands",-5), ("sports",-5), ("fun",60), ("relaxing",-5)]), None, None, None, None, 7, u"04-Más hábitos saludables/03-Sedentarismo-avanzado.html"
     ),
     ("hidenseek", 0.3, 70, 0, "assets/kid/actions/hidenseek", 3, 1, None, 1, "assets/sound/hidenseek.ogg",
-        effects.Effect([("energy",-5), ("weight",-1), ("shower",-10), ("w_hands",-5), ("sports",10), ("fun",60), ("relaxing",-5)]), None, None, None, None
+        effects.Effect([("energy",-5), ("weight",-1), ("shower",-10), ("w_hands",-5), ("sports",10), ("fun",60), ("relaxing",-5)]), None, None, None, None, 4
     ),
-    ("hopscotch", 0.3, 92, 2, "assets/kid/actions/hopscotch", 3, 1, None, 1, "assets/sound/hopscotch.ogg",
+    ("hopscotch", 0.3, 92, 2, "assets/kid/actions/hopscotch", 3, 1, None, 2, "assets/sound/hopscotch.ogg",
         effects.Effect([("energy",-5), ("weight",-1), ("shower",-10), ("w_hands",-5), ("sports",10), ("fun",60), ("relaxing",-5)]), None, None, None, None
     ),
     ("tv", 0.3, 70, 0, "assets/kid/actions/tv", 3, 1, None, 1, None,
         effects.Effect([("energy",5), ("sports",-5), ("fun",40), ("relaxing",5)]), None, None, None, None, 1, u"04-Más hábitos saludables/03-Sedentarismo-avanzado.html"
     ),
-    ("read", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 1, None,
+    ("read", 0.3, 70, 0, "assets/kid/actions/read", 3, 1, None, 1, "assets/sound/work.ogg",
         effects.Effect([("energy",5), ("fun",50), ("relaxing",5)]), None, None, None, None, 1, None
     ),
     ("music", 0.3, 70, 0, "assets/kid/actions/dance", 3, 1, None, 1, "assets/sound/music.ogg",
@@ -401,7 +401,7 @@ actions_list = [
         #effects.Effect([("fun", 4.0)]), None, None, None, None, 1, None
     #),
     ("crazy", 0.3, 70, 0, "assets/kid/actions/crazy", 3, 1, None, 1, "assets/sound/crazy.ogg",
-        effects.Effect([("energy",-5), ("fun",40)]), None, None, None, None
+        effects.Effect([("energy",-5), ("fun",40)]), None, None, None, None, 2
     ),
     ("dance", 0.3, 70, 0, "assets/kid/actions/dance", 3, 1, None, 1, "assets/sound/music.ogg",
         effects.Effect([("energy",-5), ("weight",-1), ("agua",-5), ("shower",-10), ("sports",30), ("fun",60), ("relaxing",-5)]), None, None, None, None, 1, u"04-Más hábitos saludables/02-Actividad física-avanzado.html"

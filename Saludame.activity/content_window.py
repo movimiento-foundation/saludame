@@ -201,8 +201,10 @@ class ContentWindow(gtk.HBox):
         path = self.treestore.get_value(it, 1)
         
         if path.endswith(".html") and self.web_view:
-            self.last_uri = u"file://" + unicode(path, "utf-8")
-            self.web_view.load_uri(self.last_uri)
+            uri = u"file://" + unicode(path, "utf-8")
+            if not self.last_uri.startswith(uri):           # avoids reloading a page when the cursor is changed by the program
+                self.last_uri = uri
+                self.web_view.load_uri(self.last_uri)
 
     def _location_changed_cb(self, progress_listener, uri):
         if uri:
@@ -224,10 +226,13 @@ class ContentWindow(gtk.HBox):
     def set_url(self, link, anchor=None):
         # First fix the link in advanced or simple:
         if self.library_type == "basic":
-            link.replace("-avanzado", "-simple")
+            link = link.replace("-avanzado", "-simple")
         
+        # Then add the base path and position in the tree
         link = os.path.join(ROOT_PATH, link)
         self.position_in_filename(link)
+        
+        # Last add the protocol and the anchor
         if anchor:
             self.last_uri = u"file://" + link + u"#" + unicode(anchor)
         else:

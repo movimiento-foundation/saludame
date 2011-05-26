@@ -93,66 +93,46 @@ class MultipleChoice(gui.Window):
         self.question = gui.TextBlock(self.rect, 30, 90, 1, question, QUESTION_FONT_SIZE, QUESTION_COLOR, "normal", False)
         self.add_child(self.question)
         
-    def set_correct_answer(self, a):
-        self.correct = a
+    def set_answers(self, answers, correct_index):
+        print answers
         
-    def set_answers(self, answers):
         x = 30
         y = self.question.rect_absolute.top
-
-        y += 40 * len(self.question.lines)
+        last_height = QUESTION_FONT_SIZE * len(self.question.lines)
         
-        last_y = 30
-        
-        if isinstance(self, TrueOrFalse):
-            if self.kind == "normal":
-                size = TEXT_TRUE_OR_FALSE_SIZE
-                
-                for ans in answers:
-                    ans = self.prepare(ans, 85)
-                    y += last_y + 20
-                    b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
-                    self.choices.append(b)
-                    self.add_button(b)
-                    last_y = b.rect_in_container.height
-                return 
-                                                    
-            else:
-                size = TEXT_FONT_SIZE
+        if isinstance(self, TrueOrFalse) and self.kind == "normal":
+            last_height += 20
+            size = TEXT_TRUE_OR_FALSE_SIZE
         else:
             size = TEXT_FONT_SIZE            
-           
-        # Choose 3 of the 5 possible incorrect answers
-        cant_choose = []
-        selected_answers = [answers[0]]
-        for _ in range(3):
-            
-            ans = self.get_random_answer(answers[1:], cant_choose) # The first answer is the correct one
-            selected_answers.append(ans)           
         
+        # The correct answer is the first one
+        self.correct = answers[correct_index]
+        
+        # Choose at most 3 incorrect answers
+        false_answers = answers[:]
+        false_answers.remove(self.correct)
+        if len(false_answers) > 3:
+            false_answers = random.sample(false_answers, 3)
+        
+        # Join and shuffle the answers
+        selected_answers = [self.correct] + false_answers
         random.shuffle(selected_answers)
         self.correct_index = selected_answers.index(self.correct)
         
         for ans in selected_answers:  
             ans = self.prepare(ans, 85)
-            y += last_y + 20
+            y += last_height + 20
             b = gui.TextBlockButton(self.rect, pygame.Rect((x, y), (1, 1)), 1, ans, size, ANSWER_COLOR, self._cb_button_click_choice, self._cb_button_over_choice, self._cb_button_out_choice)
             self.choices.append(b)
             self.add_button(b)
-            last_y = b.rect_in_container.height
+            last_height = b.rect_in_container.height
             
     def prepare(self, text, limit):
         if len(text) > limit:
             space = text[0:limit].rfind(" ")
             text = text[0:space] + "\n" + self.prepare(text[space + 1:], limit)
-        return text
-            
-    def get_random_answer(self, answers, cant_choose):
-        while True:
-            r = random.randrange(0, 5)
-            if not r in cant_choose:
-                cant_choose.append(r)
-                return answers[r]       
+        return text  
     
     def set_image(self, image):
         if  not isinstance(image, pygame.Surface):
@@ -273,10 +253,7 @@ class TrueOrFalse(MultipleChoice):
         
     def _cb_button_click_choice(self, button):
         
-        if self.kind == "normal":
-            correct = self.correct
-        else:
-            correct = self.correct_index
+        correct = self.correct_index
         
         if button == self.choices[correct]:
             self.s_correct.play()
@@ -344,18 +321,20 @@ class TrueOrFalse(MultipleChoice):
             if self.perdio:
                 self.windows_controller.windows["info_challenge_window"].update_content(u"Perdiste", u"Quedaste en este nivel.\nRecuerda que puedes estudiar en la biblioteca.", "assets/challenges/boy_sad.png")
                 self.windows_controller.set_active_window("info_challenge_window")
-                game_manager.instance.previous_level()
+                #game_manager.instance.previous_level()
                 game_manager.instance.add_points(-9)
-            else:                
-                if not game_manager.instance.get_current_level_conf()["master_challenge_text"]:
-                    if game_manager.instance.get_current_level_conf()["slide"]:
-                        self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
-                        self.windows_controller.set_active_window("slide_window")
-                else:      
-                    if game_manager.instance.get_current_level_conf()["slide"]:
-                        self.windows_controller.windows["slide_window"].show_slide(game_manager.instance.get_current_level_conf()["slide"])
-                        self.windows_controller.set_active_window("slide_window")
-                    self.windows_controller.windows["info_challenge_window"].update_content(u"", self.challenges_creator.game_man.get_current_level_conf()["master_challenge_text"])
+            else:
+                text = game_manager.instance.get_current_level_conf()["master_challenge_text"]
+                slide = game_manager.instance.get_current_level_conf()["slide"]
+                
+                game_manager.instance.next_level()
+                
+                if slide:
+                    self.windows_controller.windows["slide_window"].show_slide(slide)
+                    self.windows_controller.set_active_window("slide_window")
+                
+                if text:
+                    self.windows_controller.windows["info_challenge_window"].update_content(u"", text)
                     self.windows_controller.set_active_window("info_challenge_window")     
         
         self.n_tf = N_TF

@@ -30,8 +30,8 @@ ATTENTION_ACTION = "attention" #action that executes when the character is idle 
 HOUR_COUNT_CYCLE = 200  # control intevals that have to pass to change the time of day ... 200 = 4 min. apróx
 
 # Game Over: If the overall bar stays under the threshold for a whole interval, the game will end
-GAME_OVER_INTERVAL = 150
-GAME_OVER_THRESHOLD = 15
+GAME_OVER_INTERVAL = 120
+GAME_OVER_THRESHOLD = 20
 
 import random
 import effects
@@ -123,6 +123,8 @@ class GameManager:
         self.update_environment()
         
         self.old_place = None
+        
+        self.windows_controller = None
 
     def start(self, windows_controller):
         self.windows_controller = windows_controller
@@ -276,7 +278,7 @@ class GameManager:
                 rand = random.random()*max_rand
                 for i in range(0, len(ranges)):
                     if rand >= ranges[i][0] and rand <= ranges[i][1]:
-                        return self.weathers[i]
+                        return allowed_weathers[i]
         else:
             return self.weathers[0] #default weather
 
@@ -746,7 +748,6 @@ class GameManager:
         if score_bar.value == score_bar.max:
             # sets master challenge
             self._master_challenge()
-            self.next_level()
     
 # Score handling
     def add_points(self, points):
@@ -791,8 +792,8 @@ class GameManager:
         self.hour_count = HOUR_COUNT_CYCLE
         self.current_time = self.day_dic[self.hour]
         
-        if self.windows_cotroller:
-            self.windows_cotroller["customization_window"].reload()
+        if self.windows_controller:
+            self.windows_controller.windows["customization_window"].reload()
         
         print "game reseted successfully... "
 
@@ -873,12 +874,14 @@ class GameManager:
         self.windows_controller.set_active_window("mc_challenge_window")
         self.windows_controller.windows["info_challenge_window"].update_content(u"Múltiple Opción: %s" % (self.get_lowest_bar().label),  u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nla respuesta correcta.\n\n¡Suerte!" % (self.get_lowest_bar().label))
         self.windows_controller.set_active_window("info_challenge_window")
+        sound_manager.instance.play_popup()
         
     def _tf_challenges(self):
         self.challenges_creator.get_challenge("tf")
         self.windows_controller.set_active_window("tf_challenge_window")
         self.windows_controller.windows["info_challenge_window"].update_content(u"Verdadero o Falso: %s" %(self.get_lowest_bar().label), u"Tu barra de %s está baja. \nPara ganar puntos tienes que acertar \nlas preguntas de verdero o falso.\n\n¡Suerte!" % (self.get_lowest_bar().label))
         self.windows_controller.set_active_window("info_challenge_window")
+        sound_manager.instance.play_popup()
         
     def _master_challenge(self):
         # The master challenge occurs when the player completed a level.
@@ -889,8 +892,9 @@ class GameManager:
         self.windows_controller.set_active_window("tf_challenge_window")
         
         min_correct = self.get_level_conf_value("min_qty_correct_ans")
-        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrectamente a %s de las 5 preguntas\nque siguen\n\n¡Suerte!" % min_correct)
+        self.windows_controller.windows["info_challenge_window"].update_content(u"Super Desafío",  u"¡Estás por pasar de nivel!\nPara superarlo tienes que responder\ncorrectamente a %s de las 5 preguntas\nque siguen.\n\n¡Suerte!" % min_correct)
         self.windows_controller.set_active_window("info_challenge_window")
+        sound_manager.instance.play_popup()
 
 # Game Over
     def __control_game_over(self):
