@@ -408,10 +408,10 @@ actions_list = [
     ),
     
     # Go to
-    ("dentist", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/dentist", 1, TWISTER_SOUND,
+    ("dentist", 0.3, 80, 1, TWISTER_PATH, 3, 1, "assets/action-icons/dentist", 1, [TWISTER_SOUND, "assets/sound/dentist.ogg"],
         effects.Effect([("h_check",80)]), None, None, None, None, 1, u"04-Más hábitos saludables/07-Salud bucal-avanzado.html"
     ),
-    ("doctor", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/doctor", 1, TWISTER_SOUND,
+    ("doctor", 0.3, 80, 1, TWISTER_PATH, 3, 1, "assets/action-icons/doctor", 1, [TWISTER_SOUND, "assets/sound/dentist.ogg"],
         effects.Effect([("h_check",80)]), None, None, None, None, 1,  u"04-Más hábitos saludables/09-Controles en salud-avanzado.html"
     ),
     

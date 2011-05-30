@@ -94,8 +94,6 @@ class MultipleChoice(gui.Window):
         self.add_child(self.question)
         
     def set_answers(self, answers, correct_index):
-        print answers
-        
         x = 30
         y = self.question.rect_absolute.top
         last_height = QUESTION_FONT_SIZE * len(self.question.lines)
