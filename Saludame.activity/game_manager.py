@@ -793,7 +793,10 @@ class GameManager:
         self.current_time = self.day_dic[self.hour]
         
         if self.windows_controller:
+            while self.windows_controller.get_active_window() <> "main_window":
+                self.windows_controller.close_active_window()
             self.windows_controller.windows["customization_window"].reload()
+            self.windows_controller.set_active_window("customization_window")
         
         print "game reseted successfully... "
 

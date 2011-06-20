@@ -65,7 +65,7 @@ class CustomizationWindow(gui.Window):
         self.kid = CustomizatedKid(self.rect, kid_rect, 1, character)
         self.add_child(self.kid)
         
-        title = gui.Text(self.rect, 590, 60, 1, _("Creá tu personaje"), 32, pygame.Color("#0f5e65"), alignment=gui.Text.ALIGN_CENTER, bold=True)
+        title = gui.Text(self.rect, 590, 60, 1, _(u"Creá tu personaje"), 32, pygame.Color("#0f5e65"), alignment=gui.Text.ALIGN_CENTER, bold=True)
         self.add_child(title)
         
         btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
@@ -143,7 +143,9 @@ class CustomizatedKid(gui.Widget):
         
     def set_mapping(self, key, colors):
         mapping = self.character.mappings[key]
-        self.character.mappings[key] = tuple(colors[0:len(mapping)])
+        usable_colors = colors[0:len(mapping)]
+        usable_colors = map(utilities.get_color_tuple, usable_colors)
+        self.character.mappings[key] = tuple(usable_colors)
         self.apply_mappings()
         
     def apply_mappings(self):

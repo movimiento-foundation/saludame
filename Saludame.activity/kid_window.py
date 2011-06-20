@@ -26,8 +26,6 @@ import utilities
 from character import *
 from gettext import gettext as _
 
-BACKGROUND_PATH = os.path.normpath("assets/background/schoolyard_normal.png")
-
 class KidWindow(gui.Window):
 
     def __init__(self, container, rect, frame_rate, windows_controller, cha_loader, game_man):

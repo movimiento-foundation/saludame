@@ -41,8 +41,13 @@ from gettext import gettext as _
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
 
+# Sets ALSA, because default driver works through pulseaudio which is cpu hungry in dextrose
+import os, platform
+if "olpc" in platform.platform():
+    os.environ['SDL_AUDIODRIVER'] = 'alsa'
+    
 # Variables globales
-MAX_FPS = 16            # Max frames per second
+MAX_FPS = 15            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
 
 INSTANCE_FILE_PATH = "game.save"        # File to save the game in standalone mode
@@ -100,7 +105,7 @@ class Main():
         # Optimizes sound quality and buffer for quick loading
         pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
         pygame.mixer.pre_init(22050, -16, 1, 512)
-        
+        pygame.mixer.init()
         pygame.mixer.music.set_endevent(pygame.USEREVENT)
         
         # Inits PyGame module

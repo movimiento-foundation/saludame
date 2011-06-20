@@ -89,6 +89,9 @@ class WindowsController:
         
         self.windows_stack.append(self.windows[window_key])
         self.show_window_hierarchy(self.windows_stack[-1])
+    
+    def get_active_window(self):
+        return self.windows_stack[-1].get_register_id()
         
     def register_new_window(self, id, window):
         self.windows[id] = window

@@ -17,6 +17,7 @@
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
+import utilities
 
 # DEFAULT_MAPPINGS are used when creating a new character
 DEFAULT_MAPPINGS = {
@@ -37,7 +38,7 @@ class Character:
         self.mood = "normal"
         
         # visuals
-        self.mappings = DEFAULT_MAPPINGS.copy()
+        self.convert_mappings(DEFAULT_MAPPINGS.copy())
         
         self.clothes = 'school'
         self.grade = 5
@@ -73,7 +74,7 @@ class Character:
         self.name = game_status["name"]
         self.sex = game_status["gender"]
         self.clothes = game_status["clothes"]
-        self.mappings = game_status["character_colors"]
+        self.convert_mappings(game_status["character_colors"])
         self.current_place = game_status["current_place"]
         self.level = game_status["level"]
         self.grade = game_status["grade"]
@@ -85,10 +86,16 @@ class Character:
         self.level = 1
         self.clothes = 'school'
         self.current_place = 'schoolyard'
-        self.mappings = DEFAULT_MAPPINGS.copy()
+        self.convert_mappings(DEFAULT_MAPPINGS.copy())
         if gender:
             self.sex = gender
         
+    def convert_mappings(self, maps):
+        for key in maps.keys():
+            maps[key] = tuple( map(utilities.get_color_tuple, maps[key]) )
+        
+        self.mappings = maps
+
 class Place:
     
     def __init__(self, place_id, background_path, background_music):

@@ -376,7 +376,7 @@ class Item(gui.Button):
             surface = bg_image.copy()
             
         if not self.center_item:
-            font = utilities.get_font(font_size)
+            font = utilities.get_font(font_size, bold=True)
             render = font.render(text, True, (255, 255, 255))
             surface.blit(render, render.get_rect(center=self.bg_rect.center))
             

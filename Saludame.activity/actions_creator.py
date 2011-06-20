@@ -341,7 +341,7 @@ actions_list = [
     ("clean", 0.3, 70, 1, TWISTER_PATH, 3, 1, "assets/action-icons/clean", 2, [TWISTER_SOUND, "assets/sound/work.ogg"],
         effects.Effect([("energy",-5), ("w_hands",-5), ("sports",10), ("fun",-20), ("relaxing",-5), ("housekeeping",40)]), None, None, None, None
     ),
-    ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 2, [None, "assets/sound/sleep.ogg"],
+    ("sleep", 0.3, 150, 1, "assets/kid/actions/sleep", 3, 1, None, 4, [None, "assets/sound/sleep.ogg"],
         effects.Effect([("energy",90), ("defenses",20), ("shower",-25), ("w_hands",-5), ("b_teeth",-15), ("toilet",-10), ("sports",-20), ("relaxing",90), ("housekeeping",-20), ("homework",-20)], change_time=True), None, None, None, None, 1, u"04-Más hábitos saludables/06-Ocio y descanso-avanzado.html", "sleep"
     ),
     

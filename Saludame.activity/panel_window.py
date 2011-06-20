@@ -67,7 +67,7 @@ class PanelWindow(gui.Window):
         text = gui.Text(self.rect, 465, 22, 1, _("Social"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
         self.add_child(text)
         
-        text = gui.Text(self.rect, 705, 22, 1, _("Acción"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
+        text = gui.Text(self.rect, 705, 22, 1, _(u"Acción"), 18, TEXT_COLOR, type="normal", alignment=gui.Text.ALIGN_CENTER, bold=True, italic=True)
         self.add_child(text)
         
         ### Events ###

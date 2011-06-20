@@ -53,7 +53,7 @@ class Action:
         self.background = background
         
     def perform(self, cicles):
-        if self.background:
+        if self.background and self.time_left == self.time_span:        # only on first iteration
             game_manager.instance.set_character_location(self.background)
         
         if self.time_span == -1:
