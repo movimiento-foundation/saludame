@@ -1,2 +1,6 @@
 *.pyc
 *~
+
+Saludame.activity/dist
+Saludame.activity/game.save
+resources/image-patch/build
