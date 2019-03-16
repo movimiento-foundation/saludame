@@ -54,8 +54,10 @@ class StartupWindow(gtk.VBox):
         for child in self.get_children():
             self.remove(child)
         
+        window_size = self.get_parent().get_allocation().width, self.get_parent().get_allocation().height
+        
         callback = lambda: self.start_cb(gender, name)
-        self.add(Introduction(callback))
+        self.add(Introduction(callback, window_size))
 
 class Welcome(gtk.Fixed):
     
@@ -167,12 +169,14 @@ story = [
 
 class Introduction(gtk.Fixed):
     
-    def __init__(self, callback):
+    def __init__(self, callback, window_size):
         gtk.Fixed.__init__(self)
         
         self.callback = callback
         
         self.index = 0
+        
+        self.window_size = window_size
         
         self.show_slide()
         
@@ -185,9 +189,14 @@ class Introduction(gtk.Fixed):
         slide = story[self.index]
         
         # Image
+        pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(slide["image"], self.window_size[0], self.window_size[1])
         image = gtk.Image()
-        image.set_from_file(slide["image"])
-        self.put(image, 0, 0)
+        #image.set_from_file()
+        image.set_from_pixbuf(pixbuf)
+        x = (self.window_size[0] - pixbuf.get_width()) / 2
+        y = (self.window_size[1] - pixbuf.get_height()) / 2
+        print x, y
+        self.put(image, x, y)
         
         # Text
         if slide["text"]:
@@ -199,13 +208,13 @@ class Introduction(gtk.Fixed):
         
         btn_back = get_button("assets/layout/btn_back.png")
         btn_back.connect("clicked", self._back)
-        self.put(btn_back, 0, 604)
+        self.put(btn_back, 0, self.window_size[1]-170)
         if self.index == 0:
             btn_back.set_sensitive(False)
         
         btn_next = get_button("assets/layout/btn_next.png")
         btn_next.connect("clicked", self._next)
-        self.put(btn_next, 1087, 604)
+        self.put(btn_next, self.window_size[0]-107, self.window_size[1]-170)
         
         self.show_all()
         
@@ -222,7 +231,8 @@ class Introduction(gtk.Fixed):
             self.show_slide()
         
 if __name__ == "__main__":
-    sw = StartupWindow(None)
+    f_none = lambda : None
+    sw = StartupWindow(f_none, f_none)
     main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
     main_window.set_size_request(1200,700)
     main_window.add(sw)
