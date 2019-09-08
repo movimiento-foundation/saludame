@@ -203,11 +203,10 @@ def load_animation(last_image, new_filename):
         f = open(new_filename, 'r')
         diff = zlib.decompress(f.read())
         f.close()
-        
         new_buffer = imagepatch.patch(last_image.get_buffer().raw, diff)
-        
         new = last_image                        # both point to the same surface
-        new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
-        
+        # FIXME: IndexError: bytes to write exceed buffer size
+        # new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
+
     return new
     
