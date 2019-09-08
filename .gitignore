@@ -4,3 +4,10 @@
 Saludame.activity/dist
 Saludame.activity/game.save
 resources/image-patch/build
+
+*.py[co~]
+*.bak
+*.gitignore~
+/build
+.vscode
+__pycache__
