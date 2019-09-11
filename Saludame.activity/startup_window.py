@@ -153,25 +153,15 @@ class PlaceholderEntry(Gtk.Entry):
         return self.get_text()
 
 story = [
-    
-    #Slide1
     {
-        "image": "assets/slides/history1.jpg",
-        "text": None
+        "image": "assets/slides/history1.jpg"
     },
-    
-    #Slide2
     {
-        "image": "assets/slides/history2.jpg",
-        "text": None
+        "image": "assets/slides/history2.jpg"
     },
-
-    #Slide3
     {
-        "image": "assets/slides/help.png",
-        "text": None
+        "image": "assets/slides/help.png"
     },
-    
 ]
 
 
@@ -185,25 +175,15 @@ class Introduction(Gtk.Fixed):
         self.index = 0    
         self.show_slide()
         
-    
     def show_slide(self):
         for child in self.get_children():
-            self.remove(child)
+            child.destroy()
             
         slide = story[self.index]
         
-        # Image
         image = Gtk.Image()
         image.set_from_file(slide["image"])
         self.put(image, 0, 0)
-        
-        # Text
-        if slide["text"]:
-            text_view = Gtk.TextView()
-            text_buffer = text_view.get_buffer()
-            text_buffer.set_text(slide["text"])
-            text_view.set_wrap_mode(Gtk.WRAP_WORD)
-            self.pack_start(text_view, False, False)
         
         btn_back = get_button("assets/layout/btn_back.png")
         btn_back.connect("clicked", self._back)
