@@ -16,82 +16,89 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
-import gtk
-import pango
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('Gdk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import Pango
 from gettext import gettext as _
     
+
 def get_button(path):
-    img = gtk.Image()
+    img = Gtk.Image()
     img.set_from_file(path)
-    btn = gtk.Button()
+    btn = Gtk.Button()
     btn.set_image(img)
     return btn
 
-class StartupWindow(gtk.VBox):
+
+class StartupWindow(Gtk.VBox):
     
     def __init__(self, start_cb, load_last_game_cb):
-        gtk.VBox.__init__(self, False)
+        
+        Gtk.VBox.__init__(self, False)
         
         self.start_cb = start_cb
         self.load_last_game_cb = load_last_game_cb
-        
         self.set_welcome()
 
     def set_welcome(self):
         for child in self.get_children():
             self.remove(child)
-        
         self.add(Welcome(self.start_cb, self._new_game, self.load_last_game_cb))
         self.show_all()
         
     def _new_game(self, button):
         for child in self.get_children():
             self.remove(child)
-        
         self.add(SelectGenderAndName(self._gender_selected))
     
     def _gender_selected(self, name, gender):
         for child in self.get_children():
             self.remove(child)
-        
         callback = lambda: self.start_cb(gender, name)
         self.add(Introduction(callback))
 
-class Welcome(gtk.Fixed):
+
+class Welcome(Gtk.Fixed):
     
     def __init__(self, start_cb, new_game_cb, load_last_game_cb):
-        gtk.Fixed.__init__(self)
+        
+        Gtk.Fixed.__init__(self)
 
         self.start_cb = start_cb
         
-        image = gtk.Image()
+        image = Gtk.Image()
         image.set_from_file("assets/slides/screen_mainmenu.jpg")
         self.put(image, 0, 0)
         
         btn_new = get_button("assets/layout/btn_new_game.png")
-        btn_new.connect("clicked", new_game_cb)
+        if new_game_cb: btn_new.connect("clicked", new_game_cb)
         self.put(btn_new, 490, 386)
         
         btn_last_game = get_button("assets/layout/btn_load_last.png")
-        btn_last_game.connect("clicked", load_last_game_cb)
+        if load_last_game_cb: btn_last_game.connect("clicked", load_last_game_cb)
         self.put(btn_last_game, 490, 500)
         
         self.show_all()
 
-class SelectGenderAndName(gtk.Fixed):
+
+class SelectGenderAndName(Gtk.Fixed):
     
     def __init__(self, callback):
-        gtk.Fixed.__init__(self)
+        
+        Gtk.Fixed.__init__(self)
         
         self.callback = callback
         
-        image = gtk.Image()
+        image = Gtk.Image()
         image.set_from_file("assets/slides/screen_name_and_gender.jpg")
         self.put(image, 0, 0)
 
         self.kid_name = PlaceholderEntry(_('Escribe un nombre'))
         font = 'dejavu 24'
-        font_desc = pango.FontDescription(font)
+        font_desc = Pango.FontDescription(font)
         self.kid_name.modify_font(font_desc)
         self.kid_name.set_has_frame(False)
         self.kid_name.set_size_request(776, 98)
@@ -114,12 +121,14 @@ class SelectGenderAndName(gtk.Fixed):
         self.callback(self.kid_name.get_text(), "girl")
 
 
-class PlaceholderEntry(gtk.Entry):
+class PlaceholderEntry(Gtk.Entry):
 
     _default = True
 
     def __init__(self, placeholder):
-        gtk.Entry.__init__(self)
+    
+        Gtk.Entry.__init__(self)
+    
         self.placeholder = placeholder
         self._focus_out_event(self, None)
         self.connect('focus-in-event', self._focus_in_event)
@@ -128,12 +137,12 @@ class PlaceholderEntry(gtk.Entry):
     def _focus_in_event(self, widget, event):
         if self._default:
             self.set_text('')
-            self.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse('black'))
+            self.modify_text(Gtk.StateType.NORMAL, Gdk.color_parse('black'))
 
     def _focus_out_event(self, widget, event):
-        if gtk.Entry.get_text(self) == '':
+        if self.get_text() == '':
             self.set_text(self.placeholder)
-            self.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse('gray'))
+            self.modify_text(Gtk.StateType.NORMAL, Gdk.color_parse('gray'))
             self._default = True
         else:
             self._default = False
@@ -141,7 +150,7 @@ class PlaceholderEntry(gtk.Entry):
     def get_text(self):
         if self._default:
             return ''
-        return gtk.Entry.get_text(self)
+        return self.get_text()
 
 story = [
     
@@ -165,36 +174,35 @@ story = [
     
 ]
 
-class Introduction(gtk.Fixed):
+
+class Introduction(Gtk.Fixed):
     
     def __init__(self, callback):
-        gtk.Fixed.__init__(self)
+    
+        Gtk.Fixed.__init__(self)
         
         self.callback = callback
-        
-        self.index = 0
-        
+        self.index = 0    
         self.show_slide()
         
     
     def show_slide(self):
-        
         for child in self.get_children():
             self.remove(child)
             
         slide = story[self.index]
         
         # Image
-        image = gtk.Image()
+        image = Gtk.Image()
         image.set_from_file(slide["image"])
         self.put(image, 0, 0)
         
         # Text
         if slide["text"]:
-            text_view = gtk.TextView()
+            text_view = Gtk.TextView()
             text_buffer = text_view.get_buffer()
             text_buffer.set_text(slide["text"])
-            text_view.set_wrap_mode(gtk.WRAP_WORD)
+            text_view.set_wrap_mode(Gtk.WRAP_WORD)
             self.pack_start(text_view, False, False)
         
         btn_back = get_button("assets/layout/btn_back.png")
@@ -221,10 +229,12 @@ class Introduction(gtk.Fixed):
             self.index -= 1
             self.show_slide()
         
+
 if __name__ == "__main__":
-    sw = StartupWindow(None)
-    main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-    main_window.set_size_request(1200,700)
+    sw = StartupWindow(None, None)
+    main_window = Gtk.Window(Gtk.WindowType.TOPLEVEL)
+    main_window.maximize()
     main_window.add(sw)
     main_window.show_all()
-    gtk.main()
+    main_window.connect("delete-event", Gtk.main_quit)
+    Gtk.main()
