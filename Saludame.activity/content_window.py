@@ -16,60 +16,42 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
-import gtk, gobject
+import gi
 import os
-from gettext import gettext as _
+gi.require_version('Gtk', '3.0')
+gi.require_version('WebKit2', '4.0')
+from gi.repository import WebKit2
+from gi.repository import Gtk
+from gi.repository import GObject
+from gi.repository import GLib
+
 import utilities
 
-from sugar.graphics.radiotoolbutton import RadioToolButton
-
-if __name__ == "__main__":
-    ROOT_PATH = unicode(os.path.realpath('content/'))
-    STARTUP_DIR = os.path.realpath('gecko')
-else:
-    from sugar.activity import activity
-    ROOT_PATH = unicode(os.path.join(activity.get_bundle_path(), 'content/'))
-    STARTUP_DIR = os.path.join(activity.get_activity_root(), 'data/gecko')
+BASE = os.path.realpath(os.path.dirname(__file__))
+ROOT_PATH = os.path.join(BASE, "content")
+#from sugar.graphics.radiotoolbutton import RadioToolButton
 
 ignore_list = ["images", "old", "bak", "default.html", "default-avanzado.html", "default-simple.html"]
 
-HOME_PAGE = u"file://" + os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
+HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
 
-hulahop_ok = True
-try:
-    import hulahop
-    hulahop.startup(STARTUP_DIR)
-    from hulahop.webview import WebView
-    from progresslistener import ProgressListener
-except:
-    hulahop_ok = False
 
-gobject.threads_init()
-
-# filesystemencoding should be used, but for some reason its value is ascii instead of utf-8
-# the following lines are used to fix that problem, asumming all paths as utf-8
-fencoding = 'utf-8'     
-uni = lambda s: unicode(s, fencoding)
-listdir = lambda x: map(uni, os.listdir(x.encode(fencoding)))
-isfile = lambda x: os.path.isfile(x.encode(fencoding))
-exists = lambda x: os.path.exists(x.encode(fencoding))
-#
-
-class ContentWindow(gtk.HBox):
+class ContentWindow(Gtk.HBox):
     
     def __init__(self, toolbar=None):
-        gtk.HBox.__init__(self, False)
+
+        Gtk.HBox.__init__(self, False)
         
         self._create_treeview()
-        sw = gtk.ScrolledWindow()
+        sw = Gtk.ScrolledWindow()
         sw.add(self.treeview)
-        self.pack_start(sw, False)
+        self.pack_start(sw, False, False, 0)
         self.treeview.set_size_request(300, -1)
         
         self.web_view = None
         self.last_uri = HOME_PAGE
-        
-        self.connect("expose-event", self._exposed)
+
+        self.connect("draw", self._exposed)
         self.show_all()
 
         self.library_type = "advanced"
@@ -82,33 +64,22 @@ class ContentWindow(gtk.HBox):
         self._load_treeview()
     
     def _create_browser(self):
-        if hulahop_ok:
-            self.web_view = WebView()
-            self.pack_start(self.web_view, True, True)
-            self.progress_listener = ProgressListener()
-            self.progress_listener.setup(self.web_view)
-            self.progress_listener.connect('location-changed', self._location_changed_cb)
-            
-            self.web_view.load_uri(self.last_uri)
-            self.web_view.show()
-        else:
-            self.web_view = gtk.Button()
-            self.web_view.load_uri = self.web_view.set_label
-            self.web_view.load_uri(self.last_uri)
-            self.add(self.web_view)
-            self.web_view.show()
-    
+        self.web_view = WebKit2.WebView()
+        self.pack_start(self.web_view, True, True, 0)
+        self.web_view.load_uri("file://" + self.last_uri)
+        self.web_view.show()
+
     def _create_treeview(self):
         # Provided by Poteland:
         # create a TreeStore with one string column to use as the model
-        self.treestore = gtk.TreeStore(str, str)
+        self.treestore = Gtk.TreeStore(str, str)
         
         # create the TreeView using treestore
-        self.treeview = gtk.TreeView(self.treestore)
+        self.treeview = Gtk.TreeView(self.treestore)
         
         # create the TreeViewColumn to display the data
-        tvcolumn = gtk.TreeViewColumn("")
-        cell = gtk.CellRendererText()
+        tvcolumn = Gtk.TreeViewColumn("")
+        cell = Gtk.CellRendererText()
         tvcolumn.pack_start(cell, True)
         self.treeview.append_column(tvcolumn)
         
@@ -130,15 +101,14 @@ class ContentWindow(gtk.HBox):
         if not self.web_view:
             # First exposes the widget and then (when idle) creates the browser, so the screen shows up faster
             self.web_view = True # temporary so the conditions doesn't meet
-            gobject.idle_add(self._create_browser)
-            
+            GLib.idle_add(self._create_browser)
+    '''
     def ditch(self):
         """ Called when we need to ditch the browsing window and hide the whole window """
         if self.web_view:
-            self.remove(self.web_view)
-            self.web_view = None
+            self.web_view.destroy()
             self.progress_listener = None
-    
+    '''
     def _load_treeview(self):
         self.treeview_loaded = True
         self.path_iter = {}
@@ -146,21 +116,21 @@ class ContentWindow(gtk.HBox):
         self._load_treeview_recursive(ROOT_PATH, None)
     
     def _load_treeview_recursive(self, directory, parent_iter):
-        dirList = listdir(directory)
+        dirList = os.listdir(directory)
         for node in sorted(dirList):
             load = self.check_type(node)
             if load:
                 nodepath = os.path.join(directory, node)
-                if isfile(nodepath):
+                if os.path.isfile(nodepath):
                     if node.endswith(".html") and not node in ignore_list:
                         display_name = self.get_display_name(node)
-                        _iter = self.treestore.append(parent_iter, (display_name, nodepath.encode("utf-8")))
+                        _iter = self.treestore.append(parent_iter, (display_name, nodepath)) #nodepath.encode("utf-8")))
                         self.path_iter[nodepath] = _iter
                 else:
                     if not node in ignore_list:
                         display_name = self.get_display_name(node)
                         path = self.check_default_file(nodepath)
-                        _iter = self.treestore.append(parent_iter, (display_name, path.encode("utf-8")))
+                        _iter = self.treestore.append(parent_iter, (display_name, path)) #.encode("utf-8")))
                         self.path_iter[path] = _iter
                         self._load_treeview_recursive(nodepath, _iter)
     
@@ -174,15 +144,15 @@ class ContentWindow(gtk.HBox):
     
     def check_default_file(self, nodepath):
         aux = os.path.join(nodepath, "default-avanzado.html")
-        if exists(aux):
+        if os.path.exists(aux):
             return aux
             
         aux = os.path.join(nodepath, "default-simple.html")
-        if exists(aux):
+        if os.path.exists(aux):
             return aux
             
         aux = os.path.join(nodepath, "default.html")
-        if exists(aux):
+        if os.path.exists(aux):
             return aux
         
         return nodepath
@@ -206,15 +176,6 @@ class ContentWindow(gtk.HBox):
                 self.last_uri = uri
                 self.web_view.load_uri(self.last_uri)
 
-    def _location_changed_cb(self, progress_listener, uri):
-        if uri:
-            path = utilities.unquote(uri.path.encode("utf-8"))
-            uri = u"file://" + path
-            if self.last_uri <> uri:
-                self.last_uri = uri
-                onlypath = path.split("#")[0]
-                self.position_in_filename(onlypath)
-        
     def position_in_filename(self, filepath):
         if filepath in self.path_iter:
             _iter = self.path_iter[filepath]
@@ -240,7 +201,7 @@ class ContentWindow(gtk.HBox):
         
         if self.web_view:
             self.web_view.load_uri( self.last_uri )
-        
+    '''    
     def get_toolbar(self):
         toolbar = gtk.Toolbar()
         
@@ -261,12 +222,15 @@ class ContentWindow(gtk.HBox):
         toolbar.show_all()
         
         return toolbar
+    '''
+
 
 if __name__ == "__main__":
     window = ContentWindow()
-    main_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+    main_window = Gtk.Window(Gtk.WindowType.TOPLEVEL)
     main_window.add(window)
     main_window.set_size_request(800,600)
     main_window.show_all()
-    gtk.main()
+    main_window.connect("delete-event", Gtk.main_quit)
+    Gtk.main()
     
