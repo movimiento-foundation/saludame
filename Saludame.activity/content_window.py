@@ -32,32 +32,29 @@ ROOT_PATH = os.path.join(BASE, "content")
 #from sugar.graphics.radiotoolbutton import RadioToolButton
 
 ignore_list = ["images", "old", "bak", "default.html", "default-avanzado.html", "default-simple.html"]
-
 HOME_PAGE = os.path.join(ROOT_PATH, u'01-Introducción-avanzado.html')
 
 
 class ContentWindow(Gtk.HBox):
     
-    def __init__(self, toolbar=None):
+    def __init__(self):
 
-        Gtk.HBox.__init__(self, False)
+        Gtk.HBox.__init__(self)
         
         self._create_treeview()
         sw = Gtk.ScrolledWindow()
         sw.add(self.treeview)
         self.pack_start(sw, False, False, 0)
-        self.treeview.set_size_request(300, -1)
+        sw.set_size_request(250, -1)
         
-        self.web_view = None
+        self.library_type = "advanced"
+        self.path_iter = {}
         self.last_uri = HOME_PAGE
 
-        self.connect("draw", self._exposed)
-        self.show_all()
-
-        self.library_type = "advanced"
-        
-        # Could be loaded on expose, but the set_url function won't work
         self._load_treeview()
+        self._create_browser()
+
+        self.show_all()
     
     def switch(self, toolbutton, library_type):
         self.library_type = library_type
@@ -67,7 +64,6 @@ class ContentWindow(Gtk.HBox):
         self.web_view = WebKit2.WebView()
         self.pack_start(self.web_view, True, True, 0)
         self.web_view.load_uri("file://" + self.last_uri)
-        self.web_view.show()
 
     def _create_treeview(self):
         # Provided by Poteland:
@@ -89,28 +85,9 @@ class ContentWindow(Gtk.HBox):
         # make it searchable
         self.treeview.set_search_column(0)
         
-        self.treeview_loaded = False
         self.treeview.connect("cursor-changed", self.cursor_changed_cb)
         
-    def _exposed(self, widget, event):
-        if not self.treeview_loaded:
-            self.path_iter = {}
-            self.treeview_loaded = True
-            self._load_treeview()
-            
-        if not self.web_view:
-            # First exposes the widget and then (when idle) creates the browser, so the screen shows up faster
-            self.web_view = True # temporary so the conditions doesn't meet
-            GLib.idle_add(self._create_browser)
-    '''
-    def ditch(self):
-        """ Called when we need to ditch the browsing window and hide the whole window """
-        if self.web_view:
-            self.web_view.destroy()
-            self.progress_listener = None
-    '''
     def _load_treeview(self):
-        self.treeview_loaded = True
         self.path_iter = {}
         self.treestore.clear()
         self._load_treeview_recursive(ROOT_PATH, None)
@@ -170,7 +147,7 @@ class ContentWindow(Gtk.HBox):
         it = self.treestore.get_iter(tree_path)
         path = self.treestore.get_value(it, 1)
         
-        if path.endswith(".html") and self.web_view:
+        if path.endswith(".html"):
             uri = u"file://" + unicode(path, "utf-8")
             if not self.last_uri.startswith(uri):           # avoids reloading a page when the cursor is changed by the program
                 self.last_uri = uri
