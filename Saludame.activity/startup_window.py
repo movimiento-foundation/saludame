@@ -82,7 +82,7 @@ class Welcome(Gtk.Fixed):
         
         image = Gtk.Image()
         image.set_from_file("assets/slides/screen_mainmenu.jpg")
-        self.put(image, 0, 0)
+        self.put(image, 0, 0) #FIXME: Determina el tamaño de la ventana
         
         btn_new = get_button("assets/layout/btn_new_game.png")
         if new_game_cb: btn_new.connect("clicked", new_game_cb)
