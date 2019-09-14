@@ -33,6 +33,19 @@ def get_button(path):
     return btn
 
 
+story = [
+    {
+        "image": "assets/slides/history1.jpg"
+    },
+    {
+        "image": "assets/slides/history2.jpg"
+    },
+    {
+        "image": "assets/slides/help.png"
+    },
+]
+
+
 class StartupWindow(Gtk.VBox):
     
     def __init__(self, start_cb, load_last_game_cb):
@@ -45,29 +58,27 @@ class StartupWindow(Gtk.VBox):
 
     def set_welcome(self):
         for child in self.get_children():
-            self.remove(child)
-        self.add(Welcome(self.start_cb, self._new_game, self.load_last_game_cb))
+            child.destroy()
+        self.pack_start(Welcome(self._new_game, self.load_last_game_cb), True, True, 0)
         self.show_all()
         
     def _new_game(self, button):
         for child in self.get_children():
-            self.remove(child)
-        self.add(SelectGenderAndName(self._gender_selected))
+            child.destroy()
+        self.pack_start(SelectGenderAndName(self._gender_selected), True, True, 0)
     
     def _gender_selected(self, name, gender):
         for child in self.get_children():
-            self.remove(child)
+            child.destroy()
         callback = lambda: self.start_cb(gender, name)
-        self.add(Introduction(callback))
+        self.pack_start(Introduction(callback), True, True, 0)
 
 
 class Welcome(Gtk.Fixed):
     
-    def __init__(self, start_cb, new_game_cb, load_last_game_cb):
+    def __init__(self, new_game_cb, load_last_game_cb):
         
         Gtk.Fixed.__init__(self)
-
-        self.start_cb = start_cb
         
         image = Gtk.Image()
         image.set_from_file("assets/slides/screen_mainmenu.jpg")
@@ -151,18 +162,6 @@ class PlaceholderEntry(Gtk.Entry):
         if self._default:
             return ''
         return self.get_text()
-
-story = [
-    {
-        "image": "assets/slides/history1.jpg"
-    },
-    {
-        "image": "assets/slides/history2.jpg"
-    },
-    {
-        "image": "assets/slides/help.png"
-    },
-]
 
 
 class Introduction(Gtk.Fixed):
