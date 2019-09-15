@@ -20,7 +20,7 @@ from game_manager import GameManager
 import pygame
 import logging
 import hotkeys
-import gc
+
 
 if __name__ == "__main__":
     import gettext
@@ -41,11 +41,6 @@ from gettext import gettext as _
 log = logging.getLogger('saludame')
 log.setLevel(logging.DEBUG)
 
-# Sets ALSA, because default driver works through pulseaudio which is cpu hungry in dextrose
-import os, platform
-if "olpc" in platform.platform():
-    os.environ['SDL_AUDIODRIVER'] = 'alsa'
-    
 # Variables globales
 MAX_FPS = 15            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
@@ -55,7 +50,6 @@ INSTANCE_FILE_PATH = "game.save"        # File to save the game in standalone mo
 pause = False
 running = True
 
-main_class = None
 
 def set_library_function(link, anchor=None):
     if anchor:
@@ -63,29 +57,30 @@ def set_library_function(link, anchor=None):
     else:
         print link
 
+
 def set_library_event(anchor):
     set_library_function("90-Eventos-avanzado.html", anchor)
+
 
 def set_library_full_link(link):
     parts = link.split(u"#")
     link = parts[0]
     anchor = None
     if len(parts) > 1:
-        anchor = parts[1]
-    
+        anchor = parts[1]    
     set_library_function(link, anchor)
+
 
 class Main():
     
-    def __init__(self, target_size=(1200, 780)):
+    def __init__(self, target_size=(800, 600)):
+
         self.target_size = target_size
-        
-        global main_class
-        main_class = self
         
         self.gender = "boy"
         self.name = ""
-        
+        self.screen = None
+
         self.started = False
         self.loaded_game = None
         self.game_over_callback = None
@@ -93,39 +88,26 @@ class Main():
     def set_game_over_callback(self, callback):
         self.game_over_callback = callback
         
-    def main(self, from_sugar):
+    def main(self, from_sugar, size):
         if self.started:
             self.game_man.reset_game(self.gender)
         else:
-            self.init(from_sugar)
+            self.init(size)
             self.create_game(from_sugar, self.gender, self.name)
             self.run(from_sugar)
         
-    def init(self, from_sugar):
-        # Optimizes sound quality and buffer for quick loading
-        pygame.mixer.quit()     # When executting from sugar pygame it's already initialized
+    def init(self, size):
+        self.target_size = size
         pygame.mixer.pre_init(22050, -16, 1, 512)
         pygame.mixer.init()
         pygame.mixer.music.set_endevent(pygame.USEREVENT)
-        
-        # Inits PyGame module
         pygame.init()
-        
-        if not from_sugar:
-            screen = pygame.display.set_mode(self.target_size)
-        
-        screen = pygame.display.get_surface()
-        assert screen, "No screen"
-        
-        screen.blit(pygame.image.load("assets/slides/screen_loading.jpg"), (0,0))
+        pygame.display.set_mode(self.target_size, pygame.DOUBLEBUF, 0)
+        self.screen = pygame.display.get_surface()
+        self.screen.blit(pygame.image.load("assets/slides/screen_loading.jpg"), (0,0))
         pygame.display.flip()
         
     def create_game(self, from_sugar, gender, name):
-        """Main function of the game.
-        
-        This function initializes the game and enters the PyGame main loop.
-        """
-
         self.started = True
 
         import app_init
@@ -133,14 +115,9 @@ class Main():
         import sound_manager
         import saludame_windows_controller
         
-        screen = pygame.display.get_surface()
-        
-        # This clock is used to keep the game at the desired FPS.
+        self.screen = pygame.display.get_surface()
         self.clock = pygame.time.Clock()
-        
-        # Initialize sound_manager, game_manager, character, actions and menu.
-        sound_manager.SoundManager()
-        
+        sound_manager.SoundManager()        
         app_loader = app_init.AppLoader(gender, name)
         bars_loader = app_loader.get_status_bars_loader()
         self.game_man = app_loader.get_game_manager()
@@ -148,16 +125,12 @@ class Main():
             if self.loaded_game:
                 self.game_man.parse_game(self.loaded_game)
         else:
-            self.load_game()
-        
-        gc.collect()    # Collects garbaje created in the initialization
+            self.load_game() # self.game_man.parse_game(data) FIXME: game.py ejecutado directamente
         
         # windows_controller asociado al screen
-        self.windows_controller = saludame_windows_controller.SaludameWindowsController(screen, self.game_man)        
+        self.windows_controller = saludame_windows_controller.SaludameWindowsController(self.screen, self.game_man)        
         self.windows_controller.create_windows_and_activate_main(app_loader, self.clock, bars_loader)
         self.hotkeys_handler = hotkeys.HotKeyHandler()
-        
-        gc.collect()    # Collects garbaje created in the initialization
         
         self.game_man.start(self.windows_controller)
     
@@ -167,19 +140,18 @@ class Main():
         import sound_manager
         
         if from_sugar:
-            import gtk
+            import gi
+            gi.require_version('Gtk', '3.0')
+            from gi.repository import Gtk
         
         # Main loop
         frames = 0
         update = True # The first time the screen need to be updated
         
         while running:
-            
             if from_sugar:
-                # Pump GTK messages.
-                while gtk.events_pending():
-                    block = pause
-                    gtk.main_iteration(block)
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
             
             if not pause:
                 # Waits for events, if none the game pauses:
@@ -192,12 +164,12 @@ class Main():
                     for event in events:
                         if event.type == pygame.QUIT:
                             running = False
-                            if not from_sugar:
-                                self.save_game()
+                            #if not from_sugar:
+                            #    self.save_game()
                                 
                         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and not from_sugar:
                             running = False
-                            self.save_game()
+                            #self.save_game()
                             
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
@@ -227,14 +199,12 @@ class Main():
                         running = False
                 else:
                     self.windows_controller.update(frames)
-                    
                     frames += 1
-
                     self.game_man.signal()
                 
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
-    
+    '''
     def save_game(self, path=INSTANCE_FILE_PATH):
         """
         Save the game instance
@@ -247,7 +217,8 @@ class Main():
             f.write(data)
         finally:
             f.close()
-        
+    '''
+    
     def load_game(self, path=INSTANCE_FILE_PATH):
         """ loads the game from a string """
         try:
@@ -265,6 +236,7 @@ class Main():
             import sound_manager
             sound_manager.instance.set_volume(value)
         
+        
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1 and sys.argv[1] in ["boy", "girl"]:
@@ -280,4 +252,5 @@ if __name__ == "__main__":
     
     m.gender = gender
     m.name = ""
-    m.main(False)
+    m.main(False,(800, 600))
+    
