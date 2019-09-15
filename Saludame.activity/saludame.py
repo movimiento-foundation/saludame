@@ -17,12 +17,16 @@
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import signal
+import sys
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GObject
 from gi.repository import GLib
+from gi.repository import Gio
 
 import gettext
 gettextold = gettext.gettext
@@ -50,13 +54,31 @@ import logging
 BASEPATH = os.path.dirname(__file__)
 
 
-class SaludameActivity(Gtk.Window):
-    
-    def __init__(self):
-    
-        Gtk.Window.__init__(self)
+class SaludameActivity(Gtk.Application):
 
-        self.set_title("Saludame")
+    def __init__(self):
+
+        Gtk.Application.__init__(self)
+
+        self.set_flags(Gio.ApplicationFlags.NON_UNIQUE | Gio.ApplicationFlags.HANDLES_OPEN)
+
+    def do_activate(self, files=[]):
+        self.win = SaludameWindow(self, files)
+        self.win.show()
+
+    def do_open(self, files, i, hint):
+        self.do_activate(files)
+
+    def do_startup (self):
+        Gtk.Application.do_startup(self)
+
+
+class SaludameWindow(Gtk.ApplicationWindow):
+    
+    def __init__(self, app, files=[]):
+    
+        Gtk.Window.__init__(self, title="Saludame", application=app)
+
         self.set_icon_from_file(os.path.join(BASEPATH, "assets/saludame.svg"))
         self.set_resizable(True)
         self.set_position(Gtk.WindowPosition.CENTER)
@@ -90,7 +112,7 @@ class SaludameActivity(Gtk.Window):
         self.show_all()
 
         self.items.connect('switch_page', self.__switch_page)
-        self.connect("delete-event", Gtk.main_quit)
+        self.connect("delete-event", self.__salir)
     
         self.items.get_children()[1].hide()
 
@@ -140,6 +162,9 @@ class SaludameActivity(Gtk.Window):
         #self.make_toolbox(False)
         #self.toolbox.set_current_toolbar(0)             # Move to game tab
 
+    def __salir(self, widget=None, senial=None):
+        sys.exit(0)
+
     '''
     def get_game_toolbar(self):        
         toolbar = gtk.Toolbar()
@@ -179,5 +204,10 @@ class SaludameActivity(Gtk.Window):
     '''
 
 if __name__=="__main__":
-    SaludameActivity()
-    Gtk.main()
+    GObject.threads_init()
+    Gdk.threads_init()
+    app = SaludameActivity()
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    exit_status = app.run(sys.argv)
+    sys.exit(exit_status)
+    
