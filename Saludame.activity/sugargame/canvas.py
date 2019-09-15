@@ -11,7 +11,9 @@ CANVAS = None
 
 
 class PygameCanvas(Gtk.EventBox):
-    def __init__(self, activity, main=None, modules=[pygame]):
+
+    def __init__(self):
+    
         Gtk.EventBox.__init__(self)
 
         global CANVAS
@@ -19,12 +21,7 @@ class PygameCanvas(Gtk.EventBox):
         CANVAS = self
 
         # Initialize Events translator before widget gets "realized".
-        self.translator = event.Translator(activity, self)
-
-        self._activity = activity
-        self._main = main
-        self._modules = modules
-
+        self.translator = event.Translator(self)
         self.set_can_focus(True)
 
         self._socket = Gtk.Socket()
@@ -34,30 +31,24 @@ class PygameCanvas(Gtk.EventBox):
         self.show_all()
 
     def _realize_cb(self, widget):
-
         # Preinitialize Pygame with the X window ID.
         os.environ['SDL_WINDOWID'] = str(widget.get_id())
-        for module in self._modules:
-            module.init()
+        pygame.init()
 
         # Restore the default cursor.
         widget.props.window.set_cursor(None)
 
         # Confine the Pygame surface to the canvas size
         r = self.get_allocation()
-        self._screen = pygame.display.set_mode((r.width, r.height),
-                                               pygame.RESIZABLE)
+        self._screen = pygame.display.set_mode((r.width, r.height), pygame.RESIZABLE)
 
         # Hook certain Pygame functions with GTK equivalents.
         self.translator.hook_pygame()
 
-        # Call the caller's main loop as an idle source
-        if self._main:
-            GLib.idle_add(self._main)
-
     def get_pygame_widget(self):
         return self._socket
 
+    '''
     def get_preview(self):
         """
         Return preview of main surface
@@ -69,8 +60,7 @@ class PygameCanvas(Gtk.EventBox):
         if not hasattr(self, '_screen'):
             return None
 
-        _tmp_dir = os.path.join(self._activity.get_activity_root(),
-                                'tmp')
+        _tmp_dir = os.path.join(self._activity.get_activity_root(),'tmp')
         _file_path = os.path.join(_tmp_dir, 'preview.png')
 
         width = 32 #PREVIEW_SIZE[0]
@@ -84,3 +74,4 @@ class PygameCanvas(Gtk.EventBox):
         os.remove(_file_path)
 
         return preview
+    '''

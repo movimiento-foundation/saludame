@@ -44,18 +44,9 @@ class Translator(object):
         pygame.K_RSHIFT: pygame.KMOD_RSHIFT,
     }
 
-    def __init__(self, activity, inner_evb):
+    def __init__(self, inner_evb):
         """Initialise the Translator with the windows to which to listen"""
-        self._activity = activity
         self._inner_evb = inner_evb
-
-        # Enable events
-        # (add instead of set here because the main window is already realized)
-        self._activity.add_events(
-            Gdk.EventMask.KEY_PRESS_MASK |
-            Gdk.EventMask.KEY_RELEASE_MASK |
-            Gdk.EventMask.VISIBILITY_NOTIFY_MASK
-        )
 
         self._inner_evb.set_events(
             Gdk.EventMask.POINTER_MOTION_MASK |
@@ -65,13 +56,8 @@ class Translator(object):
             Gdk.EventMask.BUTTON_RELEASE_MASK
         )
 
-        self._activity.set_can_focus(True)
         self._inner_evb.set_can_focus(True)
 
-        # Callback functions to link the event systems
-        self._activity.connect('unrealize', self._quit_cb)
-        self._activity.connect('visibility_notify_event', self._visibility_cb)
-        self._activity.connect('configure-event', self._resize_cb)
         self._inner_evb.connect('key_press_event', self._keydown_cb)
         self._inner_evb.connect('key_release_event', self._keyup_cb)
         self._inner_evb.connect('button_press_event', self._mousedown_cb)
@@ -160,9 +146,6 @@ class Translator(object):
             keycode = getattr(pygame, 'K_' + key.upper())
         elif hasattr(pygame, 'K_' + key.lower()):
             keycode = getattr(pygame, 'K_' + key.lower())
-        elif key == 'XF86Start':
-            # view source request, specially handled...
-            self._activity.view_source()
         else:
             logging.error('Key %s unrecognized' % key)
 
@@ -195,8 +178,7 @@ class Translator(object):
         return self._mouseevent(widget, event, pygame.MOUSEBUTTONUP)
 
     def _mouseevent(self, widget, event, type):
-        evt = pygame.event.Event(type, button=event.button, pos=(event.x,
-                                                                 event.y))
+        evt = pygame.event.Event(type, button=event.button, pos=(event.x, event.y))
         self._post(evt)
         return True
 
@@ -231,12 +213,10 @@ class Translator(object):
         for key in self.__held:
             delta = cur_time - self.__held_last_time[key]
             self.__held_last_time[key] = cur_time
-
             self.__held_time_left[key] -= delta
             if self.__held_time_left[key] <= 0:
                 self.__held_time_left[key] = self.__repeat[1]
                 self._keyevent(None, _MockEvent(key), pygame.KEYDOWN)
-
         return True
 
     def _set_repeat(self, delay=None, interval=None):
