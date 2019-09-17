@@ -94,13 +94,10 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.maximize()
         
         self.startup_window = StartupWindow(self._start_cb, self._load_last_cb)
-        self.pygame_canvas = PygameCanvas() # FIXME: toolbar
-        self.health_library = ContentWindow() # FIXME: toolbar
+        self.pygame_canvas = PygameCanvas()
+        self.health_library = ContentWindow()
         self.guides = GuidesWindow()
         self.credits = Credits()
-        
-        self.healt_toolbar = self.health_library.get_toolbar()
-        self.headerBar.pack_start(self.healt_toolbar)
 
         self.items = Gtk.Notebook()
         
@@ -118,6 +115,11 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.game.set_game_over_callback(self.game_over_callback)
         self.game.set_library_function = self.set_library    # Sets the callback to put links in the library
         
+        self.healt_toolbar = self.health_library.get_toolbar()
+        self.game_toolbar = self.get_game_toolbar()
+        self.headerBar.pack_start(self.healt_toolbar)
+        self.headerBar.pack_start(self.game_toolbar)
+
         self.show_all()
 
         self.items.connect('switch_page', self.__switch_page)
@@ -125,6 +127,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
     
         self.items.get_children()[1].hide()
         self.healt_toolbar.hide()
+        self.game_toolbar.hide()
 
         self.items.set_current_page(0)
 
@@ -132,6 +135,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
         item = self.items.get_tab_label(self.items.get_children()[indice]).get_text()
         self.game.pause = True    
         if item == _("Game"):
+            self.healt_toolbar.hide()
+            self.game_toolbar.show_all()
             self.game.pause = False
             if self.game.started:
                 self.game.windows_controller.reload_main = True       # Repaints the whole screen
@@ -143,8 +148,10 @@ class SaludameWindow(Gtk.ApplicationWindow):
                 GLib.timeout_add(500, self.game.main, True, (r.width, r.height))
         elif item == _("Health Library"):
             self.healt_toolbar.show_all()
+            self.game_toolbar.hide()            
         else:
             self.healt_toolbar.hide()
+            self.game_toolbar.hide()
 
     def _start_cb(self, gender, name):
         #self.metadata['title'] = _("Saludame") + " " + name
@@ -179,9 +186,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
     def __salir(self, widget=None, senial=None):
         sys.exit(0)
 
-    '''
     def get_game_toolbar(self):        
-        toolbar = gtk.Toolbar()
+        toolbar = Gtk.Toolbar()
         
         # Music Volume scale
         min = 0
@@ -189,25 +195,25 @@ class SaludameWindow(Gtk.ApplicationWindow):
         step = 1
         default = 3
         
-        image = gtk.Image()
+        image = Gtk.Image()
         image.set_from_file("assets/music/music_icon.png")
         image.show()
         
-        tool_item = gtk.ToolItem()
+        tool_item = Gtk.ToolItem()
         tool_item.set_expand(False)
         tool_item.add(image)
         tool_item.show()
         toolbar.insert(tool_item, -1)
         
-        adj = gtk.Adjustment(default, min, max, step)
-        scale = gtk.HScale(adj)
-        scale.set_update_policy(gtk.UPDATE_DISCONTINUOUS)
+        adj = Gtk.Adjustment(default, min, max, step)
+        scale = Gtk.HScale()
+        scale.set_adjustment(adj)
         scale.set_size_request(240,15)
         scale.set_draw_value(False)
         scale.connect("value-changed", self.game.volume_changed)
         scale.show()
                 
-        tool_item = gtk.ToolItem()
+        tool_item = Gtk.ToolItem()
         tool_item.set_expand(False)
         tool_item.add(scale)
         tool_item.show()
@@ -215,7 +221,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         
         toolbar.show()
         return toolbar
-    '''
+    
 
 if __name__=="__main__":
     GObject.threads_init()
