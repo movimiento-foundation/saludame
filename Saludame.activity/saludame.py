@@ -54,6 +54,13 @@ import logging
 
 BASEPATH = os.path.dirname(__file__)
 
+screen = Gdk.Screen.get_default()
+css_provider = Gtk.CssProvider()
+style_path = os.path.join(BASEPATH, "Estilos", "Estilo.css")
+css_provider.load_from_path(style_path)
+context = Gtk.StyleContext()
+context.add_provider_for_screen(screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_SETTINGS)
+
 
 class SaludameActivity(Gtk.Application):
 
@@ -85,6 +92,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.set_position(Gtk.WindowPosition.CENTER)
 
         self.headerBar = Gtk.HeaderBar()
+        self.headerBar.get_style_context().add_class("header")
         self.headerBar.set_show_close_button(True)
         self.headerBar.set_title("Saludame")
         self.set_titlebar(self.headerBar)
@@ -99,15 +107,16 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.guides = GuidesWindow()
         self.credits = Credits()
 
-        self.items = Gtk.Notebook()
-        
-        self.items.append_page(self.startup_window, Gtk.Label(_("Activity")))
-        self.items.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
-        self.items.append_page(self.health_library, Gtk.Label(_("Health Library")))
-        self.items.append_page(self.guides, Gtk.Label(_("Guides")))
-        self.items.append_page(self.credits, Gtk.Label(_("Credits")))
+        self.notebook = Gtk.Notebook()
+        self.notebook.get_style_context().add_class("mynotebook")
 
-        self.add(self.items)
+        self.notebook.append_page(self.startup_window, Gtk.Label(_("Activity")))
+        self.notebook.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
+        self.notebook.append_page(self.health_library, Gtk.Label(_("Health Library")))
+        self.notebook.append_page(self.guides, Gtk.Label(_("Guides")))
+        self.notebook.append_page(self.credits, Gtk.Label(_("Credits")))
+
+        self.add(self.notebook)
 
         logging.debug("Create main")
 
@@ -122,17 +131,17 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
         self.show_all()
 
-        self.items.connect('switch_page', self.__switch_page)
+        self.notebook.connect('switch_page', self.__switch_page)
         self.connect("delete-event", self.__salir)
     
-        self.items.get_children()[1].hide()
+        self.notebook.get_children()[1].hide()
         self.healt_toolbar.hide()
         self.game_toolbar.hide()
 
-        self.items.set_current_page(0)
+        self.notebook.set_current_page(0)
 
     def __switch_page(self, widget, widget_child, indice):
-        item = self.items.get_tab_label(self.items.get_children()[indice]).get_text()
+        item = self.notebook.get_tab_label(self.notebook.get_children()[indice]).get_text()
         self.game.pause = True    
         if item == _("Game"):
             self.healt_toolbar.hide()
@@ -160,11 +169,11 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.game.gender = gender
         self.game.name = name
         self.startup_window.set_welcome()
-        self.items.get_children()[1].show()
-        self.items.set_current_page(1)
+        self.notebook.get_children()[1].show()
+        self.notebook.set_current_page(1)
 
     def set_library(self, link, anchor=None):
-        self.items.set_current_page(2)
+        self.notebook.set_current_page(2)
         self.health_library.set_url(link, anchor)
     
     def _load_last_cb(self, button):

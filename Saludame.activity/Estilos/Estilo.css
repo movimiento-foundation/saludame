@@ -1,0 +1,50 @@
+@define-color green1 #8de531;
+@define-color blue1 #34a4b0;
+
+.header, .header toolbar {
+    background-image: image(@green1);
+    background-color: @green1;
+}
+
+.header button {
+    background-image: image(rgb(190, 243, 190));
+    background-color: rgb(190, 243, 190);
+    border-radius: 5px;
+    margin: 3px;
+    padding: 3px;
+}
+.header button:hover {
+    background-image: image(rgb(190, 243, 190));
+    background-color: rgb(190, 243, 190);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.8), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+}
+.header button:checked {
+    background-image: image(rgb(190, 243, 190));
+    background-color: rgb(190, 243, 190);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.8), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*
+.mynotebook > header.top
+.mynotebook > header.top > tabs > tab
+.mynotebook > header > tabs > tab:hover
+.mynotebook > header > tabs > tab:checked
+*/
+.mynotebook > header{
+    background-image: image(@green1);
+    background-color: @green1;
+}
+.mynotebook tab:hover {
+    background-image: image(rgb(190, 243, 190));
+    background-color: rgb(190, 243, 190);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.8), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+}
+.mynotebook tab:checked {
+    background-image: image(rgb(190, 243, 190));
+    background-color: rgb(190, 243, 190);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.8), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+}
