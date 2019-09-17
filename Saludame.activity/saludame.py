@@ -19,6 +19,7 @@
 import os
 import signal
 import sys
+
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
@@ -83,16 +84,24 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.set_resizable(True)
         self.set_position(Gtk.WindowPosition.CENTER)
 
+        self.headerBar = Gtk.HeaderBar()
+        self.headerBar.set_show_close_button(True)
+        self.headerBar.set_title("Saludame")
+        self.set_titlebar(self.headerBar)
+
         self.game_init = False
         
         self.maximize()
         
         self.startup_window = StartupWindow(self._start_cb, self._load_last_cb)
-        self.pygame_canvas = PygameCanvas()
-        self.health_library = ContentWindow()
+        self.pygame_canvas = PygameCanvas() # FIXME: toolbar
+        self.health_library = ContentWindow() # FIXME: toolbar
         self.guides = GuidesWindow()
         self.credits = Credits()
         
+        self.healt_toolbar = self.health_library.get_toolbar()
+        self.headerBar.pack_start(self.healt_toolbar)
+
         self.items = Gtk.Notebook()
         
         self.items.append_page(self.startup_window, Gtk.Label(_("Activity")))
@@ -115,6 +124,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.connect("delete-event", self.__salir)
     
         self.items.get_children()[1].hide()
+        self.healt_toolbar.hide()
 
         self.items.set_current_page(0)
 
@@ -131,7 +141,11 @@ class SaludameWindow(Gtk.ApplicationWindow):
                 self.game_init = True
                 r = self.pygame_canvas.get_allocation()
                 GLib.timeout_add(500, self.game.main, True, (r.width, r.height))
-            
+        elif item == _("Health Library"):
+            self.healt_toolbar.show_all()
+        else:
+            self.healt_toolbar.hide()
+
     def _start_cb(self, gender, name):
         #self.metadata['title'] = _("Saludame") + " " + name
         # FIXME: no debiera funcionar sin genero y nombre.

@@ -142,16 +142,17 @@ class ContentWindow(Gtk.HBox):
         return display_name
     
     def cursor_changed_cb(self, treeview):
-        tree_path, column = self.treeview.get_cursor()
-        
-        it = self.treestore.get_iter(tree_path)
-        path = self.treestore.get_value(it, 1)
-        
-        if path.endswith(".html"):
-            uri = u"file://" + unicode(path, "utf-8")
-            if not self.last_uri.startswith(uri):           # avoids reloading a page when the cursor is changed by the program
-                self.last_uri = uri
-                self.web_view.load_uri(self.last_uri)
+        try:
+            tree_path, column = self.treeview.get_cursor()
+            it = self.treestore.get_iter(tree_path)
+            path = self.treestore.get_value(it, 1)
+            if path.endswith(".html"):
+                uri = u"file://" + unicode(path, "utf-8")
+                if not self.last_uri.startswith(uri):           # avoids reloading a page when the cursor is changed by the program
+                    self.last_uri = uri
+                    self.web_view.load_uri(self.last_uri)
+        except:
+            pass
 
     def position_in_filename(self, filepath):
         if filepath in self.path_iter:
@@ -178,28 +179,26 @@ class ContentWindow(Gtk.HBox):
         
         if self.web_view:
             self.web_view.load_uri( self.last_uri )
-    '''    
+     
     def get_toolbar(self):
-        toolbar = gtk.Toolbar()
+        toolbar = Gtk.Toolbar()
         
-        radio_adv = RadioToolButton()
+        radio_adv = Gtk.RadioToolButton()
         radio_adv.set_active(True)
         radio_adv.set_label("Avanzada")
-        radio_adv.set_tooltip("Mostrar biblioteca avanzada")
+        radio_adv.set_tooltip_text("Mostrar biblioteca avanzada")
         radio_adv.connect("clicked", self.switch, "advanced")
         toolbar.insert(radio_adv, -1)
-        radio_adv.show()
         
-        radio_bas = RadioToolButton(group=radio_adv)
+        radio_bas = Gtk.RadioToolButton(group=radio_adv)
         radio_bas.set_label("Simple")
-        radio_bas.set_tooltip("Mostrar biblioteca sencilla")
+        radio_bas.set_tooltip_text("Mostrar biblioteca sencilla")
         radio_bas.connect("clicked", self.switch, "basic")
         toolbar.insert(radio_bas, -1)
         
         toolbar.show_all()
         
         return toolbar
-    '''
 
 
 if __name__ == "__main__":
