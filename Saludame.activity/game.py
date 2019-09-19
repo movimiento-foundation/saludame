@@ -238,19 +238,8 @@ class Main():
         
         
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1] in ["boy", "girl"]:
-        gender = sys.argv[1]
-    else:
-        gender = "boy"
-    
-    if len(sys.argv) > 1 and "full" in sys.argv[1:]:
-        m = Main()
-    else:
-        # In regular computers the native resolution is too high (5/6)
-        m = Main((1000, 650))
-    
-    m.gender = gender
+    m = Main((800, 600))
+    m.gender = "boy"
     m.name = ""
     m.main(False,(800, 600))
     
