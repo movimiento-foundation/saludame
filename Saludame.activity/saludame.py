@@ -88,8 +88,10 @@ class SaludameWindow(Gtk.ApplicationWindow):
         Gtk.Window.__init__(self, title="Saludame", application=app)
 
         self.set_icon_from_file(os.path.join(BASEPATH, "assets/saludame.svg"))
-        self.set_resizable(True)
-        self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_resizable(False)
+        self.maximize() # self.set_position(Gtk.WindowPosition.CENTER)
+
+        self.size = (800, 600)
 
         self.headerBar = Gtk.HeaderBar()
         self.headerBar.get_style_context().add_class("header")
@@ -98,8 +100,6 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.set_titlebar(self.headerBar)
 
         self.game_init = False
-        
-        self.maximize()
         
         self.startup_window = StartupWindow(self._start_cb, self._load_last_cb)
         self.pygame_canvas = PygameCanvas()
@@ -111,10 +111,10 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.notebook.get_style_context().add_class("mynotebook")
 
         self.notebook.append_page(self.startup_window, Gtk.Label(_("Activity")))
-        self.notebook.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
-        self.notebook.append_page(self.health_library, Gtk.Label(_("Health Library")))
-        self.notebook.append_page(self.guides, Gtk.Label(_("Guides")))
-        self.notebook.append_page(self.credits, Gtk.Label(_("Credits")))
+        #self.notebook.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
+        #self.notebook.append_page(self.health_library, Gtk.Label(_("Health Library")))
+        #self.notebook.append_page(self.guides, Gtk.Label(_("Guides")))
+        #self.notebook.append_page(self.credits, Gtk.Label(_("Credits")))
 
         self.add(self.notebook)
 
@@ -129,16 +129,26 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.headerBar.pack_start(self.healt_toolbar)
         self.headerBar.pack_start(self.game_toolbar)
 
-        self.show_all()
-
         self.notebook.connect('switch_page', self.__switch_page)
         self.connect("delete-event", self.__salir)
     
-        self.notebook.get_children()[1].hide()
+        self.connect("realize", self.__realize)
+
+        self.show_all()
+
+        #self.notebook.get_children()[1].hide()
         self.healt_toolbar.hide()
         self.game_toolbar.hide()
 
         self.notebook.set_current_page(0)
+
+    def __realize(self, widget):
+        GLib.timeout_add(100, self.__get_allocation)
+
+    def __get_allocation(self):
+        a = self.startup_window.get_allocation()
+        self.size = (a.width, a.height-50)
+        self.startup_window.set_welcome(self.size)
 
     def __switch_page(self, widget, widget_child, indice):
         item = self.notebook.get_tab_label(self.notebook.get_children()[indice]).get_text()

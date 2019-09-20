@@ -22,6 +22,8 @@ gi.require_version('Gdk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Pango
+from gi.repository import GdkPixbuf
+
 from gettext import gettext as _
     
 
@@ -46,65 +48,72 @@ story = [
 ]
 
 
-class StartupWindow(Gtk.VBox):
+class StartupWindow(Gtk.EventBox):
     
     def __init__(self, start_cb, load_last_game_cb):
         
-        Gtk.VBox.__init__(self, False)
+        Gtk.EventBox.__init__(self)
         
         self.start_cb = start_cb
         self.load_last_game_cb = load_last_game_cb
-        self.set_welcome()
+        self.size = (800, 600)
+        self.show_all()
 
-    def set_welcome(self):
+    def set_welcome(self, size=False):
+        if size: self.size = size
         for child in self.get_children():
             child.destroy()
-        self.pack_start(Welcome(self._new_game, self.load_last_game_cb), True, True, 0)
+        self.add(Welcome(self.size, self._new_game, self.load_last_game_cb))
         self.show_all()
         
     def _new_game(self, button):
         for child in self.get_children():
             child.destroy()
-        self.pack_start(SelectGenderAndName(self._gender_selected), True, True, 0)
+        self.add(SelectGenderAndName(self.size, self._gender_selected))
     
     def _gender_selected(self, name, gender):
         for child in self.get_children():
             child.destroy()
         callback = lambda: self.start_cb(gender, name)
-        self.pack_start(Introduction(callback), True, True, 0)
+        self.add(Introduction(self.size, callback))
 
 
 class Welcome(Gtk.Fixed):
     
-    def __init__(self, new_game_cb, load_last_game_cb):
+    def __init__(self, size, new_game_cb, load_last_game_cb):
         
         Gtk.Fixed.__init__(self)
         
         image = Gtk.Image()
-        image.set_from_file("assets/slides/screen_mainmenu.jpg")
-        self.put(image, 0, 0) #FIXME: Determina el tamaño de la ventana
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale("assets/slides/screen_mainmenu.jpg", size[0], size[1], True)
+        image.set_from_pixbuf(pixbuf)
+        self.put(image, 0, 0)
         
+        h = pixbuf.get_width()/2-114
+        v = pixbuf.get_height()/2
+        # Tamaño original de las imágenes de los botones => 229, 82
         btn_new = get_button("assets/layout/btn_new_game.png")
         if new_game_cb: btn_new.connect("clicked", new_game_cb)
-        self.put(btn_new, 490, 386)
+        self.put(btn_new, h, v)
         
         btn_last_game = get_button("assets/layout/btn_load_last.png")
         if load_last_game_cb: btn_last_game.connect("clicked", load_last_game_cb)
-        self.put(btn_last_game, 490, 500)
+        self.put(btn_last_game, h, v+95)
         
         self.show_all()
 
 
 class SelectGenderAndName(Gtk.Fixed):
     
-    def __init__(self, callback):
+    def __init__(self, size, callback):
         
         Gtk.Fixed.__init__(self)
         
         self.callback = callback
         
         image = Gtk.Image()
-        image.set_from_file("assets/slides/screen_name_and_gender.jpg")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale("assets/slides/screen_name_and_gender.jpg", size[0], size[1], True)
+        image.set_from_pixbuf(pixbuf)
         self.put(image, 0, 0)
 
         self.kid_name = PlaceholderEntry(_('Escribe un nombre'))
@@ -112,16 +121,16 @@ class SelectGenderAndName(Gtk.Fixed):
         font_desc = Pango.FontDescription(font)
         self.kid_name.modify_font(font_desc)
         self.kid_name.set_has_frame(False)
-        self.kid_name.set_size_request(776, 98)
-        self.put(self.kid_name, 213, 127)
-        
+        self.kid_name.set_size_request(666, 98)
+        self.put(self.kid_name, 172, 100)
+                
         btn_boy = get_button("assets/layout/btn_boy.png")
         btn_boy.connect("clicked", self._boy)
-        self.put(btn_boy, 210, 260)
+        self.put(btn_boy, 169, 233)
         
         btn_girl = get_button("assets/layout/btn_girl.png")
         btn_girl.connect("clicked", self._girl)
-        self.put(btn_girl, 750, 260)
+        self.put(btn_girl, 602, 233)
         
         self.show_all()
         
@@ -166,10 +175,11 @@ class PlaceholderEntry(Gtk.Entry):
 
 class Introduction(Gtk.Fixed):
     
-    def __init__(self, callback):
+    def __init__(self, size, callback):
     
         Gtk.Fixed.__init__(self)
         
+        self.size = size
         self.callback = callback
         self.index = 0    
         self.show_slide()
@@ -181,18 +191,19 @@ class Introduction(Gtk.Fixed):
         slide = story[self.index]
         
         image = Gtk.Image()
-        image.set_from_file(slide["image"])
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(slide["image"], self.size[0], self.size[1], True)
+        image.set_from_pixbuf(pixbuf)
         self.put(image, 0, 0)
         
         btn_back = get_button("assets/layout/btn_back.png")
         btn_back.connect("clicked", self._back)
-        self.put(btn_back, 0, 604)
+        self.put(btn_back, 5, pixbuf.get_height()-180)
         if self.index == 0:
             btn_back.set_sensitive(False)
         
         btn_next = get_button("assets/layout/btn_next.png")
         btn_next.connect("clicked", self._next)
-        self.put(btn_next, 1087, 604)
+        self.put(btn_next, pixbuf.get_width()-105, pixbuf.get_height()-180)
         
         self.show_all()
         
