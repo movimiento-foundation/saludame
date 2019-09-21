@@ -115,7 +115,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.notebook.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
         self.notebook.append_page(self.health_library, Gtk.Label(_("Health Library")))
         self.notebook.append_page(self.guides, Gtk.Label(_("Guides")))
-        #self.notebook.append_page(self.credits, Gtk.Label(_("Credits")))
+        self.notebook.append_page(self.credits, Gtk.Label(_("Credits")))
 
         self.add(self.notebook)
 
@@ -172,6 +172,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
         else:
             self.healt_toolbar.hide()
             self.game_toolbar.hide()
+        if item == _("Credits"):
+            self.credits.reload()
 
     def _start_cb(self, gender, name):
         #self.metadata['title'] = _("Saludame") + " " + name

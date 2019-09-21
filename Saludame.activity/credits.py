@@ -17,46 +17,28 @@
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
 import gi
+import os
 gi.require_version('Gtk', '3.0')
-gi.require_version('Gdk', '3.0')
+gi.require_version('WebKit2', '4.0')
+from gi.repository import WebKit2
 from gi.repository import Gtk
-from gi.repository import Gdk
-from gi.repository import GdkPixbuf
+
+BASE = os.path.realpath(os.path.dirname(__file__))
 
 
-class Credits(Gtk.Fixed):
+class Credits(WebKit2.WebView):
     
     def __init__(self):
         
-        Gtk.Fixed.__init__(self)
+        WebKit2.WebView.__init__(self)
 
-        self.pixbuf = GdkPixbuf.Pixbuf.new_from_file("credits/background.jpg")
-        self.credits_pixbuf = GdkPixbuf.Pixbuf.new_from_file("credits/saludame.svg")
-        height = self.credits_pixbuf.get_height()
-        self.adj = Gtk.Adjustment(value=0, lower=0, upper=height,
-            step_incr=20, page_incr=200, page_size=550)
-        scroll = Gtk.VScrollbar(self.adj)
-        scroll.set_size_request(40, 550)
-        scroll.show()
-        scroll.connect("value-changed", self.scrolled)
-        self.put(scroll, 1158, 150)
-        self.connect("draw", self._expose_cb)
+        self.load_uri("file://" + os.path.join(BASE, "credits", "credits.html"))
+        self.show_all()
 
-    def scrolled(self, gtkrange):
-        self.queue_draw()
+    def reload(self):
+        self.load_uri("file://" + os.path.join(BASE, "credits", "credits.html"))
+
         
-    def _expose_cb(self, widget, context):
-        Gdk.cairo_set_source_pixbuf(context, self.pixbuf, 0, 0)
-        context.paint()
-
-        y = int(self.adj.get_value())
-        width = self.credits_pixbuf.get_width()
-        height = 550
-
-        Gdk.cairo_set_source_pixbuf(context, self.credits_pixbuf, 0, y)
-        context.paint()
-
-
 if __name__ == "__main__":
     c = Credits()
     main_window = Gtk.Window(Gtk.WindowType.TOPLEVEL)
