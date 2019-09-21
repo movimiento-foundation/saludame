@@ -112,9 +112,9 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.notebook.get_style_context().add_class("mynotebook")
 
         self.notebook.append_page(self.startup_window, Gtk.Label(_("Activity")))
-        #self.notebook.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
-        #self.notebook.append_page(self.health_library, Gtk.Label(_("Health Library")))
-        #self.notebook.append_page(self.guides, Gtk.Label(_("Guides")))
+        self.notebook.append_page(self.pygame_canvas, Gtk.Label(_("Game")))
+        self.notebook.append_page(self.health_library, Gtk.Label(_("Health Library")))
+        self.notebook.append_page(self.guides, Gtk.Label(_("Guides")))
         #self.notebook.append_page(self.credits, Gtk.Label(_("Credits")))
 
         self.add(self.notebook)
@@ -137,7 +137,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
         self.show_all()
 
-        #self.notebook.get_children()[1].hide()
+        self.notebook.get_children()[1].hide()
         self.healt_toolbar.hide()
         self.game_toolbar.hide()
 
@@ -164,8 +164,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
                 self.pygame_canvas.translator.hook_pygame()
             else:
                 self.game_init = True
-                r = self.pygame_canvas.get_allocation()
-                GLib.timeout_add(500, self.game.main, True, (r.width, r.height))
+                r = self.startup_window.get_allocation()
+                GLib.timeout_add(100, self.game.main, True, (r.width, r.height))
         elif item == _("Health Library"):
             self.healt_toolbar.show_all()
             self.game_toolbar.hide()            

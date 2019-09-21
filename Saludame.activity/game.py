@@ -148,6 +148,7 @@ class Main():
         frames = 0
         update = True # The first time the screen need to be updated
         
+        pygame.display.update()
         while running:
             if from_sugar:
                 while Gtk.events_pending():
@@ -201,6 +202,8 @@ class Main():
                     self.windows_controller.update(frames)
                     frames += 1
                     self.game_man.signal()
+
+            pygame.display.update()
                 
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
