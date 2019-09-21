@@ -48,11 +48,11 @@ story = [
 ]
 
 
-class StartupWindow(Gtk.EventBox):
+class StartupWindow(Gtk.AspectFrame):
     
     def __init__(self, start_cb, load_last_game_cb):
         
-        Gtk.EventBox.__init__(self)
+        Gtk.AspectFrame.__init__(self)
         
         self.start_cb = start_cb
         self.load_last_game_cb = load_last_game_cb
@@ -121,16 +121,29 @@ class SelectGenderAndName(Gtk.Fixed):
         font_desc = Pango.FontDescription(font)
         self.kid_name.modify_font(font_desc)
         self.kid_name.set_has_frame(False)
-        self.kid_name.set_size_request(666, 98)
-        self.put(self.kid_name, 172, 100)
-                
-        btn_boy = get_button("assets/layout/btn_boy.png")
+        w = pixbuf.get_width() * 66 / 100  # Entry es 66% del ancho de la imagen
+        h = pixbuf.get_height() * 14 / 100 # 14%
+        self.kid_name.set_size_request(w, h)
+
+        x = pixbuf.get_width() * 17 / 100
+        y = pixbuf.get_height() * 16 / 100
+        self.put(self.kid_name, x, y)
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file("assets/layout/btn_boy.png")
+        img = Gtk.Image()
+        img.set_from_pixbuf(pixbuf)
+        btn_boy = Gtk.Button()
+        btn_boy.set_image(img)
         btn_boy.connect("clicked", self._boy)
-        self.put(btn_boy, 169, 233)
+        self.put(btn_boy, x, y + h + 20)
         
-        btn_girl = get_button("assets/layout/btn_girl.png")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file("assets/layout/btn_girl.png")
+        img = Gtk.Image()
+        img.set_from_pixbuf(pixbuf)
+        btn_girl = Gtk.Button()
+        btn_girl.set_image(img)
         btn_girl.connect("clicked", self._girl)
-        self.put(btn_girl, 602, 233)
+        self.put(btn_girl, x + w - pixbuf.get_width(), y + h + 20)
         
         self.show_all()
         

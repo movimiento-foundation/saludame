@@ -89,7 +89,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
         self.set_icon_from_file(os.path.join(BASEPATH, "assets/saludame.svg"))
         self.set_resizable(False)
-        self.maximize() # self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        self.maximize()
 
         self.size = (800, 600)
 
@@ -143,11 +144,11 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.notebook.set_current_page(0)
 
     def __realize(self, widget):
-        GLib.timeout_add(100, self.__get_allocation)
+        GLib.timeout_add(200, self.__get_allocation)
 
     def __get_allocation(self):
         a = self.startup_window.get_allocation()
-        self.size = (a.width, a.height-50)
+        self.size = (a.width, a.height)
         self.startup_window.set_welcome(self.size)
 
     def __switch_page(self, widget, widget_child, indice):
