@@ -104,7 +104,7 @@ class Main():
         pygame.init()
         pygame.display.set_mode(self.target_size, pygame.DOUBLEBUF, 0)
         self.screen = pygame.display.get_surface()
-        self.screen.blit(pygame.image.load("assets/slides/screen_loading.jpg"), (0,0))
+        self.screen.blit(pygame.image.load("assets/slides/screen_loading.jpg").convert_alpha(), (0,0))
         pygame.display.flip()
         
     def create_game(self, from_sugar, gender, name):

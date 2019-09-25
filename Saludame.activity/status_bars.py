@@ -193,7 +193,7 @@ class BarSection(gui.Window):
         self.fixed_widgets = [label_widget, self.root_bar_display]
         
         if icon_path:
-            icon = pygame.image.load(icon_path).convert()
+            icon = pygame.image.load(icon_path).convert_alpha()
             self.icon = gui.Widget(self.rect, pygame.Rect((0, 0), icon.get_size()), 1, icon)
             self.icon.keep_dirty = True
             self.fixed_widgets.append(self.icon)
@@ -295,8 +295,8 @@ class BarDisplay(gui.Widget):
         self.color_partitions = color_partitions
         self.position = position
         if isinstance(self.status_bar, WeightBar):
-            self.background = pygame.image.load("assets/layout/weight_bar_back.png").convert()
-            self.arrow = pygame.image.load("assets/layout/weight_bar_arrow.png").convert()
+            self.background = pygame.image.load("assets/layout/weight_bar_back.png").convert_alpha()
+            self.arrow = pygame.image.load("assets/layout/weight_bar_arrow.png").convert_alpha()
         else:
             self.background = pygame.image.load("assets/layout/main_bar_back.png").convert_alpha()
         self.surface = self.background.copy()   # The actual surface to be blitted
@@ -379,8 +379,8 @@ class ScoreSection(gui.Widget):
         
         self.text_color = pygame.Color(TEXT_COLOR)
 
-        self.left_arrow = pygame.image.load("assets/events/go-back-s.png")
-        self.right_arrow = pygame.image.load("assets/events/go-next-s.png") 
+        self.left_arrow = pygame.image.load("assets/events/go-back-s.png").convert_alpha()
+        self.right_arrow = pygame.image.load("assets/events/go-next-s.png").convert_alpha()
         
     def draw(self, screen):
         self.surface.blit(self.get_background().subsurface(self.rect_in_container), (0, 0))

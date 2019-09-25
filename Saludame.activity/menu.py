@@ -339,19 +339,19 @@ class Item(gui.Button):
         self.bg_image = None
         self.center_item = center_item
         if center_item:
-            self.bg_image = pygame.image.load(icon_path).convert()
+            self.bg_image = pygame.image.load(icon_path).convert_alpha()
         else:
             if len(self.name) > LARGE_TEXT:
-                self.bg_image = pygame.image.load(LARGE_BUTTON).convert()
+                self.bg_image = pygame.image.load(LARGE_BUTTON).convert_alpha()
             else:
-                self.bg_image = pygame.image.load(SMALL_BUTTON).convert()
+                self.bg_image = pygame.image.load(SMALL_BUTTON).convert_alpha()
         self.bg_rect = self.bg_image.get_rect()
         
         action = self.menu.game_manager.get_action(self.action_id)
 
         if action:
             if action.link: #has to show help button
-                self.help_image = pygame.image.load(HELP_BUTTON).convert()
+                self.help_image = pygame.image.load(HELP_BUTTON).convert_alpha()
                 self.help_rect = self.help_image.get_rect()
                 self.action_link = action.link
                 

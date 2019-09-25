@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import logging
 import gi
 gi.require_version('Gdk', '3.0')
@@ -32,7 +33,6 @@ class Translator(object):
         'KP_Right': pygame.K_KP6,
         'KP_Next': pygame.K_KP3,
         'KP_Begin': pygame.K_KP5,
-
     }
 
     mod_map = {
@@ -112,7 +112,6 @@ class Translator(object):
                 self.__held_last_time[key] = pygame.time.get_ticks()
                 self.__held_time_left[key] = self.__repeat[0]
             self.__held.add(key)
-
         return self._keyevent(widget, event, pygame.KEYDOWN)
 
     def _keyup_cb(self, widget, event):
@@ -124,7 +123,6 @@ class Translator(object):
                 del self.__held_time_left[key]
                 del self.__held_last_time[key]
         self.__held.discard(key)
-
         return self._keyevent(widget, event, pygame.KEYUP)
 
     def _keymods(self):

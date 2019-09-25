@@ -153,22 +153,20 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
     def __switch_page(self, widget, widget_child, indice):
         item = self.notebook.get_tab_label(self.notebook.get_children()[indice]).get_text()
-        self.game.pause = True    
+        self.game.pause = True
         if item == _("Game"):
             self.healt_toolbar.hide()
             self.game_toolbar.show_all()
             self.game.pause = False
             if self.game.started:
                 self.game.windows_controller.reload_main = True       # Repaints the whole screen
-            if self.game_init:
-                self.pygame_canvas.translator.hook_pygame()
-            else:
+            if not self.game_init:
                 self.game_init = True
                 r = self.startup_window.get_allocation()
                 GLib.timeout_add(100, self.game.main, True, (r.width, r.height))
         elif item == _("Health Library"):
             self.healt_toolbar.show_all()
-            self.game_toolbar.hide()            
+            self.game_toolbar.hide()
         else:
             self.healt_toolbar.hide()
             self.game_toolbar.hide()
