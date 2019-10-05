@@ -116,7 +116,9 @@ class SelectGenderAndName(Gtk.Fixed):
         image.set_from_pixbuf(pixbuf)
         self.put(image, 0, 0)
 
-        self.kid_name = PlaceholderEntry(_('Escribe un nombre'))
+        self.kid_name = Gtk.Entry()
+        self.kid_name.get_style_context().add_class("entradasdetexto")
+        self.kid_name.props.placeholder_text = _('Escribe un nombre')
         font = 'dejavu 24'
         font_desc = Pango.FontDescription(font)
         self.kid_name.modify_font(font_desc)
@@ -132,58 +134,32 @@ class SelectGenderAndName(Gtk.Fixed):
         pixbuf = GdkPixbuf.Pixbuf.new_from_file("assets/layout/btn_boy.png")
         img = Gtk.Image()
         img.set_from_pixbuf(pixbuf)
-        btn_boy = Gtk.Button()
-        btn_boy.set_image(img)
-        btn_boy.connect("clicked", self._boy)
-        self.put(btn_boy, x, y + h + 20)
+        self.btn_boy = Gtk.Button()
+        self.btn_boy.set_image(img)
+        self.btn_boy.connect("clicked", self.__run_callback, "boy")
+        self.put(self.btn_boy, x, y + h + 20)
         
         pixbuf = GdkPixbuf.Pixbuf.new_from_file("assets/layout/btn_girl.png")
         img = Gtk.Image()
         img.set_from_pixbuf(pixbuf)
-        btn_girl = Gtk.Button()
-        btn_girl.set_image(img)
-        btn_girl.connect("clicked", self._girl)
-        self.put(btn_girl, x + w - pixbuf.get_width(), y + h + 20)
+        self.btn_girl = Gtk.Button()
+        self.btn_girl.set_image(img)
+        self.btn_girl.connect("clicked", self.__run_callback, "girl")
+        self.put(self.btn_girl, x + w - pixbuf.get_width(), y + h + 20)
         
         self.show_all()
         
-    def _boy(self, button):
-        self.callback(self.kid_name.get_text(), "boy")
+        self.btn_boy.set_sensitive(False)
+        self.btn_girl.set_sensitive(False)
+        
+        self.kid_name.connect("changed", self.__change_entry)
 
-    def _girl(self, button):
-        self.callback(self.kid_name.get_text(), "girl")
+    def __change_entry(self, entry):
+        self.btn_boy.set_sensitive(len(entry.get_text().strip()) >= 3)
+        self.btn_girl.set_sensitive(len(entry.get_text().strip()) >= 3)
 
-
-class PlaceholderEntry(Gtk.Entry):
-
-    _default = True
-
-    def __init__(self, placeholder):
-    
-        Gtk.Entry.__init__(self)
-    
-        self.placeholder = placeholder
-        self._focus_out_event(self, None)
-        self.connect('focus-in-event', self._focus_in_event)
-        self.connect('focus-out-event', self._focus_out_event)
-
-    def _focus_in_event(self, widget, event):
-        if self._default:
-            self.set_text('')
-            self.modify_text(Gtk.StateType.NORMAL, Gdk.color_parse('black'))
-
-    def _focus_out_event(self, widget, event):
-        if self.get_text() == '':
-            self.set_text(self.placeholder)
-            self.modify_text(Gtk.StateType.NORMAL, Gdk.color_parse('gray'))
-            self._default = True
-        else:
-            self._default = False
-
-    def get_text(self):
-        if self._default:
-            return ''
-        return self.get_text()
+    def __run_callback(self, button, genero):
+        self.callback(self.kid_name.get_text(), genero)
 
 
 class Introduction(Gtk.Fixed):
