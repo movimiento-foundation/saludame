@@ -193,7 +193,6 @@ def get_image_list(directory):
 
 
 import zlib
-'''
 import imagepatch
 def load_animation(last_image, new_filename):
     if new_filename.endswith('.png'):
@@ -206,8 +205,8 @@ def load_animation(last_image, new_filename):
         new = last_image                        # both point to the same surface
         new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
     return new
-'''
 
+'''
 def load_animation(last_image, new_filename):
     if new_filename.endswith('.png'):
         new = pygame.image.load(new_filename)
@@ -222,3 +221,4 @@ def load_animation(last_image, new_filename):
         buff.write(bytes(arr), 0)  # Instead of using a copy modifies the same surface
         new = last_image
     return new
+'''
