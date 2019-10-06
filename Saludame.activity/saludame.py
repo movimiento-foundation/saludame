@@ -143,6 +143,15 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
         self.notebook.set_current_page(0)
 
+        self.connect('key_press_event', self._keydown_cb)
+        self.connect('key_release_event', self._keyup_cb)
+
+    def _keydown_cb(self, widget, event):
+        self.pygame_canvas.translator._keydown_cb(widget, event)
+
+    def _keyup_cb(self, widget, event):
+        self.pygame_canvas.translator._keyup_cb(widget, event)
+
     def __realize(self, widget):
         GLib.timeout_add(200, self.__get_allocation)
 
@@ -175,8 +184,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
     def _start_cb(self, gender, name):
         #self.metadata['title'] = _("Saludame") + " " + name
-        # FIXME: no debiera funcionar sin genero y nombre.
-        # FIXME: Debiera reiniciarse el juego aquí oen __switch_page
+        # FIXME: Debiera reiniciarse el juego aquí o en __switch_page
         self.game.gender = gender
         self.game.name = name
         self.startup_window.set_welcome()
@@ -199,9 +207,9 @@ class SaludameWindow(Gtk.ApplicationWindow):
     
     def game_over_callback(self):
         # FIXME: No parece ejecutarse nunca
-        print self.game_over_callback
-        #self.make_toolbox(False)
-        #self.toolbox.set_current_toolbar(0)             # Move to game tab
+        self.startup_window.set_welcome()
+        self.notebook.get_children()[1].hide()
+        self.notebook.set_current_page(0)
 
     def __salir(self, widget=None, senial=None):
         sys.exit(0)

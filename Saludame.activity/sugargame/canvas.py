@@ -5,7 +5,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import GLib
 import pygame
-import sugargame.event as event
+from sugargame.event import Translator
 
 
 class PygameCanvas(Gtk.EventBox):
@@ -15,7 +15,7 @@ class PygameCanvas(Gtk.EventBox):
         Gtk.EventBox.__init__(self)
 
         # Initialize Events translator before widget gets "realized".
-        self.translator = event.Translator(self)
+        self.translator = Translator(self)
         self.set_can_focus(True)
 
         self._socket = Gtk.Socket()

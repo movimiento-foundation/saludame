@@ -71,7 +71,7 @@ class MainWindow(gui.Window):
 class Clock(gui.Widget):
     
     def __init__(self, container, rect_in_container, frame_rate, game_manager):
-        background = pygame.image.load("assets/layout/clock_background.png").convert()
+        background = pygame.image.load("assets/layout/clock_background.png").convert_alpha()
         rect_in_container.size = background.get_size()
         gui.Widget.__init__(self, container, rect_in_container, frame_rate)
         
@@ -88,7 +88,7 @@ class Clock(gui.Widget):
         self.set_frame()
     
     def set_frame(self):
-        image = pygame.image.load(self.frame_paths[self.frame_index]).convert()
+        image = pygame.image.load(self.frame_paths[self.frame_index]).convert_alpha()
         rect = pygame.Rect((0,0), image.get_size())
         rect.center = self.rect_absolute.width/2, self.rect_absolute.height/2
         self.background.blit(image, rect)

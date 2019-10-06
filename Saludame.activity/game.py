@@ -19,7 +19,7 @@
 from game_manager import GameManager
 import pygame
 import logging
-import hotkeys
+from hotkeys import HotKeyHandler
 
 
 if __name__ == "__main__":
@@ -130,7 +130,7 @@ class Main():
         # windows_controller asociado al screen
         self.windows_controller = saludame_windows_controller.SaludameWindowsController(self.screen, self.game_man)        
         self.windows_controller.create_windows_and_activate_main(app_loader, self.clock, bars_loader)
-        self.hotkeys_handler = hotkeys.HotKeyHandler()
+        self.hotkeys_handler = HotKeyHandler()
         
         self.game_man.start(self.windows_controller)
     
@@ -186,13 +186,13 @@ class Main():
                             
                         elif event.type == pygame.USEREVENT and event.code == 0: # Music ended
                             sound_manager.instance.start_playing()
-                            
+                         
                         elif event.type == pygame.KEYDOWN:
                             self.hotkeys_handler.handle_keydown(event)
                             
                         elif event.type == pygame.KEYUP:
                             self.hotkeys_handler.handle_keyup(event)
-                
+                        
                 if self.game_man.game_over:
                     if self.game_over_callback:
                         self.game_over_callback()
