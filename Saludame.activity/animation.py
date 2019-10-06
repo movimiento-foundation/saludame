@@ -113,7 +113,6 @@ class Kid(gui.Widget):
             self.loops += 1
             if self.action and self.action.kid_loop_times > 0 and self.loops == self.action.kid_loop_times:
                 self.visible = False
-        
         if self.action and self.action.sound_path:
             self.play_sound()
 
@@ -194,19 +193,32 @@ def get_image_list(directory):
 
 
 import zlib
+'''
 import imagepatch
 def load_animation(last_image, new_filename):
     if new_filename.endswith('.png'):
         new = pygame.image.load(new_filename)
-        
     elif new_filename.endswith('.diff.zlib'):
         f = open(new_filename, 'r')
         diff = zlib.decompress(f.read())
         f.close()
         new_buffer = imagepatch.patch(last_image.get_buffer().raw, diff)
         new = last_image                        # both point to the same surface
-        # FIXME: IndexError: bytes to write exceed buffer size
-        # new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
-
+        new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
     return new
-    
+'''
+
+def load_animation(last_image, new_filename):
+    if new_filename.endswith('.png'):
+        new = pygame.image.load(new_filename)
+    elif new_filename.endswith('.diff.zlib'):
+        f = open(new_filename, 'r')
+        diff = bytearray(zlib.decompress(f.read()))
+        f.close()
+        buff = last_image.get_buffer()
+        arr = bytearray(buff.raw)
+        for i in range(0, len(arr)):
+            arr[i] = arr[i] ^ diff[i]
+        buff.write(bytes(arr), 0)  # Instead of using a copy modifies the same surface
+        new = last_image
+    return new
