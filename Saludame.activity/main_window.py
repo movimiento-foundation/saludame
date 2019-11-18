@@ -65,8 +65,8 @@ class MainWindow(gui.Window):
     def _cb_button_click_change_mood(self, button):
         self.kidW.change_mood()
     
-    def _cb_reset_game(self, button):
-        self.game_manager.reset_game()
+    #def _cb_reset_game(self, button):
+    #    self.game_manager.reset_game()
 
 class Clock(gui.Widget):
     

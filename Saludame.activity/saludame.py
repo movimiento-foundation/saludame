@@ -52,6 +52,11 @@ from guides_window import GuidesWindow
 
 import logging
 
+D = os.path.join(os.environ["HOME"], ".Saludame")
+if not os.path.exists(D):
+    os.mkdir(D)
+INSTANCE_FILE_PATH = os.path.join(D, "game.save")
+
 BASEPATH = os.path.dirname(__file__)
 
 screen = Gdk.Screen.get_default()
@@ -101,7 +106,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.set_titlebar(self.headerBar)
 
         self.game_init = False
-        
+        self.loaded_game = None
         self.startup_window = StartupWindow(self._start_cb, self._load_last_cb)
         self.pygame_canvas = PygameCanvas()
         self.health_library = ContentWindow()
@@ -122,8 +127,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
         logging.debug("Create main")
 
         self.game = Main()
-        self.game.set_game_over_callback(self.game_over_callback)
-        self.game.set_library_function = self.set_library    # Sets the callback to put links in the library
+        # FIXME: self.game.set_game_over_callback(self.game_over_callback)
+        self.game.set_library_function = self.set_library
         
         self.healt_toolbar = self.health_library.get_toolbar()
         self.game_toolbar = self.get_game_toolbar()
@@ -147,10 +152,12 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.connect('key_release_event', self._keyup_cb)
 
     def _keydown_cb(self, widget, event):
-        self.pygame_canvas.translator._keydown_cb(widget, event)
+        if self.notebook.get_current_page() == 1:
+            self.pygame_canvas.translator.keydown_cb(widget, event)
 
     def _keyup_cb(self, widget, event):
-        self.pygame_canvas.translator._keyup_cb(widget, event)
+        if self.notebook.get_current_page() == 1:
+            self.pygame_canvas.translator.keyup_cb(widget, event)
 
     def __realize(self, widget):
         GLib.timeout_add(200, self.__get_allocation)
@@ -196,20 +203,27 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.health_library.set_url(link, anchor)
     
     def _load_last_cb(self, button):
-        print "FIXME: Debiera cargar el ultimo juego guardado", self._load_last_cb
-        '''
-        metadata = self.get_last_game()
-        if metadata:
-            self.metadata['title'] = metadata['title']
-            self.make_toolbox(True)
-            self.toolbox.set_current_toolbar(1)
-        '''
-    
+        logging.debug("Read file")
+        fd = open(INSTANCE_FILE_PATH, 'r')
+        try:
+            data = fd.read()
+            self.loaded_game = data
+            self.game.loaded_game = self.loaded_game
+        except Exception,e:
+            print "Error loading data"
+            print e
+        finally:
+            fd.close()
+        self.notebook.get_children()[1].show()
+        self.notebook.set_current_page(1)
+
+    '''
     def game_over_callback(self):
         # FIXME: No parece ejecutarse nunca
         self.startup_window.set_welcome()
         self.notebook.get_children()[1].hide()
         self.notebook.set_current_page(0)
+    '''
 
     def __salir(self, widget=None, senial=None):
         sys.exit(0)

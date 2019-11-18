@@ -8,12 +8,12 @@ import pygame
 import pygame.event
 
 
-class _MockEvent(object):
+class _MockEvent():
     def __init__(self, keyval):
         self.keyval = keyval
 
 
-class Translator(object):
+class Translator():
     key_trans = {
         'Alt_L': pygame.K_LALT,
         'Alt_R': pygame.K_RALT,
@@ -58,8 +58,8 @@ class Translator(object):
 
         self._inner_evb.set_can_focus(True)
 
-        self._inner_evb.connect('key_press_event', self._keydown_cb)
-        self._inner_evb.connect('key_release_event', self._keyup_cb)
+        self._inner_evb.connect('key_press_event', self.keydown_cb)
+        self._inner_evb.connect('key_release_event', self.keyup_cb)
         self._inner_evb.connect('button_press_event', self._mousedown_cb)
         self._inner_evb.connect('button_release_event', self._mouseup_cb)
         self._inner_evb.connect('motion-notify-event', self._mousemove_cb)
@@ -103,7 +103,7 @@ class Translator(object):
         self.update_display()
         return False
 
-    def _keydown_cb(self, widget, event):
+    def keydown_cb(self, widget, event):
         key = event.keyval
         if key in self.__held:
             return True
@@ -114,7 +114,7 @@ class Translator(object):
             self.__held.add(key)
         return self._keyevent(widget, event, pygame.KEYDOWN)
 
-    def _keyup_cb(self, widget, event):
+    def keyup_cb(self, widget, event):
         key = event.keyval
         if self.__repeat[0] is not None:
             if key in self.__held:
@@ -157,6 +157,7 @@ class Translator(object):
             if ukey == '\000':
                 ukey = ''
             evt = pygame.event.Event(type, key=keycode, unicode=ukey, mod=mod)
+            print evt
             self._post(evt)
 
         return True
@@ -228,13 +229,13 @@ class Translator(object):
         return self.__mouse_pos
 
     def _post(self, evt):
-        try:
-            pygame.event.post(evt)
-        except pygame.error as e:
+        #try:
+        pygame.event.post(evt)
+        '''except pygame.error as e:
             if str(e) == 'video system not initialized':
                 pass
             elif str(e) == 'Event queue full':
                 logging.error("Event queue full!")
                 pass
             else:
-                raise e
+                raise e'''

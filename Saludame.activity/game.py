@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
+import os
+from gi.repository import GObject
 from game_manager import GameManager
 import pygame
 import logging
@@ -45,7 +47,10 @@ log.setLevel(logging.DEBUG)
 MAX_FPS = 15            # Max frames per second
 SLEEP_TIMEOUT = 30      # Seconds until the PauseScreen if no events show up
 
-INSTANCE_FILE_PATH = "game.save"        # File to save the game in standalone mode
+D = os.path.join(os.environ["HOME"], ".Saludame")
+if not os.path.exists(D):
+    os.mkdir(D)
+INSTANCE_FILE_PATH = os.path.join(D, "game.save")        # File to save the game in standalone mode
 
 pause = False
 running = True
@@ -71,10 +76,10 @@ def set_library_full_link(link):
     set_library_function(link, anchor)
 
 
-class Main():
+class Main(GObject.GObject):
     
     def __init__(self, target_size=(800, 600)):
-
+        GObject.GObject.__init__(self)
         self.target_size = target_size
         
         self.gender = "boy"
@@ -84,10 +89,10 @@ class Main():
         self.started = False
         self.loaded_game = None
         self.game_over_callback = None
-    
+    '''
     def set_game_over_callback(self, callback):
         self.game_over_callback = callback
-        
+    '''    
     def main(self, from_sugar, size):
         if self.started:
             self.game_man.reset_game(self.gender)
@@ -125,7 +130,7 @@ class Main():
             if self.loaded_game:
                 self.game_man.parse_game(self.loaded_game)
         else:
-            self.load_game() # self.game_man.parse_game(data) FIXME: game.py ejecutado directamente
+            self.load_game()
         
         # windows_controller asociado al screen
         self.windows_controller = saludame_windows_controller.SaludameWindowsController(self.screen, self.game_man)        
@@ -163,14 +168,15 @@ class Main():
                 
                 if events:
                     for event in events:
+
                         if event.type == pygame.QUIT:
                             running = False
-                            #if not from_sugar:
-                            #    self.save_game()
+                            if not from_sugar:
+                                self.save_game()
                                 
-                        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and not from_sugar:
+                        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                             running = False
-                            #self.save_game()
+                            self.save_game()
                             
                         elif event.type == pygame.MOUSEBUTTONDOWN:
                             self.windows_controller.handle_mouse_down(pygame.mouse.get_pos())
@@ -192,9 +198,10 @@ class Main():
                             
                         elif event.type == pygame.KEYUP:
                             self.hotkeys_handler.handle_keyup(event)
-                        
+                '''        
                 if self.game_man.game_over:
                     if self.game_over_callback:
+                        print self.game_over_callback 
                         self.game_over_callback()
                     else:
                         running = False
@@ -202,25 +209,23 @@ class Main():
                     self.windows_controller.update(frames)
                     frames += 1
                     self.game_man.signal()
-
+                '''
             pygame.display.update()
                 
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         pygame.quit()
-    '''
+        print "FIXME: Se cuelga todo"
+    
     def save_game(self, path=INSTANCE_FILE_PATH):
         """
         Save the game instance
         """
-        print "saving game"
         data = self.game_man.serialize()
-        
         try:
             f = open(path, 'w')
             f.write(data)
         finally:
             f.close()
-    '''
     
     def load_game(self, path=INSTANCE_FILE_PATH):
         """ loads the game from a string """
