@@ -157,7 +157,6 @@ class Translator():
             if ukey == '\000':
                 ukey = ''
             evt = pygame.event.Event(type, key=keycode, unicode=ukey, mod=mod)
-            print evt
             self._post(evt)
 
         return True

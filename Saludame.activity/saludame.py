@@ -127,9 +127,9 @@ class SaludameWindow(Gtk.ApplicationWindow):
         logging.debug("Create main")
 
         self.game = Main()
-        # FIXME: self.game.set_game_over_callback(self.game_over_callback)
+        self.game.set_game_over_callback(self.game_over_callback)
         self.game.set_library_function = self.set_library
-        
+
         self.healt_toolbar = self.health_library.get_toolbar()
         self.game_toolbar = self.get_game_toolbar()
         self.headerBar.pack_start(self.healt_toolbar)
@@ -217,13 +217,10 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.notebook.get_children()[1].show()
         self.notebook.set_current_page(1)
 
-    '''
     def game_over_callback(self):
-        # FIXME: No parece ejecutarse nunca
         self.startup_window.set_welcome()
         self.notebook.get_children()[1].hide()
         self.notebook.set_current_page(0)
-    '''
 
     def __salir(self, widget=None, senial=None):
         sys.exit(0)

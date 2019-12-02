@@ -41,7 +41,7 @@ import sound_manager
 
 instance = None
 
-class GameManager:
+class GameManager():
     """
     Clase gestora del sistema. Se encarga del control de las acciones
     y los eventos del juego.

@@ -18,7 +18,6 @@
 
 import os
 from gi.repository import GObject
-from game_manager import GameManager
 import pygame
 import logging
 from hotkeys import HotKeyHandler
@@ -89,10 +88,10 @@ class Main(GObject.GObject):
         self.started = False
         self.loaded_game = None
         self.game_over_callback = None
-    '''
+    
     def set_game_over_callback(self, callback):
         self.game_over_callback = callback
-    '''    
+        
     def main(self, from_sugar, size):
         if self.started:
             self.game_man.reset_game(self.gender)
@@ -135,12 +134,12 @@ class Main(GObject.GObject):
         # windows_controller asociado al screen
         self.windows_controller = saludame_windows_controller.SaludameWindowsController(self.screen, self.game_man)        
         self.windows_controller.create_windows_and_activate_main(app_loader, self.clock, bars_loader)
-        self.hotkeys_handler = HotKeyHandler()
+        #self.hotkeys_handler = HotKeyHandler()
         
         self.game_man.start(self.windows_controller)
     
     def run(self, from_sugar):
-        global running, pauses
+        global running, pause
         
         import sound_manager
         
@@ -193,15 +192,17 @@ class Main(GObject.GObject):
                         elif event.type == pygame.USEREVENT and event.code == 0: # Music ended
                             sound_manager.instance.start_playing()
                          
+                        '''
                         elif event.type == pygame.KEYDOWN:
                             self.hotkeys_handler.handle_keydown(event)
                             
                         elif event.type == pygame.KEYUP:
                             self.hotkeys_handler.handle_keyup(event)
-                '''        
+                        '''
+
                 if self.game_man.game_over:
                     if self.game_over_callback:
-                        print self.game_over_callback 
+                        #print self.game_over_callback 
                         self.game_over_callback()
                     else:
                         running = False
@@ -209,13 +210,13 @@ class Main(GObject.GObject):
                     self.windows_controller.update(frames)
                     frames += 1
                     self.game_man.signal()
-                '''
+    
             pygame.display.update()
                 
         # Una vez que sale del loop manda la senal de quit para que cierre la ventana
-        pygame.quit()
         print "FIXME: Se cuelga todo"
-    
+        pygame.quit()
+
     def save_game(self, path=INSTANCE_FILE_PATH):
         """
         Save the game instance
