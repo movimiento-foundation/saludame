@@ -21,6 +21,9 @@ from gi.repository import GObject
 import pygame
 import logging
 from hotkeys import HotKeyHandler
+from app_init import AppLoader
+from sound_manager import SoundManager
+from saludame_windows_controller import SaludameWindowsController
 
 
 if __name__ == "__main__":
@@ -51,8 +54,6 @@ if not os.path.exists(D):
     os.mkdir(D)
 INSTANCE_FILE_PATH = os.path.join(D, "game.save")        # File to save the game in standalone mode
 
-pause = False
-running = True
 
 
 def set_library_function(link, anchor=None):
@@ -78,71 +79,62 @@ def set_library_full_link(link):
 class Main(GObject.GObject):
     
     def __init__(self, target_size=(800, 600)):
+
         GObject.GObject.__init__(self)
-        self.target_size = target_size
+
+        self.__target_size = target_size
         
         self.gender = "boy"
         self.name = ""
-        self.screen = None
+
+        self.__screen = None
+        self.__clock = None
+        self.__game_over_callback = None
+        self.__game_man = None
+        self.__sound_manager = None
 
         self.started = False
-        self.loaded_game = None
-        self.game_over_callback = None
+        self.pause = False
+        self.running = True
     
     def set_game_over_callback(self, callback):
-        self.game_over_callback = callback
+        self.__game_over_callback = callback
         
-    def main(self, from_sugar, size):
+    def main(self, from_sugar, size, loadLast):
         if self.started:
-            self.game_man.reset_game(self.gender)
+            self.__game_man.reset_game(self.gender)
         else:
-            self.init(size)
-            self.create_game(from_sugar, self.gender, self.name)
-            self.run(from_sugar)
+            self.__init(size)
+            self.__create_game(from_sugar, self.gender, self.name, loadLast)
+            self.__run(from_sugar)
         
-    def init(self, size):
-        self.target_size = size
+    def __init(self, size):
+        self.__target_size = size
         pygame.mixer.pre_init(22050, -16, 1, 512)
         pygame.mixer.init()
         pygame.mixer.music.set_endevent(pygame.USEREVENT)
         pygame.init()
-        pygame.display.set_mode(self.target_size, pygame.DOUBLEBUF, 0)
-        self.screen = pygame.display.get_surface()
-        self.screen.blit(pygame.image.load("assets/slides/screen_loading.jpg").convert_alpha(), (0,0))
+        pygame.display.set_mode(self.__target_size, pygame.DOUBLEBUF, 0)
+        self.__screen = pygame.display.get_surface()
+        self.__screen.blit(pygame.image.load("assets/slides/screen_loading.jpg").convert_alpha(), (0,0))
         pygame.display.flip()
         
-    def create_game(self, from_sugar, gender, name):
-        self.started = True
-
-        import app_init
-        import customization
-        import sound_manager
-        import saludame_windows_controller
-        
-        self.screen = pygame.display.get_surface()
-        self.clock = pygame.time.Clock()
-        sound_manager.SoundManager()        
-        app_loader = app_init.AppLoader(gender, name)
+    def __create_game(self, from_sugar, gender, name, loadLast):
+        self.started = True        
+        self.__screen = pygame.display.get_surface()
+        self.__clock = pygame.time.Clock()
+        self.__sound_manager = SoundManager()        
+        app_loader = AppLoader(gender, name)
         bars_loader = app_loader.get_status_bars_loader()
-        self.game_man = app_loader.get_game_manager()
-        if from_sugar:
-            if self.loaded_game:
-                self.game_man.parse_game(self.loaded_game)
-        else:
-            self.load_game()
-        
+        self.__game_man = app_loader.get_game_manager()
+        if loadLast: self.load_game()
         # windows_controller asociado al screen
-        self.windows_controller = saludame_windows_controller.SaludameWindowsController(self.screen, self.game_man)        
-        self.windows_controller.create_windows_and_activate_main(app_loader, self.clock, bars_loader)
+        self.windows_controller = SaludameWindowsController(self.__screen, self.__game_man)        
+        self.windows_controller.create_windows_and_activate_main(app_loader, self.__clock, bars_loader)
         #self.hotkeys_handler = HotKeyHandler()
-        
-        self.game_man.start(self.windows_controller)
+        self.__game_man.start(self.windows_controller)
     
-    def run(self, from_sugar):
-        global running, pause
-        
-        import sound_manager
-        
+    def __run(self, from_sugar):               
         if from_sugar:
             import gi
             gi.require_version('Gtk', '3.0')
@@ -153,15 +145,15 @@ class Main(GObject.GObject):
         update = True # The first time the screen need to be updated
         
         pygame.display.update()
-        while running:
+        while self.running:
             if from_sugar:
                 while Gtk.events_pending():
                     Gtk.main_iteration()
             
-            if not pause:
+            if not self.pause: # FIXME: Está de más
                 # Waits for events, if none the game pauses:
                 # http://wiki.laptop.org/go/Game_development_HOWTO#Reducing_CPU_Load
-                milliseconds = self.clock.tick(MAX_FPS) # waits if the game is running faster than MAX_FPS
+                milliseconds = self.__clock.tick(MAX_FPS) # waits if the game is running faster than MAX_FPS
                 
                 events = pygame.event.get()
                 
@@ -169,12 +161,12 @@ class Main(GObject.GObject):
                     for event in events:
 
                         if event.type == pygame.QUIT:
-                            running = False
+                            self.running = False
                             if not from_sugar:
                                 self.save_game()
                                 
                         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                            running = False
+                            self.running = False
                             self.save_game()
                             
                         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -190,8 +182,8 @@ class Main(GObject.GObject):
                             self.windows_controller.reload_main = True
                             
                         elif event.type == pygame.USEREVENT and event.code == 0: # Music ended
-                            sound_manager.instance.start_playing()
-                         
+                            #self.__sound_manager.instance.start_playing()
+                            self.__sound_manager.start_playing()
                         '''
                         elif event.type == pygame.KEYDOWN:
                             self.hotkeys_handler.handle_keydown(event)
@@ -200,28 +192,23 @@ class Main(GObject.GObject):
                             self.hotkeys_handler.handle_keyup(event)
                         '''
 
-                if self.game_man.game_over:
-                    if self.game_over_callback:
-                        #print self.game_over_callback 
-                        self.game_over_callback()
+                if self.__game_man.game_over:
+                    if self.__game_over_callback:
+                        self.__game_over_callback()
                     else:
-                        running = False
+                        self.running = False
                 else:
                     self.windows_controller.update(frames)
                     frames += 1
-                    self.game_man.signal()
+                    self.__game_man.signal()
     
             pygame.display.update()
                 
-        # Una vez que sale del loop manda la senal de quit para que cierre la ventana
         print "FIXME: Se cuelga todo"
         pygame.quit()
 
     def save_game(self, path=INSTANCE_FILE_PATH):
-        """
-        Save the game instance
-        """
-        data = self.game_man.serialize()
+        data = self.__game_man.serialize()
         try:
             f = open(path, 'w')
             f.write(data)
@@ -229,21 +216,19 @@ class Main(GObject.GObject):
             f.close()
     
     def load_game(self, path=INSTANCE_FILE_PATH):
-        """ loads the game from a string """
         try:
             f = open(path)
             data = f.read()
-            self.game_man.parse_game(data)
+            if self.__game_man: self.__game_man.parse_game(data)
             f.close()
         except:
             print "Error al cargar la partida"
-    
+
     def volume_changed(self, range):
         value = range.get_value()
         if value >= 0 and value <= 10:
             value = float(value)/10
-            import sound_manager
-            sound_manager.instance.set_volume(value)
+            self.__sound_manager.set_volume(value)
         
         
 if __name__ == "__main__":

@@ -92,6 +92,9 @@ class SaludameWindow(Gtk.ApplicationWindow):
     
         Gtk.Window.__init__(self, title="Saludame", application=app)
 
+        self.__new_game = ''
+        self.__data = {}
+
         self.set_icon_from_file(os.path.join(BASEPATH, "assets/saludame.svg"))
         self.set_resizable(False)
         self.set_position(Gtk.WindowPosition.CENTER)
@@ -105,8 +108,6 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.headerBar.set_title("Saludame")
         self.set_titlebar(self.headerBar)
 
-        self.game_init = False
-        self.loaded_game = None
         self.startup_window = StartupWindow(self._start_cb, self._load_last_cb)
         self.pygame_canvas = PygameCanvas()
         self.health_library = ContentWindow()
@@ -169,31 +170,42 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
     def __switch_page(self, widget, widget_child, indice):
         item = self.notebook.get_tab_label(self.notebook.get_children()[indice]).get_text()
-        self.game.pause = True
+
         if item == _("Game"):
             self.healt_toolbar.hide()
             self.game_toolbar.show_all()
-            self.game.pause = False
-            if self.game.started:
-                self.game.windows_controller.reload_main = True       # Repaints the whole screen
-            if not self.game_init:
-                self.game_init = True
+
+            if self.__new_game == 'new':
+                self.game.started = False
+                self.game.gender = self.__data.get('gender', '')
+                self.game.name = self.__data.get('name', '')
                 r = self.startup_window.get_allocation()
-                GLib.timeout_add(100, self.game.main, True, (r.width, r.height))
+                GLib.timeout_add(200, self.game.main, True, (r.width, r.height), False)
+
+            elif self.__new_game == 'load':
+                self.game.started = False
+                r = self.startup_window.get_allocation()
+                GLib.timeout_add(200, self.game.main, True, (r.width, r.height), True)
+
+            else:
+                self.game.windows_controller.reload_main = True  # Repaints the whole screen
+
+            self.__new_game = ''
+            self.__data = {}
+
         elif item == _("Health Library"):
             self.healt_toolbar.show_all()
             self.game_toolbar.hide()
         else:
             self.healt_toolbar.hide()
             self.game_toolbar.hide()
+
         if item == _("Credits"):
             self.credits.reload()
 
     def _start_cb(self, gender, name):
-        #self.metadata['title'] = _("Saludame") + " " + name
-        # FIXME: Debiera reiniciarse el juego aquí o en __switch_page
-        self.game.gender = gender
-        self.game.name = name
+        self.__new_game = 'new'
+        self.__data = {'gender': gender, 'name': name}
         self.startup_window.set_welcome()
         self.notebook.get_children()[1].show()
         self.notebook.set_current_page(1)
@@ -203,17 +215,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.health_library.set_url(link, anchor)
     
     def _load_last_cb(self, button):
-        logging.debug("Read file")
-        fd = open(INSTANCE_FILE_PATH, 'r')
-        try:
-            data = fd.read()
-            self.loaded_game = data
-            self.game.loaded_game = self.loaded_game
-        except Exception,e:
-            print "Error loading data"
-            print e
-        finally:
-            fd.close()
+        self.__new_game = 'load'
         self.notebook.get_children()[1].show()
         self.notebook.set_current_page(1)
 

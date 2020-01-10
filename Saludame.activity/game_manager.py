@@ -818,21 +818,14 @@ class GameManager():
 
     def parse_game(self, data):
         """ loads the game from a string """
-        
         game_status = eval(data)
-        
         #load bars status
         self.bars_controller.load_bars_status(game_status)
-        
         #character properties
         self.character.load_properties(game_status)
-        
         self.update_environment()
-        
         self.game_over = False
-        
         print "Game loaded. Version ", game_status["version"]
-    
 
     def get_level(self):
         """
