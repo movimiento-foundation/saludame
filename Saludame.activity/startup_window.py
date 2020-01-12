@@ -133,7 +133,7 @@ class SelectGenderAndName(Gtk.Fixed):
         y = pixbuf.get_height() * 16 / 100
         self.put(self.kid_name, x, y)
 
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file("assets/layout/btn_boy.png")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("assets/layout/btn_boy1.png", 198, -1)
         img = Gtk.Image()
         img.set_from_pixbuf(pixbuf)
         self.btn_boy = Gtk.Button()
@@ -141,7 +141,7 @@ class SelectGenderAndName(Gtk.Fixed):
         self.btn_boy.connect("clicked", self.__run_callback, "boy")
         self.put(self.btn_boy, x, y + h + 20)
         
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file("assets/layout/btn_girl.png")
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("assets/layout/btn_girl1.png", 198, -1)
         img = Gtk.Image()
         img.set_from_pixbuf(pixbuf)
         self.btn_girl = Gtk.Button()

@@ -228,13 +228,13 @@ class Translator():
         return self.__mouse_pos
 
     def _post(self, evt):
-        #try:
-        pygame.event.post(evt)
-        '''except pygame.error as e:
+        try:
+            pygame.event.post(evt)
+        except pygame.error as e:
             if str(e) == 'video system not initialized':
                 pass
             elif str(e) == 'Event queue full':
                 logging.error("Event queue full!")
                 pass
             else:
-                raise e'''
+                raise e

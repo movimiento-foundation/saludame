@@ -180,12 +180,12 @@ class SaludameWindow(Gtk.ApplicationWindow):
                 self.game.gender = self.__data.get('gender', '')
                 self.game.name = self.__data.get('name', '')
                 r = self.startup_window.get_allocation()
-                GLib.timeout_add(200, self.game.main, True, (r.width, r.height), False)
+                GLib.timeout_add(200, self.game.main, (r.width, r.height), False)
 
             elif self.__new_game == 'load':
                 self.game.started = False
                 r = self.startup_window.get_allocation()
-                GLib.timeout_add(200, self.game.main, True, (r.width, r.height), True)
+                GLib.timeout_add(200, self.game.main, (r.width, r.height), True)
 
             else:
                 self.game.windows_controller.reload_main = True  # Repaints the whole screen

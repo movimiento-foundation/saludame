@@ -38,6 +38,3 @@ class PygameCanvas(Gtk.EventBox):
 
         # Hook certain Pygame functions with GTK equivalents.
         self.translator.hook_pygame()
-
-    def get_pygame_widget(self):
-        return self._socket
