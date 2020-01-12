@@ -55,7 +55,6 @@ if not os.path.exists(D):
 INSTANCE_FILE_PATH = os.path.join(D, "game.save")        # File to save the game in standalone mode
 
 
-
 def set_library_function(link, anchor=None):
     if anchor:
         print link + "#" + anchor
@@ -159,13 +158,13 @@ class Main(GObject.GObject):
                 
                 if events:
                     for event in events:
-
+                        '''
                         if event.type == pygame.QUIT:
                             self.running = False
                             if not from_sugar:
                                 self.save_game()
-                                
-                        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                        '''
+                        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                             self.running = False
                             self.save_game()
                             

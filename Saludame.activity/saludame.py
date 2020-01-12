@@ -161,7 +161,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
             self.pygame_canvas.translator.keyup_cb(widget, event)
 
     def __realize(self, widget):
-        GLib.timeout_add(200, self.__get_allocation)
+        GLib.timeout_add(300, self.__get_allocation)
 
     def __get_allocation(self):
         a = self.startup_window.get_allocation()

@@ -134,7 +134,7 @@ class MultipleChoice(gui.Window):
     
     def set_image(self, image):
         if  not isinstance(image, pygame.Surface):
-            image = pygame.image.load(image)
+            image = pygame.image.load(image).convert_alpha()
         image = gui.Image(self.rect, pygame.Rect(500, 40, 20, 20), 1, image)
         self.add_child(image)
         

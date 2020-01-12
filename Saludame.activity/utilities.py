@@ -22,7 +22,7 @@ import os
 import effects
 
 def get_accept_button(container, rect, text, cb_click=None, cb_over=None, cb_out=None):
-    background = pygame.image.load("assets/windows/dialog_button.png").convert()
+    background = pygame.image.load("assets/windows/dialog_button.png").convert_alpha()
     return gui.TextButton2(container, rect, 1, text, 24, pygame.Color("#397b7e"), background, cb_click, cb_over, cb_out)
     
 def change_color(surface, old_color, new_color):
@@ -50,7 +50,7 @@ get_font = gui.get_font
 # Paths controls
 def check_image(image_path):
     try:
-        pygame.image.load(image_path)
+        pygame.image.load(image_path).convert_alpha()
         return True
     except:
         return False

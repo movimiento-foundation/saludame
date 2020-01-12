@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
+import os
+from gi.repository import GObject
 import pygame
 
 music = {
@@ -28,7 +30,7 @@ music = {
 
 instance = None
 
-class SoundManager:
+class SoundManager(GObject.GObject):
     
     IDLE = 0
     PLAYING = 1
@@ -36,6 +38,9 @@ class SoundManager:
     FADE_IN = 3
     
     def __init__(self):
+
+        GObject.GObject.__init__(self)
+
         global instance
         instance = self
         

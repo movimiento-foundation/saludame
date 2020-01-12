@@ -58,8 +58,8 @@ class Translator():
 
         self._inner_evb.set_can_focus(True)
 
-        self._inner_evb.connect('key_press_event', self.keydown_cb)
-        self._inner_evb.connect('key_release_event', self.keyup_cb)
+        #self._inner_evb.connect('key_press_event', self.keydown_cb)
+        #self._inner_evb.connect('key_release_event', self.keyup_cb)
         self._inner_evb.connect('button_press_event', self._mousedown_cb)
         self._inner_evb.connect('button_release_event', self._mouseup_cb)
         self._inner_evb.connect('motion-notify-event', self._mousemove_cb)

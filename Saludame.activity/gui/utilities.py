@@ -19,8 +19,9 @@
 # Utilitarios: Text, Button (abstract), ImageButton, TextButton
 
 import pygame
-from widget import *
+from widget import Widget
 import os
+
 
 class Text(Widget):
     
@@ -63,21 +64,23 @@ class Text(Widget):
         self.refresh()
         return (self)
     
+
 class Image(Widget):
     def __init__(self, container, rect, frame_rate, image, keep_format=False):
         
         if not isinstance(image, pygame.Surface):
-            image = pygame.image.load(image)
+            image = pygame.image.load(image).convert_alpha()
             if keep_format:
                 self.background = image
             else:
                 if image.get_bitsize() == 8:
-                    self.background = image.convert()
+                    self.background = image
                 else:
-                    self.background = image.convert_alpha()
+                    self.background = image
         else:
             self.background = image
         Widget.__init__(self, container, pygame.Rect((rect.left, rect.top), self.background.get_rect().size), frame_rate, self.background)                
+
 
 class Button(Widget):
     
@@ -100,7 +103,6 @@ class Button(Widget):
     # Override
     def on_mouse_click(self):
         Widget.on_mouse_click(self)    # Super
-        
         if self.function_on_mouse_click and self.enable: # if there's a callback setted makes the call
             self.function_on_mouse_click(self)
     
@@ -137,16 +139,17 @@ class Button(Widget):
             screen.blit(copy, self.rect_absolute)
         return updates
         
+
 class ImageButton(Button):
     
     def __init__(self, container, rect, frame_rate, image, cb_click=None, cb_over=None, cb_out=None):
         
         if not isinstance(image, pygame.Surface):
-            image = pygame.image.load(image)
+            image = pygame.image.load(image).convert_alpha()
             if image.get_bitsize() == 8:
-                self.image = image.convert()
+                self.image = image
             else:
-                self.image = image.convert_alpha()
+                self.image = image
         
         rect.size = image.get_rect().size
 
@@ -159,9 +162,9 @@ class ImageButton(Button):
         if not isinstance(image, pygame.Surface):
             image = pygame.image.load(image).convert_alpha()
             if image.get_bitsize() == 8:
-                image = image.convert()
+                image = image
             else:
-                image = image.convert_alpha()
+                image = image
 
             if self.text_intro:
                 self.text_intro.visible = True
@@ -171,6 +174,7 @@ class ImageButton(Button):
         self.background = image
         self.set_dirty()
         
+
 class TextButton(ImageButton):     
     def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
         self.text = Text(container, rect.x, rect.y, frame_rate, text, size, color)
@@ -180,6 +184,7 @@ class TextButton(ImageButton):
         self.background = self.text.switch_color_text(color).background
         self.set_dirty()
         
+
 class TextBlockButton(Button):     
     def __init__(self, container, rect, frame_rate, text, size, color, cb_click=None, cb_over=None, cb_out=None):
         self.text = TextBlock(container, rect.x, rect.y, frame_rate, text, size, color, "normal", False)
@@ -193,6 +198,7 @@ class TextBlockButton(Button):
         self.text.draw(screen)
         self.parent.set_dirty_background()
     
+
 class TextButton2(ImageButton):
     
     def __init__(self, container, rect, frame_rate, text, size, color, background, cb_click=None, cb_over=None, cb_out=None):
@@ -218,6 +224,7 @@ class TextButton2(ImageButton):
         surface.blit(render, render.get_rect(center=surface.get_rect().center))
         return surface
     
+
 class TextBlock(Widget):
     def __init__(self, container, x, y, frame_rate, text, size, color, type="normal", fill=True, anchor_type="topleft"):    
         

@@ -166,7 +166,7 @@ class ActionAnimation(gui.Button):
     def update(self, frames):
         if frames % self.frame_rate == 0:
             filename = self.file_list[self.index]
-            self.background = pygame.image.load(filename)
+            self.background = pygame.image.load(filename).convert_alpha()
             self.index = (self.index + 1) % len(self.file_list)
             self.set_dirty()
             
@@ -206,10 +206,10 @@ def load_animation(last_image, new_filename):
         new.get_buffer().write(new_buffer, 0)   # Instead of using a copy modifies the same surface
     return new
 
-'''
+''' FIXME: para no usar imagepatch, pero tiene mal rendimiento
 def load_animation(last_image, new_filename):
     if new_filename.endswith('.png'):
-        new = pygame.image.load(new_filename)
+        new = pygame.image.load(new_filename).convert_alpha()
     elif new_filename.endswith('.diff.zlib'):
         f = open(new_filename, 'r')
         diff = bytearray(zlib.decompress(f.read()))

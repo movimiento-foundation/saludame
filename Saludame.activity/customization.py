@@ -70,7 +70,7 @@ class CustomizationWindow(gui.Window):
         
         btn_close = utilities.get_accept_button(self.rect, pygame.Rect((400, 500), (1, 1)), _("Continue"), self._cb_button_click_close)
         
-        button_back = pygame.image.load("customization/customization_button.png").convert()
+        button_back = pygame.image.load("customization/customization_button.png").convert_alpha()
         btn_hair = gui.TextButton2(self.rect, pygame.Rect((500, 100), (70, 30)), 1, _("Hair"), 28, (255, 255, 255), button_back, self._cb_button_hair)
         btn_skin = gui.TextButton2(self.rect, pygame.Rect((500, 170), (70, 30)), 1, _("Skin"), 28, (255, 255, 255), button_back, self._cb_button_skin)
         btn_sweater = gui.TextButton2(self.rect, pygame.Rect((500, 240), (70, 30)), 1, _("Sweater"), 28, (255, 255, 255), button_back, self._cb_button_sweater)

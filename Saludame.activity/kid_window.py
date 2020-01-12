@@ -73,7 +73,7 @@ class KidWindow(gui.Window):
             _filter.set_alpha(50)
             image.blit(_filter, (0,0))
         sky.blit(image, (0,0))
-        self.set_bg_image(sky.convert())
+        self.set_bg_image(sky)
         
         self.set_dirty_background()
         
@@ -197,10 +197,10 @@ class MessageBalloon(gui.Window):
         
         if b_type == 'A':
             # Thinking balloon
-            background = pygame.image.load("assets/events/balloon.png").convert()
+            background = pygame.image.load("assets/events/balloon.png").convert_alpha()
         else:
             # Saying balloon
-            background = pygame.image.load("assets/events/balloonB.png").convert()
+            background = pygame.image.load("assets/events/balloonB.png").convert_alpha()
             
         rect.size = background.get_size()
         
