@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
+from gi.repository import GObject
 import effects
 import actions
 import os
@@ -434,12 +435,14 @@ clothes_ac_list = [("change_school_clothes", None, 28, None, CHANGE_CLOTHES_ANIM
                    ("change_regular_clothes", None, 28, None, CHANGE_CLOTHES_ANIMATION_PATH, None, None, None, None, CHANGE_CLOTHES_PATH, effects.ClothesEffect("regular"), None, None, None, None),
                   ]
 
-class ActionsLoader:
+
+class ActionsLoader(GObject.Object):
     """
     Crea las acciones (Action) y sus efectos (Effect y EffectStatus) asociados.
     """
     
     def __init__(self, bar_controller, game_manager):
+        GObject.Object.__init__(self)
         self.bar_controller = bar_controller
         self.game_manager = game_manager
         self.actions_list = self.__load_actions()

@@ -19,10 +19,15 @@
 MAX_BAR_VALUE = 100.0 #maximo valor que puede alcanzar una barra
                       #necesario para el calculo de probabilidades
 
-class Event:
+from gi.repository import GObject
+
+
+class Event(GObject.Object):
     
     def __init__(self, event_type, directory_path, name, description, impact, trigger, time_span, conditioned_bars, effect, library_link, level, preferred_mood):
         
+        GObject.Object.__init__(self)
+
         if not time_span:
             time_span = 999
         
@@ -115,7 +120,6 @@ class Event:
         #probability
         return int(self.probability)
         
-        
     def perform(self):
         if self.time_left is None or self.time_left:
             if self.effect:
@@ -135,6 +139,7 @@ class Event:
             clothes: []
         """
         self.restrictions[restriction_id] = values
+        
         
 class PersonalEvent(Event):
     def __init__(self, picture, kid_animation_path, name, description, impact, trigger, time_span, conditioned_bars, effect, kid_message, library_link, level=1, preferred_mood=9):

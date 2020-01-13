@@ -52,6 +52,7 @@ HELP_BUTTON = "assets/menu/menu_help.png"
 CLOSE_MENU = "close_menu"
 BACK_MENU = "back_menu"
 
+
 class Menu(gui.Window):
     
     def __init__(self, frame_rate, container, windows_controller, item_list, center, radius, game_manager, font):
@@ -86,14 +87,12 @@ class Menu(gui.Window):
         self.on_expansion = False
         self.calculate()
         
-    
     def add_item(self, item):
         self.item_list.append(item)
     
     def set_items(self, items_list):
         self.item_list = items_list
-    
-    
+        
     def update(self, frames):
         if self.visible and self.on_expansion:
             if self.radius < 90:
@@ -140,7 +139,6 @@ class Menu(gui.Window):
             else:
                 self.add_button(self.back)
 
-    
     def get_allowed_items(self, items_list):
         """
         Verifies wich items are allowed to perform its actions
@@ -225,7 +223,6 @@ class Menu(gui.Window):
             return False
               
         return True
-
         
     def close(self):
         """
@@ -254,7 +251,6 @@ class Menu(gui.Window):
         self.previous_items.append(self.current_selection)
         self.depth += 1
         self.set_current_selection(subitems_list)
-
     
     #handlers
     def handle_mouse_down(self, (x, y)):

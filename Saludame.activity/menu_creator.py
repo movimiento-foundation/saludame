@@ -221,6 +221,7 @@ items = [
 
 MENU_FRAME_RATE = 1
 
+
 def load_menu(game_manager, center, container, windows_controller):
     font = gui.get_font(20)
     m = menu.Menu(1, container, windows_controller, [], center, 90, game_manager, font)

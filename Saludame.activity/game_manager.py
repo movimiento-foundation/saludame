@@ -17,22 +17,17 @@
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
 GAME_VERSION = "1.0"
-
 MAX_LEVEL = 9 #max qty of game levels  
-
 CONTROL_INTERVAL = 16   # Qty of signal calls until a new control is performed (actions, events, weather, etc.) 
-
 CHALLENGES_INTERVAL = 300
-
 MAX_IDLE_TIME = 50 # Qty of control intervals until the kid executes an attention action.
 ATTENTION_ACTION = "attention" #action that executes when the character is idle so much time
-
 HOUR_COUNT_CYCLE = 200  # control intevals that have to pass to change the time of day ... 200 = 4 min. apróx
-
 # Game Over: If the overall bar stays under the threshold for a whole interval, the game will end
 GAME_OVER_INTERVAL = 120
 GAME_OVER_THRESHOLD = 20
 
+from gi.repository import GObject
 import random
 import effects
 import character
@@ -41,7 +36,8 @@ import sound_manager
 
 instance = None
 
-class GameManager():
+
+class GameManager(GObject.Object):
     """
     Clase gestora del sistema. Se encarga del control de las acciones
     y los eventos del juego.
@@ -51,7 +47,7 @@ class GameManager():
         """
         Constructor de la clase
         """
-        
+        GObject.Object.__init__(self)
         #Singleton
         global instance
         instance = self
@@ -190,7 +186,6 @@ class GameManager():
             self.idle_time = 0
             self.execute_action(ATTENTION_ACTION)
             
-
 ## Environment handling
    
     def update_environment(self):
@@ -295,7 +290,6 @@ class GameManager():
         else:
             return None
             
-    
     def get_restrictions(self):
         """ returns a dictionary with all the environmental restrictions """
         return {
@@ -332,7 +326,6 @@ class GameManager():
             if c.id == condition:
                 return c.evaluate(bars_status_dict)
                 
-    
     def execute_action(self, action_id, action_label=None):
         action = self.get_action(action_id)
         

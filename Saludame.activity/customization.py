@@ -55,6 +55,7 @@ COLORS_SWEATER = COLORS_CLOTHES
 COLORS_PANTS = COLORS_CLOTHES
 COLORS_SHOES = COLORS_CLOTHES
 
+
 class CustomizationWindow(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, character):
@@ -126,6 +127,7 @@ class CustomizationWindow(gui.Window):
     
 MALE_PATH = os.path.normpath("customization/boy.png")
 FEMALE_PATH = os.path.normpath("customization/girl.png")
+
 
 class CustomizatedKid(gui.Widget):
     

@@ -78,11 +78,11 @@ def set_library_full_link(link):
     set_library_function(link, anchor)
 
 
-class Main(GObject.GObject):
+class Main(GObject.Object):
     
     def __init__(self, target_size=(800, 600)):
 
-        GObject.GObject.__init__(self)
+        GObject.Object.__init__(self)
 
         self.__target_size = target_size
         
@@ -122,7 +122,6 @@ class Main(GObject.GObject):
         
     def __create_game(self, gender, name, loadLast):
         self.started = True        
-        self.__screen = pygame.display.get_surface()
         self.__clock = pygame.time.Clock()
         self.__sound_manager = SoundManager()        
         app_loader = AppLoader(gender, name)
@@ -147,6 +146,7 @@ class Main(GObject.GObject):
             for event in pygame.event.get():
                 if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
                     # Gdk.KEY_Escape
+                    print "FIXME:", pygame.KEYUP, pygame.K_ESCAPE
                     self.__running = False
                     self.save_game()
                 elif event.type == pygame.MOUSEBUTTONDOWN:

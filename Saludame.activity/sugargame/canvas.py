@@ -4,37 +4,27 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import GLib
+from gi.repository import GdkX11
 import pygame
-from sugargame.event import Translator
+from event import Translator
 
 
-class PygameCanvas(Gtk.EventBox):
+class PygameCanvas(Gtk.DrawingArea):
 
     def __init__(self):
     
-        Gtk.EventBox.__init__(self)
-
-        # Initialize Events translator before widget gets "realized".
-        self.translator = Translator(self)
+        Gtk.DrawingArea.__init__(self)
+        
         self.set_can_focus(True)
-
-        self._socket = Gtk.Socket()
-        self._socket.connect('realize', self._realize_cb)
-        self.add(self._socket)
-
+        self._screen = None
+        self.connect('realize', self._realize_cb)
         self.show_all()
+        self.translator = Translator(self)
 
     def _realize_cb(self, widget):
-        # Preinitialize Pygame with the X window ID.
-        os.environ['SDL_WINDOWID'] = str(widget.get_id())
+        os.environ['SDL_WINDOWID'] = str(self.get_property('window').get_xid())
         pygame.init()
-
-        # Restore the default cursor.
         widget.props.window.set_cursor(None)
-
-        # Confine the Pygame surface to the canvas size
         r = self.get_allocation()
         self._screen = pygame.display.set_mode((r.width, r.height), pygame.RESIZABLE)
-
-        # Hook certain Pygame functions with GTK equivalents.
         self.translator.hook_pygame()

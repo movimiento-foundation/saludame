@@ -35,6 +35,7 @@ WHITE = pygame.Color("white")
 BAR_BACK_COLOR = pygame.Color("#fbfbfbff")
 BAR_FILL_COLOR = pygame.Color("#0f5e65ff")
 
+
 class PanelWindow(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller):
@@ -207,6 +208,7 @@ class PanelWindow(gui.Window):
     def _cb_button_click_info(self, button):
         if self.info_button_event:
             game.set_library_event(self.info_button_event.library_link)
+
         
 class ActionProgressBar(gui.Widget):
     """

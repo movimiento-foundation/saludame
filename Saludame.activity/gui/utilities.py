@@ -324,6 +324,7 @@ class TextBlock(Widget):
         self.render_lines()
         self.set_dirty()
 
+
 font_dict = {}  # Chaches created font instances
 def get_font(size, bold=False, italic=False):
     key = (size, bold, italic)

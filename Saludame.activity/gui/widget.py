@@ -17,12 +17,15 @@
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
+from gi.repository import GObject
 
-class Widget:
+
+class Widget(GObject.Object):
     
     """ A widget represents anything drawable on the screen """
     
     def __init__(self, container, rect_in_container, frame_rate, surface=None, tooltip=None):
+        GObject.Object.__init__(self)
         self.container = container # Rect, containing the widget
         self.set_rect_in_container(rect_in_container)
         self.frame_rate = frame_rate

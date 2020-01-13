@@ -18,14 +18,17 @@
 
 import status_bars
 from gettext import gettext as _
+from gi.repository import GObject
 
-class BarsLoader:
+
+class BarsLoader(GObject.Object):
     """
     This is just for create the bars, and not full
     of this static code the others class.
     """
     
     def __init__(self):
+        GObject.Object.__init__(self)
         max_points = 100
         init_points = 50
         

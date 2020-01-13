@@ -21,10 +21,12 @@ import pygame
 import os
 import effects
 
+
 def get_accept_button(container, rect, text, cb_click=None, cb_over=None, cb_out=None):
     background = pygame.image.load("assets/windows/dialog_button.png").convert_alpha()
     return gui.TextButton2(container, rect, 1, text, 24, pygame.Color("#397b7e"), background, cb_click, cb_over, cb_out)
-    
+
+
 def change_color(surface, old_color, new_color):
     # No funciona en pygame 1.8.0
     i = 0
@@ -34,6 +36,7 @@ def change_color(surface, old_color, new_color):
             #surface.set_palette_at(i, get_color_tuple(new_color))
             surface.set_palette_at(i, new_color)
         i += 1
+
 
 def get_color_tuple(color):
     if isinstance(color, tuple):
@@ -54,7 +57,8 @@ def check_image(image_path):
         return True
     except:
         return False
-    
+
+
 def verify_path(action, game_manager):
     if isinstance(action.effect, effects.Effect): # If the action has effects on bars
         if action.kid_animation_path: # and has a kid animation path
@@ -69,6 +73,7 @@ def verify_path(action, game_manager):
         return os.path.isfile(game_manager.environments_dictionary[(action.effect.place_id, game_manager.current_weather[0])].background_path)
         
     return True
+
 
 def unquote(string):
     result = ""

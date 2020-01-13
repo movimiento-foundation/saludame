@@ -15,8 +15,10 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
+from gi.repository import GObject
 
-class Effect:
+
+class Effect(GObject.Object):
     """
     Represents effects that affect directly on the status bars.
     """
@@ -25,6 +27,7 @@ class Effect:
         """
         Los effect_status son tuplas (id_barra, increase_rate)
         """
+        GObject.Object.__init__(self)
         self.effect_status_list = effect_satatus_list   # list of tuples (bar_id, increase_rate)
         self.consequences = consequences                # list of event_id that can trigger, only one with probability > 0 will be triggered
         self.change_time = change_time

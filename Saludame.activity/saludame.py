@@ -149,17 +149,6 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
         self.notebook.set_current_page(0)
 
-        self.connect('key_press_event', self._keydown_cb)
-        self.connect('key_release_event', self._keyup_cb)
-
-    def _keydown_cb(self, widget, event):
-        if self.notebook.get_current_page() == 1:
-            self.pygame_canvas.translator.keydown_cb(widget, event)
-
-    def _keyup_cb(self, widget, event):
-        if self.notebook.get_current_page() == 1:
-            self.pygame_canvas.translator.keyup_cb(widget, event)
-
     def __realize(self, widget):
         GLib.timeout_add(300, self.__get_allocation)
 
@@ -265,6 +254,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
     
 
 if __name__=="__main__":
+    GLib.threads_init()
     GObject.threads_init()
     Gdk.threads_init()
     app = SaludameActivity()

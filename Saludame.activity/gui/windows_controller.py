@@ -20,13 +20,13 @@ import pygame
 import logging
 from window import Window
 from utilities import Text, TextBlock
+from gi.repository import GObject
 
-"""
-Clase encargada del control de ventanas
-"""
-class WindowsController:
+
+class WindowsController(GObject.Object):
     
     def __init__(self, screen):
+        GObject.Object.__init__(self)
         internal_size = 1200, 780       # The game is meant to run in this resolution
         self.scaled_game = ScaledGame(screen, internal_size)
         
@@ -179,9 +179,11 @@ class WindowsController:
         
         self.scaled_game.update_screen(changes)
 
-class ScaledGame:
+
+class ScaledGame(GObject.Object):
     
     def __init__(self, pygame_screen, internal_size):
+        GObject.Object.__init__(self)
         self.screen = pygame_screen
 
         pygame_screen_size = pygame_screen.get_size()
@@ -192,7 +194,6 @@ class ScaledGame:
         else:
             logging.debug("Scaling to: %sx%s" % pygame_screen_size)
             self.internal_screen = pygame.Surface(internal_size)
-        
         
     def get_internal_screen(self):
         """ Returns the screen where everything should be drawn.

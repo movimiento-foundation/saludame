@@ -30,7 +30,8 @@ music = {
 
 instance = None
 
-class SoundManager(GObject.GObject):
+
+class SoundManager(GObject.Object):
     
     IDLE = 0
     PLAYING = 1
@@ -39,7 +40,7 @@ class SoundManager(GObject.GObject):
     
     def __init__(self):
 
-        GObject.GObject.__init__(self)
+        GObject.Object.__init__(self)
 
         global instance
         instance = self

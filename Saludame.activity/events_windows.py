@@ -24,6 +24,7 @@ from gettext import gettext as _
 
 TEXT_COLOR = (0,0,0)
 
+
 class PersonalWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
         
@@ -137,6 +138,7 @@ class PersonalWindow(gui.Window):
             self.refresh_count_personal_events()
             self.current_animation = self.active_personal_events[self.index_personal_event][1]
             self.add_button(self.current_animation, 0)
+
 
 class SocialWindow(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):

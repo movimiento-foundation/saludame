@@ -4,16 +4,18 @@ import gi
 gi.require_version('Gdk', '3.0')
 from gi.repository import GLib
 from gi.repository import Gdk
+from gi.repository import GObject
 import pygame
 import pygame.event
 
 
-class _MockEvent():
+class _MockEvent(GObject.Object):
     def __init__(self, keyval):
+        GObject.Object.__init__(self)
         self.keyval = keyval
 
 
-class Translator():
+class Translator(GObject.Object):
     key_trans = {
         'Alt_L': pygame.K_LALT,
         'Alt_R': pygame.K_RALT,
@@ -46,6 +48,7 @@ class Translator():
 
     def __init__(self, inner_evb):
         """Initialise the Translator with the windows to which to listen"""
+        GObject.Object.__init__(self)
         self._inner_evb = inner_evb
 
         self._inner_evb.set_events(
@@ -58,8 +61,8 @@ class Translator():
 
         self._inner_evb.set_can_focus(True)
 
-        #self._inner_evb.connect('key_press_event', self.keydown_cb)
-        #self._inner_evb.connect('key_release_event', self.keyup_cb)
+        self._inner_evb.connect('key_press_event', self.keydown_cb)
+        self._inner_evb.connect('key_release_event', self.keyup_cb)
         self._inner_evb.connect('button_press_event', self._mousedown_cb)
         self._inner_evb.connect('button_release_event', self._mouseup_cb)
         self._inner_evb.connect('motion-notify-event', self._mousemove_cb)
@@ -131,7 +134,7 @@ class Translator():
             mod |= self.__keystate[key_val] and mod_val
         return mod
 
-    def _keyevent(self, widget, event, type):
+    def _keyevent(self, widget, event, _type):
         key = Gdk.keyval_name(event.keyval)
         if key is None:
             # No idea what this key is.
@@ -148,15 +151,16 @@ class Translator():
             logging.error('Key %s unrecognized' % key)
 
         if keycode is not None:
-            if type == pygame.KEYDOWN:
+            if _type == pygame.KEYDOWN:
                 mod = self._keymods()
-            self.__keystate[keycode] = type == pygame.KEYDOWN
-            if type == pygame.KEYUP:
+            self.__keystate[keycode] = _type == pygame.KEYDOWN
+            if _type == pygame.KEYUP:
                 mod = self._keymods()
             ukey = chr(Gdk.keyval_to_unicode(event.keyval))
             if ukey == '\000':
                 ukey = ''
-            evt = pygame.event.Event(type, key=keycode, unicode=ukey, mod=mod)
+            evt = pygame.event.Event(_type, key=keycode, unicode=ukey, mod=mod)
+            print "FIXME:", evt
             self._post(evt)
 
         return True
@@ -175,8 +179,8 @@ class Translator():
         self.__button_state[event.button - 1] = 0
         return self._mouseevent(widget, event, pygame.MOUSEBUTTONUP)
 
-    def _mouseevent(self, widget, event, type):
-        evt = pygame.event.Event(type, button=event.button, pos=(event.x, event.y))
+    def _mouseevent(self, widget, event, _type):
+        evt = pygame.event.Event(_type, button=event.button, pos=(event.x, event.y))
         self._post(evt)
         return True
 

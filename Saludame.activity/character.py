@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
+from gi.repository import GObject
 import pygame
 import utilities
 
@@ -28,10 +29,11 @@ DEFAULT_MAPPINGS = {
     "shoes": (pygame.Color("#eeea00"), pygame.Color("#938200"))
 }
 
-class Character:
+
+class Character(GObject.Object):
     
     def __init__(self, sex, name, level, score, clothes):
-        
+        GObject.Object.__init__(self)        
         self.sex = sex
         self.name = name
         self.level = level
@@ -96,9 +98,11 @@ class Character:
         
         self.mappings = maps
 
-class Place:
+
+class Place(GObject.Object):
     
     def __init__(self, place_id, background_path, background_music):
+        GObject.Object.__init__(self)
         self.id = place_id
         self.background_path = background_path
         self.background_music = background_music
@@ -116,17 +120,20 @@ class Place:
                 return True
         return False
 
-class Weather:
+
+class Weather(GObject.Object):
     
     def __init__(self, weather_id, background_path, background_sound):
+        GObject.Object.__init__(self)
         self.weather_id = weather_id
         self.background_path = background_path
         self.background_sound = background_sound
         
 
-class Clothes:
+class Clothes(GObject.Object):
     
     def __init__(self, clothes_id, texture_path, weather_effects_list):
+        GObject.Object.__init__(self)
         self.clothes_id = clothes_id
         self.texture_path = texture_path
         self.weather_effects_list = weather_effects_list #list of tuples (id_weather, effect_indoor, effect_outdoor)

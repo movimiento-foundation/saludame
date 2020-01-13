@@ -16,10 +16,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
+from gi.repository import GObject
 import challenges
 import random
 
 from gettext import gettext as _
+
 
 def get_mc_challenges():
     
@@ -179,6 +181,7 @@ def get_mc_challenges():
         _create_mc_challenge(u"¿Qué recomendaciones debo conocer sobre los agroquímicos?", [u"No fumar, comer ni beber durante la manipulación de agroquímicos.", u"No es importante usar ropa de protección específica para usar agroquímicos.", u"No es importante colgar la vestimenta de protección utilizada durante la aplicación en un ambiente ventilado.", u"No es necesario lavar la ropa contaminada con abundante agua y jabón.", u"No es importante consultar al médico en caso de haber tenido contacto con una sustancia química y tener algún síntoma como falta de aire.", u"La correcta higiene de alimentos no es importante para evitar la contaminación con agroquímicos."], 9)
     ]
     return mc_challenges
+
 
 def get_tf_challenges():
     
@@ -588,10 +591,11 @@ def _create_tf_challenge(question, correct_answer, level, image=None):
     """ Create a new tf_challenge (tuple) """
     return (question, [_("False"), _("True")], correct_answer, level, image)
 
-class ChallengesCreator:
+
+class ChallengesCreator(GObject.Object):
     
     def __init__(self, container, rect, frame_rate, windows_controller, game_man, bg_color=(0, 0, 0)):
-             
+        GObject.Object.__init__(self)
         # Windows attributes
         self.container = container
         self.rect = rect
@@ -615,12 +619,10 @@ class ChallengesCreator:
         
         # Dict of true or false tuples
         self.tf_challenges = None
-        
-        
+            
     def create_challenges(self):
         self.mc_challenges = get_mc_challenges()
         self.tf_challenges = get_tf_challenges()
-    
     
     def get_challenge(self, kind):
         """

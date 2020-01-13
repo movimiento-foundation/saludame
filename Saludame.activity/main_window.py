@@ -26,6 +26,7 @@ import status_bars
 import animation
 import utilities
 
+
 class MainWindow(gui.Window):
     
     def __init__(self, container, rect, frame_rate, clock, windows_controller, cha_loader, bars_loader, game_man):
@@ -67,6 +68,7 @@ class MainWindow(gui.Window):
     
     #def _cb_reset_game(self, button):
     #    self.game_manager.reset_game()
+
 
 class Clock(gui.Widget):
     

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from gi.repository import GObject
 
-class Condition:
+
+class Condition(GObject.Object):
     """ Defines a conditions according to bars values """
     
     def __init__(self, id, operand, bars):
+        GObject.Object.__init__(self)
         self.id = id
         self.operand = operand  # all, any
         self.bars = bars        # list of tuples (bar_id, min, max)

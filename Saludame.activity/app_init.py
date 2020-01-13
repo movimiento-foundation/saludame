@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
-import menu_creator
 import status_bars_creator
 import actions_creator
 import character
@@ -25,7 +24,7 @@ import events
 import actions
 import effects
 import condition
-
+from gi.repository import GObject
 from gettext import gettext as _
 
 CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
@@ -137,9 +136,11 @@ CONFIGURATION_LEVEL_LIST = [{# LEVEL 1
                              "time_between_events" : 55
                              }]
 
-class AppLoader:
+
+class AppLoader(GObject.Object):
 
     def __init__(self, gender, name):
+        GObject.Object.__init__(self)
         # loaders
         self.bars_loader = status_bars_creator.BarsLoader()
         
@@ -178,8 +179,7 @@ class AppLoader:
         self.actions_list = actions_loader.get_actions_list()
         self.game_man.actions_list = self.actions_list
         self.game_man.add_background_action("BARS_DEC") # default effect
-        
-    
+            
     def get_game_manager(self):
         return self.game_man
 
@@ -219,8 +219,7 @@ class AppLoader:
                    ("cold", _("Cold"), 25.0, "assets/events/weather/cold.png", 1),
                    ("hot", _("Hot"), 25.0, "assets/events/weather/hot.png", 1)]
         return weather
-
-        
+    
     def get_weather_effects(self):
         return self.weather_effects
     
@@ -777,8 +776,7 @@ class AppLoader:
                     "sleep": {"outdoor": False}
                  }
         return places
-    
-    
+        
     def __load_environments(self):
         environments = {#schoolyard
                         ("schoolyard", "hot") : Environment("assets/background/schoolyard_normal.png"),
@@ -814,9 +812,11 @@ class AppLoader:
         
         return environments
 
-class Environment:
+
+class Environment(GObject.Object):
     
     def __init__(self, background_path):
+        GObject.Object.__init__(self)
         self.background_path = background_path
     
     def get_background_path(self):

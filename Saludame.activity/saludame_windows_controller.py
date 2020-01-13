@@ -17,16 +17,13 @@
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
-
 import main_window
 import challenges_creator
 import customization
 import challenges
 import gui
 
-"""
-Clase encargada del control de ventanas
-"""
+
 class SaludameWindowsController(gui.WindowsController):
     
     def __init__(self, screen, game_manager):
@@ -82,8 +79,7 @@ class SaludameWindowsController(gui.WindowsController):
     def stop_current_action_animation(self):
         self.windows["panel_window"].stop_action_animation()
         self.windows["kid"].stop_action_animation()
-    
-    
+        
     # Events
     def add_personal_event(self, event):
         self.windows["panel_window"].add_personal_event(event)
@@ -102,7 +98,6 @@ class SaludameWindowsController(gui.WindowsController):
         
     def remove_social_event(self, event):
         self.windows["panel_window"].remove_social_event(event)
-    
     
     # Messages at ballon
     def show_kid_message(self, message, message_time_span):

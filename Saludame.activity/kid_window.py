@@ -26,6 +26,7 @@ import utilities
 from character import *
 from gettext import gettext as _
 
+
 class KidWindow(gui.Window):
 
     def __init__(self, container, rect, frame_rate, windows_controller, cha_loader, game_man):
@@ -58,8 +59,7 @@ class KidWindow(gui.Window):
         self.add_window(self.menu)
         
         self.last_repaint = False
-        
-        
+                
     ##### Environment #####
     def set_environment(self, environment, time):
       
@@ -188,6 +188,7 @@ class ExternalCharacter(gui.Window):
         if self.visible:
             # This shouldn't be neccesary but it's not working without it.
             self.set_dirty_background()    # Always draws it because it collides with the character rectangle
+    
     
 class MessageBalloon(gui.Window):
     

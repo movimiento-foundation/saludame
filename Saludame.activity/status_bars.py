@@ -18,11 +18,11 @@
 
 import pygame
 from gettext import gettext as _
-
 import status_bars_creator
 import utilities
 import gui
 import game_manager
+from gi.repository import GObject
 
 DEFAULT_BARS_VALUES = 50.0
 MAX_BARS_VALUE = 100
@@ -119,7 +119,8 @@ class BarsWindow(gui.Window):
                 self.set_dirty_background()        # Makes the window repaint its background
                 break
     
-class Accordeon:
+
+class Accordeon(GObject.Object):
     """
     Clase encargada de realizar los calculos para expandir y
     contraer las secciones.
@@ -130,6 +131,7 @@ class Accordeon:
         Las secciones deben estar ordenadas de arriba abajo, según se muestren
         en la pantalla.
         """
+        GObject.Object.__init__(self)
         self.sections_list = sections_list # secciones sobre las que se realizarán los cambios
         self.expand_section(None)
     
@@ -159,6 +161,7 @@ class Accordeon:
             section.move_up()
             section.compress()
             section.set_dirty()
+
 
 class BarSection(gui.Window):
     """
@@ -277,7 +280,8 @@ class BarSection(gui.Window):
             display = BarDisplay(BAR_HEIGHT, width, (BAR_OFFSET_X, 0), status_bar, SUB_BAR_PARTITIONS)
             display_list.append(display)
         return display_list
-        
+
+
 class BarDisplay(gui.Widget):
     """
     Clase que se encarga de representar visualmente a una barra, manteniéndose
@@ -352,6 +356,7 @@ class BarDisplay(gui.Widget):
                 return color
         return sorted(self.color_partitions.values())[-1]
         
+
 class ScoreSection(gui.Widget):
     """
     Sección que muestra la barra de puntaje principal.
@@ -418,12 +423,14 @@ class ScoreSection(gui.Widget):
 
 #****************** MODELOS ******************
 
-class BarsController:
+
+class BarsController(GObject.Object):
     """
     Controlador general de las barras, encargado de enviar la señal de decremento o incremento
     a una barra especifica
     """
     def __init__(self, bars, score_bar, overall_bar):
+        GObject.Object.__init__(self)
         # bars
         self.score_bar = score_bar
         self.overall_bar = overall_bar
@@ -491,12 +498,14 @@ class BarsController:
             bar.value = DEFAULT_BARS_VALUES
         self.score_bar.value = 0.0
         
-class StatusBar:
+
+class StatusBar(GObject.Object):
     """
     Entity that represents the bar
     """
     
     def __init__(self, id, label, parent_bar, children_list, max_value, init_value):
+        GObject.Object.__init__(self)
         # attributes
         self.id = id
         self.label = label
@@ -559,6 +568,7 @@ class StatusBar:
             elif self.value < 0:
                 self.value = 0
 
+
 class WeightBar(StatusBar):
     
     def __init__(self, id, label, parent_bar, children_list, max_value, init_value):
@@ -566,6 +576,7 @@ class WeightBar(StatusBar):
     
     def get_score(self):
         return self.max - abs(2 * self.value - self.max)
+
 
 class IgnoreBar(StatusBar):
     

@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Saludame. If not, see <http://www.gnu.org/licenses/>.
 
+from gi.repository import GObject
 import game_manager
 import pygame
 
@@ -97,11 +98,13 @@ hotkeys = {
     (pygame.K_LALT, pygame.K_c, pygame.K_p): alt_c_p_handling
 }
 
-class HotKeyHandler:
+
+class HotKeyHandler(GObject.Object):
     
     def __init__(self):
         """constructor
         """
+        GObject.Object.__init__(self)
         self.buff = [] #pressed keys buffer
 
     def handle_keydown(self, event):

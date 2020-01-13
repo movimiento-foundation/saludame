@@ -46,6 +46,7 @@ QUESTION_COLOR = pygame.Color("#0f5e65")
 ANSWER_COLOR = pygame.Color("#1c9db4")
 MOUSE_OVER_COLOR = pygame.Color("#0f5e65")
 
+
 class MultipleChoice(gui.Window):
     
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color=(0, 0, 0)):
@@ -191,6 +192,7 @@ class MultipleChoice(gui.Window):
         global FIN_MC
         FIN_MC = False
         
+
 class TrueOrFalse(MultipleChoice):
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, register_id, bg_color=(0, 0, 0)):
         
@@ -245,7 +247,6 @@ class TrueOrFalse(MultipleChoice):
             q4 = pygame.draw.circle(screen, pygame.Color("red"), (1140, 550), 10)
         elif self.answers[4] == "correct":
             q4 = pygame.draw.circle(screen, pygame.Color("green"), (1140, 550), 10)
-        
         
         return [q0, q1, q2, q3, q4]
         
@@ -347,6 +348,7 @@ class TrueOrFalse(MultipleChoice):
         self.answers = ["waiting", "waiting", "waiting", "waiting", "waiting"]
         self.perdio = False
     
+
 class InfoChallenge(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller, challenges_creator, text_intro, text_result_good, text_result_bad, slide=None, bg_color=(0, 0, 0)):
         gui.Window.__init__(self, container, rect, frame_rate, windows_controller, "info_challenge_window", bg_color)
@@ -381,6 +383,7 @@ class InfoChallenge(gui.Window):
     def _cb_button_click_continue(self, button):
         self.windows_controller.close_active_window()
         
+
 class Slide(gui.Window):
     def __init__(self, container, rect, frame_rate, windows_controller):
         
@@ -397,6 +400,7 @@ class Slide(gui.Window):
         self.windows_controller.close_active_window()
         if self.close_callback:
             self.close_callback()
+
 
 #class Cooking(gui.Window):
     #def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=(0, 0, 0)):

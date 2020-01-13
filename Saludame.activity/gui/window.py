@@ -18,12 +18,15 @@
 
 import pygame
 import widget
+from gi.repository import GObject
 
-class Window:
+
+class Window(GObject.Object):
     
     # Una ventana contiene 'n' widgets
     
     def __init__(self, container, rect, frame_rate, windows_controller, register_id, bg_color=None):
+        GObject.Object.__init__(self)
         self.container = container
         self.rect = pygame.Rect(container.left + rect.left, container.top + rect.top, rect.width, rect.height)
         self.frame_rate = frame_rate
