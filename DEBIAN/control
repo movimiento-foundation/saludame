@@ -1,0 +1,11 @@
+Package: saludame
+Source: saludame
+Version: 1
+Section: Game
+Priority: optional
+Architecture: all
+Maintainer: Pablo Moleri <pmoleri@gmail.com>
+Homepage: http://ceibaljam.org/?q=node/1722
+Depends:
+Description: Salúdame game is the result of the participation of ceibalJAM! and Movimiento Foundation in the second edition of Rayuela's contest (Plan Ceibal).
+ This game is aimed at health promotion, with emphasis on the reality of rural areas.
