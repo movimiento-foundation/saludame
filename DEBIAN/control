@@ -6,5 +6,5 @@ Priority: optional
 Architecture: all
 Maintainer: Pablo Moleri <pmoleri@gmail.com>
 Homepage: http://ceibaljam.org/?q=node/1722
-Depends:
-Description: Este juego es producto de la participación de Movimiento Foundation y CeibalJAM! en la segunda edición del concurso Rayuela de Plan CEIBAL (2010). El juego está destinado a niñas, niños y adolescentes del medio rural con el fin de promover hábitos de vida saludables.
+Depends: gir1.2-webkit2-4.0,python-pygame
+Description: Este juego está destinado a niñas, niños y adolescentes del medio rural con el fin de promover hábitos de vida saludables. Es producto de la participación de Movimiento Foundation y CeibalJAM! en la segunda edición del concurso Rayuela de Plan CEIBAL (2010)

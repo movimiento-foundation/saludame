@@ -6,5 +6,5 @@ Exec=/usr/bin/saludame
 Terminal=false
 Type=Application
 Categories=Game
-Icon=/usr/share/saludame/assets/saludame.svg
+Icon=/usr/share/saludame/assets/saludame_icon.svg
 StartupNotify=true
