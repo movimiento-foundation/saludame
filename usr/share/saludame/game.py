@@ -61,9 +61,9 @@ INSTANCE_FILE_PATH = os.path.join(D, "game.save")        # File to save the game
 
 def set_library_function(link, anchor=None):
     if anchor:
-        print link + "#" + anchor
+        print link.encode('utf-8') + "#" + anchor
     else:
-        print link
+        print link.encode('utf-8')
 
 
 def set_library_event(anchor):

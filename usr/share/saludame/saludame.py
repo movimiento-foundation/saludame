@@ -45,6 +45,7 @@ gettext.gettext = _
 from gettext import gettext as _
 
 from startup_window import StartupWindow
+import game
 from game import Main
 from credits import Credits
 from content_window import ContentWindow
@@ -129,7 +130,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
 
         self.game = Main()
         self.game.set_game_over_callback(self.game_over_callback)
-        self.game.set_library_function = self.set_library
+        game.set_library_function = self.set_library
 
         self.healt_toolbar = self.health_library.get_toolbar()
         self.game_toolbar = self.get_game_toolbar()
