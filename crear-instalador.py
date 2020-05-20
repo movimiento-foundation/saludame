@@ -1,5 +1,6 @@
 import os
 import shutil
+import stat
 
 def setup_structure(target_dir):
     shutil.rmtree(target_dir, True)
@@ -11,7 +12,7 @@ def setup_structure(target_dir):
     shutil.copytree("installer/bin/", target_dir + "/usr/bin")
     shutil.copytree("installer/DEBIAN", target_dir + "/DEBIAN")
     shutil.copytree("src", target_dir + "/usr/share/saludame")
-    chmod_recurse(target_dir, 755)
+    chmod_recurse(target_dir, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH)
 
 
 def chmod_recurse(base_path, mod):
