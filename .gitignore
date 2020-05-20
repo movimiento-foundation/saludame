@@ -1,13 +1,12 @@
 *.pyc
 *~
 
-Saludame.activity/dist
-Saludame.activity/game.save
-resources/image-patch/build
+/resources/image-patch/build
+/dist
+/saludame.deb
 
 *.py[co~]
 *.bak
 *.gitignore~
-/build
 .vscode
 __pycache__
