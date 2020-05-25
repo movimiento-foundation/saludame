@@ -52,8 +52,16 @@
 
 .entradasdetexto {
     color: gray;
+    background: transparent;
+    border: none;
+    padding: 0 20px;
 }
 
 .entradasdetexto:focus {
     color: black;
+}
+
+
+.startup_kid_gender_button:hover {
+    box-shadow: 1px 1px 1px 1px purple, 3px 3px 3px 3px rgba(128, 0, 128, 0.4);
 }

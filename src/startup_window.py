@@ -141,6 +141,7 @@ class SelectGenderAndName(Gtk.Fixed):
         self.btn_boy = Gtk.Button()
         self.btn_boy.set_image(img)
         self.btn_boy.connect("clicked", self.__run_callback, "boy")
+        self.btn_boy.get_style_context().add_class("startup_kid_gender_button")
         self.put(self.btn_boy, x, y + h + 20)
         
         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(os.path.join(BASEPATH, "assets/layout/btn_girl1.png"), 198, -1)
@@ -149,7 +150,8 @@ class SelectGenderAndName(Gtk.Fixed):
         self.btn_girl = Gtk.Button()
         self.btn_girl.set_image(img)
         self.btn_girl.connect("clicked", self.__run_callback, "girl")
-        self.put(self.btn_girl, x + w - pixbuf.get_width(), y + h + 20)
+        self.btn_girl.get_style_context().add_class("startup_kid_gender_button")
+        self.put(self.btn_girl, x + w - pixbuf.get_width() - 5, y + h + 20)
         
         self.show_all()
         
