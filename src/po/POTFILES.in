@@ -1,26 +1,18 @@
-encoding: UTF-8
+# encoding: UTF-8
+# grep -l -R --include="*.py" gettext | sort
 
-actions_creator.py
-actions.py
-activity.py
-animation.py
 app_init.py
 challenges_creator.py
 challenges.py
-content_window.py
-credits.py
 customization.py
-effects.py
-events.py
-game_manager.py
+events_windows.py
 game.py
+kid_window.py
 main_window.py
 menu_creator.py
 menu.py
+panel_window.py
+saludame.py
+startup_window.py
 status_bars_creator.py
 status_bars.py
-utilities.py
-widget.py
-window.py
-windows_controller.py
-
