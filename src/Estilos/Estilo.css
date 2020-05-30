@@ -65,3 +65,11 @@
 .startup_kid_gender_button:hover {
     box-shadow: 1px 1px 1px 1px purple, 3px 3px 3px 3px rgba(128, 0, 128, 0.4);
 }
+
+.welcome_buttons {
+    background-image: image(transparent);
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 20%;
+}

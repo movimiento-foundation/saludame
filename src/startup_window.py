@@ -97,10 +97,12 @@ class Welcome(Gtk.Fixed):
         v = pixbuf.get_height()/2
         # Tamaño original de las imágenes de los botones => 229, 82
         btn_new = get_button(os.path.join(BASEPATH, "assets/layout/btn_new_game.png"))
+        btn_new.get_style_context().add_class("welcome_buttons")
         if new_game_cb: btn_new.connect("clicked", new_game_cb)
         self.put(btn_new, h, v)
         
         btn_last_game = get_button(os.path.join(BASEPATH, "assets/layout/btn_load_last.png"))
+        btn_last_game.get_style_context().add_class("welcome_buttons")
         if load_last_game_cb: btn_last_game.connect("clicked", load_last_game_cb)
         self.put(btn_last_game, h, v+95)
         
