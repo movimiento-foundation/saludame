@@ -32,6 +32,8 @@ from gi.repository import Gio
 from sugargame.canvas import PygameCanvas
 
 import gettext
+gettext.bindtextdomain("org.ceibaljam.Saludame", "locale")
+gettext.textdomain("org.ceibaljam.Saludame")
 gettextold = gettext.gettext
 
 def _(string):
@@ -106,7 +108,7 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.headerBar = Gtk.HeaderBar()
         self.headerBar.get_style_context().add_class("header")
         self.headerBar.set_show_close_button(True)
-        self.headerBar.set_title("Salúdame")
+        self.headerBar.set_title(_("Saludame"))
         self.set_titlebar(self.headerBar)
 
         self.startup_window = StartupWindow(self._start_cb, self._load_last_cb)
