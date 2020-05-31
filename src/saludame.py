@@ -31,18 +31,15 @@ from gi.repository import Gio
 
 from sugargame.canvas import PygameCanvas
 
+# Configure gettext
 import gettext
 gettext.bindtextdomain("org.ceibaljam.Saludame", "locale")
 gettext.textdomain("org.ceibaljam.Saludame")
-gettextold = gettext.gettext
 
-def _(string):
-    string = gettextold(string)
-    if isinstance(string, unicode):
-        return string.upper()
-    else:
-        return unicode(string.decode("utf-8")).upper()
-gettext.gettext = _
+# Force "es" locale as it's the only one complete
+baseTranslation = gettext.translation("org.ceibaljam.Saludame", "locale", ["es"])
+baseTranslation.install(unicode=True)
+gettext.gettext = _  # Force the installed locale when imported from gettext
 
 from gettext import gettext as _
 
@@ -161,7 +158,8 @@ class SaludameWindow(Gtk.ApplicationWindow):
         self.startup_window.set_welcome(self.size)
 
     def __switch_page(self, widget, widget_child, indice):
-        item = self.notebook.get_tab_label(self.notebook.get_children()[indice]).get_text()
+        tab = self.notebook.get_tab_label(self.notebook.get_children()[indice])
+        item = tab.get_text().decode("utf-8") # convert to unicode because GTK is always utf-8
 
         if item == _("Game"):
             self.healt_toolbar.hide()
